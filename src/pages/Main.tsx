@@ -1,10 +1,13 @@
-import { SERVER_URL } from '@src/constants/constants';
-import axios from 'axios';
+import { getAllList } from '@src/apis/portfolio';
 import { useEffect } from 'react';
 
 const Main = () => {
   useEffect(() => {
-    axios.get(`${SERVER_URL}/portfolios`).then(res => console.log(res.data));
+    const fetchAllList = async () => {
+      const serverData = await getAllList();
+      console.log(serverData);
+    };
+    fetchAllList();
   }, []);
 
   return <>Main</>;
