@@ -1,11 +1,11 @@
-import { getAllList, getFilteredList } from '@src/apis/portfolio';
-import PortfolioItem from '@src/components/main/PortfolioItem';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { PortfolioDataType } from '@src/types/portfolioType';
 import { useRecoilValue } from 'recoil';
-import { categoryState } from '@src/states';
+import { getAllList, getFilteredList } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
+import PortfolioItem from '@src/components/main/PortfolioItem';
+import { PortfolioDataType } from '@src/types/portfolioType';
+import { categoryState } from '@src/states';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -37,23 +37,20 @@ const Main = () => {
     switch (selectedCategory) {
       case 'All':
         setFilterList(filterListObject.all);
-        fetchAllList();
         break;
       case 'Develop':
         setFilterList(filterListObject.develop);
-        fetchAllList();
         break;
       case 'Design':
         setFilterList(filterListObject.design);
-        fetchAllList();
         break;
       case 'Photographer':
         setFilterList(filterListObject.photograph);
-        fetchAllList();
         break;
       default:
         break;
     }
+    fetchAllList();
   }, [selectedCategory]);
 
   useEffect(() => {
