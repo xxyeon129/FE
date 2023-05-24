@@ -75,18 +75,6 @@ const StPortfolioPageContainer = styled.div`
   width: 90vw;
 `;
 
-const StFilterListContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-
-  border: 1px solid gray;
-  padding: 3rem;
-`;
-
-const StFilterButton = styled.button``;
-
 const StPortfolioListContainer = styled.div`
   display: flex;
   flex-flow: wrap;
