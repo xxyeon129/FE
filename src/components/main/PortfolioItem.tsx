@@ -5,12 +5,12 @@ import { ReactComponent as UserImg } from '../../assets/test-profile-icon.svg';
 const PortfolioItem = ({ item }: { item: PortfolioDataType }) => {
   return (
     <StItemContainer>
-      <StImg src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" />
+      <StImg src={item.portfolioImg} />
       <StDescriptionLabel>
         <StUserImgContainer>
           <UserImg />
         </StUserImgContainer>
-        <StTitleLabel>{item.title}</StTitleLabel>
+        <StTitleLabel>{item.portfolioTitle}</StTitleLabel>
       </StDescriptionLabel>
     </StItemContainer>
   );

@@ -1,16 +1,9 @@
 export interface PortfolioDataType {
   id: number;
-  title: string;
-  techstack: string;
-  residence: string;
-  location: string;
-  telephone: string;
-  email: string;
-  githubId: string;
-  experience: string;
-  youtubeUrl: string;
-  blogUrl: string;
+  portfolioTitle: string;
+  portfolioImg: string;
+  userProfileImg: string;
+  userName: string;
   category: string;
   filter: string;
-  projectList: {}[];
 }

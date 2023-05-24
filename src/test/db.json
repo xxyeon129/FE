@@ -2,116 +2,76 @@
   "portfolios": [
     {
       "id": 1,
-      "title": "Title",
-      "techstack" : "React",
-      "residence" : "residence",
-      "location" : "location",
-      "telephone" : "telephone",
-      "email" : "email",
-      "githubId" : "githubId",
-      "experience" : "experience",
-      "youtubeUrl" : "youtubeUrl",
-      "blogUrl" : "blogUrl",
-      "category" : "Develop",
-      "filter" : "프론트엔드",
-      "projectList" : [ {
-   } ]
+      "portfolioTitle": "프론트엔드 개발자입니다",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "FE",
+      "category": "Develop",
+      "filter": "프론트엔드"
     },{
       "id": 2,
-      "title": "Title",
-      "techstack" : "React",
-      "residence" : "residence",
-      "location" : "location",
-      "telephone" : "telephone",
-      "email" : "email",
-      "githubId" : "githubId",
-      "experience" : "experience",
-      "youtubeUrl" : "youtubeUrl",
-      "blogUrl" : "blogUrl",
-      "category" : "Develop",
-      "filter" : "프론트엔드",
-      "projectList" : [ {
-   } ]
+      "portfolioTitle": "프론트엔드 개발자2",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "FE2",
+      "category": "Develop",
+      "filter": "프론트엔드"
     },{
       "id": 3,
-      "title": "Title",
-      "techstack" : "React",
-      "residence" : "residence",
-      "location" : "location",
-      "telephone" : "telephone",
-      "email" : "email",
-      "githubId" : "githubId",
-      "experience" : "experience",
-      "youtubeUrl" : "youtubeUrl",
-      "blogUrl" : "blogUrl",
-      "category" : "Develop",
-      "filter" : "프론트엔드",
-      "projectList" : [ {
-   } ]
+      "portfolioTitle": "프론트엔드 개발자3",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "FE3",
+      "category": "Develop",
+      "filter": "프론트엔드"
     },{
       "id": 4,
-      "title": "Title",
-      "techstack" : "React",
-      "residence" : "residence",
-      "location" : "location",
-      "telephone" : "telephone",
-      "email" : "email",
-      "githubId" : "githubId",
-      "experience" : "experience",
-      "youtubeUrl" : "youtubeUrl",
-      "blogUrl" : "blogUrl",
-      "category" : "Develop",
-      "filter" : "프론트엔드",
-      "projectList" : [ {
-   } ]
+      "portfolioTitle": "백엔드 개발자입니다",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "BE",
+      "category": "Develop",
+      "filter": "백엔드"
     },{
       "id": 5,
-      "title": "Title",
-      "techstack" : "React",
-      "residence" : "residence",
-      "location" : "location",
-      "telephone" : "telephone",
-      "email" : "email",
-      "githubId" : "githubId",
-      "experience" : "experience",
-      "youtubeUrl" : "youtubeUrl",
-      "blogUrl" : "blogUrl",
-      "category" : "Develop",
-      "filter" : "프론트엔드",
-      "projectList" : [ {
-   } ]
+      "portfolioTitle": "백엔드 개발자입니다2",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "BE2",
+      "category": "Develop",
+      "filter": "백엔드"
     },{
       "id": 6,
-      "title": "Title",
-      "techstack" : "React",
-      "residence" : "residence",
-      "location" : "location",
-      "telephone" : "telephone",
-      "email" : "email",
-      "githubId" : "githubId",
-      "experience" : "experience",
-      "youtubeUrl" : "youtubeUrl",
-      "blogUrl" : "blogUrl",
-      "category" : "Develop",
-      "filter" : "프론트엔드",
-      "projectList" : [ {
-   } ]
+      "portfolioTitle": "AI 개발자입니다",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "AIname",
+      "category": "Develop",
+      "filter": "AI"
     },{
       "id": 7,
-      "title": "Title",
-      "techstack" : "React",
-      "residence" : "residence",
-      "location" : "location",
-      "telephone" : "telephone",
-      "email" : "email",
-      "githubId" : "githubId",
-      "experience" : "experience",
-      "youtubeUrl" : "youtubeUrl",
-      "blogUrl" : "blogUrl",
-      "category" : "Develop",
-      "filter" : "프론트엔드",
-      "projectList" : [ {
-   } ]
+      "portfolioTitle": "빅데이터 개발자입니다",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "빅빅",
+      "category": "Develop",
+      "filter": "빅데이터"
+    },{
+      "id": 8,
+      "portfolioTitle": "모바일 개발자입니다",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "모모",
+      "category": "Develop",
+      "filter": "모바일"
+    },{
+      "id": 9,
+      "portfolioTitle": "웹 개발자입니다",
+      "portfolioImg": "https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg",
+      "userProfileImg": "",
+      "userName": "웨비",
+      "category": "Develop",
+      "filter": "웹"
     }
   ]
 }

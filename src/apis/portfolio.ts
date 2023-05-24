@@ -14,7 +14,7 @@ export const getAllList = async () => {
 
 export const getFilteredList = async (queryString: string) => {
   try {
-    const response = await apiRequest.get(`${RESOURCE}/search?${queryString}`);
+    const response = await apiRequest.get(`${RESOURCE}/?${queryString}`);
     return response;
   } catch (error) {
     throw new Error('API getFilteredist error');
