@@ -9,16 +9,21 @@ const Main = () => {
 
   const filterList = ['전체', '프론트엔드', '백엔드', 'AI', '빅데이터', '모바일', '웹'];
 
+  const fetchAllList = async () => {
+    const serverData = await getAllList();
+    setList(serverData.data);
+  };
+
   const onClickFilterButton = async (filterKeyword: string) => {
+    if (filterKeyword === '전체') {
+      fetchAllList();
+      return;
+    }
     const filteredData = await getFilteredList(`filter=${filterKeyword}`);
     setList(filteredData.data);
   };
 
   useEffect(() => {
-    const fetchAllList = async () => {
-      const serverData = await getAllList();
-      setList(serverData.data);
-    };
     fetchAllList();
   }, []);
 
