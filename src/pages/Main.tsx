@@ -3,14 +3,23 @@ import PortfolioItem from '@src/components/main/PortfolioItem';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
+import { useRecoilValue } from 'recoil';
+import { categoryState } from '@src/states';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
+  const [filterList, setFilterList] = useState<string[]>([]);
+  const selectedCategory = useRecoilValue(categoryState);
 
-  const filterList = ['전체', '프론트엔드', '백엔드', 'AI', '빅데이터', '모바일', '웹'];
+  const filterListObject = {
+    all: ['전체', '개발 전체', '디자인 전체', '사진 전체'],
+    develop: ['전체', '프론트엔드', '백엔드', 'AI', '빅데이터', '모바일', '웹'],
+    design: ['전체', '웹디자인', '영상디자인', '산업디자인', '패션디자인', '그래픽디자인'],
+    photograph: ['전체', '인물', '공간', '풍경', '사물', '동물'],
+  };
 
   const fetchAllList = async () => {
-    const serverData = await getAllList();
+    const serverData = await getAllList(selectedCategory);
     setList(serverData.data);
   };
 
@@ -19,9 +28,32 @@ const Main = () => {
       fetchAllList();
       return;
     }
-    const filteredData = await getFilteredList(`filter=${filterKeyword}`);
+    const filteredData = await getFilteredList(selectedCategory, filterKeyword);
     setList(filteredData.data);
   };
+
+  useEffect(() => {
+    switch (selectedCategory) {
+      case 'All':
+        setFilterList(filterListObject.all);
+        fetchAllList();
+        break;
+      case 'Develop':
+        setFilterList(filterListObject.develop);
+        fetchAllList();
+        break;
+      case 'Design':
+        setFilterList(filterListObject.design);
+        fetchAllList();
+        break;
+      case 'Photographer':
+        setFilterList(filterListObject.photograph);
+        fetchAllList();
+        break;
+      default:
+        break;
+    }
+  }, [selectedCategory]);
 
   useEffect(() => {
     fetchAllList();
@@ -48,6 +80,7 @@ const Main = () => {
 const StPortfolioPageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 90vw;
 `;
 
 const StFilterListContainer = styled.div`
