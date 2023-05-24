@@ -30,14 +30,14 @@ const Main = () => {
   return (
     <StPortfolioPageContainer>
       <StFilterListContainer>
-        {filterList.map((filterKeyword, filterItemIndex) => (
+        {filterList.map((filterKeyword: string, filterItemIndex: number) => (
           <StFilterButton key={filterItemIndex} onClick={() => onClickFilterButton(filterKeyword)}>
             {filterKeyword}
           </StFilterButton>
         ))}
       </StFilterListContainer>
       <StPortfolioListContainer>
-        {list.map(item => (
+        {list.map((item: PortfolioDataType) => (
           <PortfolioItem key={item.id} item={item} />
         ))}
       </StPortfolioListContainer>
