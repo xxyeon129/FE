@@ -8,12 +8,12 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
       <StPortfolioImg src={item.portfolioImg} />
       <StDescriptionLabel>
         <StTitleText>{item.portfolioTitle}</StTitleText>
-        <StUserLabelContainer>
+        <StUserDescriptionContainer>
           <StUserImgContainer>
             <UserImg />
           </StUserImgContainer>
           <StUserNameText>{item.userName}</StUserNameText>
-        </StUserLabelContainer>
+        </StUserDescriptionContainer>
       </StDescriptionLabel>
     </StItemContainer>
   );
@@ -37,7 +37,7 @@ const StTitleText = styled.div`
   font-weight: bold;
 `;
 
-const StUserLabelContainer = styled.div`
+const StUserDescriptionContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: right;
