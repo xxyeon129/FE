@@ -5,12 +5,15 @@ import { ReactComponent as UserImg } from '../../assets/test-profile-icon.svg';
 const PortfolioItem = ({ item }: { item: PortfolioDataType }) => {
   return (
     <StItemContainer>
-      <StImg src={item.portfolioImg} />
+      <StPortfolioImg src={item.portfolioImg} />
       <StDescriptionLabel>
-        <StUserImgContainer>
-          <UserImg />
-        </StUserImgContainer>
-        <StTitleLabel>{item.portfolioTitle}</StTitleLabel>
+        <StTitleText>{item.portfolioTitle}</StTitleText>
+        <StUserLabelContainer>
+          <StUserImgContainer>
+            <UserImg />
+          </StUserImgContainer>
+          <StUserNameText>{item.userName}</StUserNameText>
+        </StUserLabelContainer>
       </StDescriptionLabel>
     </StItemContainer>
   );
@@ -20,17 +23,28 @@ const StItemContainer = styled.div`
   border: 1px solid gray;
 `;
 
-const StImg = styled.img`
+const StPortfolioImg = styled.img`
   width: 300px;
 `;
 
 const StDescriptionLabel = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  padding: 0.5rem 1rem;
 `;
 
-const StUserImgContainer = styled.div``;
+const StTitleText = styled.div`
+  font-weight: bold;
+`;
 
-const StTitleLabel = styled.div``;
+const StUserLabelContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: right;
+`;
+
+const StUserNameText = styled.div``;
+
+const StUserImgContainer = styled.div``;
 
 export default PortfolioItem;
