@@ -73,14 +73,16 @@ const StPortfolioPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 90vw;
+  align-items: center;
 `;
 
 const StPortfolioListContainer = styled.div`
   display: flex;
   flex-flow: wrap;
-  justify-content: center;
   gap: 2rem;
   margin-top: 5rem;
+  width: 100%;
+  margin-left: 3rem;
 `;
 
 export default Main;

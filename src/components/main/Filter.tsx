@@ -25,6 +25,7 @@ const StFilterListContainer = styled.div`
 
   border: 1px solid gray;
   padding: 3rem;
+  width: 80vw;
 `;
 
 const StFilterButton = styled.button``;
