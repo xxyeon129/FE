@@ -27,6 +27,6 @@
       "@components/*": ["src/components/*"] //@components로 시작하면 components/ 하위 디렉토리를 의미
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/custom.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
