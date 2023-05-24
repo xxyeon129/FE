@@ -1,8 +1,8 @@
 import TestNav from '@src/components/main/testNav';
 import { styled } from 'styled-components';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-const Layout: FC<{ children: ReactNode }> = ({ children }) => {
+const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <StLayout>
       <TestNav />

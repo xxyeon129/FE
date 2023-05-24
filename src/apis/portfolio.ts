@@ -3,14 +3,12 @@ import apiRequest from '.';
 // TODO: 서버 배포 시 API 형식에 맞게 수정
 const RESOURCE = '/portfolios';
 
-export const getAllList = async (category: string) => {
+export const getAllList = (category: string) => {
   try {
     if (category === 'All') {
-      const response = await apiRequest.get(RESOURCE);
-      return response;
+      return apiRequest.get(RESOURCE);
     }
-    const response = await apiRequest.get(`${RESOURCE}/?category=${category}`);
-    return response;
+    return apiRequest.get(`${RESOURCE}/?category=${category}`);
   } catch (error) {
     throw new Error('API getAllList error');
   }
@@ -18,6 +16,7 @@ export const getAllList = async (category: string) => {
 
 export const getFilteredList = (category: string, filter: string) => {
   try {
+    // TODO: 사용자가 포트폴리오에 여러 필터를 적용했을 경우 조정 필요 - 백엔드와 상의
     if (category === 'All') {
       switch (filter) {
         case '전체':

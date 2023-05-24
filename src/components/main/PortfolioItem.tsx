@@ -2,7 +2,7 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import { styled } from 'styled-components';
 import { ReactComponent as UserImg } from '../../assets/test-profile-icon.svg';
 
-const PortfolioItem = ({ item }: { item: PortfolioDataType }) => {
+const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   return (
     <StItemContainer>
       <StPortfolioImg src={item.portfolioImg} />

@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { useRecoilValue } from 'recoil';
 import { categoryState } from '@src/states';
+import Filter from '@src/components/main/Filter';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -61,13 +62,7 @@ const Main = () => {
 
   return (
     <StPortfolioPageContainer>
-      <StFilterListContainer>
-        {filterList.map((filterKeyword: string, filterItemIndex: number) => (
-          <StFilterButton key={filterItemIndex} onClick={() => onClickFilterButton(filterKeyword)}>
-            {filterKeyword}
-          </StFilterButton>
-        ))}
-      </StFilterListContainer>
+      <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
       <StPortfolioListContainer>
         {list.map((item: PortfolioDataType) => (
           <PortfolioItem key={item.id} item={item} />
