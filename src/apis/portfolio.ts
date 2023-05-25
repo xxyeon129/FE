@@ -36,3 +36,11 @@ export const getFilteredList = (category: string, filter: string) => {
     throw new Error('API getFilteredist error');
   }
 };
+
+export const createPortfolio = (formData: FormData) => {
+  try {
+    return apiRequest.post(RESOURCE, formData);
+  } catch (error) {
+    throw new Error('API createPortfolio error');
+  }
+};
