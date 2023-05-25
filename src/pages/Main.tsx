@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { getAllList, getFilteredList } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
 import PortfolioItem from '@src/components/main/PortfolioItem';
@@ -11,6 +11,35 @@ const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
   const [filterList, setFilterList] = useState<string[]>([]);
   const selectedCategory = useRecoilValue(categoryState);
+
+  const [lastId, setLastId] = useState<number>(9);
+
+  const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
+
+  // IntersectionObserver 객체
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const loadMoreData = useCallback(async () => {
+    setIsMoreLoading(true);
+    // TODO: 카테고리, 필터 적용 시 조건 처리
+    // TODO: api 호출 코드 last-portfolio-id={}&size=9  적용
+    // const newData = await getAllList(lastId+9);
+    // setList((prevData) => [...prevData, ...newData.data]);
+    // setLastId((prevId: number) => prevId + 9)
+    console.log('last!');
+
+    setIsMoreLoading(false);
+  }, [lastId]);
+
+  const lastItemRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) loadMoreData();
+      });
+    },
+    [loadMoreData]
+  );
 
   const filterListObject = {
     all: ['전체', '개발 전체', '디자인 전체', '사진 전체'],
@@ -65,6 +94,12 @@ const Main = () => {
           <PortfolioItem key={item.id} item={item} />
         ))}
       </StPortfolioListContainer>
+      {isMoreLoading ? (
+        <StLoadingContainer>...loading</StLoadingContainer>
+      ) : (
+        // TODO: 모든 데이터를 불러와서 lastId에 해당하는 데이터가 없을 경우 조건 작성 필요(!isNoMoreData &&)
+        <StLoadingIndicator ref={lastItemRef} />
+      )}
     </StPortfolioPageContainer>
   );
 };
@@ -84,5 +119,9 @@ const StPortfolioListContainer = styled.div`
   width: 100%;
   margin-left: 3rem;
 `;
+
+const StLoadingIndicator = styled.div``;
+
+const StLoadingContainer = styled.div``;
 
 export default Main;
