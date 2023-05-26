@@ -1,5 +1,5 @@
 import { createPortfolio } from '@src/apis/portfolio';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 const CreatePortfolio = () => {
@@ -62,6 +62,12 @@ const CreatePortfolio = () => {
       console.log('CreatePortfolio catch error: ', error);
     }
   };
+
+  useEffect(() => {
+    if (imagePreview) {
+      return () => URL.revokeObjectURL(imagePreview);
+    }
+  }, [imagePreview]);
 
   return (
     <StForm onSubmit={onSubmitFormData} encType="multipart/form-data">
