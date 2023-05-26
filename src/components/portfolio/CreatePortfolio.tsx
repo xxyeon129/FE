@@ -64,7 +64,7 @@ const CreatePortfolio = () => {
   };
 
   return (
-    <StForm onSubmit={onSubmitFormData}>
+    <StForm onSubmit={onSubmitFormData} encType="multipart/form-data">
       <StLabel htmlFor="portfolioTitle">제목</StLabel>
       <StInput type="text" id="portfolioTitle"></StInput>
 
