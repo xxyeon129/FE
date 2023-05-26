@@ -39,7 +39,9 @@ export const getFilteredList = (category: string, filter: string) => {
 
 export const createPortfolio = (formData: FormData) => {
   try {
-    return apiRequest.post(RESOURCE, formData);
+    return apiRequest.post(RESOURCE, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   } catch (error) {
     throw new Error('API createPortfolio error');
   }
