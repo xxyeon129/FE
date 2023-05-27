@@ -43,9 +43,9 @@ const Main = () => {
 
   const filterListObject = {
     all: ['전체', '개발 전체', '디자인 전체', '사진 전체'],
-    develop: ['전체', '프론트엔드', '백엔드', 'AI', '빅데이터', '모바일', '웹'],
-    design: ['전체', '웹디자인', '영상디자인', '산업디자인', '패션디자인', '그래픽디자인'],
-    photograph: ['전체', '인물', '공간', '풍경', '사물', '동물'],
+    develop: ['All', 'Backend', 'Frontend', 'AI', 'Big Data', 'App', 'System', 'Security'],
+    design: ['All', 'Graphic', 'UI/UX', 'Web', 'Visual', 'Interaction', 'Product', 'Brand'],
+    photograph: ['All', 'Commercial', 'Portrait', 'Wedding', 'Fashion', 'Wildlife', 'Sports'],
   };
 
   const fetchAllList = async () => {

@@ -31,20 +31,20 @@ export const getAllList = async ({ lastId, size = 9, category }: GetAllListParam
 export const getFilteredList = (category: string, filter: string) => {
   try {
     // TODO: 사용자가 포트폴리오에 여러 필터를 적용했을 경우 조정 필요 - 백엔드와 상의
-    if (category === 'All') {
-      switch (filter) {
-        case '전체':
-          return apiRequest.get(`${RESOURCE}`);
-        case '개발 전체':
-          return apiRequest.get(`${RESOURCE}/?category=Develop`);
-        case '디자인 전체':
-          return apiRequest.get(`${RESOURCE}/?category=Design`);
-        case '사진 전체':
-          return apiRequest.get(`${RESOURCE}/?category=Photographer`);
-        default:
-          break;
-      }
-    }
+    // if (category === 'All') {
+    //   switch (filter) {
+    //     case '전체':
+    //       return apiRequest.get(`${RESOURCE}`);
+    //     case '개발 전체':
+    //       return apiRequest.get(`${RESOURCE}/?category=Develop`);
+    //     case '디자인 전체':
+    //       return apiRequest.get(`${RESOURCE}/?category=Design`);
+    //     case '사진 전체':
+    //       return apiRequest.get(`${RESOURCE}/?category=Photographer`);
+    //     default:
+    //       break;
+    //   }
+    // }
     return apiRequest.get(`${RESOURCE}/?category=${category}&filter=${filter}`);
   } catch (error) {
     throw new Error('API getFilteredist error');
