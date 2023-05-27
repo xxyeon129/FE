@@ -12,7 +12,7 @@ const Main = () => {
   const [filterList, setFilterList] = useState<string[]>([]);
   const selectedCategory = useRecoilValue(categoryState);
 
-  const [lastId, setLastId] = useState<number>(9);
+  const [lastId, setLastId] = useState<number>(10);
 
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
 
@@ -22,12 +22,9 @@ const Main = () => {
   const loadMoreData = useCallback(async () => {
     setIsMoreLoading(true);
     // TODO: 카테고리, 필터 적용 시 조건 처리
-    // TODO: api 호출 코드 last-portfolio-id={}&size=9  적용
-    // const newData = await getAllList(lastId+9);
-    // setList((prevData) => [...prevData, ...newData.data]);
-    // setLastId((prevId: number) => prevId + 9)
-    console.log('last!');
-
+    const newData = await getAllList({ lastId: lastId + 10 });
+    setList(prevData => [...prevData, ...newData]);
+    setLastId((prevId: number) => prevId + 10);
     setIsMoreLoading(false);
   }, [lastId]);
 
@@ -37,6 +34,7 @@ const Main = () => {
       observer.current = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) loadMoreData();
       });
+      if (node) observer.current.observe(node);
     },
     [loadMoreData]
   );
@@ -49,7 +47,7 @@ const Main = () => {
   };
 
   const fetchAllList = async () => {
-    const serverData = await getAllList({ lastId: 10 });
+    const serverData = await getAllList({ lastId });
     setList(serverData);
   };
 
