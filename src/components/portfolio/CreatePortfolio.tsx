@@ -46,15 +46,7 @@ const CreatePortfolio = () => {
     e.preventDefault();
     const formData = handleFormData();
 
-    // FormData key 확인
-    for (let key of formData.keys()) {
-      console.log('key => ', key);
-    }
-
-    // FormData value 확인
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+    console.log(...formData);
 
     try {
       createPortfolio(formData);
