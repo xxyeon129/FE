@@ -1,7 +1,7 @@
 export interface PortfolioDataType {
   id: number;
   portfolioTitle: string;
-  portfolioImg: string;
+  portfolioImage: string;
   userProfileImg: string;
   userName: string;
   category: string;

@@ -1,14 +1,28 @@
 import apiRequest from '.';
 
 // TODO: 서버 배포 시 API 형식에 맞게 수정
-const RESOURCE = '/portfolios';
+const RESOURCE = '/api/portfolios';
 
-export const getAllList = (category: string) => {
+interface GetAllListParams {
+  lastId: number;
+  size?: number;
+  category?: string;
+}
+
+export const getAllList = async ({ lastId, size = 9, category }: GetAllListParams) => {
   try {
-    if (category === 'All') {
-      return apiRequest.get(RESOURCE);
-    }
-    return apiRequest.get(`${RESOURCE}/?category=${category}`);
+    // if (category === 'All') {
+    //   return apiRequest.get(RESOURCE);
+    // }
+    // return apiRequest.get(`${RESOURCE}/?category=${category}`);
+    // ?last-portfolio-id=${lastId}&size=${size}`
+    const response = await apiRequest.get(RESOURCE, {
+      params: {
+        'last-portfolio-id': lastId,
+        size,
+      },
+    });
+    return response.data.data.content;
   } catch (error) {
     throw new Error('API getAllList error');
   }

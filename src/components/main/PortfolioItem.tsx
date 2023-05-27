@@ -5,7 +5,7 @@ import { ReactComponent as UserImg } from '@src/assets/test-profile-icon.svg';
 const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   return (
     <StItemContainer>
-      <StPortfolioImg src={item.portfolioImg} />
+      <StPortfolioImg src={item.portfolioImage} />
       <StDescriptionLabel>
         <StTitleText>{item.portfolioTitle}</StTitleText>
         <StUserDescriptionContainer>

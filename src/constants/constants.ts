@@ -5,5 +5,4 @@ export const PATH_URL = {
   TEST: '/test',
 };
 
-// TODO: 서버 배포 url 적용 시 env에서 가져오기
-export const SERVER_URL = 'http://localhost:4000';
+export const SERVER_URL = import.meta.env.VITE_API_URL;

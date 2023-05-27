@@ -49,8 +49,8 @@ const Main = () => {
   };
 
   const fetchAllList = async () => {
-    const serverData = await getAllList(selectedCategory);
-    setList(serverData.data);
+    const serverData = await getAllList({ lastId: 10 });
+    setList(serverData);
   };
 
   const onClickFilterButton = async (filterKeyword: string) => {

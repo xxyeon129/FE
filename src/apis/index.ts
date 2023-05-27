@@ -12,7 +12,8 @@ baseInstance.interceptors.response.use(
 );
 
 const apiRequest = {
-  get: (url: string) => baseInstance.get(url),
+  get: (url: string, request?: AxiosRequestConfig) => baseInstance.get(url, request),
+
   post: <T>(url: string, data: T, config?: AxiosRequestConfig) =>
     baseInstance.post(url, data, config),
 };
