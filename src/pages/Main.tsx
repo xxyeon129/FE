@@ -10,6 +10,7 @@ import { categoryState } from '@src/states';
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
   const [filterList, setFilterList] = useState<string[]>([]);
+  const [filter, setFilter] = useState<string>('All');
   const selectedCategory = useRecoilValue(categoryState);
 
   console.log('@@@@현재 list@@@@', list);
@@ -24,8 +25,17 @@ const Main = () => {
   const loadMoreData = useCallback(async () => {
     if (lastId - 10 > 0) {
       setIsMoreLoading(true);
-      // TODO: 필터 적용 시 조건 처리
-      const newData = await getAllList({ lastId: lastId - 10, category: selectedCategory });
+
+      let newData: PortfolioDataType[];
+      if (filter !== 'All') {
+        newData = await getFilteredList({
+          lastId: lastId - 10,
+          category: selectedCategory,
+          filter,
+        });
+      } else {
+        newData = await getAllList({ lastId: lastId - 10, category: selectedCategory });
+      }
 
       setList(prevData => [...prevData, ...newData]);
       setLastId((prevId: number) => prevId - 10);
@@ -67,12 +77,24 @@ const Main = () => {
   };
 
   const onClickFilterButton = async (filterKeyword: string) => {
+    setFilter(filterKeyword);
     if (filterKeyword === 'All') {
-      // fetchFirstMountList();
+      fetchFirstServerData();
       return;
     }
-    const filteredData = await getFilteredList(selectedCategory, filterKeyword);
-    setList(filteredData.data);
+
+    const serverDataLastId = await getLastId({ category: selectedCategory, filter: filterKeyword });
+    setLastId(serverDataLastId);
+
+    const filteredData = await getFilteredList({
+      lastId: serverDataLastId,
+      category: selectedCategory,
+      filter: filterKeyword,
+    });
+
+    setList(filteredData);
+
+    // setList(filteredData.data);
   };
 
   useEffect(() => {

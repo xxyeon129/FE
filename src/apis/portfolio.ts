@@ -14,6 +14,13 @@ interface GetAllListParams {
   category?: string;
 }
 
+interface GetFilteredListParams {
+  lastId: number;
+  size?: number;
+  category?: string;
+  filter?: string;
+}
+
 export const getLastId = async ({ category, filter }: GetLastIdParams) => {
   try {
     const params = {
@@ -36,7 +43,8 @@ export const getAllList = async ({ lastId, size = 9, category }: GetAllListParam
       ...(category !== 'All' && { category }),
     };
 
-    console.log('API params', params);
+    // TEST CODE
+    // console.log('API params', params);
 
     const response = await apiRequest.get(RESOURCE, { params });
     return response.data.data.content;
@@ -45,24 +53,31 @@ export const getAllList = async ({ lastId, size = 9, category }: GetAllListParam
   }
 };
 
-export const getFilteredList = (category: string, filter: string) => {
+export const getFilteredList = async ({
+  lastId,
+  size = 9,
+  category,
+  filter,
+}: GetFilteredListParams) => {
   try {
-    // TODO: 사용자가 포트폴리오에 여러 필터를 적용했을 경우 조정 필요 - 백엔드와 상의
-    // if (category === 'All') {
-    //   switch (filter) {
-    //     case '전체':
-    //       return apiRequest.get(`${RESOURCE}`);
-    //     case '개발 전체':
-    //       return apiRequest.get(`${RESOURCE}/?category=Develop`);
-    //     case '디자인 전체':
-    //       return apiRequest.get(`${RESOURCE}/?category=Design`);
-    //     case '사진 전체':
-    //       return apiRequest.get(`${RESOURCE}/?category=Photographer`);
-    //     default:
-    //       break;
-    //   }
-    // }
-    return apiRequest.get(`${RESOURCE}/?category=${category}&filter=${filter}`);
+    // TODO: 2차 스코프 - 사용자가 포트폴리오에 여러 필터를 적용했을 경우
+
+    const params = {
+      'last-portfolio-id': lastId,
+      size,
+      ...(category !== 'All' && { category }),
+      ...(filter !== 'All' && { filter }),
+    };
+
+    // TEST CODE
+    // console.log('API params', params);
+
+    const response = await apiRequest.get(RESOURCE, { params });
+
+    // TEST CODE
+    // console.log('API RES@@ => ', response.data.data.content);
+
+    return response.data.data.content;
   } catch (error) {
     throw new Error('API getFilteredist error');
   }
