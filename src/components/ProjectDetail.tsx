@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
 import { getProject, updateProject } from './test/test';
+
 interface ProjectDetailData {
   title: string;
   term: string;

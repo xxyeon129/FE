@@ -11,8 +11,8 @@ export const createProject = async (formData: FormData) => {
       },
     });
     return response.data;
-  } catch (error) {
-    throw new Error(error.response.data);
+  } catch (error: unknown) {
+    return error;
   }
 };
 
