@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import axios from 'axios';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
-import { createProject } from './test/test';
+import { createProject } from '../test/test';
 
 const CreateProject: React.FC<{
   showModal1: boolean;
@@ -84,7 +83,6 @@ const CreateProject: React.FC<{
           </div>
           <div>
             <input type="file" onChange={imagehandler}></input>
-            {/* 미리보기 */}
             <div>
               {previewImages.map((url, index) => (
                 <img key={index} src={url} alt="프리뷰" />

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
-import { getProject, updateProject } from './test/test';
+import { getProject, updateProject } from '../test/test';
 
 interface ProjectDetailData {
   title: string;
@@ -40,7 +40,6 @@ const ProjectModal: React.FC<{
       setPosition(data.position);
       setDescription(data.description);
       setPreviewImages(data.projectImageList.map((image: any) => image.imageUrl));
-      console.log(data);
     }
   }, [data]);
 
