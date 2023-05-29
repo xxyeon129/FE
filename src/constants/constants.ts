@@ -3,4 +3,6 @@ export const PATH_URL = {
   DETAIL_PATH: '/detail/:id',
   DETAIL: '/detail',
   TEST: '/test',
+  HYO: 'hyo',
+  PORTFOLIODETAIL: '/portdetail',
 };

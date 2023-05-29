@@ -10,11 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dhaiwat10/react-link-preview": "^1.22.19",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-github-calendar": "^4.0.0",
     "react-google-login": "^5.2.2",
     "react-router-dom": "^6.11.2",
+    "react-tiny-link": "^3.6.1",
+    "react-youtube": "^10.1.0",
     "styled-components": "^6.0.0-rc.1"
   },
   "devDependencies": {
