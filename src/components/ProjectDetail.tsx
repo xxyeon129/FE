@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
-
+import { getProject, updateProject } from './test/test';
 interface ProjectDetailData {
   title: string;
   term: string;
@@ -20,18 +20,14 @@ const ProjectModal: React.FC<{
   const { projectId } = useParams();
   const [isEditable, setIsEditable] = useState(false);
   const handleEdit = () => setIsEditable(!isEditable);
+
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
-    const response = await axios.get(`http://3.34.102.60:8080/api/projects/17`);
-    return response.data.data;
+    const project = await getProject();
+    return project;
   });
 
-  const updateProject = useMutation(async (formData: FormData) => {
-    await axios.patch(`http://3.34.102.60:8080/api/projects/17`, formData, {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcGFpbkBuYXZlci5jb20iLCJ1c2VySWQiOjcsImV4cCI6MTY4NTM1MjU1NSwiaWF0IjoxNjg1MzQ4OTU1fQ.u7mPuL5KsnXKR7tFtt20f-g5wbzV1LWLww7I7wGWtwo',
-      },
-    });
+  const updateProjectMutation = useMutation(async (formData: FormData) => {
+    await updateProject(formData);
     refetch();
   });
 
@@ -100,7 +96,7 @@ const ProjectModal: React.FC<{
     formData.append('images', imageBlob);
 
     try {
-      await updateProject.mutateAsync(formData);
+      await updateProjectMutation.mutateAsync(formData);
       console.log('Project updated');
     } catch (error) {
       console.log(error);

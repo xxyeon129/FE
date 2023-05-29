@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const createProject = async (formData: FormData) => {
+const BASE_URL = 'http://3.34.102.60:8080/api';
+
+export const createProject = async (formData: FormData) => {
   try {
     const response = await axios.post(`http://3.34.102.60:8080/api/projects`, formData, {
       headers: {
@@ -14,4 +16,16 @@ const createProject = async (formData: FormData) => {
   }
 };
 
-export { createProject };
+export const getProject = async () => {
+  const response = await axios.get(`${BASE_URL}/projects/15`);
+  return response.data.data;
+};
+
+export const updateProject = async (formData: FormData) => {
+  await axios.patch(`${BASE_URL}/projects/15`, formData, {
+    headers: {
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcGFpbkBuYXZlci5jb20iLCJ1c2VySWQiOjcsImV4cCI6MTY4NTM1OTM0MSwiaWF0IjoxNjg1MzU1NzQxfQ.M1OkYHJ0MqrvuP8gn6jcubXkjwY5AUagY5CghdmM3N4',
+    },
+  });
+};
