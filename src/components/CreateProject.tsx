@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
+import { createProject } from './test/test';
 
 const CreateProject: React.FC<{
   showModal1: boolean;
@@ -60,15 +61,7 @@ const CreateProject: React.FC<{
     const textBlob = new Blob([text], { type: 'application/json' });
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob);
-
-    const response = await axios.post(`http://3.34.102.60:8080/api/projects`, formData, {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcGFpbkBuYXZlci5jb20iLCJ1c2VySWQiOjcsImV4cCI6MTY4NjU1MTg2MCwiaWF0IjoxNjg1MzQyMjYwfQ.ldnX3SmeXPm0R0Vte2N7FFHufiyjuXwFhYCMU5gBCvM',
-      },
-    });
-
-    return response.data;
+    return createProject(formData);
   });
 
   const handleSubmit = () => {
