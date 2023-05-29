@@ -11,17 +11,14 @@ interface GetAllListParams {
 
 export const getAllList = async ({ lastId, size = 9, category }: GetAllListParams) => {
   try {
-    // if (category === 'All') {
-    //   return apiRequest.get(RESOURCE);
-    // }
-    // return apiRequest.get(`${RESOURCE}/?category=${category}`);
-    // ?last-portfolio-id=${lastId}&size=${size}`
-    const response = await apiRequest.get(RESOURCE, {
-      params: {
-        'last-portfolio-id': lastId,
-        size,
-      },
-    });
+    const params = {
+      'last-portfolio-id': lastId,
+      size,
+      // ...(category && { category }),
+      category,
+    };
+
+    const response = await apiRequest.get(RESOURCE, { params });
     return response.data.data.content;
   } catch (error) {
     throw new Error('API getAllList error');
