@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { getAllList, getFilteredList } from '@src/apis/portfolio';
+import { getAllList, getFilteredList, getLastId } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
 import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
@@ -13,9 +13,8 @@ const Main = () => {
   const selectedCategory = useRecoilValue(categoryState);
 
   console.log('@@@@현재 list@@@@', list);
-  console.log('!!!!현재 카테고리 => ', selectedCategory);
 
-  const [lastId, setLastId] = useState<number>(10);
+  const [lastId, setLastId] = useState<number>(0);
 
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
 
@@ -23,13 +22,17 @@ const Main = () => {
   const observer = useRef<IntersectionObserver | null>(null);
 
   const loadMoreData = useCallback(async () => {
-    setIsMoreLoading(true);
-    // TODO: 카테고리, 필터 적용 시 조건 처리
-    const newData = await getAllList({ lastId: lastId + 10, category: selectedCategory });
+    if (lastId - 10 > 0) {
+      setIsMoreLoading(true);
+      // TODO: 필터 적용 시 조건 처리
+      const newData = await getAllList({ lastId: lastId - 10, category: selectedCategory });
 
-    setList(prevData => [...prevData, ...newData]);
-    setLastId((prevId: number) => prevId + 10);
-    setIsMoreLoading(false);
+      setList(prevData => [...prevData, ...newData]);
+      setLastId((prevId: number) => prevId - 10);
+      setIsMoreLoading(false);
+    } else {
+      return;
+    }
   }, [lastId]);
 
   const lastItemRef = useCallback(
@@ -44,29 +47,28 @@ const Main = () => {
   );
 
   const filterListObject = {
-    // all: ['전체', '개발 전체', '디자인 전체', '사진 전체'],
+    all: [],
     develop: ['All', 'Backend', 'Frontend', 'AI', 'Big Data', 'App', 'System', 'Security'],
     design: ['All', 'Graphic', 'UI/UX', 'Web', 'Visual', 'Interaction', 'Product', 'Brand'],
     photograph: ['All', 'Commercial', 'Portrait', 'Wedding', 'Fashion', 'Wildlife', 'Sports'],
   };
 
-  const onChangeCategoryResetList = () => {
-    setLastId(10);
-    setList([]);
+  const fetchFirstServerData = async () => {
+    const serverDataLastId = await getLastId({ category: selectedCategory });
+    setLastId(serverDataLastId);
+
+    fetchFirstMountList(serverDataLastId);
   };
 
-  const fetchAllList = async () => {
-    onChangeCategoryResetList();
-    console.log('fetchAllList 이전 데이터 체크 => ', list);
-
-    const serverData = await getAllList({ lastId, category: selectedCategory });
+  const fetchFirstMountList = async (serverDataLastId: number) => {
+    setList([]);
+    const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
     setList(serverData);
-    console.log('fetchAllList 새로 set된 리스트 체크', list);
   };
 
   const onClickFilterButton = async (filterKeyword: string) => {
     if (filterKeyword === 'All') {
-      fetchAllList();
+      // fetchFirstMountList();
       return;
     }
     const filteredData = await getFilteredList(selectedCategory, filterKeyword);
@@ -75,9 +77,9 @@ const Main = () => {
 
   useEffect(() => {
     switch (selectedCategory) {
-      // case 'All':
-      //   setFilterList(filterListObject.all);
-      //   break;
+      case 'All':
+        setFilterList(filterListObject.all);
+        break;
       case 'Develop':
         setFilterList(filterListObject.develop);
         break;
@@ -90,7 +92,8 @@ const Main = () => {
       default:
         break;
     }
-    fetchAllList();
+
+    fetchFirstServerData();
   }, [selectedCategory]);
 
   return (

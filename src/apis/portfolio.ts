@@ -3,20 +3,40 @@ import apiRequest from '.';
 // TODO: 서버 배포 시 API 형식에 맞게 수정
 const RESOURCE = '/api/portfolios';
 
+interface GetLastIdParams {
+  category?: string;
+  filter?: string;
+}
+
 interface GetAllListParams {
   lastId: number;
   size?: number;
   category?: string;
 }
 
+export const getLastId = async ({ category, filter }: GetLastIdParams) => {
+  try {
+    const params = {
+      ...(category !== 'All' && { category }),
+      filter,
+    };
+    const response = await apiRequest.get(`${RESOURCE}/id`, { params });
+
+    return response.data.data;
+  } catch (error) {
+    throw new Error('API getLastId error');
+  }
+};
+
 export const getAllList = async ({ lastId, size = 9, category }: GetAllListParams) => {
   try {
     const params = {
       'last-portfolio-id': lastId,
       size,
-      // ...(category && { category }),
-      category,
+      ...(category !== 'All' && { category }),
     };
+
+    console.log('API params', params);
 
     const response = await apiRequest.get(RESOURCE, { params });
     return response.data.data.content;
