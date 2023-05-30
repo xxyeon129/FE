@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-
+// api 테스트 완료
 interface UserData {
   nickname: string;
   email: string;
