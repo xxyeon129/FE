@@ -1,25 +1,8 @@
 import apiRequest from '.';
+import { GetLastIdParams, GetAllListParams, GetFilteredListParams } from '@src/types/apiParamsType';
 
 // TODO: 서버 배포 시 API 형식에 맞게 수정
 const RESOURCE = '/api/portfolios';
-
-interface GetLastIdParams {
-  category?: string;
-  filter?: string;
-}
-
-interface GetAllListParams {
-  lastId: number;
-  size?: number;
-  category?: string;
-}
-
-interface GetFilteredListParams {
-  lastId: number;
-  size?: number;
-  category?: string;
-  filter?: string;
-}
 
 export const getLastId = async ({ category, filter }: GetLastIdParams) => {
   try {
