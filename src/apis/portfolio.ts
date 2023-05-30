@@ -70,11 +70,24 @@ export const getFilteredList = async ({
   }
 };
 
-export const createPortfolio = (formData: FormData) => {
+export const createPortfolio = async (formData: FormData) => {
   try {
-    return apiRequest.post(RESOURCE, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+    // TEST CODE
+    const testLoginToken =
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZW1haWxAZ21haWwuY29tIiwidXNlcklkIjo0LCJleHAiOjE2ODU0NDU0NTUsImlhdCI6MTY4NTQ0MTg1NX0.YwNR7to5tms2KAGW0wKgdU-omsv95aT1kbcvnXf4cJE';
+    const testRefreshToken =
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZW1haWxAZ21haWwuY29tIiwidXNlcklkIjo0LCJleHAiOjE2ODY2NTE0NTUsImlhdCI6MTY4NTQ0MTg1NX0.QRKZf8KKb-9sAALkyYwl3ynEAM8a-sdN3kaxR_-B0Xo';
+
+    const response = await apiRequest.post(RESOURCE, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: testLoginToken,
+        RefreshToken: testRefreshToken,
+      },
     });
+
+    // TEST CODE
+    console.log(response);
   } catch (error) {
     throw new Error('API createPortfolio error');
   }

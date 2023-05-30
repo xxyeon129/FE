@@ -1,3 +1,4 @@
+import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
 import { createPortfolio } from '@src/apis/portfolio';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
@@ -5,6 +6,13 @@ import { styled } from 'styled-components';
 const CreatePortfolio = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
+
+  const { inputData: portfolioTitle, onChangeInput: onChangeTitle } = useCreatePortfolioInput();
+  const { inputData: telephone, onChangeInput: onChangeTelephone } = useCreatePortfolioInput();
+  const { inputData: email, onChangeInput: onChangeEmail } = useCreatePortfolioInput();
+  const { inputData: githubId, onChangeInput: onChangeGithubId } = useCreatePortfolioInput();
+  const { inputData: youtubeUrl, onChangeInput: onChangeYoutubeUrl } = useCreatePortfolioInput();
+  const { inputData: blogUrl, onChangeInput: onChangeBlogUrl } = useCreatePortfolioInput();
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -19,18 +27,19 @@ const CreatePortfolio = () => {
   const handleFormData = () => {
     const formData = new FormData();
     const inputData = {
-      portfolioTitle: 'portfolioTitle',
-      techstack: 'techstack',
+      portfolioTitle,
+      techstack: '',
       residence: 'residence',
       location: 'location',
-      telephone: 'telephone',
-      email: 'email',
-      githubId: 'githubId',
+      telephone,
+      email,
+      githubId,
       experience: 'experience',
-      youtubeUrl: 'youtubeUrl',
-      blogUrl: 'blogUrl',
-      category: 'category',
-      filter: 'filter',
+      youtubeUrl,
+      blogUrl,
+      category: 'Design',
+      filter: 'Graphic',
+      projectIdList: [],
     };
 
     formData.append(
@@ -39,6 +48,10 @@ const CreatePortfolio = () => {
     );
 
     imageFile && formData.append('portfolioImage', imageFile);
+
+    // TEST CODE
+    console.log(inputData);
+
     return formData;
   };
 
@@ -46,13 +59,18 @@ const CreatePortfolio = () => {
     e.preventDefault();
     const formData = handleFormData();
 
-    console.log(...formData);
+    // console.log(...formData);
 
     try {
       createPortfolio(formData);
     } catch (error) {
       console.log('CreatePortfolio catch error: ', error);
     }
+  };
+
+  // TEST CODE
+  const testData = () => {
+    handleFormData();
   };
 
   useEffect(() => {
@@ -64,7 +82,7 @@ const CreatePortfolio = () => {
   return (
     <StForm onSubmit={onSubmitFormData} encType="multipart/form-data">
       <StLabel htmlFor="portfolioTitle">제목</StLabel>
-      <StInput type="text" id="portfolioTitle"></StInput>
+      <StInput type="text" id="portfolioTitle" onChange={onChangeTitle}></StInput>
 
       <StLabel htmlFor="techstack">기술 스택</StLabel>
       <StInput type="text" id="techstack"></StInput>
@@ -76,28 +94,33 @@ const CreatePortfolio = () => {
       <StInput type="text" id="location"></StInput>
 
       <StLabel htmlFor="telephone">전화번호</StLabel>
-      <StInput type="text" id="telephone"></StInput>
+      <StInput type="text" id="telephone" onChange={onChangeTelephone}></StInput>
 
       <StLabel htmlFor="email">이메일</StLabel>
-      <StInput type="email" id="email"></StInput>
+      <StInput type="email" id="email" onChange={onChangeEmail}></StInput>
 
       <StLabel htmlFor="githubId">Github ID</StLabel>
-      <StInput type="text" id="githubId"></StInput>
+      <StInput type="text" id="githubId" onChange={onChangeGithubId}></StInput>
 
       <StLabel htmlFor="experience">프로젝트 경험</StLabel>
       <StInput type="text" id="experience"></StInput>
 
       <StLabel htmlFor="youtubeUrl">Youtube Link</StLabel>
-      <StInput type="text" id="youtubeUrl"></StInput>
+      <StInput type="text" id="youtubeUrl" onChange={onChangeYoutubeUrl}></StInput>
 
       <StLabel htmlFor="blogUrl">Blog Link</StLabel>
-      <StInput type="text" id="blogUrl"></StInput>
+      <StInput type="text" id="blogUrl" onChange={onChangeBlogUrl}></StInput>
 
       <StImageContainer>
         <StPreviewImage src={imagePreview} />
         <StLabel htmlFor="portfolioImage">포트폴리오 대표 이미지 등록</StLabel>
         <StInput type="file" accept="image/*" id="portfolioImage" onChange={onUploadImage} />
       </StImageContainer>
+
+      {/* TEST CODE */}
+      <button type="button" onClick={testData}>
+        TEST
+      </button>
 
       <button>Submit</button>
     </StForm>

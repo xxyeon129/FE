@@ -1,0 +1,16 @@
+import { useState } from 'react';
+
+const useCreatePortfolioInput = () => {
+  const [inputData, setInputData] = useState('');
+
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputData(() => e.target.value);
+  };
+
+  return {
+    inputData,
+    onChangeInput,
+  };
+};
+
+export default useCreatePortfolioInput;
