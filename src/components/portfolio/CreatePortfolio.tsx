@@ -2,6 +2,7 @@ import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
 import { createPortfolio } from '@src/apis/portfolio';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import SelectDropdown from './SelectDropdown';
 
 const CreatePortfolio = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -13,6 +14,8 @@ const CreatePortfolio = () => {
   const { inputData: githubId, onChangeInput: onChangeGithubId } = useCreatePortfolioInput();
   const { inputData: youtubeUrl, onChangeInput: onChangeYoutubeUrl } = useCreatePortfolioInput();
   const { inputData: blogUrl, onChangeInput: onChangeBlogUrl } = useCreatePortfolioInput();
+
+  const categoryDropdownOptions = ['Develop', 'Design', 'Photographer'];
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -110,6 +113,12 @@ const CreatePortfolio = () => {
 
       <StLabel htmlFor="blogUrl">Blog Link</StLabel>
       <StInput type="text" id="blogUrl" onChange={onChangeBlogUrl}></StInput>
+
+      <StLabel htmlFor="category">Category</StLabel>
+      <SelectDropdown
+        dropdownOptions={categoryDropdownOptions}
+        selectBarDefaultText="--카테고리 선택--"
+      />
 
       <StImageContainer>
         <StPreviewImage src={imagePreview} />
