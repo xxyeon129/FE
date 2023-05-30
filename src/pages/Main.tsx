@@ -63,15 +63,25 @@ const Main = () => {
     photograph: ['All', 'Commercial', 'Portrait', 'Wedding', 'Fashion', 'Wildlife', 'Sports'],
   };
 
-  const fetchFirstServerData = async () => {
-    const serverDataLastId = await getLastId({ category: selectedCategory });
-    setLastId(serverDataLastId);
+  const fetchLastId = async (filterKeyword?: string) => {
+    const lastId = await getLastId({ category: selectedCategory, filter: filterKeyword });
+    console.log('fetchLastId FILTER => ', filterKeyword);
+    console.log('fetchLastId => ', lastId);
 
-    fetchFirstMountList(serverDataLastId);
+    setLastId(lastId);
+
+    return lastId;
   };
 
-  const fetchFirstMountList = async (serverDataLastId: number) => {
+  // const fetchFirstServerData = async () => {
+  //   const serverDataLastId = await fetchLastId();
+
+  //   fetchFirstMountList(serverDataLastId);
+  // };
+
+  const fetchFirstMountList = async () => {
     setList([]);
+    const serverDataLastId = await fetchLastId();
     const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
     setList(serverData);
   };
@@ -79,12 +89,11 @@ const Main = () => {
   const onClickFilterButton = async (filterKeyword: string) => {
     setFilter(filterKeyword);
     if (filterKeyword === 'All') {
-      fetchFirstServerData();
+      fetchFirstMountList();
       return;
     }
 
-    const serverDataLastId = await getLastId({ category: selectedCategory, filter: filterKeyword });
-    setLastId(serverDataLastId);
+    const serverDataLastId = await fetchLastId(filterKeyword);
 
     const filteredData = await getFilteredList({
       lastId: serverDataLastId,
@@ -93,8 +102,6 @@ const Main = () => {
     });
 
     setList(filteredData);
-
-    // setList(filteredData.data);
   };
 
   useEffect(() => {
@@ -115,7 +122,7 @@ const Main = () => {
         break;
     }
 
-    fetchFirstServerData();
+    fetchFirstMountList();
   }, [selectedCategory]);
 
   return (

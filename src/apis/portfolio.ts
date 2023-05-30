@@ -25,7 +25,8 @@ export const getLastId = async ({ category, filter }: GetLastIdParams) => {
   try {
     const params = {
       ...(category !== 'All' && { category }),
-      filter,
+      ...(filter !== 'All' && { filter }),
+      // filter,
     };
     const response = await apiRequest.get(`${RESOURCE}/id`, { params });
 
