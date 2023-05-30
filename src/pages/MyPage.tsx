@@ -96,7 +96,12 @@ function MyPage() {
   // 회원 탈퇴
   const handleWithdrawal = () => {
     axios
-      .delete(`http://3.34.102.60:8080/api/users/2`)
+      .delete(`http://3.34.102.60:8080/api/users/2`, {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb3p5QG5hdmVyLmNvbSIsInVzZXJJZCI6MiwiZXhwIjoxNjg1NDQ1NDA4LCJpYXQiOjE2ODU0NDE4MDh9.I96e9mU8GQvuNMdTVP61C8ygiT6C6YF7oZRPMGWMmoo',
+        },
+      })
       .then(() => {
         console.log('User account deleted');
       })
@@ -116,7 +121,13 @@ function MyPage() {
     };
 
     axios
-      .put(`/api/users/2/password`, passwordData)
+      .put(`http://3.34.102.60:8080/api/users/2/password`, passwordData, {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb3p5QG5hdmVyLmNvbSIsInVzZXJJZCI6MiwiZXhwIjoxNjg1NDQ1NDA4LCJpYXQiOjE2ODU0NDE4MDh9.I96e9mU8GQvuNMdTVP61C8ygiT6C6YF7oZRPMGWMmoo',
+        },
+      })
+
       .then(response => {
         console.log('Password updated successfully');
       })
