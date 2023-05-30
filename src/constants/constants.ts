@@ -4,3 +4,5 @@ export const PATH_URL = {
   DETAIL: '/detail',
   TEST: '/test',
 };
+
+export const SERVER_URL = import.meta.env.VITE_API_URL;
