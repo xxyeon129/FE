@@ -3,6 +3,8 @@ export const PATH_URL = {
   DETAIL_PATH: '/detail/:id',
   DETAIL: '/detail',
   TEST: '/test',
+  PROJECT: '/project/',
+  MYPAGE: `/mypage/:id`,
 };
 
 export const SERVER_URL = import.meta.env.VITE_API_URL;
