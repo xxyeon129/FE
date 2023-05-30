@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
-import { getProject, updateProject } from '../test/ProjectApi';
-// 프로젝트 상세페이지 및 수정 기능
+import { getProject, updateProject } from '@src/test/ProjectApi';
+
 interface ProjectDetailData {
   title: string;
   term: string;
