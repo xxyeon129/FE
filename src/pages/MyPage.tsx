@@ -15,12 +15,12 @@ function MyPage() {
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
   const [profileImage, setProfileImage] = useState<File[]>([]);
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
 
   const handleEditPasswordClick = () => {
     setIsEditingPassword(true);
@@ -95,15 +95,13 @@ function MyPage() {
     setShowModal(false);
   };
 
+  // 저장버튼
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const formData = new FormData();
     const profileImageBlob = new Blob(profileImage, { type: 'image' });
     formData.append('nickname', nickname);
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('passwordCheck', passwordCheck);
     formData.append('profileImage', profileImageBlob);
 
     axios
@@ -136,6 +134,7 @@ function MyPage() {
               value={email}
               onChange={handleEmailChange}
               placeholder="이메일"
+              disabled
             />
             {isEditingPassword && (
               <>
@@ -162,6 +161,7 @@ function MyPage() {
             ) : (
               <button onClick={handleEditPasswordClick}>비밀번호 수정</button>
             )}
+
             <input
               type="file"
               name="profileImage"
