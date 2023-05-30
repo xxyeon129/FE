@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-// import { getUser, updateUser, deleteUser, upda } from '@src/test/MyPageApi';
+
 interface UserData {
   nickname: string;
   email: string;
@@ -19,13 +19,25 @@ function MyPage() {
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
-  const [currentpassword, setCurrentPassword] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
+  const [oldpassword, setOldPassword] = useState('');
+  const [newpassword, setNewPassword] = useState('');
+  const [checknewpassword, setCheckNewPassword] = useState('');
 
   const handleEditPasswordClick = () => {
     setIsEditingPassword(true);
   };
+  // 회원 조회
+  useEffect(() => {
+    axios
+      .get(`http://3.34.102.60:8080/api/users/2`)
+      .then(response => {
+        setData(response.data.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -40,15 +52,15 @@ function MyPage() {
   };
 
   const handleCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentPassword(e.target.value);
+    setOldPassword(e.target.value);
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+    setNewPassword(e.target.value);
   };
 
   const handlePasswordCheckChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPasswordCheck(e.target.value);
+    setCheckNewPassword(e.target.value);
   };
 
   // 수정 이미지
@@ -78,7 +90,7 @@ function MyPage() {
   // 회원 탈퇴
   const handleWithdrawal = () => {
     axios
-      .delete(`/api/users/${id}`)
+      .delete(`http://3.34.102.60:8080/api/users/${id}`)
       .then(() => {
         console.log('User account deleted');
       })
@@ -91,13 +103,16 @@ function MyPage() {
 
   // 비밀번호 수정
   const handleSavePassword = () => {
-    const passwordData = { password };
+    const passwordData = {
+      oldPassword: oldpassword,
+      newPassword: newpassword,
+      checkNewPassword: checknewpassword,
+    };
 
     axios
-      .patch(`/api/users/${id}/password`, passwordData)
+      .put(`/api/users/${id}/password`, passwordData)
       .then(response => {
         console.log('Password updated successfully');
-        setIsEditingPassword(false);
       })
       .catch(error => {
         console.error(error);
@@ -114,7 +129,7 @@ function MyPage() {
     formData.append('profileImage', profileImageBlob);
 
     axios
-      .patch(`/api/users/${id}`, formData)
+      .patch(`http://3.34.102.60:8080/api/users/${id}`, formData)
       .then(response => {
         setData(response.data);
         setIsEditing(false);
@@ -150,21 +165,21 @@ function MyPage() {
                 <input
                   type="password"
                   name="password"
-                  value={currentpassword}
+                  value={oldpassword}
                   onChange={handleCurrentPasswordChange}
                   placeholder="현재 비밀번호"
                 />
                 <input
                   type="password"
                   name="password"
-                  value={password}
+                  value={newpassword}
                   onChange={handlePasswordChange}
                   placeholder="비밀번호"
                 />
                 <input
                   type="password"
                   name="passwordCheck"
-                  value={passwordCheck}
+                  value={checknewpassword}
                   onChange={handlePasswordCheckChange}
                   placeholder="비밀번호 확인"
                 />
