@@ -26,7 +26,6 @@ export const getLastId = async ({ category, filter }: GetLastIdParams) => {
     const params = {
       ...(category !== 'All' && { category }),
       ...(filter !== 'All' && { filter }),
-      // filter,
     };
     const response = await apiRequest.get(`${RESOURCE}/id`, { params });
 
@@ -45,7 +44,7 @@ export const getAllList = async ({ lastId, size = 9, category }: GetAllListParam
     };
 
     // TEST CODE
-    console.log('API params', params);
+    // console.log('API params', params);
 
     const response = await apiRequest.get(RESOURCE, { params });
     return response.data.data.content;
@@ -71,7 +70,7 @@ export const getFilteredList = async ({
     };
 
     // TEST CODE
-    console.log('API params', params);
+    // console.log('API params', params);
 
     const response = await apiRequest.get(RESOURCE, { params });
 

@@ -11,8 +11,6 @@ const Filter: React.FC<FilterPropsType> = ({ filterList, onClickFilterButton }) 
   const setFilter = useSetRecoilState<string>(filterState);
 
   const onClickFilter = (filterKeyword: string) => {
-    console.log('필터!!!!', filterKeyword);
-
     setFilter(filterKeyword);
     onClickFilterButton(filterKeyword);
   };

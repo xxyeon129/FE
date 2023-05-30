@@ -11,14 +11,14 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
   const [filterList, setFilterList] = useState<string[]>([]);
+  const [lastId, setLastId] = useState<number>(0);
+  const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
+
   const [selectedFilter, setFilter] = useRecoilState(filterState);
   const selectedCategory = useRecoilValue(categoryState);
 
-  console.log('@@@@현재 list@@@@', list);
-
-  const [lastId, setLastId] = useState<number>(0);
-
-  const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
+  // TEST CODE
+  // console.log('@@@@현재 list@@@@', list);
 
   // IntersectionObserver 객체
   const observer = useRef<IntersectionObserver | null>(null);
@@ -28,13 +28,7 @@ const Main = () => {
       setIsMoreLoading(true);
 
       let newData: PortfolioDataType[];
-      // if (filter !== 'All') {
-      //   newData = await getFilteredList({
-      //     lastId: lastId - 10,
-      //     category: selectedCategory,
-      //     filter,
-      //   });
-      // } else {
+
       if (selectedFilter !== 'All') {
         newData = await getFilteredList({
           lastId: lastId - 10,
@@ -73,11 +67,7 @@ const Main = () => {
 
   const fetchLastId = async (filterKeyword?: string) => {
     const lastId = await getLastId({ category: selectedCategory, filter: filterKeyword });
-    console.log('fetchLastId FILTER => ', filterKeyword);
-    console.log('fetchLastId => ', lastId);
-
     setLastId(lastId);
-
     return lastId;
   };
 
