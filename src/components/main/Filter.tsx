@@ -1,4 +1,6 @@
 import { styled } from 'styled-components';
+import { useSetRecoilState } from 'recoil';
+import { filterState } from '@src/states';
 
 interface FilterPropsType {
   filterList: string[];
@@ -6,10 +8,19 @@ interface FilterPropsType {
 }
 
 const Filter: React.FC<FilterPropsType> = ({ filterList, onClickFilterButton }) => {
+  const setFilter = useSetRecoilState<string>(filterState);
+
+  const onClickFilter = (filterKeyword: string) => {
+    console.log('필터!!!!', filterKeyword);
+
+    setFilter(filterKeyword);
+    onClickFilterButton(filterKeyword);
+  };
+
   return (
     <StFilterListContainer>
       {filterList.map((filterKeyword, filterItemIndex) => (
-        <StFilterButton key={filterItemIndex} onClick={() => onClickFilterButton(filterKeyword)}>
+        <StFilterButton key={filterItemIndex} onClick={() => onClickFilter(filterKeyword)}>
           {filterKeyword}
         </StFilterButton>
       ))}

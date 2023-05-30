@@ -1,12 +1,14 @@
-import { categoryState } from '@src/states';
+import { categoryState, filterState } from '@src/states';
 import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
 const TestNav = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
+  const setFilter = useSetRecoilState<string>(filterState);
 
   const onClickCategory = (categoryItem: string) => {
     setCategory(categoryItem);
+    setFilter('All');
   };
 
   const categoryList = ['All', 'Develop', 'Design', 'Photographer'];

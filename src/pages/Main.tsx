@@ -5,13 +5,13 @@ import { getAllList, getFilteredList, getLastId } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
 import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
-import { categoryState } from '@src/states';
+import { categoryState, filterState } from '@src/states';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
   const [filterList, setFilterList] = useState<string[]>([]);
-  const [filter, setFilter] = useState<string>('All');
+  const [selectedFilter, setFilter] = useRecoilState(filterState);
   const selectedCategory = useRecoilValue(categoryState);
 
   console.log('@@@@현재 list@@@@', list);
@@ -28,11 +28,18 @@ const Main = () => {
       setIsMoreLoading(true);
 
       let newData: PortfolioDataType[];
-      if (filter !== 'All') {
+      // if (filter !== 'All') {
+      //   newData = await getFilteredList({
+      //     lastId: lastId - 10,
+      //     category: selectedCategory,
+      //     filter,
+      //   });
+      // } else {
+      if (selectedFilter !== 'All') {
         newData = await getFilteredList({
           lastId: lastId - 10,
           category: selectedCategory,
-          filter,
+          filter: selectedFilter,
         });
       } else {
         newData = await getAllList({ lastId: lastId - 10, category: selectedCategory });
@@ -76,19 +83,16 @@ const Main = () => {
 
   const fetchFirstMountList = async () => {
     setList([]);
-    setFilter('All');
+    if (selectedFilter) {
+      fetchFilteredList(selectedFilter);
+      return;
+    }
     const serverDataLastId = await fetchLastId();
     const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
     setList(serverData);
   };
 
-  const onClickFilterButton = async (filterKeyword: string) => {
-    setFilter(filterKeyword);
-    if (filterKeyword === 'All') {
-      fetchFirstMountList();
-      return;
-    }
-
+  const fetchFilteredList = async (filterKeyword: string) => {
     const serverDataLastId = await fetchLastId(filterKeyword);
 
     const filteredData = await getFilteredList({
@@ -98,6 +102,15 @@ const Main = () => {
     });
 
     setList(filteredData);
+  };
+
+  const onClickFilterButton = async (filterKeyword: string) => {
+    setFilter(filterKeyword);
+    if (filterKeyword === 'All') {
+      fetchFirstMountList();
+      return;
+    }
+    fetchFilteredList(filterKeyword);
   };
 
   useEffect(() => {
@@ -117,7 +130,6 @@ const Main = () => {
       default:
         break;
     }
-
     fetchFirstMountList();
   }, [selectedCategory]);
 
