@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { keyframes, styled } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+
 import { getAllList, getFilteredList, getLastId } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
 import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { categoryState, filterState } from '@src/states';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -16,9 +17,6 @@ const Main = () => {
 
   const [selectedFilter, setFilter] = useRecoilState(filterState);
   const selectedCategory = useRecoilValue(categoryState);
-
-  // TEST CODE
-  // console.log('@@@@현재 list@@@@', list);
 
   // IntersectionObserver 객체
   const observer = useRef<IntersectionObserver | null>(null);
@@ -142,7 +140,7 @@ const Main = () => {
       {isMoreLoading ? (
         <StLoadingSpinner />
       ) : (
-        // TODO: 모든 데이터를 불러와서 lastId에 해당하는 데이터가 없을 경우 조건 작성 필요(!isNoMoreData &&)
+        // TODO: api 명세 수정 반영된 후 해당하는 데이터가 없을 경우 데이터 없다는 문구 표시(!isNoMoreData &&)
         <StLoadingIndicator ref={lastItemRef} />
       )}
     </StPortfolioPageContainer>
