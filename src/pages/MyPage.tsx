@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-
+// import { getUser, updateUser, deleteUser, upda } from '@src/test/MyPageApi';
 interface UserData {
   nickname: string;
   email: string;
@@ -19,24 +19,13 @@ function MyPage() {
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
+  const [currentpassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
 
   const handleEditPasswordClick = () => {
     setIsEditingPassword(true);
   };
-
-  useEffect(() => {
-    axios
-      .get(`http://3.34.102.60:8080/api/users/2`)
-      .then(response => {
-        setData(response.data.data);
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -48,6 +37,10 @@ function MyPage() {
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+  };
+
+  const handleCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCurrentPassword(e.target.value);
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -82,6 +75,7 @@ function MyPage() {
     setShowModal(false);
   };
 
+  // 회원 탈퇴
   const handleWithdrawal = () => {
     axios
       .delete(`/api/users/${id}`)
@@ -93,6 +87,21 @@ function MyPage() {
       });
 
     setShowModal(false);
+  };
+
+  // 비밀번호 수정
+  const handleSavePassword = () => {
+    const passwordData = { password };
+
+    axios
+      .patch(`/api/users/${id}/password`, passwordData)
+      .then(response => {
+        console.log('Password updated successfully');
+        setIsEditingPassword(false);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   // 저장버튼
@@ -141,10 +150,16 @@ function MyPage() {
                 <input
                   type="password"
                   name="password"
+                  value={currentpassword}
+                  onChange={handleCurrentPasswordChange}
+                  placeholder="현재 비밀번호"
+                />
+                <input
+                  type="password"
+                  name="password"
                   value={password}
                   onChange={handlePasswordChange}
                   placeholder="비밀번호"
-                  required
                 />
                 <input
                   type="password"
@@ -152,12 +167,14 @@ function MyPage() {
                   value={passwordCheck}
                   onChange={handlePasswordCheckChange}
                   placeholder="비밀번호 확인"
-                  required
                 />
               </>
             )}
             {isEditingPassword ? (
-              <button onClick={() => setIsEditingPassword(false)}>비밀번호 수정 취소</button>
+              <>
+                <button onClick={() => setIsEditingPassword(false)}>비밀번호 수정 취소</button>
+                <button onClick={handleSavePassword}>비밀번호 저장</button>
+              </>
             ) : (
               <button onClick={handleEditPasswordClick}>비밀번호 수정</button>
             )}

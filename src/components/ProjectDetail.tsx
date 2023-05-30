@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
-import { getProject, updateProject } from '../test/test';
+import { getProject, updateProject } from '../test/ProjectApi';
 
 interface ProjectDetailData {
   title: string;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
-import { createProject } from '../test/test';
+import { createProject } from '../test/ProjectApi';
 
 const CreateProject: React.FC<{
   showModal1: boolean;
