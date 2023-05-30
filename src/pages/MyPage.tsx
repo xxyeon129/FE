@@ -20,6 +20,11 @@ function MyPage() {
   const [profileImage, setProfileImage] = useState<File[]>([]);
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
+
+  const handleEditPasswordClick = () => {
+    setIsEditingPassword(true);
+  };
 
   useEffect(() => {
     axios
@@ -124,7 +129,6 @@ function MyPage() {
               value={nickname}
               onChange={handleNicknameChange}
               placeholder="닉네임"
-              required
             />
             <input
               type="email"
@@ -132,24 +136,32 @@ function MyPage() {
               value={email}
               onChange={handleEmailChange}
               placeholder="이메일"
-              required
             />
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={handlePasswordChange}
-              placeholder="비밀번호"
-              required
-            />
-            <input
-              type="password"
-              name="passwordCheck"
-              value={passwordCheck}
-              onChange={handlePasswordCheckChange}
-              placeholder="비밀번호 확인"
-              required
-            />
+            {isEditingPassword && (
+              <>
+                <input
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  placeholder="비밀번호"
+                  required
+                />
+                <input
+                  type="password"
+                  name="passwordCheck"
+                  value={passwordCheck}
+                  onChange={handlePasswordCheckChange}
+                  placeholder="비밀번호 확인"
+                  required
+                />
+              </>
+            )}
+            {isEditingPassword ? (
+              <button onClick={() => setIsEditingPassword(false)}>비밀번호 수정 취소</button>
+            ) : (
+              <button onClick={handleEditPasswordClick}>비밀번호 수정</button>
+            )}
             <input
               type="file"
               name="profileImage"
