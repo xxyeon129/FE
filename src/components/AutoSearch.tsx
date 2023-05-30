@@ -15,10 +15,10 @@ function AutoSearch() {
 
     try {
       const response = await axios.get(
-        `http://3.34.102.60:8080/api/portfolios/search?keyword=&last-portfolio-id=130&size=10`
+        `http://3.34.102.60:8080/api/portfolios/autocomplete?keyword=${term}`
       );
       // 아래 수정
-      setSuggestions(response.data);
+      setSuggestions(response.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -32,6 +32,7 @@ function AutoSearch() {
   return (
     <div>
       <input type="text" value={searchTerm} onChange={handleChange} />
+
       <ul>
         {suggestions.map((suggestion, index) => (
           <li key={index} onClick={() => handleClickSuggestion(suggestion)}>
