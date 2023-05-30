@@ -11,14 +11,9 @@ span,
 p,
 blockquote,
 a,
-em,
 img,
 q,
-s,
-strike,
 strong,
-var,
-b,
 u,
 i,
 center,
@@ -41,6 +36,7 @@ section {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  text-decoration: none;
 }
 /* HTML5 display-role reset for older browsers */
 body {
