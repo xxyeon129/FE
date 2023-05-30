@@ -3,19 +3,18 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import { ReactComponent as UserImg } from '@src/assets/test-profile-icon.svg';
 
 const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
-  const noImageUrl =
-    'https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg';
-
+  const noImageUrl = 'public/images/no-img.jpg';
   const isportfolioImageExist = item.portfolioImage !== null;
 
   return (
     <StItemContainer>
-      {isportfolioImageExist ? (
-        <StPortfolioImg src={item.portfolioImage} />
-      ) : (
-        <StNoImage src={noImageUrl} />
-      )}
-
+      <StImgContainer>
+        {isportfolioImageExist ? (
+          <StPortfolioImg src={item.portfolioImage} />
+        ) : (
+          <StNoImg src={noImageUrl} />
+        )}
+      </StImgContainer>
       <StDescriptionLabel>
         <StTitleText>{item.portfolioTitle}</StTitleText>
         <StUserDescriptionContainer>
@@ -33,8 +32,21 @@ const StItemContainer = styled.div`
   border: 1px solid gray;
 `;
 
-const StPortfolioImg = styled.img`
+const StImgContainer = styled.div`
+  height: 200px;
   width: 300px;
+`;
+
+const StPortfolioImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const StNoImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const StDescriptionLabel = styled.div`
@@ -56,9 +68,5 @@ const StUserDescriptionContainer = styled.div`
 const StUserNameText = styled.div``;
 
 const StUserImgContainer = styled.div``;
-
-const StNoImage = styled.img`
-  width: 300px;
-`;
 
 export default PortfolioItem;
