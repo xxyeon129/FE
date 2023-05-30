@@ -73,14 +73,9 @@ const Main = () => {
     return lastId;
   };
 
-  // const fetchFirstServerData = async () => {
-  //   const serverDataLastId = await fetchLastId();
-
-  //   fetchFirstMountList(serverDataLastId);
-  // };
-
   const fetchFirstMountList = async () => {
     setList([]);
+    setFilter('All');
     const serverDataLastId = await fetchLastId();
     const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
     setList(serverData);
