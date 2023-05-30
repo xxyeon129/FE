@@ -71,18 +71,24 @@ const Main = () => {
     return lastId;
   };
 
-  const fetchFirstMountList = async () => {
+  const fetchFirstMountList = async (filterKeyword: string) => {
     setList([]);
-    if (selectedFilter) {
-      fetchFilteredList(selectedFilter);
+
+    if (filterKeyword !== 'All') {
+      fetchFilteredList(filterKeyword);
       return;
     }
+
     const serverDataLastId = await fetchLastId();
     const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
     setList(serverData);
   };
 
   const fetchFilteredList = async (filterKeyword: string) => {
+    if (filterKeyword === 'All') {
+      fetchFirstMountList(filterKeyword);
+    }
+
     const serverDataLastId = await fetchLastId(filterKeyword);
 
     const filteredData = await getFilteredList({
@@ -96,8 +102,9 @@ const Main = () => {
 
   const onClickFilterButton = async (filterKeyword: string) => {
     setFilter(filterKeyword);
+
     if (filterKeyword === 'All') {
-      fetchFirstMountList();
+      fetchFirstMountList(filterKeyword);
       return;
     }
     fetchFilteredList(filterKeyword);
@@ -120,7 +127,8 @@ const Main = () => {
       default:
         break;
     }
-    fetchFirstMountList();
+
+    fetchFirstMountList(selectedFilter);
   }, [selectedCategory]);
 
   return (
