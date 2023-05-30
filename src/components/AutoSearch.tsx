@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+
 // 딜레이를 줄이기 위한 것 =  디바이스  라이브러리 : lodash
 function AutoSearch() {
   // 검색어 저장
@@ -31,15 +32,17 @@ function AutoSearch() {
 
   return (
     <div>
+      검색어가 비어 있지 않을 때만 제안 목록이 렌더링
       <input type="text" value={searchTerm} onChange={handleChange} />
-
-      <ul>
-        {suggestions.map((suggestion, index) => (
-          <li key={index} onClick={() => handleClickSuggestion(suggestion)}>
-            {suggestion}
-          </li>
-        ))}
-      </ul>
+      {searchTerm !== '' && suggestions.length > 0 && (
+        <ul>
+          {suggestions.map((suggestion, index) => (
+            <li key={index} onClick={() => handleClickSuggestion(suggestion)}>
+              {suggestion}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
