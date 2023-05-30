@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { styled } from 'styled-components';
+import { keyframes, styled } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { getAllList, getFilteredList, getLastId } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
 import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { categoryState } from '@src/states';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -129,7 +130,7 @@ const Main = () => {
         ))}
       </StPortfolioListContainer>
       {isMoreLoading ? (
-        <StLoadingContainer>...loading</StLoadingContainer>
+        <StLoadingSpinner />
       ) : (
         // TODO: 모든 데이터를 불러와서 lastId에 해당하는 데이터가 없을 경우 조건 작성 필요(!isNoMoreData &&)
         <StLoadingIndicator ref={lastItemRef} />
@@ -156,6 +157,19 @@ const StPortfolioListContainer = styled.div`
 
 const StLoadingIndicator = styled.div``;
 
-const StLoadingContainer = styled.div``;
+const spinAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const StLoadingSpinner = styled(AiOutlineLoading3Quarters)`
+  animation: ${spinAnimation} 1s infinite linear;
+  font-size: 30px;
+  color: gray;
+`;
 
 export default Main;
