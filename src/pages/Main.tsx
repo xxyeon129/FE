@@ -15,10 +15,10 @@ const Main = () => {
   const [lastId, setLastId] = useState<number>(0);
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
 
-  const [selectedFilter, setFilter] = useRecoilState(filterState);
+  const [selectedFilter, setSelectedFilter] = useRecoilState(filterState);
   const selectedCategory = useRecoilValue(categoryState);
 
-  // IntersectionObserver 객체
+  // --- 무한스크롤 ---
   const observer = useRef<IntersectionObserver | null>(null);
 
   const loadMoreData = useCallback(async () => {
@@ -56,13 +56,7 @@ const Main = () => {
     [loadMoreData]
   );
 
-  const filterListObject = {
-    all: [],
-    develop: ['All', 'Backend', 'Frontend', 'AI', 'Big Data', 'App', 'System', 'Security'],
-    design: ['All', 'Graphic', 'UI/UX', 'Web', 'Visual', 'Interaction', 'Product', 'Brand'],
-    photograph: ['All', 'Commercial', 'Portrait', 'Wedding', 'Fashion', 'Wildlife', 'Sports'],
-  };
-
+  // --- 데이터 호출 ---
   const fetchLastId = async (filterKeyword?: string) => {
     const lastId = await getLastId({ category: selectedCategory, filter: filterKeyword });
     setLastId(lastId);
@@ -98,14 +92,23 @@ const Main = () => {
     setList(filteredData);
   };
 
+  // --- 직무 필터링 ---
   const onClickFilterButton = async (filterKeyword: string) => {
-    setFilter(filterKeyword);
+    setSelectedFilter(filterKeyword);
 
     if (filterKeyword === 'All') {
       fetchFirstMountList(filterKeyword);
       return;
     }
     fetchFilteredList(filterKeyword);
+  };
+
+  // --- 직무 필터링 태그 리스트 ---
+  const filterListObject = {
+    all: [],
+    develop: ['All', 'Backend', 'Frontend', 'AI', 'Big Data', 'App', 'System', 'Security'],
+    design: ['All', 'Graphic', 'UI/UX', 'Web', 'Visual', 'Interaction', 'Product', 'Brand'],
+    photograph: ['All', 'Commercial', 'Portrait', 'Wedding', 'Fashion', 'Wildlife', 'Sports'],
   };
 
   useEffect(() => {
