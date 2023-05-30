@@ -167,10 +167,12 @@ const StPortfolioListContainer = styled.div`
   gap: 2rem;
   margin-top: 5rem;
   width: 100%;
-  margin-left: 3rem;
+  padding-left: 10rem;
 `;
 
-const StLoadingIndicator = styled.div``;
+const StLoadingIndicator = styled.div`
+  padding: 1rem;
+`;
 
 const spinAnimation = keyframes`
   from {
