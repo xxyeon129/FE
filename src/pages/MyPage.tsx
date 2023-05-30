@@ -17,7 +17,7 @@ function MyPage() {
   // 수정 사항
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [profileImage, setProfileImage] = useState<File[]>([]);
+  const [profileImage, setProfileImage] = useState<File>([]);
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
 
@@ -32,13 +32,13 @@ function MyPage() {
   // 회원 조회
   useEffect(() => {
     axios
-      .get(`http://3.34.102.60:8080/api/users/2`)
+      .get(`http://3.34.102.60:8080/api/users/20`)
       .then(response => {
         setData(response.data.data);
         setNickname(response.data.data.nickname);
         setEmail(response.data.data.email);
-        setProfileImage(response.data.data.profileImage);
-        console.log(response.data);
+        setPreviewImage(response.data.data.profileImage);
+        console.log(response.data.data);
       })
       .catch(error => {
         console.error(error);
@@ -72,12 +72,12 @@ function MyPage() {
   // 수정 이미지
   const handleProfileImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
-      const fileList = Array.from(e.target.files);
+      const fileList = e.target.files[0];
       setProfileImage(fileList);
 
       // 미리보기
-      const previewURLs = fileList.map(file => URL.createObjectURL(file));
-      setPreviewImage(previewURLs[0]);
+      const previewURLs = URL.createObjectURL(fileList);
+      setPreviewImage(previewURLs);
     }
   };
 
@@ -96,10 +96,10 @@ function MyPage() {
   // 회원 탈퇴
   const handleWithdrawal = () => {
     axios
-      .delete(`http://3.34.102.60:8080/api/users/2`, {
+      .delete(`http://3.34.102.60:8080/api/users/20`, {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb3p5QG5hdmVyLmNvbSIsInVzZXJJZCI6MiwiZXhwIjoxNjg1NDQ1NDA4LCJpYXQiOjE2ODU0NDE4MDh9.I96e9mU8GQvuNMdTVP61C8ygiT6C6YF7oZRPMGWMmoo',
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmRvbmdAbmF2ZXIuY29tIiwidXNlcklkIjoxOCwiZXhwIjoxNjg1NDUyNzM3LCJpYXQiOjE2ODU0NDkxMzd9.JBR-DfFoZTct5Cq7C-JbQzkvcLMZcu9MmVwOJrUf9Rk',
         },
       })
       .then(() => {
@@ -121,10 +121,10 @@ function MyPage() {
     };
 
     axios
-      .put(`http://3.34.102.60:8080/api/users/2/password`, passwordData, {
+      .put(`http://3.34.102.60:8080/api/users/20/password`, passwordData, {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb3p5QG5hdmVyLmNvbSIsInVzZXJJZCI6MiwiZXhwIjoxNjg1NDQ1NDA4LCJpYXQiOjE2ODU0NDE4MDh9.I96e9mU8GQvuNMdTVP61C8ygiT6C6YF7oZRPMGWMmoo',
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTQ1MzM1OCwiaWF0IjoxNjg1NDQ5NzU4fQ.jw6irGNJM-w7jNnwFCDv6G5IKKpOKpyNq_OppfPHE8E',
         },
       })
 
@@ -139,11 +139,16 @@ function MyPage() {
   // 저장버튼
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
+    console.log(nickname);
     const formData = new FormData();
-    const profileImageBlob = new Blob(profileImage, { type: 'application/json' });
-    formData.append('nickname', nickname);
-    formData.append('profileImage', profileImageBlob, 'image.jpeg');
+    const text = JSON.stringify({
+      nickname,
+    });
+    console.log(text);
+    const profileImageBlob = new Blob([profileImage], { type: 'application/json' });
+    const nicknameBlob = new Blob([text], { type: 'application/json' });
+    formData.append('nickname', nicknameBlob);
+    formData.append('profileImage', profileImageBlob);
 
     // const formData = new FormData();
     // formData.append('nickname', nickname);
@@ -153,10 +158,10 @@ function MyPage() {
     // }
 
     axios
-      .patch(`http://3.34.102.60:8080/api/users/2`, formData, {
+      .patch(`http://3.34.102.60:8080/api/users/20`, formData, {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb3p5QG5hdmVyLmNvbSIsInVzZXJJZCI6MiwiZXhwIjoxNjg1NDQwNTEyLCJpYXQiOjE2ODU0MzY5MTJ9.7FwmZHqAwYCE7NfqcLxxuIUY72v9UrWAHhB_xCWAV1s',
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTQ1MzM1OCwiaWF0IjoxNjg1NDQ5NzU4fQ.jw6irGNJM-w7jNnwFCDv6G5IKKpOKpyNq_OppfPHE8E',
         },
       })
       .then(response => {
