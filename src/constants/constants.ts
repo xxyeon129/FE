@@ -5,4 +5,5 @@ export const PATH_URL = {
   TEST: '/test',
   HYO: 'hyo',
   PORTFOLIODETAIL: '/portdetail',
+  PORTFOLIODETAILEDIT: '/portedit',
 };

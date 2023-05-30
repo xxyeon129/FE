@@ -5,6 +5,7 @@ import Detail from '@src/pages/Detail';
 import { PATH_URL } from '@src/constants/constants';
 import HyoHwan from '@src/pages/HyoHwan';
 import PortfolioDetails from '@src/pages/PortfolioDetails';
+import PortfolioDetailsEdit from '@src/pages/PortfolioDetailsEdit';
 
 const MainRouter = () => {
   return (
@@ -15,6 +16,7 @@ const MainRouter = () => {
         <Route path={PATH_URL.TEST} element={<Test />} />
         <Route path={PATH_URL.HYO} element={<HyoHwan />} />
         <Route path={PATH_URL.PORTFOLIODETAIL} element={<PortfolioDetails />} />
+        <Route path={PATH_URL.PORTFOLIODETAILEDIT} element={<PortfolioDetailsEdit />} />
       </Routes>
     </BrowserRouter>
   );

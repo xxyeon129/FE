@@ -9,8 +9,8 @@ type LoginProps = {
 };
 
 const Login = ({ onClose, onSignUpClick }: LoginProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const modalRef = useRef(null);
   const navigate = useNavigate();
 
@@ -23,6 +23,9 @@ const Login = ({ onClose, onSignUpClick }: LoginProps) => {
 
       const accessToken = response.headers['accesstoken'];
       const refreshToken = response.headers['refreshtoken'];
+
+      console.log(response.data);
+      console.log(response.headers);
 
       localStorage.setItem('accesstoken', accessToken);
       localStorage.setItem('refreshtoken', refreshToken);
