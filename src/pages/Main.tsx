@@ -170,7 +170,9 @@ const StPortfolioListContainer = styled.div`
   margin-left: 3rem;
 `;
 
-const StLoadingIndicator = styled.div``;
+const StLoadingIndicator = styled.div`
+  padding: 1rem;
+`;
 
 const spinAnimation = keyframes`
   from {
