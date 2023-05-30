@@ -4,7 +4,7 @@ import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
 import { createProject } from '../test/ProjectApi';
-
+// 프로젝트 작성
 const CreateProject: React.FC<{
   showModal1: boolean;
   setShowModal1: (showModal1: boolean) => void;
