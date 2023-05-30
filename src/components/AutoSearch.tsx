@@ -8,13 +8,12 @@ function AutoSearch() {
   const handleChange = async e => {
     const term = e.target.value;
     setSearchTerm(term);
+    console.log(term);
 
     try {
       const response = await axios.get(`/api/portfolios/search?keyword=${term}`);
-      const filteredSuggestions = response.data.filter(item => {
-        return item.toLowerCase().includes(term.toLowerCase());
-      });
-      setSuggestions(filteredSuggestions);
+      // 아래 수정
+      setSuggestions(response.data);
     } catch (error) {
       console.error(error);
     }
