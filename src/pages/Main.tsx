@@ -18,6 +18,8 @@ const Main = () => {
   const [selectedFilter, setSelectedFilter] = useRecoilState(filterState);
   const selectedCategory = useRecoilValue(categoryState);
 
+  const isExistData = list.length !== 0;
+
   // --- 무한스크롤 ---
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -136,9 +138,11 @@ const Main = () => {
     <StPortfolioPageContainer>
       <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
       <StPortfolioListContainer>
-        {list.map((item: PortfolioDataType) => (
-          <PortfolioItem key={item.id} item={item} />
-        ))}
+        {isExistData ? (
+          list.map((item: PortfolioDataType) => <PortfolioItem key={item.id} item={item} />)
+        ) : (
+          <StNoDataTextContainer>포트폴리오가 존재하지 않습니다.</StNoDataTextContainer>
+        )}
       </StPortfolioListContainer>
       {isMoreLoading ? (
         <StLoadingSpinner />
@@ -182,5 +186,7 @@ const StLoadingSpinner = styled(AiOutlineLoading3Quarters)`
   font-size: 30px;
   color: gray;
 `;
+
+const StNoDataTextContainer = styled.div``;
 
 export default Main;
