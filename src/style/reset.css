@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+div,
+span,
+p,
+blockquote,
+a,
+em,
+img,
+q,
+s,
+strike,
+strong,
+var,
+b,
+u,
+i,
+center,
+ol,
+ul,
+li,
+form,
+label,
+table,
+tr,
+th,
+td,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+input:focus {
+  outline: none;
+}
+button {
+  border: 0 none;
+  background: none;
+}
