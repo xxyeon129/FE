@@ -14,7 +14,9 @@ function AutoSearch() {
     console.log(term);
 
     try {
-      const response = await axios.get(`/api/portfolios/search?keyword=${term}`);
+      const response = await axios.get(
+        `http://3.34.102.60:8080/api/portfolios/search?keyword=&last-portfolio-id=130&size=10`
+      );
       // 아래 수정
       setSuggestions(response.data);
     } catch (error) {
