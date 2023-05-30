@@ -6,10 +6,14 @@ const RESOURCE = '/api/portfolios';
 
 export const getLastId = async ({ category, filter }: GetLastIdParams) => {
   try {
+    const isAllCategory = category === 'All';
+    const isSelectFilter = filter !== undefined;
+
     const params = {
-      ...(category !== 'All' && { category }),
-      ...(filter !== 'All' && { filter }),
+      ...(isAllCategory ? { category: '' } : { category }),
+      ...(isSelectFilter ? { filter } : { filter: '' }),
     };
+
     const response = await apiRequest.get(`${RESOURCE}/id`, { params });
 
     return response.data.data;
