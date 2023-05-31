@@ -1,6 +1,7 @@
 import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
 import { useState } from 'react';
 import { styled } from 'styled-components';
+import { TiDelete } from 'react-icons/ti';
 
 interface TechStackTagProps {
   techstackRequestData: string;
@@ -34,12 +35,18 @@ const TechStackTag = ({ techstackRequestData, setTechStackRequestData }: TechSta
     if (isExistTag) setTagInputValue('');
   };
 
+  const deleteTag = (tagIndexToDelete: number) => {
+    tagArray.splice(tagIndexToDelete, 1);
+    setTagArray([...tagArray]);
+  };
+
   return (
     <StTechStackTagContainer>
       <StTechStackTagUnorderedList>
         {tagArray.map((tag, index) => (
           <StTechStackTagList key={index}>
             <StTechStackTagText>{tag}</StTechStackTagText>
+            <StTagDeleteIcon onClick={() => deleteTag(index)} />
           </StTechStackTagList>
         ))}
       </StTechStackTagUnorderedList>
@@ -68,12 +75,21 @@ const StTechStackTagUnorderedList = styled.ul`
   gap: 0.5rem;
 `;
 
-const StTechStackTagList = styled.li``;
+const StTechStackTagList = styled.li`
+  display: flex;
+  align-items: center;
 
-const StTechStackTagText = styled.span`
   background-color: lightgray;
   border-radius: 5px;
-  padding: 2px 10px;
+  padding: 2px 5px 2px 10px;
+`;
+
+const StTechStackTagText = styled.span``;
+
+const StTagDeleteIcon = styled(TiDelete)`
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
 `;
 
 const StTechStackTagInput = styled.input`
