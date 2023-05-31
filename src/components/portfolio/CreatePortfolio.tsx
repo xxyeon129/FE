@@ -10,6 +10,7 @@ const CreatePortfolio = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [filter, setFilter] = useState<string>('');
 
   const { inputData: portfolioTitle, onChangeInput: onChangeTitle } = useCreatePortfolioInput();
   const { inputData: residence, onChangeInput: onChangeResidence } = useCreatePortfolioInput();
@@ -47,7 +48,7 @@ const CreatePortfolio = () => {
       youtubeUrl,
       blogUrl,
       category,
-      filter: 'Graphic',
+      filter,
       projectIdList: [],
     };
 
@@ -129,7 +130,11 @@ const CreatePortfolio = () => {
       />
 
       <StLabel htmlFor="filter">Filter</StLabel>
-      <CreatePortfolioFilter />
+      <CreatePortfolioFilter
+        category={category}
+        selectedFilter={filter}
+        setSelectedFilter={setFilter}
+      />
 
       <StImageContainer>
         <StPreviewImage src={imagePreview} />
