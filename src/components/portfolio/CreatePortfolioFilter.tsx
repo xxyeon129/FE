@@ -27,13 +27,13 @@ const CreatePortfolioFilter = ({
 
     switch (category) {
       case CATEGORY_KEYWORD.DEVELOP:
-        setFilterList(filterListObject.develop);
+        setFilterList(filterListObject.develop.slice(1));
         break;
       case CATEGORY_KEYWORD.DESIGN:
-        setFilterList(filterListObject.design);
+        setFilterList(filterListObject.design.slice(1));
         break;
       case CATEGORY_KEYWORD.PHOTOGRAPHER:
-        setFilterList(filterListObject.photograph);
+        setFilterList(filterListObject.photograph.slice(1));
         break;
       default:
         break;
