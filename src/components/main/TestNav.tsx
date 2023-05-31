@@ -1,4 +1,5 @@
 import { categoryState, filterState } from '@src/states';
+import { categoryList } from '@src/constants/portfolioFilteringData';
 import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
@@ -11,7 +12,6 @@ const TestNav = () => {
     setFilter('All');
   };
 
-  const categoryList = ['All', 'Develop', 'Design', 'Photographer'];
   return (
     <StCategoryContainer>
       {categoryList.map((categoryItem: string, categoryItemIndex: number) => (

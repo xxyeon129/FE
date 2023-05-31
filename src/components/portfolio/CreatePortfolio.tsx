@@ -3,6 +3,8 @@ import { createPortfolio } from '@src/apis/portfolio';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import SelectDropdown from './SelectDropdown';
+import CreatePortfolioFilter from './CreatePortfolioFilter';
+import { categoryList } from '@src/constants/portfolioFilteringData';
 
 const CreatePortfolio = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -19,7 +21,7 @@ const CreatePortfolio = () => {
   const { inputData: youtubeUrl, onChangeInput: onChangeYoutubeUrl } = useCreatePortfolioInput();
   const { inputData: blogUrl, onChangeInput: onChangeBlogUrl } = useCreatePortfolioInput();
 
-  const categoryDropdownOptions = ['Develop', 'Design', 'Photographer'];
+  const categoryDropdownOptions = categoryList.slice(1);
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -125,6 +127,9 @@ const CreatePortfolio = () => {
         selectedOption={category}
         setSelectedOption={setCategory}
       />
+
+      <StLabel htmlFor="filter">Filter</StLabel>
+      <CreatePortfolioFilter />
 
       <StImageContainer>
         <StPreviewImage src={imagePreview} />
