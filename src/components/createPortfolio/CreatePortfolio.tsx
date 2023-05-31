@@ -27,13 +27,16 @@ const CreatePortfolio = () => {
   const [techstack, setTechStack] = useState<string>('');
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [projectList, setProjectList] = useState<ProjectDataType[]>([]);
+  const [projectIdList, setProjectIdList] = useState<number[]>([]);
 
   const queryClient = useQueryClient();
   const projectData = queryClient.getQueryData('projectData') as ProjectDataType | null;
 
   useEffect(() => {
     if (projectData) {
+      console.log(projectData);
       setProjectList(prevProject => [...prevProject, projectData]);
+      setProjectIdList(prevProjectIds => [...prevProjectIds, projectData.id]);
     }
   }, [projectData]);
 
@@ -74,7 +77,7 @@ const CreatePortfolio = () => {
       blogUrl,
       category,
       filter,
-      projectIdList: [],
+      projectIdList,
     };
 
     formData.append(
