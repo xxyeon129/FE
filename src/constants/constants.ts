@@ -5,6 +5,7 @@ export const PATH_URL = {
   TEST: '/test',
   PROJECT: '/project/',
   MYPAGE: `/mypage/:id`,
+  SEARCHRESULTS: `/searchresults`,
 };
 
 export const SERVER_URL = import.meta.env.VITE_API_URL;
