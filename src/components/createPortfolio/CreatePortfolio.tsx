@@ -6,6 +6,18 @@ import SelectDropdown from './SelectDropdown';
 import CreatePortfolioFilter from './CreatePortfolioFilter';
 import { categoryList } from '@src/constants/portfolioFilteringData';
 import TechStackTag from './TechStackTag';
+import TestCreateProjectModal from './TestCreateProjectModal';
+import { useQuery, useQueryClient } from 'react-query';
+
+interface ProjectDataType {
+  id: number;
+  title: string;
+  term: string;
+  people: string;
+  position: string;
+  projectImageList: { id: number; imageUrl: string }[];
+  description: string;
+}
 
 const CreatePortfolio = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -13,6 +25,17 @@ const CreatePortfolio = () => {
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
   const [techstack, setTechStack] = useState<string>('');
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [projectList, setProjectList] = useState<ProjectDataType[]>([]);
+
+  const queryClient = useQueryClient();
+  const projectData = queryClient.getQueryData('projectData') as ProjectDataType | null;
+
+  useEffect(() => {
+    if (projectData) {
+      setProjectList(prevProject => [...prevProject, projectData]);
+    }
+  }, [projectData]);
 
   const { inputData: portfolioTitle, onChangeInput: onChangeTitle } = useCreatePortfolioInput();
   const { inputData: residence, onChangeInput: onChangeResidence } = useCreatePortfolioInput();
@@ -80,6 +103,10 @@ const CreatePortfolio = () => {
     }
   };
 
+  const onClickCreateProjectButton = () => {
+    setIsOpenModal(true);
+  };
+
   // TEST CODE
   const testData = () => {
     handleFormData();
@@ -138,6 +165,21 @@ const CreatePortfolio = () => {
         setSelectedFilter={setFilter}
       />
 
+      <StLabel htmlFor="project">Projects</StLabel>
+      <StProjectsContainer>
+        {projectList?.length !== 0 &&
+          projectList.map(project => (
+            <StProjectItem key={project.id}>
+              <StProjectImg src={project.projectImageList[0].imageUrl} />
+              <StProjectText>{project.title}</StProjectText>
+              {/* TODO: 로그인 후 userId 확인 방법 생기면 회원조회로 profileImg, nickname 가져와서 추가 */}
+            </StProjectItem>
+          ))}
+      </StProjectsContainer>
+      <StButton type="button" onClick={onClickCreateProjectButton}>
+        프로젝트 추가
+      </StButton>
+
       <StImageContainer>
         <StPreviewImage src={imagePreview} />
         <StLabel htmlFor="portfolioImage">포트폴리오 대표 이미지 등록</StLabel>
@@ -152,6 +194,12 @@ const CreatePortfolio = () => {
       <button type="submit" onClick={onSubmitFormData}>
         Submit
       </button>
+
+      {isOpenModal && (
+        <StBackgroundModal>
+          <TestCreateProjectModal setIsOpenModal={setIsOpenModal} />
+        </StBackgroundModal>
+      )}
     </StContainer>
   );
 };
@@ -179,6 +227,56 @@ const StPreviewImage = styled.img`
   max-width: 100%;
   max-height: 250px;
   object-fit: contain;
+`;
+
+const StProjectsContainer = styled.div`
+  padding: 1rem;
+  border: 1px solid;
+
+  display: flex;
+  gap: 1rem;
+  flex-flow: wrap;
+`;
+
+const StProjectItem = styled.div`
+  background-color: lightgray;
+  padding: 1rem;
+  width: 200px;
+  height: 250px;
+`;
+
+const StProjectImg = styled.img`
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+`;
+
+const StProjectText = styled.div`
+  font-weight: bold;
+  margin-top: 0.5rem;
+`;
+
+const StButton = styled.button`
+  border: 1px solid;
+  max-width: 100px;
+  border-radius: 50px;
+  margin-top: 5px;
+`;
+
+const StBackgroundModal = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.4);
 `;
 
 export default CreatePortfolio;
