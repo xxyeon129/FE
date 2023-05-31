@@ -10,6 +10,7 @@ const useCreatePortfolioInput = () => {
   return {
     inputData,
     onChangeInput,
+    setInputData,
   };
 };
 

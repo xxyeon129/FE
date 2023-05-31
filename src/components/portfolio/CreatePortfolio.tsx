@@ -5,12 +5,14 @@ import { styled } from 'styled-components';
 import SelectDropdown from './SelectDropdown';
 import CreatePortfolioFilter from './CreatePortfolioFilter';
 import { categoryList } from '@src/constants/portfolioFilteringData';
+import TechStackTag from './TechStackTag';
 
 const CreatePortfolio = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
+  const [techstack, setTechStack] = useState<string>('');
 
   const { inputData: portfolioTitle, onChangeInput: onChangeTitle } = useCreatePortfolioInput();
   const { inputData: residence, onChangeInput: onChangeResidence } = useCreatePortfolioInput();
@@ -38,7 +40,7 @@ const CreatePortfolio = () => {
     const formData = new FormData();
     const inputData = {
       portfolioTitle,
-      techstack: '',
+      techstack,
       residence,
       location,
       telephone,
@@ -65,7 +67,7 @@ const CreatePortfolio = () => {
     return formData;
   };
 
-  const onSubmitFormData = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitFormData = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const formData = handleFormData();
 
@@ -90,12 +92,12 @@ const CreatePortfolio = () => {
   }, [imagePreview]);
 
   return (
-    <StForm onSubmit={onSubmitFormData} encType="multipart/form-data">
+    <StContainer>
       <StLabel htmlFor="portfolioTitle">제목</StLabel>
       <StInput type="text" id="portfolioTitle" onChange={onChangeTitle}></StInput>
 
       <StLabel htmlFor="techstack">기술 스택</StLabel>
-      <StInput type="text" id="techstack"></StInput>
+      <TechStackTag techstackRequestData={techstack} setTechStackRequestData={setTechStack} />
 
       <StLabel htmlFor="residence">거주지</StLabel>
       <StInput type="text" id="residence" onChange={onChangeResidence}></StInput>
@@ -147,12 +149,19 @@ const CreatePortfolio = () => {
         TEST
       </button>
 
-      <button>Submit</button>
-    </StForm>
+      <button type="submit" onClick={onSubmitFormData}>
+        Submit
+      </button>
+    </StContainer>
   );
 };
 
 const StForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
