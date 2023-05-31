@@ -156,17 +156,15 @@ const CreatePortfolio = () => {
   );
 };
 
-const StForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
 const StContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const StLabel = styled.label``;
+const StLabel = styled.label`
+  font-weight: bold;
+  margin-top: 10px;
+`;
 
 const StInput = styled.input``;
 

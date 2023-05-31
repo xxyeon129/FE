@@ -93,7 +93,9 @@ const StTagDeleteIcon = styled(TiDelete)`
 `;
 
 const StTechStackTagInput = styled.input`
-  /* border: none; */
+  border: none;
+  width: 220px;
+  margin-left: 10px;
 `;
 
 export default TechStackTag;
