@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { portfolioDataState } from '@src/states/SearchResultsState';
-// Usequery
+import { useNavigate } from 'react-router-dom';
+// Usequery 캐싱
 // 딜레이를 줄이기 위한 것 =  디바이스  라이브러리 : lodash
 const AutoSearch = () => {
   // 검색어 저장
@@ -10,6 +11,7 @@ const AutoSearch = () => {
   // 서버에서 받은 검색어 저장
   const [suggestions, setSuggestions] = useState([]);
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
+  const navigate = useNavigate();
 
   //input의 요소 값이 변경될 때마다 호출
   const handleChange = async e => {
@@ -24,6 +26,7 @@ const AutoSearch = () => {
       // 아래 수정
 
       setSuggestions(response.data.data);
+      // console.log(response.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -35,10 +38,12 @@ const AutoSearch = () => {
     if (e.key === 'Enter') {
       try {
         const response = await axios.get(
-          `http://3.34.102.60:8080/api/portfolios/search?keyword=${searchTerm}&last-portfolio-id=130&size=10`
+          `http://3.34.102.60:8080/api/portfolios/search?keyword=${searchTerm}&last-portfolio-id=30&size=10`
         );
         setPortfolioData(response.data.data.content);
         console.log(response.data.data.content);
+        navigate('/searchresults');
+
         // Process the response data here
       } catch (error) {
         console.error(error);
