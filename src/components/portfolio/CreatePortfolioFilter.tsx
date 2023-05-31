@@ -48,7 +48,7 @@ const CreatePortfolioFilter = ({
             key={index}
             type="button"
             onClick={() => onClickFilterItem(filter)}
-            isSelected={selectedFilter === filter}
+            isselected={`${selectedFilter === filter}`}
           >
             {filter}
           </StFilterButton>
@@ -74,8 +74,8 @@ const StNoCategoryText = styled.div`
   color: gray;
 `;
 
-const StFilterButton = styled.button<{ isSelected: boolean }>`
-  border: ${({ isSelected }) => (isSelected ? '2px solid' : '1px solid gray')};
+const StFilterButton = styled.button<{ isselected: string }>`
+  border: ${({ isselected }) => (isselected === 'true' ? '2px solid' : '1px solid gray')};
 `;
 
 export default CreatePortfolioFilter;
