@@ -3,7 +3,7 @@ import { useState } from 'react';
 const useCreatePortfolioInput = () => {
   const [inputData, setInputData] = useState('');
 
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInputData(() => e.target.value);
   };
 

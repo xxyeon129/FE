@@ -10,8 +10,11 @@ const CreatePortfolio = () => {
   const [category, setCategory] = useState<string>('');
 
   const { inputData: portfolioTitle, onChangeInput: onChangeTitle } = useCreatePortfolioInput();
+  const { inputData: residence, onChangeInput: onChangeResidence } = useCreatePortfolioInput();
   const { inputData: telephone, onChangeInput: onChangeTelephone } = useCreatePortfolioInput();
   const { inputData: email, onChangeInput: onChangeEmail } = useCreatePortfolioInput();
+  const { inputData: location, onChangeInput: onChangeLocation } = useCreatePortfolioInput();
+  const { inputData: experience, onChangeInput: onChangeExperience } = useCreatePortfolioInput();
   const { inputData: githubId, onChangeInput: onChangeGithubId } = useCreatePortfolioInput();
   const { inputData: youtubeUrl, onChangeInput: onChangeYoutubeUrl } = useCreatePortfolioInput();
   const { inputData: blogUrl, onChangeInput: onChangeBlogUrl } = useCreatePortfolioInput();
@@ -33,12 +36,12 @@ const CreatePortfolio = () => {
     const inputData = {
       portfolioTitle,
       techstack: '',
-      residence: 'residence',
-      location: 'location',
+      residence,
+      location,
       telephone,
       email,
       githubId,
-      experience: 'experience',
+      experience,
       youtubeUrl,
       blogUrl,
       category,
@@ -92,10 +95,10 @@ const CreatePortfolio = () => {
       <StInput type="text" id="techstack"></StInput>
 
       <StLabel htmlFor="residence">거주지</StLabel>
-      <StInput type="text" id="residence"></StInput>
+      <StInput type="text" id="residence" onChange={onChangeResidence}></StInput>
 
       <StLabel htmlFor="location">희망 근무지역</StLabel>
-      <StInput type="text" id="location"></StInput>
+      <StInput type="text" id="location" onChange={onChangeLocation}></StInput>
 
       <StLabel htmlFor="telephone">전화번호</StLabel>
       <StInput type="text" id="telephone" onChange={onChangeTelephone}></StInput>
@@ -107,7 +110,7 @@ const CreatePortfolio = () => {
       <StInput type="text" id="githubId" onChange={onChangeGithubId}></StInput>
 
       <StLabel htmlFor="experience">프로젝트 경험</StLabel>
-      <StInput type="text" id="experience"></StInput>
+      <StTextArea id="experience" onChange={onChangeExperience}></StTextArea>
 
       <StLabel htmlFor="youtubeUrl">Youtube Link</StLabel>
       <StInput type="text" id="youtubeUrl" onChange={onChangeYoutubeUrl}></StInput>
@@ -147,6 +150,8 @@ const StForm = styled.form`
 const StLabel = styled.label``;
 
 const StInput = styled.input``;
+
+const StTextArea = styled.textarea``;
 
 const StImageContainer = styled.div`
   display: flex;
