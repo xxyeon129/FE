@@ -10,10 +10,10 @@ const SearchResults = () => {
       <h1>Portfolio Page</h1>
       {portfolioData.map((portfolio, index) => (
         <Stboard key={index}>
-          <div>{portfolio.portfolioImage}</div>
+          <img src={portfolio.portfolioImage} alt="Portfolio Image" />
           <h3>{portfolio.portfolioTitle}</h3>
           <p>{portfolio.userName}</p>
-          <p>{portfolio.userProfileImage}</p>
+          <img src={portfolio.userProfileImage} alt="User Profile Image" />
         </Stboard>
       ))}
     </div>
