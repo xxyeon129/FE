@@ -1,7 +1,7 @@
 import { categoryState, filterState } from '@src/states';
 import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-
+import AutoSearch from '../AutoSearch';
 const TestNav = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
@@ -19,6 +19,7 @@ const TestNav = () => {
           {categoryItem}
         </StCategoryLabel>
       ))}
+      <AutoSearch />
     </StCategoryContainer>
   );
 };
