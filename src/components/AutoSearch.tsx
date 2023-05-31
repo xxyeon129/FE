@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+// Usequery
 // 딜레이를 줄이기 위한 것 =  디바이스  라이브러리 : lodash
 function AutoSearch() {
   // 검색어 저장
@@ -25,6 +25,22 @@ function AutoSearch() {
     }
   };
 
+  // usequery로 data.content를 전역관리
+  // 포트폴리오 조회
+  const handleKeyDown = async e => {
+    if (e.key === 'Enter') {
+      try {
+        const response = await axios.get(
+          `http://3.34.102.60:8080/api/portfolios/search?keyword=${searchTerm}&last-portfolio-id=130&size=10`
+        );
+        console.log(response.data.data);
+        // Process the response data here
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   // 제안된 검색어를 클릭했을 때 함수
   const handleClickSuggestion = suggestion => {
     setSearchTerm(suggestion);
@@ -32,8 +48,7 @@ function AutoSearch() {
 
   return (
     <div>
-      검색어가 비어 있지 않을 때만 제안 목록이 렌더링
-      <input type="text" value={searchTerm} onChange={handleChange} />
+      <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
       {searchTerm !== '' && suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion, index) => (
