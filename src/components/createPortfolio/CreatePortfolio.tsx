@@ -24,7 +24,7 @@ const CreatePortfolio = () => {
   const [imagePreview, setImagePreview] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
-  const [techstack, setTechStack] = useState<string>('');
+  const [techStack, setTechStack] = useState<string>('');
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [projectList, setProjectList] = useState<ProjectDataType[]>([]);
   const [projectIdList, setProjectIdList] = useState<number[]>([]);
@@ -66,7 +66,7 @@ const CreatePortfolio = () => {
     const formData = new FormData();
     const inputData = {
       portfolioTitle,
-      techstack,
+      techStack,
       residence,
       location,
       telephone,
@@ -126,7 +126,7 @@ const CreatePortfolio = () => {
       <StLabel htmlFor="portfolioTitle">제목</StLabel>
       <StInput type="text" id="portfolioTitle" onChange={onChangeTitle}></StInput>
 
-      <StLabel htmlFor="techstack">기술 스택</StLabel>
+      <StLabel htmlFor="techStack">기술 스택</StLabel>
       <TechStackTag setTechStackRequestData={setTechStack} />
 
       <StLabel htmlFor="residence">거주지</StLabel>
