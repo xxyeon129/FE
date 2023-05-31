@@ -1,14 +1,13 @@
 import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { TiDelete } from 'react-icons/ti';
 
 interface TechStackTagProps {
-  techstackRequestData: string;
   setTechStackRequestData: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TechStackTag = ({ techstackRequestData, setTechStackRequestData }: TechStackTagProps) => {
+const TechStackTag = ({ setTechStackRequestData }: TechStackTagProps) => {
   const [tagArray, setTagArray] = useState<string[]>([]);
   const {
     inputData: tagInputValue,
@@ -39,6 +38,11 @@ const TechStackTag = ({ techstackRequestData, setTechStackRequestData }: TechSta
     tagArray.splice(tagIndexToDelete, 1);
     setTagArray([...tagArray]);
   };
+
+  useEffect(() => {
+    const tagStringData = tagArray.toString();
+    setTechStackRequestData(tagStringData);
+  }, [tagArray]);
 
   return (
     <StTechStackTagContainer>

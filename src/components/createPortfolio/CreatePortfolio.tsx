@@ -97,7 +97,7 @@ const CreatePortfolio = () => {
       <StInput type="text" id="portfolioTitle" onChange={onChangeTitle}></StInput>
 
       <StLabel htmlFor="techstack">기술 스택</StLabel>
-      <TechStackTag techstackRequestData={techstack} setTechStackRequestData={setTechStack} />
+      <TechStackTag setTechStackRequestData={setTechStack} />
 
       <StLabel htmlFor="residence">거주지</StLabel>
       <StInput type="text" id="residence" onChange={onChangeResidence}></StInput>
