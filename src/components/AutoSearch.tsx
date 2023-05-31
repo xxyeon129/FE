@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 // Usequery
 // 딜레이를 줄이기 위한 것 =  디바이스  라이브러리 : lodash
-function AutoSearch() {
+const AutoSearch = () => {
   // 검색어 저장
   const [searchTerm, setSearchTerm] = useState('');
   // 서버에서 받은 검색어 저장
@@ -33,7 +33,7 @@ function AutoSearch() {
         const response = await axios.get(
           `http://3.34.102.60:8080/api/portfolios/search?keyword=${searchTerm}&last-portfolio-id=130&size=10`
         );
-        console.log(response.data.data);
+        console.log(response.data.data.content);
         // Process the response data here
       } catch (error) {
         console.error(error);
@@ -60,6 +60,6 @@ function AutoSearch() {
       )}
     </div>
   );
-}
+};
 
 export default AutoSearch;
