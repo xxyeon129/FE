@@ -4,11 +4,17 @@ import { styled } from 'styled-components';
 interface SelectDropdownProps {
   dropdownOptions: string[];
   selectBarDefaultText: string;
+  selectedOption: string;
+  setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SelectDropdown = ({ dropdownOptions, selectBarDefaultText }: SelectDropdownProps) => {
+const SelectDropdown = ({
+  dropdownOptions,
+  selectBarDefaultText,
+  selectedOption,
+  setSelectedOption,
+}: SelectDropdownProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const onClickSelectBar = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -51,6 +57,11 @@ const StDropdownListContainer = styled.div`
 
 const StDropdownUnorderedList = styled.ul``;
 
-const StDropdownList = styled.li``;
+const StDropdownList = styled.li`
+  cursor: pointer;
+  &:hover {
+    background-color: lightgray;
+  }
+`;
 
 export default SelectDropdown;

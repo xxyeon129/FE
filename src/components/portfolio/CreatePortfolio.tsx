@@ -7,6 +7,7 @@ import SelectDropdown from './SelectDropdown';
 const CreatePortfolio = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
 
   const { inputData: portfolioTitle, onChangeInput: onChangeTitle } = useCreatePortfolioInput();
   const { inputData: telephone, onChangeInput: onChangeTelephone } = useCreatePortfolioInput();
@@ -40,7 +41,7 @@ const CreatePortfolio = () => {
       experience: 'experience',
       youtubeUrl,
       blogUrl,
-      category: 'Design',
+      category,
       filter: 'Graphic',
       projectIdList: [],
     };
@@ -118,6 +119,8 @@ const CreatePortfolio = () => {
       <SelectDropdown
         dropdownOptions={categoryDropdownOptions}
         selectBarDefaultText="--카테고리 선택--"
+        selectedOption={category}
+        setSelectedOption={setCategory}
       />
 
       <StImageContainer>
