@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import StepOneIntro from '@src/components/createPortfolio/createStep/StepOneIntro';
-import StepTwoCategoryFilter from '@src/components/createPortfolio/createStep/StepTwoCategoryFilter';
+import Step01Intro from '@src/components/createPortfolio/createStep/Step01Intro';
+import Step02CategoryFilter from '@src/components/createPortfolio/createStep/Step02CategoryFilter';
 import { STEP } from '@src/constants/createPortfolioConstants';
+import Step03TitleImage from '@src/components/createPortfolio/createStep/Step03TitleImage';
 
 const CreatePortfolio = () => {
   const [step, setStep] = useState(STEP.ONE);
@@ -14,8 +15,9 @@ const CreatePortfolio = () => {
     <>
       {
         {
-          stepOne: <StepOneIntro onNextButtonClick={nextStep} />,
-          stepTwo: <StepTwoCategoryFilter onNextButtonClick={nextStep} />,
+          stepOne: <Step01Intro onNextButtonClick={nextStep} />,
+          stepTwo: <Step02CategoryFilter onNextButtonClick={nextStep} />,
+          stepThree: <Step03TitleImage onNextButtonClick={nextStep} />,
         }[step]
       }
     </>

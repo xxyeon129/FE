@@ -1,12 +1,9 @@
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { styled } from 'styled-components';
 import NextStepButton from '@src/components/common/NextStepButton';
+import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
-interface StepOneProps {
-  onNextButtonClick: (step: string) => void;
-}
-
-const StepOneIntro = ({ onNextButtonClick }: StepOneProps) => {
+const Step01Intro = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const descriptionDetail = [
     {
       id: 1,
@@ -26,7 +23,7 @@ const StepOneIntro = ({ onNextButtonClick }: StepOneProps) => {
   ];
 
   return (
-    <StStepOneContainer>
+    <StStep01Container>
       <StContentContainer>
         <StDescription>
           폴과 함께
@@ -52,11 +49,11 @@ const StepOneIntro = ({ onNextButtonClick }: StepOneProps) => {
           text="시작하기"
         />
       </StButtonContainer>
-    </StStepOneContainer>
+    </StStep01Container>
   );
 };
 
-const StStepOneContainer = styled.div`
+const StStep01Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -114,4 +111,4 @@ const StButtonContainer = styled.div`
   justify-content: right;
 `;
 
-export default StepOneIntro;
+export default Step01Intro;

@@ -5,3 +5,7 @@ export interface PortfolioDataType {
   userProfileImage: string;
   userName: string;
 }
+
+export interface CreatePortfolioStepProps {
+  onNextButtonClick: (step: string) => void;
+}

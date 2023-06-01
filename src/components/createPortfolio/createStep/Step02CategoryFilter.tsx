@@ -6,19 +6,16 @@ import { createCategoryState, createFilterState } from '@src/states/createPortfo
 import PortfolioFilter from '../CreatePortfolioFilter';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import NextStepButton from '@src/components/common/NextStepButton';
+import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
-interface StepTwoProps {
-  onNextButtonClick: (step: string) => void;
-}
-
-const StepTwoCategoryFilter = ({ onNextButtonClick }: StepTwoProps) => {
+const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const [category, setCategory] = useRecoilState(createCategoryState);
   const [filter, setFilter] = useRecoilState(createFilterState);
 
   const categoryDropdownOptions = categoryList.slice(1);
 
   return (
-    <StepTwoContainer>
+    <Step02Container>
       <StTextContainer>
         <StH1TagText>직군과 직무를 선택해주세요</StH1TagText>
         <StDescriptionText>직군 선택 후 직무 확인이 가능합니다.</StDescriptionText>
@@ -45,11 +42,11 @@ const StepTwoCategoryFilter = ({ onNextButtonClick }: StepTwoProps) => {
       <StButtonContainer>
         <NextStepButton onClick={() => onNextButtonClick(STEP.THREE)} />
       </StButtonContainer>
-    </StepTwoContainer>
+    </Step02Container>
   );
 };
 
-const StepTwoContainer = styled.div`
+const Step02Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -86,4 +83,4 @@ const StButtonContainer = styled.div`
   margin-top: 50px;
 `;
 
-export default StepTwoCategoryFilter;
+export default Step02CategoryFilter;
