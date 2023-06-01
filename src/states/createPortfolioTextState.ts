@@ -14,3 +14,9 @@ export const createFilterState = atom<string>({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
+export const createTitleState = atom<string>({
+  key: 'createTitleState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
