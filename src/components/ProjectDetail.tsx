@@ -20,6 +20,20 @@ const ProjectModal: React.FC<{
 }> = ({ showModal, setShowModal }) => {
   const { projectId } = useParams();
   const [isEditable, setIsEditable] = useState(false);
+  const [title, setTitle] = useState<string>('');
+  const [term, setTerm] = useState<string>('');
+  const [people, setPeople] = useState<string>('');
+  const [position, setPosition] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [imageList, setImageList] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  // 에러
+  const [titleError, setTitleError] = useState<string>('');
+  const [termError, setTermError] = useState<string>('');
+  const [peopleError, setPeopleError] = useState<string>('');
+  const [positionError, setPositionError] = useState<string>('');
+  const [descriptionError, setDescriptionError] = useState<string>('');
+
   const handleEdit = () => setIsEditable(!isEditable);
 
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
@@ -28,6 +42,34 @@ const ProjectModal: React.FC<{
   });
 
   const updateProjectMutation = useMutation(async (formData: FormData) => {
+    if (!title) {
+      setTitleError('제목을 입력하세요');
+      return;
+    }
+    if (!term) {
+      setTermError('기간을 입력하세요');
+      return;
+    }
+    if (!people) {
+      setPeopleError('인원을 입력하세요');
+      return;
+    }
+    if (!position) {
+      setPositionError('담당 포지션을 입력하세요');
+      return;
+    }
+    if (!description) {
+      setDescriptionError('설명을 입력하세요');
+      return;
+    }
+    if (title.length < 3 || title.length > 50) {
+      setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
+      return;
+    }
+    if (description.length < 3 || description.length > 50) {
+      setDescriptionError('제목은 3자 이상 50자 이하여야 합니다.');
+      return;
+    }
     await updateProject(formData);
     refetch();
   });
@@ -43,32 +85,29 @@ const ProjectModal: React.FC<{
     }
   }, [data]);
 
-  const [title, setTitle] = useState<string>('');
-  const [term, setTerm] = useState<string>('');
-  const [people, setPeople] = useState<string>('');
-  const [position, setPosition] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [imageList, setImageList] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
-
   const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+    setTitleError('');
   };
 
   const termHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTerm(e.target.value);
+    setTermError('');
   };
 
   const peopleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setPeople(e.target.value);
+    setPeopleError('');
   };
 
   const positionHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setPosition(e.target.value);
+    setPositionError('');
   };
 
   const descriptionHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
+    setDescriptionError('');
   };
 
   const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -115,46 +154,59 @@ const ProjectModal: React.FC<{
           {isEditable ? (
             <>
               <div>
-                <input type="text" value={title} onChange={titleHandler} />
-                <input type="text" value={term} onChange={termHandler} />
-                <input type="text" value={people} onChange={peopleHandler} />
-                <input type="text" value={position} onChange={positionHandler} />
-              </div>
-              <div>
-                <input type="file" onChange={imageHandler} />
                 <div>
                   {previewImages.map((url, index) => (
                     <img key={index} src={url} alt="Preview" />
                   ))}
                 </div>
+                <input type="file" onChange={imageHandler} />
+              </div>
+              <div>
+                <div>
+                  <input type="text" value={title} onChange={titleHandler} />
+                </div>
+                {titleError && <div>{titleError}</div>}
+                <div>
+                  <input type="text" value={term} onChange={termHandler} />
+                </div>
+                {termError && <div>{termError}</div>}
+                <div>
+                  <input type="text" value={people} onChange={peopleHandler} />
+                </div>
+                {peopleError && <div>{peopleError}</div>}
+                <div>
+                  <input type="text" value={position} onChange={positionHandler} />
+                </div>
+                {positionError && <div>{positionError}</div>}
               </div>
               <div>
                 <textarea value={description} onChange={descriptionHandler}></textarea>
               </div>
+              {descriptionError && <div>{descriptionError}</div>}
             </>
           ) : (
             <>
-              <div>{data?.title}</div>
-              <div>{data?.term}</div>
-              <div>{data?.people}</div>
-              <div>{data?.position}</div>
-              <div>{data?.description}</div>
               <div>
                 {data?.projectImageList.map((image: any, index: number) => (
                   <img key={index} src={image.imageUrl} alt="Preview" />
                 ))}
               </div>
+              <div>{data?.title}</div>
+              <div>{data?.term}</div>
+              <div>{data?.people}</div>
+              <div>{data?.position}</div>
+              <div>{data?.description}</div>
             </>
           )}
           {isEditable ? (
             <>
-              <button onClick={handleSubmit}>Save</button>
-              <button onClick={handleEdit}>Cancel</button>
+              <button onClick={handleSubmit}>수정완료</button>
+              <button onClick={handleEdit}>취소</button>
             </>
           ) : (
-            <button onClick={handleEdit}>Edit</button>
+            <button onClick={handleEdit}>수정하기</button>
           )}
-          <button onClick={handleCloseModal}>Close</button>
+          <button onClick={handleCloseModal}>닫기</button>
         </Modal>
       )}
     </>
