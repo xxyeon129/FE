@@ -3,13 +3,13 @@ import { StContainer } from '@src/components/common/createPortfolio/createStepSt
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
-const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step07Link = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   return (
     <StContainer>
-      STEP 4
-      <NextStepButton onClick={() => onNextButtonClick(STEP.FIVE)} />
+      STEP 7
+      <NextStepButton onClick={() => onNextButtonClick(STEP.EIGHT)} />
     </StContainer>
   );
 };
 
-export default Step04PersonalInfo;
+export default Step07Link;
