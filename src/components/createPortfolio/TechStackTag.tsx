@@ -1,67 +1,62 @@
-import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import { SetterOrUpdater } from 'recoil';
 import { TiDelete } from 'react-icons/ti';
 
 interface TechStackTagProps {
-  setTechStackRequestData: SetterOrUpdater<string>;
+  techStack: string[];
+  setTechStack: SetterOrUpdater<string[]>;
 }
 
-const TechStackTag = ({ setTechStackRequestData }: TechStackTagProps) => {
-  const [tagArray, setTagArray] = useState<string[]>([]);
-  const {
-    inputData: tagInputValue,
-    setInputData: setTagInputValue,
-    onChangeInput: onChangeTagInputValue,
-  } = useCreatePortfolioInput();
+const TechStackTag = ({ techStack, setTechStack }: TechStackTagProps) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(() => e.target.value);
+  };
 
   const createTag = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const newTag = event.currentTarget.value;
 
     const pressEnter = event.key === 'Enter';
     const notBlankInput = newTag !== '';
-    const compareTagArray = tagArray.map(tag => tag.toUpperCase());
+    const compareTagArray = techStack.map(tag => tag.toUpperCase());
     const notSameText = !compareTagArray.includes(newTag.toUpperCase());
 
     const isNewTag = pressEnter && notBlankInput && notSameText;
     const isExistTag = pressEnter && !notSameText;
 
     if (isNewTag) {
-      setTagArray([...tagArray, newTag]);
-      setTagInputValue('');
+      setTechStack([...techStack, newTag]);
+      setInputValue('');
     }
 
-    if (isExistTag) setTagInputValue('');
+    if (isExistTag) setInputValue('');
   };
 
   const deleteTag = (tagIndexToDelete: number) => {
-    tagArray.splice(tagIndexToDelete, 1);
-    setTagArray([...tagArray]);
+    techStack.splice(tagIndexToDelete, 1);
+    setTechStack([...techStack]);
   };
-
-  useEffect(() => {
-    const tagStringData = tagArray.toString();
-    setTechStackRequestData(tagStringData);
-  }, [tagArray]);
 
   return (
     <StTechStackTagContainer>
       <StTechStackTagUnorderedList>
-        {tagArray.map((tag, index) => (
-          <StTechStackTagList key={index}>
-            <StTechStackTagText>{tag}</StTechStackTagText>
-            <StTagDeleteIcon onClick={() => deleteTag(index)} />
-          </StTechStackTagList>
-        ))}
+        {techStack.length !== 0 &&
+          techStack.map((tag, index) => (
+            <StTechStackTagList key={index}>
+              <StTechStackTagText>{tag}</StTechStackTagText>
+              <StTagDeleteIcon onClick={() => deleteTag(index)} />
+            </StTechStackTagList>
+          ))}
       </StTechStackTagUnorderedList>
 
       <StTechStackTagInput
         type="text"
         id="techstack"
         onKeyUp={createTag}
-        onChange={onChangeTagInputValue}
-        value={tagInputValue}
+        onChange={onChangeInput}
+        value={inputValue}
         placeholder="입력 후 Enter로 태그를 생성해주세요."
       />
     </StTechStackTagContainer>

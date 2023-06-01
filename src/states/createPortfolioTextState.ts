@@ -45,8 +45,8 @@ export const createLocationState = atom<string>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const createTechStack = atom<string>({
+export const createTechStack = atom<string[]>({
   key: 'createTechStack',
-  default: '',
+  default: [],
   effects_UNSTABLE: [persistAtom],
 });

@@ -20,6 +20,7 @@ const Step08Image = () => {
   const residence = useRecoilValue(createResidenceState);
   const location = useRecoilValue(createLocationState);
   const telephone = useRecoilValue(createTelephoneState);
+  // TODO: array -> string으로 형식 변경해서 서버 요청
   const techStack = useRecoilValue(createTechStack);
   // const projectIdList = useRecoilValue()
   // const experience = useRecoilValue()

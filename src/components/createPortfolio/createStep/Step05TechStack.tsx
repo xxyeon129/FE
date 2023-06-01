@@ -17,7 +17,7 @@ const Step05TechStack = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   return (
     <S.Container>
       <TitleTextLabel title={title} description={description} />
-      <TechStackTag setTechStackRequestData={setTechStack} />
+      <TechStackTag setTechStack={setTechStack} techStack={techStack} />
       <S.ButtonContainer>
         <NextStepButton onClick={() => onNextButtonClick(STEP.SIX)} />
       </S.ButtonContainer>
