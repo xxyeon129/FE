@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { portfolioDataState } from '@src/states/SearchResultsState';
 import { styled } from 'styled-components';
-import { getPage } from '@src/apis/pagenation';
+import { searchPage } from '@src/apis/search';
 import { searchTermState } from '@src/states/SearchResultsState';
 
 const SearchResults = () => {
@@ -10,7 +10,7 @@ const SearchResults = () => {
   const searchTermData = useRecoilValue(searchTermState);
 
   const handlePageButtonClick = async index => {
-    const pageData = await getPage(index, searchTermData);
+    const pageData = await searchPage(index, searchTermData);
     setPortfolioData(pageData);
     console.log(pageData);
   };

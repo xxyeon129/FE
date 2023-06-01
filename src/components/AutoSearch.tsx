@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
-import { getPage } from '@src/apis/pagenation';
+import { search, searchPage } from '@src/apis/search';
 
 const AutoSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,9 +17,7 @@ const AutoSearch = () => {
   useEffect(() => {
     const debounceSearch = debounce(async term => {
       try {
-        const response = await axios.get(
-          `http://3.34.102.60:8080/api/portfolios/autocomplete?keyword=${term}`
-        );
+        const response = await search(1, term);
         setSuggestions(response.data.data);
       } catch (error) {
         console.error(error);
@@ -39,8 +37,8 @@ const AutoSearch = () => {
       if (searchTerm === '') {
         return; // 검색어가 비어있으면 동작하지 않음
       }
-      const portData = await getPage(1, searchTerm);
-      setPortfolioData(portData);
+      const searchPortfolioData = await searchPage(1, searchTerm);
+      setPortfolioData(searchPortfolioData);
       setSearchWords(searchTerm);
       navigate('/searchresults');
     }

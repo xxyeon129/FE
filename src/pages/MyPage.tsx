@@ -129,7 +129,6 @@ function MyPage() {
   // 저장버튼
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(nickname);
     const formData = new FormData();
     const text = JSON.stringify({
       nickname,
@@ -152,78 +151,94 @@ function MyPage() {
     <div>
       {isEditing ? (
         <div>
-          <h1>회원정보 수정</h1>
+          <h1>Mypage</h1>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
-            <input
-              type="text"
-              name="nickname"
-              value={nickname}
-              onChange={handleNicknameChange}
-              placeholder="닉네임"
-            />
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleEmailChange}
-              placeholder="이메일"
-              disabled
-            />
+            <div>
+              {previewImage && <img src={previewImage} alt="Preview" />}
+              <div>
+                <input
+                  type="file"
+                  name="profileImage"
+                  onChange={handleProfileImageChange}
+                  placeholder="프로필 이미지"
+                />
+              </div>
+            </div>
+            <div>
+              <input
+                type="text"
+                name="nickname"
+                value={nickname}
+                onChange={handleNicknameChange}
+                placeholder="닉네임"
+              />
+            </div>
+            <div>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={handleEmailChange}
+                placeholder="이메일"
+                disabled
+              />
+            </div>
             {isEditingPassword && (
               <>
-                <input
-                  type="password"
-                  name="password"
-                  value={oldpassword}
-                  onChange={handleCurrentPasswordChange}
-                  placeholder="현재 비밀번호"
-                />
-                <input
-                  type="password"
-                  name="password"
-                  value={newpassword}
-                  onChange={handlePasswordChange}
-                  placeholder="비밀번호"
-                />
-                <input
-                  type="password"
-                  name="passwordCheck"
-                  value={checknewpassword}
-                  onChange={handlePasswordCheckChange}
-                  placeholder="비밀번호 확인"
-                />
+                <div>
+                  <input
+                    type="password"
+                    name="password"
+                    value={oldpassword}
+                    onChange={handleCurrentPasswordChange}
+                    placeholder="현재 비밀번호"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    name="password"
+                    value={newpassword}
+                    onChange={handlePasswordChange}
+                    placeholder="비밀번호"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    name="passwordCheck"
+                    value={checknewpassword}
+                    onChange={handlePasswordCheckChange}
+                    placeholder="비밀번호 확인"
+                  />
+                </div>
               </>
             )}
             {isEditingPassword ? (
               <>
-                <button onClick={() => setIsEditingPassword(false)}>비밀번호 수정 취소</button>
                 <button onClick={handleSavePassword}>비밀번호 저장</button>
+                <button onClick={() => setIsEditingPassword(false)}>수정 취소</button>
               </>
             ) : (
               <button onClick={handleEditPasswordClick}>비밀번호 수정</button>
             )}
-
-            <input
-              type="file"
-              name="profileImage"
-              onChange={handleProfileImageChange}
-              placeholder="프로필 이미지"
-            />
-            {previewImage && <img src={previewImage} alt="Preview" />}
-            <button type="submit">저장</button>
-            <button type="submit" onClick={handleCloseClick}>
-              닫기
-            </button>
+            <div>
+              <button type="submit">변경 완료</button>
+              <button type="submit" onClick={handleCloseClick}>
+                닫기
+              </button>
+            </div>
           </form>
         </div>
       ) : (
         <div>
+          <div>{data.profileImage && <img src={data.profileImage} alt="Profile" />}</div>
           <h1>{data.nickname}</h1>
           <p>{data.email}</p>
-          <div>{data.profileImage && <img src={data.profileImage} alt="Profile" />}</div>
-
-          <button onClick={handleEditClick}>회원정보수정</button>
-          <button onClick={handleWithdrawalClick}>회원탈퇴</button>
+          <div>
+            <button onClick={handleEditClick}>회원정보수정</button>
+            <button onClick={handleWithdrawalClick}>회원탈퇴</button>
+          </div>
         </div>
       )}
       {showModal && (
