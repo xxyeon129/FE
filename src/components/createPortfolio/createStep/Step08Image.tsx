@@ -6,6 +6,7 @@ import {
   createFilterState,
   createLocationState,
   createResidenceState,
+  createTechStack,
   createTelephoneState,
   createTitleState,
 } from '@src/states';
@@ -19,7 +20,7 @@ const Step08Image = () => {
   const residence = useRecoilValue(createResidenceState);
   const location = useRecoilValue(createLocationState);
   const telephone = useRecoilValue(createTelephoneState);
-  // const techStack = useRecoilValue()
+  const techStack = useRecoilValue(createTechStack);
   // const projectIdList = useRecoilValue()
   // const experience = useRecoilValue()
   // const githubId = useRecoilValue()
@@ -35,6 +36,7 @@ const Step08Image = () => {
       residence,
       location,
       telephone,
+      techStack,
     };
 
     console.log(testObj);

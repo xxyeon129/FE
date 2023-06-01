@@ -1,10 +1,11 @@
 import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import { SetterOrUpdater } from 'recoil';
 import { TiDelete } from 'react-icons/ti';
 
 interface TechStackTagProps {
-  setTechStackRequestData: React.Dispatch<React.SetStateAction<string>>;
+  setTechStackRequestData: SetterOrUpdater<string>;
 }
 
 const TechStackTag = ({ setTechStackRequestData }: TechStackTagProps) => {
@@ -71,7 +72,11 @@ const StTechStackTagContainer = styled.div`
   display: flex;
 
   padding: 1rem;
-  border: 1px solid;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 600px;
+  flex-flow: wrap;
+  gap: 1rem;
 `;
 
 const StTechStackTagUnorderedList = styled.ul`
@@ -99,7 +104,6 @@ const StTagDeleteIcon = styled(TiDelete)`
 const StTechStackTagInput = styled.input`
   border: none;
   width: 220px;
-  margin-left: 10px;
 `;
 
 export default TechStackTag;

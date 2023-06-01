@@ -24,6 +24,8 @@ const StTitle = styled.h1``;
 
 const StDescription = styled.div`
   color: gray;
+  white-space: pre-wrap;
+  line-height: 150%;
 `;
 
 export default TitleTextLabel;
