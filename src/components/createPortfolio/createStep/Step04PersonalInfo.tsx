@@ -1,15 +1,138 @@
+import { styled } from 'styled-components';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
+import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
+import { useRecoilState } from 'recoil';
+import {
+  createEmailState,
+  createLocationState,
+  createResidenceState,
+  createTelephoneState,
+} from '@src/states';
+import useOnChangeInput from '@src/Hook/useOnChangeInput';
 
 const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+  const [email, setEmail] = useRecoilState(createEmailState);
+  const [telephone, setTelephone] = useRecoilState(createTelephoneState);
+  const [residence, setResidence] = useRecoilState(createResidenceState);
+  const [location, setLocation] = useRecoilState(createLocationState);
+
+  const { onChangeInput: onChangeEmail } = useOnChangeInput(setEmail);
+  const { onChangeInput: onChangeTelephone } = useOnChangeInput(setTelephone);
+  const { onChangeInput: onChangeResidence } = useOnChangeInput(setResidence);
+  const { onChangeInput: onChangeLocation } = useOnChangeInput(setLocation);
+
+  const title = '포트폴리오에 표시될 개인 정보를 입력해주세요';
+  const description = '작성하신 정보는 포트폴리오 생성 후 언제든 수정하실 수 있습니다.';
+
   return (
     <StContainer>
-      STEP 4
-      <NextStepButton onClick={() => onNextButtonClick(STEP.FIVE)} />
+      <TitleTextLabel title={title} description={description} />
+      <StInputContainer>
+        <StOutLineDiv>
+          <StInputDescription>email</StInputDescription>
+          <StPersonalInfoInput
+            type="email"
+            value={email}
+            onChange={onChangeEmail}
+            placeholder="포트폴리오에 표시될 email을 입력해주세요."
+          />
+        </StOutLineDiv>
+        <StAdditionalInfomationOutLineDiv>
+          <StAdditionalInfomationItem>
+            <StInputDescription>전화번호</StInputDescription>
+            <StPersonalInfoInput
+              value={telephone}
+              onChange={onChangeTelephone}
+              placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
+            />
+          </StAdditionalInfomationItem>
+          <StAdditionalInfomationItem>
+            <StInputDescription>거주지</StInputDescription>
+            <StPersonalInfoInput
+              value={residence}
+              onChange={onChangeResidence}
+              placeholder="포트폴리오에 표시될 거주지를 입력해주세요."
+            />
+          </StAdditionalInfomationItem>
+          <StAdditionalInfomationItem>
+            <StInputDescription>희망 근무지역</StInputDescription>
+            <StPersonalInfoInput
+              value={location}
+              onChange={onChangeLocation}
+              placeholder="포트폴리오에 표시될 희망 근무지역을 입력해주세요."
+            />
+          </StAdditionalInfomationItem>
+        </StAdditionalInfomationOutLineDiv>
+      </StInputContainer>
+      <StButtonContainer>
+        <NextStepButton onClick={() => onNextButtonClick(STEP.FIVE)} />
+      </StButtonContainer>
     </StContainer>
   );
 };
+
+const StInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+`;
+
+const sharedStyle = `
+  width: 600px;
+  height: 65px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  padding: 10px;
+`;
+
+const StOutLineDiv = styled.div`
+  ${sharedStyle}
+
+  border: 1px solid gray;
+  border-radius: 10px;
+`;
+
+const StAdditionalInfomationOutLineDiv = styled.div`
+  width: 600px;
+  height: 195px;
+  border: 1px solid gray;
+  border-radius: 10px;
+`;
+
+const StAdditionalInfomationItem = styled.div`
+  ${sharedStyle}
+
+  border-bottom: 1px solid gray;
+
+  &:last-child {
+    border: none;
+  }
+`;
+
+const StInputDescription = styled.div`
+  color: gray;
+  font-size: 15px;
+`;
+
+const StPersonalInfoInput = styled.input`
+  height: 100%;
+  border: none;
+
+  &::placeholder {
+    color: #b5b5b5;
+  }
+`;
+
+const StButtonContainer = styled.div`
+  display: flex;
+  justify-content: right;
+  width: 600px;
+  margin-top: 50px;
+`;
 
 export default Step04PersonalInfo;

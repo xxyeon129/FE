@@ -20,3 +20,27 @@ export const createTitleState = atom<string>({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
+export const createEmailState = atom<string>({
+  key: 'createEmailState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createTelephoneState = atom<string>({
+  key: 'createTelephoneState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createResidenceState = atom<string>({
+  key: 'createResidenceState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createLocationState = atom<string>({
+  key: 'createLocationState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
