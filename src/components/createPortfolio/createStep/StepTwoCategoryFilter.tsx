@@ -9,7 +9,7 @@ interface StepTwoProps {
   onNextButtonClick: (step: string) => void;
 }
 
-const StepTwoTitle = ({ onNextButtonClick }: StepTwoProps) => {
+const StepTwoCategoryFilter = ({ onNextButtonClick }: StepTwoProps) => {
   const [category, setCategory] = useRecoilState(createCategoryState);
   const [filter, setFilter] = useRecoilState(createFilterState);
 
@@ -78,4 +78,4 @@ const StDropdownContainer = styled.div``;
 
 const StFilterContainer = styled.div``;
 
-export default StepTwoTitle;
+export default StepTwoCategoryFilter;
