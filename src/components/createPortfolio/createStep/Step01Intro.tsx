@@ -1,6 +1,6 @@
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { styled } from 'styled-components';
-import NextStepButton from '@src/components/common/NextStepButton';
+import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
 const Step01Intro = ({ onNextButtonClick }: CreatePortfolioStepProps) => {

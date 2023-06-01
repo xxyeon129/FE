@@ -5,8 +5,9 @@ import { useRecoilState } from 'recoil';
 import { createCategoryState, createFilterState } from '@src/states/createPortfolioTextState';
 import PortfolioFilter from '../CreatePortfolioFilter';
 import { STEP } from '@src/constants/createPortfolioConstants';
-import NextStepButton from '@src/components/common/NextStepButton';
+import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
+import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 
 const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const [category, setCategory] = useRecoilState(createCategoryState);
@@ -14,12 +15,12 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
 
   const categoryDropdownOptions = categoryList.slice(1);
 
+  const title = '직군과 직무를 선택해주세요';
+  const description = '직군 선택 후 직무 확인이 가능합니다.';
+
   return (
     <Step02Container>
-      <StTextContainer>
-        <StH1TagText>직군과 직무를 선택해주세요</StH1TagText>
-        <StDescriptionText>직군 선택 후 직무 확인이 가능합니다.</StDescriptionText>
-      </StTextContainer>
+      <TitleTextLabel title={title} description={description} />
 
       <StSelectContainer>
         <StDropdownContainer>
@@ -52,18 +53,6 @@ const Step02Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const StTextContainer = styled.div`
-  position: relative;
-  width: 600px;
-  padding-bottom: 50px;
-`;
-
-const StH1TagText = styled.h1``;
-
-const StDescriptionText = styled.div`
-  color: gray;
 `;
 
 const StSelectContainer = styled.div`
