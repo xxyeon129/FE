@@ -9,6 +9,8 @@ import TestPortfolioPage from '@src/pages/TestPortfolioPage';
 import HyoHwan from '@src/pages/HyoHwan';
 import PortfolioDetails from '@src/pages/PortfolioDetails';
 import PortfolioDetailsEdit from '@src/pages/PortfolioDetailsEdit';
+import MyPortfolio from '@src/pages/MyPortfolio';
+import CreatePortfolio from '@src/pages/CreatePortfolio';
 
 const MainRouter = () => {
   return (
@@ -23,6 +25,8 @@ const MainRouter = () => {
           <Route path={PATH_URL.PORTFOLIODETAILEDIT} element={<PortfolioDetailsEdit />} />
           <Route path="/test/portfolio" element={<TestPortfolioPage />} />
           <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
+          <Route path={PATH_URL.MYPORTFOLIO} element={<MyPortfolio />} />
+          <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
         </Routes>
       </Layout>
     </BrowserRouter>
