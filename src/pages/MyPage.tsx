@@ -2,6 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 // api 테스트 완료
 interface UserData {
   nickname: string;
@@ -11,13 +12,15 @@ interface UserData {
 
 function MyPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [data, setData] = useState<UserData>({ nickname: '', email: '', profileImage: '' });
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
+
   // 수정 사항
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [profileImage, setProfileImage] = useState<File>([]);
+  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
 
@@ -43,7 +46,7 @@ function MyPage() {
       .catch(error => {
         console.error(error);
       });
-  }, []);
+  }, [isEditing]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -99,11 +102,12 @@ function MyPage() {
       .delete(`http://3.34.102.60:8080/api/users/20`, {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmRvbmdAbmF2ZXIuY29tIiwidXNlcklkIjoxOCwiZXhwIjoxNjg1NDUyNzM3LCJpYXQiOjE2ODU0NDkxMzd9.JBR-DfFoZTct5Cq7C-JbQzkvcLMZcu9MmVwOJrUf9Rk',
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTYxNTEyNCwiaWF0IjoxNjg1NjExNTI0fQ.Feok7iDHWb54TflioQzF5w3ugTsqSv_qN-t_XGA9dak',
         },
       })
       .then(() => {
         console.log('User account deleted');
+        navigate('/');
       })
       .catch(error => {
         console.error(error);
@@ -144,24 +148,16 @@ function MyPage() {
     const text = JSON.stringify({
       nickname,
     });
-    console.log(text);
-    const profileImageBlob = new Blob([profileImage], { type: 'application/json' });
+
     const nicknameBlob = new Blob([text], { type: 'application/json' });
     formData.append('nickname', nicknameBlob);
-    formData.append('profileImage', profileImageBlob);
-
-    // const formData = new FormData();
-    // formData.append('nickname', nickname);
-
-    // if (profileImage.length > 0) {
-    //   formData.append('profileImage', profileImage[0]);
-    // }
+    profileImage && formData.append('profileImage', profileImage);
 
     axios
       .patch(`http://3.34.102.60:8080/api/users/20`, formData, {
         headers: {
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTQ1MzM1OCwiaWF0IjoxNjg1NDQ5NzU4fQ.jw6irGNJM-w7jNnwFCDv6G5IKKpOKpyNq_OppfPHE8E',
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTYxNTEyNCwiaWF0IjoxNjg1NjExNTI0fQ.Feok7iDHWb54TflioQzF5w3ugTsqSv_qN-t_XGA9dak',
         },
       })
       .then(response => {
