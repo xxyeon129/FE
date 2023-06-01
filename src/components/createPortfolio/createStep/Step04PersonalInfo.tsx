@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState } from 'recoil';
@@ -36,7 +36,7 @@ const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => 
   const description = '작성하신 정보는 포트폴리오 생성 후 언제든 수정하실 수 있습니다.';
 
   return (
-    <StContainer>
+    <S.Container>
       <TitleTextLabel title={title} description={description} />
       <StInputContainer>
         <StEmailContainer>
@@ -78,10 +78,10 @@ const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => 
           </StAdditionalInfomationItem>
         </StAdditionalInfomationOutLineDiv>
       </StInputContainer>
-      <StButtonContainer>
+      <S.ButtonContainer>
         <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidEmail}`} />
-      </StButtonContainer>
-    </StContainer>
+      </S.ButtonContainer>
+    </S.Container>
   );
 };
 
@@ -145,13 +145,6 @@ const StPersonalInfoInput = styled.input`
   &::placeholder {
     color: #b5b5b5;
   }
-`;
-
-const StButtonContainer = styled.div`
-  display: flex;
-  justify-content: right;
-  width: 600px;
-  margin-top: 50px;
 `;
 
 export default Step04PersonalInfo;

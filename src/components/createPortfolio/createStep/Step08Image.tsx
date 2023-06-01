@@ -1,5 +1,5 @@
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
-import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import {
   createCategoryState,
   createEmailState,
@@ -43,10 +43,10 @@ const Step08Image = () => {
   };
 
   return (
-    <StContainer>
+    <S.Container>
       STEP 8
       <NextStepButton onClick={onSubmitData} />
-    </StContainer>
+    </S.Container>
   );
 };
 

@@ -4,7 +4,7 @@ import { categoryList } from '@src/constants/portfolioFilteringData';
 import { createCategoryState, createFilterState } from '@src/states/createPortfolioTextState';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
-import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import SelectDropdown from '../CreateSelectDropdown';
@@ -27,7 +27,7 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
   const description = '직군 선택 후 직무 확인이 가능합니다.';
 
   return (
-    <StContainer>
+    <S.Container>
       <TitleTextLabel title={title} description={description} />
 
       <StSelectContainer>
@@ -48,10 +48,10 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
           />
         </StFilterContainer>
       </StSelectContainer>
-      <StButtonContainer>
+      <S.ButtonContainer>
         <NextStepButton onClick={onClickButton} notAllowed={`${!isAllSelected}`} />
-      </StButtonContainer>
-    </StContainer>
+      </S.ButtonContainer>
+    </S.Container>
   );
 };
 
@@ -64,12 +64,5 @@ const StSelectContainer = styled.div`
 const StDropdownContainer = styled.div``;
 
 const StFilterContainer = styled.div``;
-
-const StButtonContainer = styled.div`
-  display: flex;
-  justify-content: right;
-  width: 600px;
-  margin-top: 50px;
-`;
 
 export default Step02CategoryFilter;

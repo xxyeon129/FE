@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { createTitleState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
@@ -25,16 +25,16 @@ const Step03Title = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const description = '작성하신 제목은 나중에 수정하실 수 있습니다.';
 
   return (
-    <StContainer>
+    <S.Container>
       <TitleTextLabel title={title} description={description} />
       <StInputContainer>
         <StInput value={portfolioTitle} onChange={onChangeInput} />
         {isInvalidTitle && <StErrorMessage>{errorMessage}</StErrorMessage>}
       </StInputContainer>
-      <StButtonContainer>
+      <S.ButtonContainer>
         <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidTitle}`} />
-      </StButtonContainer>
-    </StContainer>
+      </S.ButtonContainer>
+    </S.Container>
   );
 };
 
@@ -59,13 +59,6 @@ const StErrorMessage = styled.div`
   margin: 8px 0 0 5px;
   font-size: 15px;
   color: red;
-`;
-
-const StButtonContainer = styled.div`
-  display: flex;
-  justify-content: right;
-  width: 600px;
-  margin-top: 50px;
 `;
 
 export default Step03Title;
