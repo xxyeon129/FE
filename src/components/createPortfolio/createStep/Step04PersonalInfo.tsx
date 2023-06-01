@@ -12,6 +12,7 @@ import {
   createTelephoneState,
 } from '@src/states';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
+import { validateEmail } from '@src/components/common/createPortfolio/validator';
 
 const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const [email, setEmail] = useRecoilState(createEmailState);
@@ -24,6 +25,13 @@ const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => 
   const { onChangeInput: onChangeResidence } = useOnChangeInput(setResidence);
   const { onChangeInput: onChangeLocation } = useOnChangeInput(setLocation);
 
+  const [isInvalidEmail, errorMessage] = validateEmail(email);
+
+  const onClickButton = () => {
+    if (isInvalidEmail) return;
+    onNextButtonClick(STEP.FIVE);
+  };
+
   const title = '포트폴리오에 표시될 개인 정보를 입력해주세요';
   const description = '작성하신 정보는 포트폴리오 생성 후 언제든 수정하실 수 있습니다.';
 
@@ -31,15 +39,18 @@ const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => 
     <StContainer>
       <TitleTextLabel title={title} description={description} />
       <StInputContainer>
-        <StOutLineDiv>
-          <StInputDescription>email</StInputDescription>
-          <StPersonalInfoInput
-            type="email"
-            value={email}
-            onChange={onChangeEmail}
-            placeholder="포트폴리오에 표시될 email을 입력해주세요."
-          />
-        </StOutLineDiv>
+        <StEmailContainer>
+          <StOutLineDiv>
+            <StInputDescription>email</StInputDescription>
+            <StPersonalInfoInput
+              type="email"
+              value={email}
+              onChange={onChangeEmail}
+              placeholder="포트폴리오에 표시될 email을 입력해주세요."
+            />
+          </StOutLineDiv>
+          {isInvalidEmail && <StErrorMessage>{errorMessage}</StErrorMessage>}
+        </StEmailContainer>
         <StAdditionalInfomationOutLineDiv>
           <StAdditionalInfomationItem>
             <StInputDescription>전화번호</StInputDescription>
@@ -68,7 +79,7 @@ const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => 
         </StAdditionalInfomationOutLineDiv>
       </StInputContainer>
       <StButtonContainer>
-        <NextStepButton onClick={() => onNextButtonClick(STEP.FIVE)} />
+        <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidEmail}`} />
       </StButtonContainer>
     </StContainer>
   );
@@ -77,8 +88,10 @@ const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => 
 const StInputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 `;
+
+const StEmailContainer = styled.div``;
 
 const sharedStyle = `
   width: 600px;
@@ -95,6 +108,12 @@ const StOutLineDiv = styled.div`
 
   border: 1px solid gray;
   border-radius: 10px;
+`;
+
+const StErrorMessage = styled.div`
+  margin: 8px 0 0 5px;
+  font-size: 15px;
+  color: red;
 `;
 
 const StAdditionalInfomationOutLineDiv = styled.div`

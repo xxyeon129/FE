@@ -14,7 +14,14 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
   const [category, setCategory] = useRecoilState(createCategoryState);
   const [filter, setFilter] = useRecoilState(createFilterState);
 
+  const isAllSelected = category.length !== 0 && filter.length !== 0;
+
   const categoryDropdownOptions = categoryList.slice(1);
+
+  const onClickButton = () => {
+    if (!isAllSelected) return;
+    onNextButtonClick(STEP.THREE);
+  };
 
   const title = '직군과 직무를 선택해주세요';
   const description = '직군 선택 후 직무 확인이 가능합니다.';
@@ -42,7 +49,7 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
         </StFilterContainer>
       </StSelectContainer>
       <StButtonContainer>
-        <NextStepButton onClick={() => onNextButtonClick(STEP.THREE)} />
+        <NextStepButton onClick={onClickButton} notAllowed={`${!isAllSelected}`} />
       </StButtonContainer>
     </StContainer>
   );

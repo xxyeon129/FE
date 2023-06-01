@@ -4,17 +4,23 @@ interface NextStepButtonProps {
   marginRight?: string;
   onClick: () => void;
   text?: string;
+  notAllowed?: string;
 }
 
-const NextStepButton = ({ marginRight = '0px', onClick, text = '다음' }: NextStepButtonProps) => {
+const NextStepButton = ({
+  marginRight = '0px',
+  onClick,
+  text = '다음',
+  notAllowed = 'false',
+}: NextStepButtonProps) => {
   return (
-    <StButton marginright={marginRight} onClick={onClick}>
+    <StButton marginright={marginRight} onClick={onClick} notallowed={notAllowed}>
       {text}
     </StButton>
   );
 };
 
-const StButton = styled.button<{ marginright: string }>`
+const StButton = styled.button<{ marginright: string; notallowed: string }>`
   max-width: 120px;
   padding: 15px 25px;
   border-radius: 10px;
@@ -23,11 +29,13 @@ const StButton = styled.button<{ marginright: string }>`
 
   background-color: ${({ theme }) => theme.color.neonGreen};
 
-  &:hover {
+  &:not([notallowed='true']):hover {
     transition: 0.5s;
     background-color: ${({ theme }) => theme.color.lightGreen};
     color: white;
   }
+
+  cursor: ${({ notallowed }) => notallowed === 'true' && 'not-allowed'};
 `;
 
 export default NextStepButton;
