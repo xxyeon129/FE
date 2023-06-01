@@ -2,17 +2,13 @@ import { CATEGORY_KEYWORD, filterListObject } from '@src/constants/portfolioFilt
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
-interface CreatePortfolioProps {
+interface PortfolioFilterProps {
   category: string;
   selectedFilter: string;
   setSelectedFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CreatePortfolioFilter = ({
-  category,
-  selectedFilter,
-  setSelectedFilter,
-}: CreatePortfolioProps) => {
+const PortfolioFilter = ({ category, selectedFilter, setSelectedFilter }: PortfolioFilterProps) => {
   const [filterList, setFilterList] = useState<string[]>([]);
   const [isSelectCategory, setIsSelectCategory] = useState(false);
 
@@ -64,9 +60,12 @@ const CreatePortfolioFilter = ({
 };
 
 const StFilterListContainer = styled.div`
-  padding: 1rem;
-  border: 1px solid;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 20px;
+
   display: flex;
+  justify-content: center;
   gap: 1rem;
 `;
 
@@ -75,7 +74,7 @@ const StNoCategoryText = styled.div`
 `;
 
 const StFilterButton = styled.button<{ isselected: string }>`
-  border: ${({ isselected }) => (isselected === 'true' ? '2px solid' : '1px solid gray')};
+  outline: ${({ isselected }) => (isselected === 'true' ? '2px solid' : '1px solid gray')};
 `;
 
-export default CreatePortfolioFilter;
+export default PortfolioFilter;

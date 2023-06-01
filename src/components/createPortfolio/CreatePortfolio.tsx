@@ -2,7 +2,7 @@ import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
 import { createPortfolio } from '@src/apis/portfolio';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import SelectDropdown from './SelectDropdown';
+import SelectDropdown from './CreateSelectDropdown';
 import CreatePortfolioFilter from './CreatePortfolioFilter';
 import { categoryList } from '@src/constants/portfolioFilteringData';
 import TechStackTag from './TechStackTag';

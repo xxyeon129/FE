@@ -2,8 +2,8 @@ import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
 import { createPortfolio } from '@src/apis/portfolio';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import SelectDropdown from './SelectDropdown';
-import CreatePortfolioFilter from './CreatePortfolioFilter';
+import SelectDropdown from './CreateSelectDropdown';
+import PortfolioFilter from './CreatePortfolioFilter';
 import { categoryList } from '@src/constants/portfolioFilteringData';
 import TechStackTag from './TechStackTag';
 import TestCreateProjectModal from './TestCreateProjectModal';
@@ -162,11 +162,7 @@ const CreatePortfolio = () => {
       />
 
       <StLabel htmlFor="filter">Filter</StLabel>
-      <CreatePortfolioFilter
-        category={category}
-        selectedFilter={filter}
-        setSelectedFilter={setFilter}
-      />
+      <PortfolioFilter category={category} selectedFilter={filter} setSelectedFilter={setFilter} />
 
       <StLabel htmlFor="project">Projects</StLabel>
       <StProjectsContainer>
