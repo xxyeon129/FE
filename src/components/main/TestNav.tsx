@@ -28,6 +28,10 @@ const StCategoryContainer = styled.div`
   flex-direction: column;
   padding-right: 1rem;
   gap: 0.5rem;
+
+  width: 260px;
+  height: 100vh;
+  padding: 25px;
 `;
 
 const StCategoryLabel = styled.div`
