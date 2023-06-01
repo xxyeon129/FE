@@ -1,6 +1,7 @@
 import useCreatePortfolioInput from '@src/Hook/useCreatePortfolioInput';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
+import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { createTitleState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
@@ -20,23 +21,15 @@ const Step03Title = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const description = '작성하신 제목은 나중에 수정하실 수 있습니다.';
 
   return (
-    <StStep03Container>
+    <StContainer>
       <TitleTextLabel title={title} description={description} />
       <StInput value={inputData} onChange={onChangeInput} />
       <StButtonContainer>
         <NextStepButton onClick={onClickNextButton} />
       </StButtonContainer>
-    </StStep03Container>
+    </StContainer>
   );
 };
-
-const StStep03Container = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 const StInput = styled.input`
   border-radius: 10px;

@@ -8,6 +8,7 @@ import { STEP } from '@src/constants/createPortfolioConstants';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
+import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
 
 const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const [category, setCategory] = useRecoilState(createCategoryState);
@@ -19,7 +20,7 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
   const description = '직군 선택 후 직무 확인이 가능합니다.';
 
   return (
-    <Step02Container>
+    <StContainer>
       <TitleTextLabel title={title} description={description} />
 
       <StSelectContainer>
@@ -43,17 +44,9 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
       <StButtonContainer>
         <NextStepButton onClick={() => onNextButtonClick(STEP.THREE)} />
       </StButtonContainer>
-    </Step02Container>
+    </StContainer>
   );
 };
-
-const Step02Container = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 const StSelectContainer = styled.div`
   display: flex;
