@@ -5,21 +5,21 @@ import GitHubCalendar from 'react-github-calendar';
 import { ReactTinyLink } from 'react-tiny-link';
 
 function PortfolioDetails() {
-  const [portfolioTitle, setPortfolioTitle] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [location, setLocation] = useState('');
-  const [residence, setResidence] = useState('');
-  const [telephone, setTelephone] = useState('');
-  const [experience, setExperience] = useState('');
+  const [portfolioTitle, setPortfolioTitle] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
+  const [residence, setResidence] = useState<string>('');
+  const [telephone, setTelephone] = useState<string>('');
+  const [experience, setExperience] = useState<string>('');
   const [techStack, setTechStack] = useState([]);
-  const [githubId, setGithubId] = useState('');
-  const [youtube, setYoutube] = useState('');
-  const [blog, setBlog] = useState('');
-  const [projectList, setProjectList] = useState([1, 2, 3]);
-  const [portEdit, setPortEdit] = useState(false);
-  const [category, setCategory] = useState('');
-  const [filter, setFilter] = useState('');
+  const [githubId, setGithubId] = useState<string>('');
+  const [youtube, setYoutube] = useState<string>('');
+  const [blog, setBlog] = useState<string>('');
+  const [projectList, setProjectList] = useState([]);
+  const [portEdit, setPortEdit] = useState<boolean>(false);
+  const [category, setCategory] = useState<string>('');
+  const [filter, setFilter] = useState<string>('');
   const [portfolioImage, setPortfolioImage] = useState(null);
   const navigate = useNavigate();
 
@@ -27,11 +27,26 @@ function PortfolioDetails() {
     getMyPortfolio();
   }, []);
 
-  const portfolioId = 110;
+  console.log(projectList);
+
+  const portfolioId = 132;
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
     console.log(response.data.data);
+
+    //프로젝트 데이터 추출 부분 진행중
+    // const projectListData = response.data.data.projectList;
+
+    // const extractedProjectList = projectListData.map(item => ({
+    //   id: item.id,
+    //   title: item.title,
+    //   term: item.term,
+    //   people: item.people,
+    //   position: item.position,
+    // }));
+
+    // setProjectList(extractedProjectList);
 
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
@@ -42,7 +57,10 @@ function PortfolioDetails() {
     setTechStack(response.data.data.techStack.split(','));
     setGithubId(response.data.data.githubId);
     setBlog(response.data.data.blogUrl);
+    // setNewImage(response.data.data.portfolioImage);
   };
+
+  console.log('projectList : ', projectList);
 
   const PortfolioEdit = async () => {
     const accessToken = localStorage.getItem('accesstoken');
@@ -128,6 +146,18 @@ function PortfolioDetails() {
     setPortfolioImage(file);
   };
 
+  const onYoutubeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setYoutube(e.target.value);
+  };
+
+  const onBlogHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBlog(e.target.value);
+  };
+
+  const onGithubHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGithubId(e.target.value);
+  };
+
   return (
     <>
       <div>
@@ -169,6 +199,19 @@ function PortfolioDetails() {
                 <label htmlFor="image">이미지:</label>
                 <input type="file" id="image" onChange={onImageUpload} />
               </div>
+              <div>
+                <label htmlFor="youtube">유튜브:</label>
+                <input type="text" id="youtube" value={youtube} onChange={onYoutubeHandler} />
+              </div>
+              <div>
+                <label htmlFor="blog">블로그:</label>
+                <input type="text" id="blog" value={blog} onChange={onBlogHandler} />
+              </div>
+              <div>
+                <label htmlFor="github">GitHub:</label>
+                <input type="text" id="github" value={githubId} onChange={onGithubHandler} />
+              </div>
+
               <button onClick={onPortfolioUpdate}>수정완료</button>
             </div>
           ) : (
@@ -184,8 +227,11 @@ function PortfolioDetails() {
                   <div key={index}>{item}</div>
                 ))}
               </div>
+              <div>{/* <img src={portfolioImage} alt="" /> */}</div>
               <div>
-                <GitHubCalendar username="HyoHwanKim" />
+                {/* <GitHubCalendar username={githubId} /> */}
+                {/* <img src="https://ghchart.rshah.org/HyoHwanKim" alt="GitHub Contributions" /> */}
+                <img src={`https://ghchart.rshah.org/${githubId}`} alt="GitHub Contributions" />
               </div>
               <div>
                 {/* 프로젝트 리스트 출력 */}
