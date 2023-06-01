@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
-import { createProject } from '../apis/ProjectApi';
+import { createProject } from '@src/apis/ProjectApi';
+import { error } from 'console';
 // 프로젝트 작성
 const CreateProject: React.FC<{
   showModal1: boolean;
@@ -16,31 +17,43 @@ const CreateProject: React.FC<{
   const [description, setDescription] = useState<string>('');
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+  // error message
+  const [titleError, setTitleError] = useState<string>('');
+  const [termError, setTermError] = useState<string>('');
+  const [peopleError, setPeopleError] = useState<string>('');
+  const [positionError, setPositionError] = useState<string>('');
+  const [descriptionError, setDescriptionError] = useState<string>('');
 
   const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+    setTitleError('');
   };
 
   const termHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTerm(e.target.value);
+    setTermError('');
   };
 
   const peopleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setPeople(e.target.value);
+    setPeopleError('');
   };
 
   const positionHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setPosition(e.target.value);
+    setPositionError('');
   };
 
   const descriptionHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
+    setDescriptionError('');
   };
 
-  const imagehandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
       setImageList(fileList);
+      console.log(fileList);
 
       const previewURLs = fileList.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
@@ -48,6 +61,31 @@ const CreateProject: React.FC<{
   };
 
   const mutation = useMutation(async () => {
+    if (title.length < 3 || title.length > 50) {
+      setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
+      return;
+    }
+    if (!title) {
+      setTitleError('제목을 입력하세요');
+      return;
+    }
+    if (!term) {
+      setTermError('기간을 입력하세요');
+      return;
+    }
+    if (!people) {
+      setPeopleError('인원을 입력하세요');
+      return;
+    }
+    if (!position) {
+      setPositionError('담당 포지션을 입력하세요');
+      return;
+    }
+    if (!description) {
+      setDescriptionError('설명을 입력하세요');
+      return;
+    }
+
     const formData = new FormData();
     const imageBlob = new Blob(imageList);
     const text = JSON.stringify({
@@ -59,7 +97,7 @@ const CreateProject: React.FC<{
     });
     const textBlob = new Blob([text], { type: 'application/json' });
     formData.append('projectRequestDto', textBlob);
-    formData.append('images', imageBlob);
+    formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
     return createProject(formData);
   });
 
@@ -76,25 +114,38 @@ const CreateProject: React.FC<{
       {showModal1 && (
         <Modal>
           <div>
-            <input type="text" value={title} onChange={titleHandler} />
-            <input type="text" value={term} onChange={termHandler} />
-            <input type="text" value={people} onChange={peopleHandler} />
-            <input type="text" value={position} onChange={positionHandler} />
+            <div>
+              <input type="text" value={title} onChange={titleHandler} />
+            </div>
+            {titleError && <div>{titleError}</div>}
+            <div>
+              <input type="text" value={term} onChange={termHandler} />
+            </div>
+            {termError && <div>{termError}</div>}
+            <div>
+              <input type="text" value={people} onChange={peopleHandler} />
+            </div>
+            {peopleError && <div>{peopleError}</div>}
+            <div>
+              <input type="text" value={position} onChange={positionHandler} />
+            </div>
+            {positionError && <div>{positionError}</div>}
           </div>
           <div>
-            <input type="file" onChange={imagehandler}></input>
-            <div>
-              {previewImages.map((url, index) => (
-                <img key={index} src={url} alt="프리뷰" />
-              ))}
-            </div>
+            <input type="file" onChange={imageHandler}></input>
           </div>
-
+          <div>
+            {previewImages.map((url, index) => (
+              <img key={index} src={url} alt="프리뷰" />
+            ))}
+          </div>
           <div>
             <textarea value={description} onChange={descriptionHandler}></textarea>
+            {descriptionError && <div>{descriptionError}</div>}
           </div>
-          <button onClick={handleSubmit}>등록</button>
-          <button onClick={handleCloseModal}>닫기</button>
+          <button onClick={handleSubmit}>작성완료</button>
+          <button onClick={handleCloseModal}>뒤로가기</button>
+          {descriptionError && <div>{descriptionError}</div>}
         </Modal>
       )}
     </>
