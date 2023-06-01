@@ -6,4 +6,8 @@ export const PATH_URL = {
   HYO: 'hyo',
   PORTFOLIODETAIL: '/portdetail',
   PORTFOLIODETAILEDIT: '/portedit',
+  PROJECT: '/project/',
+  MYPAGE: `/mypage/:id`,
 };
+
+export const SERVER_URL = import.meta.env.VITE_API_URL;
