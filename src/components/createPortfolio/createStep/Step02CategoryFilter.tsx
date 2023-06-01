@@ -1,14 +1,14 @@
 import { styled } from 'styled-components';
-import SelectDropdown from '../CreateSelectDropdown';
-import { categoryList } from '@src/constants/portfolioFilteringData';
 import { useRecoilState } from 'recoil';
+import { categoryList } from '@src/constants/portfolioFilteringData';
 import { createCategoryState, createFilterState } from '@src/states/createPortfolioTextState';
-import PortfolioFilter from '../CreatePortfolioFilter';
 import { STEP } from '@src/constants/createPortfolioConstants';
-import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
-import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import { StContainer } from '@src/components/common/createPortfolio/createStepStyles';
+import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
+import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
+import SelectDropdown from '../CreateSelectDropdown';
+import PortfolioFilter from '../CreatePortfolioFilter';
 
 const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const [category, setCategory] = useRecoilState(createCategoryState);

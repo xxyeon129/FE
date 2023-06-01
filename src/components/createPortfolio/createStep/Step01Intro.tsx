@@ -1,5 +1,5 @@
-import { STEP } from '@src/constants/createPortfolioConstants';
 import { styled } from 'styled-components';
+import { STEP } from '@src/constants/createPortfolioConstants';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
