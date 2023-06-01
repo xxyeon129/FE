@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
+
 // api 테스트 완료
 interface UserData {
   nickname: string;
@@ -98,7 +99,7 @@ function MyPage() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-  // 회원 탈퇴
+
   const handleWithdrawal = async () => {
     try {
       await deleteUser();
@@ -129,6 +130,7 @@ function MyPage() {
   // 저장버튼
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(nickname);
     const formData = new FormData();
     const text = JSON.stringify({
       nickname,
@@ -151,18 +153,16 @@ function MyPage() {
     <div>
       {isEditing ? (
         <div>
-          <h1>Mypage</h1>
+          <h1>회원정보 수정</h1>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
+            {previewImage && <img src={previewImage} alt="Preview" />}
             <div>
-              {previewImage && <img src={previewImage} alt="Preview" />}
-              <div>
-                <input
-                  type="file"
-                  name="profileImage"
-                  onChange={handleProfileImageChange}
-                  placeholder="프로필 이미지"
-                />
-              </div>
+              <input
+                type="file"
+                name="profileImage"
+                onChange={handleProfileImageChange}
+                placeholder="프로필 이미지"
+              />
             </div>
             <div>
               <input
@@ -216,14 +216,14 @@ function MyPage() {
             )}
             {isEditingPassword ? (
               <>
+                <button onClick={() => setIsEditingPassword(false)}>비밀번호 수정 취소</button>
                 <button onClick={handleSavePassword}>비밀번호 저장</button>
-                <button onClick={() => setIsEditingPassword(false)}>수정 취소</button>
               </>
             ) : (
               <button onClick={handleEditPasswordClick}>비밀번호 수정</button>
             )}
             <div>
-              <button type="submit">변경 완료</button>
+              <button type="submit">저장</button>
               <button type="submit" onClick={handleCloseClick}>
                 닫기
               </button>
@@ -235,10 +235,9 @@ function MyPage() {
           <div>{data.profileImage && <img src={data.profileImage} alt="Profile" />}</div>
           <h1>{data.nickname}</h1>
           <p>{data.email}</p>
-          <div>
-            <button onClick={handleEditClick}>회원정보수정</button>
-            <button onClick={handleWithdrawalClick}>회원탈퇴</button>
-          </div>
+
+          <button onClick={handleEditClick}>회원정보수정</button>
+          <button onClick={handleWithdrawalClick}>회원탈퇴</button>
         </div>
       )}
       {showModal && (
