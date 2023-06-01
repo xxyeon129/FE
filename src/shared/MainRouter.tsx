@@ -22,7 +22,7 @@ const MainRouter = () => {
         <Route path={PATH_URL.PORTFOLIODETAIL} element={<PortfolioDetails />} />
         <Route path={PATH_URL.PORTFOLIODETAILEDIT} element={<PortfolioDetailsEdit />} />
         <Route path="/test/portfolio" element={<TestPortfolioPage />} />
-          <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
+        <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
       </Routes>
     </BrowserRouter>
   );
