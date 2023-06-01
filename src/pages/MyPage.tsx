@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 // api 테스트 완료
 interface UserData {
   nickname: string;
@@ -34,18 +35,20 @@ function MyPage() {
   };
   // 회원 조회
   useEffect(() => {
-    axios
-      .get(`http://3.34.102.60:8080/api/users/20`)
-      .then(response => {
-        setData(response.data.data);
-        setNickname(response.data.data.nickname);
-        setEmail(response.data.data.email);
-        setPreviewImage(response.data.data.profileImage);
-        console.log(response.data.data);
-      })
-      .catch(error => {
+    const fetchData = async () => {
+      try {
+        const userData = await getUser();
+        setData(userData);
+        setNickname(userData.nickname);
+        setEmail(userData.email);
+        setPreviewImage(userData.profileImage);
+        console.log(userData);
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+
+    fetchData();
   }, [isEditing]);
 
   const handleEditClick = () => {
@@ -95,53 +98,36 @@ function MyPage() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
   // 회원 탈퇴
-  const handleWithdrawal = () => {
-    axios
-      .delete(`http://3.34.102.60:8080/api/users/20`, {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTYxNTEyNCwiaWF0IjoxNjg1NjExNTI0fQ.Feok7iDHWb54TflioQzF5w3ugTsqSv_qN-t_XGA9dak',
-        },
-      })
-      .then(() => {
-        console.log('User account deleted');
-        navigate('/');
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
+  const handleWithdrawal = async () => {
+    try {
+      await deleteUser();
+      console.log('User account deleted');
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
     setShowModal(false);
   };
 
   // 비밀번호 수정
-  const handleSavePassword = () => {
+  const handleSavePassword = async () => {
     const passwordData = {
       oldPassword: oldpassword,
       newPassword: newpassword,
       checkNewPassword: checknewpassword,
     };
 
-    axios
-      .put(`http://3.34.102.60:8080/api/users/20/password`, passwordData, {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTQ1MzM1OCwiaWF0IjoxNjg1NDQ5NzU4fQ.jw6irGNJM-w7jNnwFCDv6G5IKKpOKpyNq_OppfPHE8E',
-        },
-      })
-
-      .then(response => {
-        console.log('Password updated successfully');
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    try {
+      await updatePassword(passwordData);
+      console.log('Password updated successfully');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // 저장버튼
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log(nickname);
     const formData = new FormData();
@@ -153,20 +139,13 @@ function MyPage() {
     formData.append('nickname', nicknameBlob);
     profileImage && formData.append('profileImage', profileImage);
 
-    axios
-      .patch(`http://3.34.102.60:8080/api/users/20`, formData, {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlaGRkanMyMTY3QG5hdmVyLmNvbSIsInVzZXJJZCI6MjAsImV4cCI6MTY4NTYxNTEyNCwiaWF0IjoxNjg1NjExNTI0fQ.Feok7iDHWb54TflioQzF5w3ugTsqSv_qN-t_XGA9dak',
-        },
-      })
-      .then(response => {
-        setData(response.data);
-        setIsEditing(false);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    try {
+      const response = await updateUser(formData);
+      setData(response);
+      setIsEditing(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
