@@ -4,6 +4,8 @@ import { categoryList } from '@src/constants/portfolioFilteringData';
 import { useRecoilState } from 'recoil';
 import { createCategoryState, createFilterState } from '@src/states/createPortfolioTextState';
 import PortfolioFilter from '../CreatePortfolioFilter';
+import { STEP } from '@src/constants/createPortfolioConstants';
+import NextStepButton from '@src/components/common/NextStepButton';
 
 interface StepTwoProps {
   onNextButtonClick: (step: string) => void;
@@ -40,6 +42,9 @@ const StepTwoCategoryFilter = ({ onNextButtonClick }: StepTwoProps) => {
           />
         </StFilterContainer>
       </StSelectContainer>
+      <StButtonContainer>
+        <NextStepButton onClick={() => onNextButtonClick(STEP.THREE)} />
+      </StButtonContainer>
     </StepTwoContainer>
   );
 };
@@ -50,16 +55,12 @@ const StepTwoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  /* TEST CODE */
-  /* background-color: lightblue; */
 `;
 
 const StTextContainer = styled.div`
   position: relative;
   width: 600px;
   padding-bottom: 50px;
-  /* background-color: lightcoral; */
 `;
 
 const StH1TagText = styled.h1``;
@@ -77,5 +78,12 @@ const StSelectContainer = styled.div`
 const StDropdownContainer = styled.div``;
 
 const StFilterContainer = styled.div``;
+
+const StButtonContainer = styled.div`
+  display: flex;
+  justify-content: right;
+  width: 600px;
+  margin-top: 50px;
+`;
 
 export default StepTwoCategoryFilter;

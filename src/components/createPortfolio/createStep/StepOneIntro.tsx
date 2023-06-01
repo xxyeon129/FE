@@ -1,5 +1,6 @@
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { styled } from 'styled-components';
+import NextStepButton from '@src/components/common/NextStepButton';
 
 interface StepOneProps {
   onNextButtonClick: (step: string) => void;
@@ -45,7 +46,11 @@ const StepOneIntro = ({ onNextButtonClick }: StepOneProps) => {
         </StDetailContainer>
       </StContentContainer>
       <StButtonContainer>
-        <StNextStepButton onClick={() => onNextButtonClick(STEP.TWO)}>시작하기</StNextStepButton>
+        <NextStepButton
+          onClick={() => onNextButtonClick(STEP.TWO)}
+          marginRight="70px"
+          text="시작하기"
+        />
       </StButtonContainer>
     </StStepOneContainer>
   );
@@ -107,22 +112,6 @@ const StDetailText = styled.div`
 const StButtonContainer = styled.div`
   display: flex;
   justify-content: right;
-`;
-
-const StNextStepButton = styled.button`
-  max-width: 120px;
-  padding: 15px 25px;
-  border-radius: 10px;
-  font-weight: bold;
-  margin-right: 70px;
-
-  background-color: ${({ theme }) => theme.color.neonGreen};
-
-  &:hover {
-    transition: 0.5s;
-    background-color: ${({ theme }) => theme.color.lightGreen};
-    color: white;
-  }
 `;
 
 export default StepOneIntro;
