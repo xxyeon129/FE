@@ -17,7 +17,7 @@ const CreateProject: React.FC<{
   const [description, setDescription] = useState<string>('');
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
-  // error message
+  // 에러
   const [titleError, setTitleError] = useState<string>('');
   const [termError, setTermError] = useState<string>('');
   const [peopleError, setPeopleError] = useState<string>('');
@@ -61,10 +61,6 @@ const CreateProject: React.FC<{
   };
 
   const mutation = useMutation(async () => {
-    if (title.length < 3 || title.length > 50) {
-      setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
-      return;
-    }
     if (!title) {
       setTitleError('제목을 입력하세요');
       return;
@@ -83,6 +79,14 @@ const CreateProject: React.FC<{
     }
     if (!description) {
       setDescriptionError('설명을 입력하세요');
+      return;
+    }
+    if (title.length < 3 || title.length > 50) {
+      setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
+      return;
+    }
+    if (description.length < 3 || description.length > 50) {
+      setDescriptionError('제목은 3자 이상 50자 이하여야 합니다.');
       return;
     }
 
@@ -145,7 +149,6 @@ const CreateProject: React.FC<{
           </div>
           <button onClick={handleSubmit}>작성완료</button>
           <button onClick={handleCloseModal}>뒤로가기</button>
-          {descriptionError && <div>{descriptionError}</div>}
         </Modal>
       )}
     </>
