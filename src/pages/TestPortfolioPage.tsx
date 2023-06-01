@@ -1,4 +1,4 @@
-import CreatePortfolio from '@src/components/createPortfolio/CreatePortfolio';
+import CreatePortfolio from '@src/components/createPortfolio/CreatePortfolioDefault';
 
 const TestPortfolioPage = () => {
   return <CreatePortfolio />;
