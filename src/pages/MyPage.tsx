@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
+import { useQuery, useMutation } from 'react-query';
 
 // api 테스트 완료
 interface UserData {
@@ -12,10 +13,9 @@ interface UserData {
   profileImage: string;
 }
 
-function MyPage() {
+const MyPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [data, setData] = useState<UserData>({ nickname: '', email: '', profileImage: '' });
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
 
@@ -34,23 +34,22 @@ function MyPage() {
   const handleEditPasswordClick = () => {
     setIsEditingPassword(true);
   };
-  // 회원 조회
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await getUser();
-        setData(userData);
-        setNickname(userData.nickname);
-        setEmail(userData.email);
-        setPreviewImage(userData.profileImage);
-        console.log(userData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    fetchData();
-  }, [isEditing]);
+  // 회원 조회
+  const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', getUser);
+
+  useEffect(() => {
+    if (data) {
+      setNickname(data.nickname);
+      setEmail(data.email);
+      setPreviewImage(data.profileImage);
+      console.log(data);
+    }
+  }, [data]);
+
+  const updateUserMutation = useMutation(updateUser);
+  const deleteUserMutation = useMutation(deleteUser);
+  const updatePasswordMutation = useMutation(updatePassword);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -102,7 +101,7 @@ function MyPage() {
 
   const handleWithdrawal = async () => {
     try {
-      await deleteUser();
+      await deleteUserMutation.mutateAsync();
       console.log('User account deleted');
       navigate('/');
     } catch (error) {
@@ -120,7 +119,7 @@ function MyPage() {
     };
 
     try {
-      await updatePassword(passwordData);
+      await updatePasswordMutation.mutateAsync(passwordData);
       console.log('Password updated successfully');
     } catch (error) {
       console.error(error);
@@ -141,8 +140,8 @@ function MyPage() {
     profileImage && formData.append('profileImage', profileImage);
 
     try {
-      const response = await updateUser(formData);
-      setData(response);
+      await updateUserMutation.mutateAsync(formData);
+      refetch();
       setIsEditing(false);
     } catch (error) {
       console.error(error);
@@ -232,9 +231,9 @@ function MyPage() {
         </div>
       ) : (
         <div>
-          <div>{data.profileImage && <img src={data.profileImage} alt="Profile" />}</div>
-          <h1>{data.nickname}</h1>
-          <p>{data.email}</p>
+          <div>{data?.profileImage && <img src={data.profileImage} alt="Profile" />}</div>
+          <h1>{data?.nickname}</h1>
+          <p>{data?.email}</p>
 
           <button onClick={handleEditClick}>회원정보수정</button>
           <button onClick={handleWithdrawalClick}>회원탈퇴</button>
@@ -252,7 +251,7 @@ function MyPage() {
       )}
     </div>
   );
-}
+};
 
 export default MyPage;
 
