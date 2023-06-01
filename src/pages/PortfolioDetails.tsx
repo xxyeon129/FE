@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import GitHubCalendar from 'react-github-calendar';
 import { ReactTinyLink } from 'react-tiny-link';
+import { styled } from 'styled-components';
 
 function PortfolioDetails() {
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
@@ -27,13 +27,26 @@ function PortfolioDetails() {
     getMyPortfolio();
   }, []);
 
-  console.log(projectList);
+  console.log('projectList :', projectList);
+  console.log('blog :', blog);
 
   const portfolioId = 132;
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
     console.log(response.data.data);
+
+    setPortfolioTitle(response.data.data.portfolioTitle);
+    setEmail(response.data.data.email);
+    setTelephone(response.data.data.telephone);
+    setLocation(response.data.data.location);
+    setResidence(response.data.data.residence);
+    setExperience(response.data.data.experience);
+    setGithubId(response.data.data.githubId);
+    setBlog(response.data.data.blogUrl);
+    setPortfolioImage(response.data.data.portfolioImage);
+    setProjectList(response.data.data.projectList);
+    setTechStack(response.data.data.techStack.split(','));
 
     //프로젝트 데이터 추출 부분 진행중
     // const projectListData = response.data.data.projectList;
@@ -47,17 +60,6 @@ function PortfolioDetails() {
     // }));
 
     // setProjectList(extractedProjectList);
-
-    setPortfolioTitle(response.data.data.portfolioTitle);
-    setEmail(response.data.data.email);
-    setTelephone(response.data.data.telephone);
-    setLocation(response.data.data.location);
-    setResidence(response.data.data.residence);
-    setExperience(response.data.data.experience);
-    setTechStack(response.data.data.techStack.split(','));
-    setGithubId(response.data.data.githubId);
-    setBlog(response.data.data.blogUrl);
-    // setNewImage(response.data.data.portfolioImage);
   };
 
   console.log('projectList : ', projectList);
@@ -181,12 +183,13 @@ function PortfolioDetails() {
               </div>
               <div>
                 <label htmlFor="residence">거주지:</label>
-                <input type="text" id="residence" value={location} onChange={onResidenceHandler} />
+                <input type="text" id="residence" value={residence} onChange={onResidenceHandler} />
               </div>
               <div>
                 <label htmlFor="location">희망:</label>
-                <input type="text" id="location" value={residence} onChange={onLocationHandler} />
+                <input type="text" id="location" value={location} onChange={onLocationHandler} />
               </div>
+
               <div>
                 <label htmlFor="email">이메일:</label>
                 <input type="text" id="email" value={email} onChange={onEmailHandler} />
@@ -227,16 +230,22 @@ function PortfolioDetails() {
                   <div key={index}>{item}</div>
                 ))}
               </div>
-              <div>{/* <img src={portfolioImage} alt="" /> */}</div>
               <div>
-                {/* <GitHubCalendar username={githubId} /> */}
-                {/* <img src="https://ghchart.rshah.org/HyoHwanKim" alt="GitHub Contributions" /> */}
+                <img src={portfolioImage} alt="" />
+              </div>
+              <div>
                 <img src={`https://ghchart.rshah.org/${githubId}`} alt="GitHub Contributions" />
               </div>
-              <div>
+              <ProjectList>
                 {/* 프로젝트 리스트 출력 */}
-                프로젝트 리스트
-              </div>
+                {projectList.map((item, index) => (
+                  <ProjectBox key={index}>
+                    <div>{item.title}</div>
+                    <div>term : {item.term}</div>
+                    <div>people : {item.people}</div>
+                  </ProjectBox>
+                ))}
+              </ProjectList>
             </div>
           )}
         </div>
@@ -246,3 +255,18 @@ function PortfolioDetails() {
 }
 
 export default PortfolioDetails;
+
+const ProjectList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
+
+const ProjectBox = styled.div`
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  width: 30%;
+  cursor: pointer;
+`;
