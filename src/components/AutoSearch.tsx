@@ -9,8 +9,9 @@ import { getPage } from '@src/apis/pagenation';
 const AutoSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
-  const [searchwords, setSearchWords] = useRecoilState(searchTermState);
+  const [, setPortfolioData] = useRecoilState(portfolioDataState);
+  const [, setSearchWords] = useRecoilState(searchTermState);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +36,9 @@ const AutoSearch = () => {
 
   const handleKeyDown = async e => {
     if (e.key === 'Enter') {
+      if (searchTerm === '') {
+        return; // 검색어가 비어있으면 동작하지 않음
+      }
       const portData = await getPage(1, searchTerm);
       setPortfolioData(portData);
       setSearchWords(searchTerm);
