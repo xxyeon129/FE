@@ -7,7 +7,7 @@ export const createProject = async (formData: FormData) => {
     const response = await axios.post(`http://3.34.102.60:8080/api/projects`, formData, {
       headers: {
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcGFpbkBuYXZlci5jb20iLCJ1c2VySWQiOjcsImV4cCI6MTY4NTQ0ODU0NywiaWF0IjoxNjg1NDQ0OTQ3fQ.ltn8AluCBRXFWXRu9cDqqxs7Pl-K0qG70H7jxftn4eU',
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcGFpbkBuYXZlci5jb20iLCJ1c2VySWQiOjcsImV4cCI6MTY4NTYxMTc2OCwiaWF0IjoxNjg1NjA4MTY4fQ.1SQ_dY86eC1q24ZajWtjtVDJUTYFEJpFONz3SwPqb2g',
       },
     });
     return response.data;
@@ -25,7 +25,7 @@ export const updateProject = async (formData: FormData) => {
   await axios.patch(`${BASE_URL}/projects/15`, formData, {
     headers: {
       Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcGFpbkBuYXZlci5jb20iLCJ1c2VySWQiOjcsImV4cCI6MTY4NTQ0ODU0NywiaWF0IjoxNjg1NDQ0OTQ3fQ.ltn8AluCBRXFWXRu9cDqqxs7Pl-K0qG70H7jxftn4eU',
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcGFpbkBuYXZlci5jb20iLCJ1c2VySWQiOjcsImV4cCI6MTY4NTYxMTc2OCwiaWF0IjoxNjg1NjA4MTY4fQ.1SQ_dY86eC1q24ZajWtjtVDJUTYFEJpFONz3SwPqb2g',
     },
   });
 };

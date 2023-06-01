@@ -91,7 +91,7 @@ const ProjectModal: React.FC<{
       position,
       description,
     });
-    const textBlob = new Blob([text], { type: 'application/json' });
+    const textBlob = new Blob([text], { type: 'image' });
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob);
 

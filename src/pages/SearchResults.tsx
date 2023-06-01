@@ -24,16 +24,21 @@ const SearchResults = () => {
 
   return (
     <div>
-      <h1>Portfolio Page</h1>
-      {portfolioData &&
-        portfolioData.content.map((portfolio, index) => (
-          <Stboard key={index}>
-            {/* <img src={portfolio.portfolioImage} alt="Portfolio Image" /> */}
-            <h3>{portfolio.portfolioTitle}</h3>
-            <p>{portfolio.userName}</p>
-            <img src={portfolio.userProfileImage} alt="User Profile Image" />
-          </Stboard>
-        ))}
+      <h1>Search Result</h1>
+      {portfolioData && portfolioData.content.length > 0 ? (
+        <>
+          <h2>'{searchTermData}' 기술 보유 포트폴리오 입니다.</h2>
+          {portfolioData.content.map((portfolio, index) => (
+            <Stboard key={index}>
+              <h3>{portfolio.portfolioTitle}</h3>
+              <p>{portfolio.userName}</p>
+              <img src={portfolio.userProfileImage} alt="User Profile Image" />
+            </Stboard>
+          ))}
+        </>
+      ) : (
+        <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
+      )}
       {portfolioData &&
         Array.from({ length: portfolioData.totalPages }, (_, index) => (
           <button key={index + 1} onClick={() => handlePageButtonClick(index + 1)}>
