@@ -27,9 +27,17 @@ const Step08Image = () => {
   // const blogUrl = useRecoilValue()
 
   const onSubmitData = () => {
-    console.log(
-      `portfolioTitle: ${portfolioTitle}, category: ${category}, filter: ${filter}, email: ${email}, residence: ${residence}, location: ${location}, telephone: ${telephone}`
-    );
+    const testObj = {
+      portfolioTitle,
+      category,
+      filter,
+      email,
+      residence,
+      location,
+      telephone,
+    };
+
+    console.log(testObj);
   };
 
   return (
