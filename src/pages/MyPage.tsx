@@ -25,11 +25,15 @@ const MyPage = () => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [nicknameError, setNicknameError] = useState('');
 
   // 비밀번호
   const [oldpassword, setOldPassword] = useState('');
   const [newpassword, setNewPassword] = useState('');
   const [checknewpassword, setCheckNewPassword] = useState('');
+  const [oldpasswordError, setOldPasswordError] = useState('');
+  const [newpasswordError, setNewPasswordError] = useState('');
+  const [checknewpasswordError, setCheckNewPasswordError] = useState('');
 
   const handleEditPasswordClick = () => {
     setIsEditingPassword(true);
@@ -57,6 +61,7 @@ const MyPage = () => {
 
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
+    setNicknameError('');
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,14 +70,17 @@ const MyPage = () => {
 
   const handleCurrentPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setOldPassword(e.target.value);
+    setOldPasswordError('');
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
+    setNewPasswordError('');
   };
 
   const handlePasswordCheckChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCheckNewPassword(e.target.value);
+    setCheckNewPasswordError('');
   };
 
   // 수정 이미지
@@ -112,6 +120,25 @@ const MyPage = () => {
 
   // 비밀번호 수정
   const handleSavePassword = async () => {
+    if (oldpassword.trim() === '') {
+      setOldPasswordError('현재 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    if (newpassword.trim() === '') {
+      setNewPasswordError('새로운 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    if (checknewpassword.trim() === '') {
+      setCheckNewPasswordError('비밀번호 확인을 입력해주세요.');
+      return;
+    }
+
+    if (newpassword !== checknewpassword) {
+      setCheckNewPasswordError('비밀번호가 일치하지 않습니다.');
+      return;
+    }
     const passwordData = {
       oldPassword: oldpassword,
       newPassword: newpassword,
@@ -129,6 +156,10 @@ const MyPage = () => {
   // 저장버튼
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (nickname.trim() === '') {
+      setNicknameError('닉네임을 적어주세요.');
+      return;
+    }
     console.log(nickname);
     const formData = new FormData();
     const text = JSON.stringify({
@@ -171,6 +202,7 @@ const MyPage = () => {
                 onChange={handleNicknameChange}
                 placeholder="닉네임"
               />
+              {nicknameError && <p>{nicknameError}</p>}
             </div>
             <div>
               <input
@@ -192,6 +224,7 @@ const MyPage = () => {
                     onChange={handleCurrentPasswordChange}
                     placeholder="현재 비밀번호"
                   />
+                  {oldpasswordError && <p>{oldpasswordError}</p>}
                 </div>
                 <div>
                   <input
@@ -201,6 +234,7 @@ const MyPage = () => {
                     onChange={handlePasswordChange}
                     placeholder="비밀번호"
                   />
+                  {newpasswordError && <p>{newpasswordError}</p>}
                 </div>
                 <div>
                   <input
@@ -210,6 +244,7 @@ const MyPage = () => {
                     onChange={handlePasswordCheckChange}
                     placeholder="비밀번호 확인"
                   />
+                  {checknewpasswordError && <p>{checknewpasswordError}</p>}
                 </div>
               </>
             )}
