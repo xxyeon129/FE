@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import GitHubCalendar from 'react-github-calendar';
 import { ReactTinyLink } from 'react-tiny-link';
+import { styled } from 'styled-components';
 
 function PortfolioDetails() {
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
-  const [name, setName] = useState<string>('');
+  const [intro, setIntro] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [residence, setResidence] = useState<string>('');
@@ -17,6 +17,7 @@ function PortfolioDetails() {
   const [youtube, setYoutube] = useState<string>('');
   const [blog, setBlog] = useState<string>('');
   const [projectList, setProjectList] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [portEdit, setPortEdit] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
@@ -27,26 +28,15 @@ function PortfolioDetails() {
     getMyPortfolio();
   }, []);
 
-  console.log(projectList);
-
-  const portfolioId = 132;
+  const portfolioId = 152;
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
-    console.log(response.data.data);
 
-    //프로젝트 데이터 추출 부분 진행중
-    // const projectListData = response.data.data.projectList;
-
-    // const extractedProjectList = projectListData.map(item => ({
-    //   id: item.id,
-    //   title: item.title,
-    //   term: item.term,
-    //   people: item.people,
-    //   position: item.position,
-    // }));
-
-    // setProjectList(extractedProjectList);
+    // console.log(response.data.data);
+    const projects = response.data.data.projectList;
+    const projectIdList = projects.map(project => parseInt(project.id));
+    // console.log(projectIdList);
 
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
@@ -54,17 +44,24 @@ function PortfolioDetails() {
     setLocation(response.data.data.location);
     setResidence(response.data.data.residence);
     setExperience(response.data.data.experience);
-    setTechStack(response.data.data.techStack.split(','));
     setGithubId(response.data.data.githubId);
     setBlog(response.data.data.blogUrl);
-    // setNewImage(response.data.data.portfolioImage);
+    setPortfolioImage(response.data.data.portfolioImage);
+    setProjectList(projectIdList);
+    setProjects(projects);
+    setIntro(response.data.data.intro);
+    if (techStack) {
+      setTechStack(response.data.data.techStack.split(','));
+    }
   };
 
-  console.log('projectList : ', projectList);
+  // console.log('projectList : ', projectList);
 
   const PortfolioEdit = async () => {
     const accessToken = localStorage.getItem('accesstoken');
     const refreshToken = localStorage.getItem('refreshtoken');
+
+    const test1 = techStack.join(',');
 
     const portfolioRequestDto = {
       portfolioTitle,
@@ -73,13 +70,16 @@ function PortfolioDetails() {
       telephone,
       email,
       githubId,
-      experience,
       youtubeUrl: youtube,
       blogUrl: blog,
       category,
       filter,
       projectIdList: projectList,
+      techStack: test1,
+      intro,
     };
+
+    console.log('요청시 리스트 : ', typeof projectList);
 
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
       type: 'application/json',
@@ -109,10 +109,11 @@ function PortfolioDetails() {
     setPortEdit(true);
   };
 
-  const onPortfolioUpdate = () => {
+  const onPortfolioUpdate = async () => {
     console.log('수정완료');
     setPortEdit(false);
-    PortfolioEdit();
+    await PortfolioEdit();
+    await getMyPortfolio();
   };
 
   const onPortfolioEditClear = () => {
@@ -158,6 +159,11 @@ function PortfolioDetails() {
     setGithubId(e.target.value);
   };
 
+  const onProjectDetail = projectId => {
+    console.log('클릭 : ', projectId);
+    // navigate(`/project/${projectId}`);
+  };
+
   return (
     <>
       <div>
@@ -181,12 +187,13 @@ function PortfolioDetails() {
               </div>
               <div>
                 <label htmlFor="residence">거주지:</label>
-                <input type="text" id="residence" value={location} onChange={onResidenceHandler} />
+                <input type="text" id="residence" value={residence} onChange={onResidenceHandler} />
               </div>
               <div>
                 <label htmlFor="location">희망:</label>
-                <input type="text" id="location" value={residence} onChange={onLocationHandler} />
+                <input type="text" id="location" value={location} onChange={onLocationHandler} />
               </div>
+
               <div>
                 <label htmlFor="email">이메일:</label>
                 <input type="text" id="email" value={email} onChange={onEmailHandler} />
@@ -223,20 +230,27 @@ function PortfolioDetails() {
               </div>
               <div>{experience}</div>
               <div>
-                {techStack.map((item, index) => (
+                {techStack?.map((item, index) => (
                   <div key={index}>{item}</div>
                 ))}
               </div>
-              <div>{/* <img src={portfolioImage} alt="" /> */}</div>
               <div>
-                {/* <GitHubCalendar username={githubId} /> */}
-                {/* <img src="https://ghchart.rshah.org/HyoHwanKim" alt="GitHub Contributions" /> */}
+                <img src={portfolioImage} alt="" />
+              </div>
+              <div>
                 <img src={`https://ghchart.rshah.org/${githubId}`} alt="GitHub Contributions" />
               </div>
-              <div>
+              <ProjectList>
                 {/* 프로젝트 리스트 출력 */}
-                프로젝트 리스트
-              </div>
+                {projects.map((item, index) => (
+                  <ProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
+                    <div>{item.title}</div>
+                    <div>{item.term}</div>
+                    <div>{item.people}</div>
+                    <div>{item.position}</div>
+                  </ProjectBox>
+                ))}
+              </ProjectList>
             </div>
           )}
         </div>
@@ -246,3 +260,18 @@ function PortfolioDetails() {
 }
 
 export default PortfolioDetails;
+
+const ProjectList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
+
+const ProjectBox = styled.div`
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  width: 30%;
+  cursor: pointer;
+`;
