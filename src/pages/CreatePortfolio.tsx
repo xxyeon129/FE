@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { STEP } from '@src/constants/createPortfolioConstants';
 import Step01Intro from '@src/components/createPortfolio/createStep/Step01Intro';
 import Step02CategoryFilter from '@src/components/createPortfolio/createStep/Step02CategoryFilter';
-import { STEP } from '@src/constants/createPortfolioConstants';
 import Step03Title from '@src/components/createPortfolio/createStep/Step03Title';
 import Step04PersonalInfo from '@src/components/createPortfolio/createStep/Step04PersonalInfo';
 import Step05TechStack from '@src/components/createPortfolio/createStep/Step05TechStack';
 import Step06Project from '@src/components/createPortfolio/createStep/Step06Project';
-import Step07Link from '@src/components/createPortfolio/createStep/Step07Link';
-import Step08Image from '@src/components/createPortfolio/createStep/Step08Image';
+import Step07ProjectSummary from '@src/components/createPortfolio/createStep/Step07ProjectSummary';
+import Step08Link from '@src/components/createPortfolio/createStep/Step08Link';
+import Step09Image from '@src/components/createPortfolio/createStep/Step09Image';
 
 const CreatePortfolio = () => {
   const [step, setStep] = useState(STEP.ONE);
@@ -26,8 +27,9 @@ const CreatePortfolio = () => {
           stepFour: <Step04PersonalInfo onNextButtonClick={nextStep} />,
           stepFive: <Step05TechStack onNextButtonClick={nextStep} />,
           stepSix: <Step06Project onNextButtonClick={nextStep} />,
-          stepSeven: <Step07Link onNextButtonClick={nextStep} />,
-          stepEight: <Step08Image />,
+          stepSeven: <Step07ProjectSummary onNextButtonClick={nextStep} />,
+          stepEight: <Step08Link onNextButtonClick={nextStep} />,
+          stepNine: <Step09Image />,
         }[step]
       }
     </>

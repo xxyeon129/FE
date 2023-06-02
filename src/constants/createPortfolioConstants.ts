@@ -7,4 +7,5 @@ export const STEP = {
   SIX: 'stepSix',
   SEVEN: 'stepSeven',
   EIGHT: 'stepEight',
+  NINE: 'stepNine',
 };

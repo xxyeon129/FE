@@ -12,7 +12,7 @@ import {
 } from '@src/states';
 import { useRecoilValue } from 'recoil';
 
-const Step08Image = () => {
+const Step09Image = () => {
   const portfolioTitle = useRecoilValue(createTitleState);
   const category = useRecoilValue(createCategoryState);
   const filter = useRecoilValue(createFilterState);
@@ -45,10 +45,10 @@ const Step08Image = () => {
 
   return (
     <S.Container>
-      STEP 8
+      STEP 9
       <NextStepButton onClick={onSubmitData} />
     </S.Container>
   );
 };
 
-export default Step08Image;
+export default Step09Image;

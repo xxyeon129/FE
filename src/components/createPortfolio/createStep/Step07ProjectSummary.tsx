@@ -3,7 +3,7 @@ import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
-const Step07Link = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step07ProjectSummary = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   return (
     <S.Container>
       STEP 7
@@ -12,4 +12,4 @@ const Step07Link = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   );
 };
 
-export default Step07Link;
+export default Step07ProjectSummary;
