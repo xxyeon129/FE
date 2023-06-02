@@ -3,10 +3,12 @@ import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import {
   createCategoryState,
   createEmailState,
+  createExperienceState,
   createFilterState,
   createLocationState,
+  createProjectIdListState,
   createResidenceState,
-  createTechStack,
+  createTechStackState,
   createTelephoneState,
   createTitleState,
 } from '@src/states';
@@ -21,9 +23,9 @@ const Step09Image = () => {
   const location = useRecoilValue(createLocationState);
   const telephone = useRecoilValue(createTelephoneState);
   // TODO: array -> string으로 형식 변경해서 서버 요청
-  const techStack = useRecoilValue(createTechStack);
-  // const projectIdList = useRecoilValue()
-  // const experience = useRecoilValue()
+  const techStack = useRecoilValue(createTechStackState);
+  const projectIdList = useRecoilValue(createProjectIdListState);
+  const experience = useRecoilValue(createExperienceState);
   // const githubId = useRecoilValue()
   // const youtubeUrl = useRecoilValue()
   // const blogUrl = useRecoilValue()
@@ -38,6 +40,8 @@ const Step09Image = () => {
       location,
       telephone,
       techStack,
+      projectIdList,
+      experience,
     };
 
     console.log(testObj);

@@ -46,19 +46,19 @@ export const createLocationState = atom<string>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const createTechStack = atom<string[]>({
+export const createTechStackState = atom<string[]>({
   key: 'createTechStack',
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
 
-export const createProjectList = atom<ProjectDataType[]>({
+export const createProjectListState = atom<ProjectDataType[]>({
   key: 'createProjectList',
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
 
-export const createProjectIdList = atom<number[]>({
+export const createProjectIdListState = atom<number[]>({
   key: 'createProjectIdList',
   default: [],
   effects_UNSTABLE: [persistAtom],

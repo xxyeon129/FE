@@ -2,7 +2,7 @@ import NextStepButton from '@src/components/common/createPortfolio/NextStepButto
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
-import { createProjectIdList, createProjectList } from '@src/states';
+import { createProjectIdListState, createProjectListState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useEffect, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -12,8 +12,8 @@ import { useQueryClient } from 'react-query';
 import { ProjectDataType } from '@src/types/portfolioType';
 
 const Step06Project = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
-  const setProjectIdList = useSetRecoilState<number[]>(createProjectIdList);
-  const [projectList, setProjectList] = useRecoilState<ProjectDataType[]>(createProjectList);
+  const setProjectIdList = useSetRecoilState<number[]>(createProjectIdListState);
+  const [projectList, setProjectList] = useRecoilState<ProjectDataType[]>(createProjectListState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const queryClient = useQueryClient();

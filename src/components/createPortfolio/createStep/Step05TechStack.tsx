@@ -2,13 +2,13 @@ import NextStepButton from '@src/components/common/createPortfolio/NextStepButto
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
-import { createTechStack } from '@src/states';
+import { createTechStackState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState } from 'recoil';
 import TechStackTag from '../TechStackTag';
 
 const Step05TechStack = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
-  const [techStack, setTechStack] = useRecoilState(createTechStack);
+  const [techStack, setTechStack] = useRecoilState(createTechStackState);
 
   const title = '사용하고 있는 기술을 알려주세요';
   const description =
