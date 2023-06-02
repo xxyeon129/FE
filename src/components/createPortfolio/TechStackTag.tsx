@@ -35,8 +35,8 @@ const TechStackTag = ({ techStack, setTechStack }: TechStackTagProps) => {
   };
 
   const deleteTag = (tagIndexToDelete: number) => {
-    techStack.splice(tagIndexToDelete, 1);
-    setTechStack([...techStack]);
+    const deletedTechStack = techStack.filter((_, index) => index !== tagIndexToDelete);
+    setTechStack(deletedTechStack);
   };
 
   return (
