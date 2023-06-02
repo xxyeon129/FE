@@ -29,8 +29,6 @@ function PortfolioDetails() {
   }, []);
 
   const portfolioId = 152;
-  // console.log(experience);
-  console.log(techStack.join(','));
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
@@ -111,10 +109,11 @@ function PortfolioDetails() {
     setPortEdit(true);
   };
 
-  const onPortfolioUpdate = () => {
+  const onPortfolioUpdate = async () => {
     console.log('수정완료');
     setPortEdit(false);
-    PortfolioEdit();
+    await PortfolioEdit();
+    await getMyPortfolio();
   };
 
   const onPortfolioEditClear = () => {
@@ -160,8 +159,9 @@ function PortfolioDetails() {
     setGithubId(e.target.value);
   };
 
-  const onProjectDetail = () => {
-    console.log('클릭');
+  const onProjectDetail = projectId => {
+    console.log('클릭 : ', projectId);
+    // navigate(`/project/${projectId}`);
   };
 
   return (
@@ -243,11 +243,11 @@ function PortfolioDetails() {
               <ProjectList>
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
-                  <ProjectBox key={index} onClick={onProjectDetail}>
+                  <ProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
                     <div>{item.title}</div>
-                    {/* {console.log(item)} */}
-                    <div>term : {item.term}</div>
-                    <div>people : {item.people}</div>
+                    <div>{item.term}</div>
+                    <div>{item.people}</div>
+                    <div>{item.position}</div>
                   </ProjectBox>
                 ))}
               </ProjectList>

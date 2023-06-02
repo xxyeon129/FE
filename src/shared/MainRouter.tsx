@@ -8,7 +8,6 @@ import Layout from './Layout';
 import TestPortfolioPage from '@src/pages/TestPortfolioPage';
 import HyoHwan from '@src/pages/HyoHwan';
 import PortfolioDetails from '@src/pages/PortfolioDetails';
-import PortfolioDetailsEdit from '@src/pages/PortfolioDetailsEdit';
 import LinkPreview from '@src/components/LinkPreview';
 
 const MainRouter = () => {
@@ -21,7 +20,6 @@ const MainRouter = () => {
           <Route path={PATH_URL.TEST} element={<Test />} />
           <Route path={PATH_URL.HYO} element={<HyoHwan />} />
           <Route path={PATH_URL.PORTFOLIODETAIL} element={<PortfolioDetails />} />
-          <Route path={PATH_URL.PORTFOLIODETAILEDIT} element={<PortfolioDetailsEdit />} />
           <Route path="/test/portfolio" element={<TestPortfolioPage />} />
           <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
           <Route path={PATH_URL.HYO2} element={<LinkPreview />} />
