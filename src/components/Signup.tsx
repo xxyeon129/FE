@@ -27,6 +27,7 @@ function Signup({ onClose }: SignupProps) {
       return response;
     } catch (error) {
       console.error('회원가입 API 에러 : ', error);
+      alert(error);
       throw error;
     }
   };
