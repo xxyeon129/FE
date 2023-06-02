@@ -2,12 +2,15 @@ import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { ReactComponent as UserImg } from '@src/assets/test-profile-icon.svg';
 
-const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
+const PortfolioItem: React.FC<{ item: PortfolioDataType; onClick?: () => void }> = ({
+  item,
+  onClick,
+}) => {
   const noImageUrl = 'public/images/no-img.jpg';
   const isportfolioImageExist = item.portfolioImage !== null;
 
   return (
-    <StItemContainer>
+    <StItemContainer onClick={onClick}>
       <StImgContainer>
         {isportfolioImageExist ? (
           <StPortfolioImg src={item.portfolioImage} />
@@ -30,6 +33,7 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
 
 const StItemContainer = styled.div`
   border: 1px solid gray;
+  cursor: pointer;
 `;
 
 const StImgContainer = styled.div`

@@ -1,14 +1,66 @@
+import { getMyPortfolio } from '@src/apis/portfolio';
+import PortfolioItem from '@src/components/main/PortfolioItem';
 import NoPortfolio from '@src/components/myPortfolio/NoPortfolio';
+import { PATH_URL } from '@src/constants/constants';
+import { PortfolioDataType } from '@src/types/portfolioType';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
 
 const MyPortfolio = () => {
-  // TODO: 마이포트폴리오 조회
+  const [myPortfolioList, setMyPortfolioList] = useState<PortfolioDataType[]>([]);
+  const navigate = useNavigate();
 
-  // TEST CODE: 마이 포트폴리오 없을 경우 임시 코드
-  const myPortfolioData = [];
+  const isMyPortfolioExist = myPortfolioList.length !== 0;
 
-  const isMyPortfolioExist = myPortfolioData.length !== 0;
+  const onClickPortfolio = (portfolioId: number) => {
+    navigate(`${PATH_URL.DETAIL}/${portfolioId}`);
+  };
 
-  return <>{isMyPortfolioExist ? <></> : <NoPortfolio />}</>;
+  useEffect(() => {
+    const fetchMyPortfolioData = async () => {
+      const myPortfolioData = await getMyPortfolio();
+      setMyPortfolioList(myPortfolioData);
+    };
+    fetchMyPortfolioData();
+  }, []);
+
+  return (
+    <StMyPortfolioPageContainer>
+      <StMyPortfolioPageTitle>My Portfolios</StMyPortfolioPageTitle>
+      {isMyPortfolioExist ? (
+        <StMyPortfolioListContainer>
+          {myPortfolioList?.map((portfolio, index) => (
+            <PortfolioItem
+              key={index}
+              item={portfolio}
+              onClick={() => onClickPortfolio(portfolio.id)}
+            />
+          ))}
+        </StMyPortfolioListContainer>
+      ) : (
+        <NoPortfolio />
+      )}
+    </StMyPortfolioPageContainer>
+  );
 };
+
+const StMyPortfolioPageTitle = styled.h1`
+  margin: 0;
+  margin-top: 20px;
+`;
+
+const StMyPortfolioPageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StMyPortfolioListContainer = styled.div`
+  display: flex;
+  flex-flow: wrap;
+  gap: 2rem;
+  margin-top: 5rem;
+  width: 100%;
+`;
 
 export default MyPortfolio;

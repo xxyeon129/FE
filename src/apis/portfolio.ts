@@ -70,6 +70,23 @@ export const getFilteredList = async ({
   }
 };
 
+export const getMyPortfolio = async () => {
+  try {
+    const response = await apiRequest.get(`${RESOURCE}/myportfolios`, {
+      headers: {
+        Authorization: accessToken,
+        RefreshToken: refreshToken,
+      },
+    });
+
+    // console.log(response.data.data);
+
+    return response.data.data;
+  } catch (error) {
+    throw new Error('API getAllList error');
+  }
+};
+
 export const createPortfolio = async (formData: FormData) => {
   try {
     const response = await apiRequest.post(RESOURCE, formData, {
