@@ -15,14 +15,8 @@ const AutoSearch = () => {
 
   useEffect(() => {
     const debounceSearch = debounce(async term => {
-      try {
-        const response = await axios.get(
-          `http://3.34.102.60:8080/api/portfolios/autocomplete?keyword=${term}`
-        );
-        setSuggestions(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const suggestions = await search(term);
+      setSuggestions(suggestions);
     }, 500);
 
     debounceSearch(searchTerm);

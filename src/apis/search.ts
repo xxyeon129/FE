@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const search = async (page, searchTerm) => {
+export const search = async term => {
   try {
     const response = await axios.get(
-      `http://3.34.102.60:8080/api/portfolios/autocomplete?keyword=${searchTerm}`
+      `http://3.34.102.60:8080/api/portfolios/autocomplete?keyword=${term}`
     );
     return response.data.data;
   } catch (error) {
