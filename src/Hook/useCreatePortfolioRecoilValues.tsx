@@ -25,7 +25,7 @@ const useCreatPortfolioRecoilValues = () => {
   const telephone = useRecoilValue(createTelephoneState);
   const techStackArray = useRecoilValue(createTechStackState);
   const projectIdList = useRecoilValue(createProjectIdListState);
-  const experience = useRecoilValue(createExperienceState);
+  const intro = useRecoilValue(createExperienceState);
   const githubId = useRecoilValue(createGithubState);
   const youtubeUrl = useRecoilValue(createYoutubeState);
   const blogUrl = useRecoilValue(createBlogState);
@@ -40,7 +40,7 @@ const useCreatPortfolioRecoilValues = () => {
     telephone,
     techStackArray,
     projectIdList,
-    experience,
+    intro,
     githubId,
     youtubeUrl,
     blogUrl,

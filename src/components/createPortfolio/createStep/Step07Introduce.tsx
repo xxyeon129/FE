@@ -8,14 +8,13 @@ import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
-const Step07ProjectSummary = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step07Introduce = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
   const [experience, setExperience] = useRecoilState(createExperienceState);
 
   const { onChangeInput } = useOnChangeInput(setExperience);
 
-  const title = '프로젝트 경험을 요약해서 알려주세요';
-  const description =
-    '담당하신 프로젝트 중 우선순위가 높은 프로젝트를 선별해 최신순으로 작성하시면 됩니다.';
+  const title = '간단한 소개글을 작성해주세요';
+  const description = '본인의 업무 경험을 기반으로 핵심 역량과 업무 스킬을 간단히 작성해주세요.';
 
   return (
     <S.Container>
@@ -24,7 +23,7 @@ const Step07ProjectSummary = ({ onNextButtonClick }: CreatePortfolioStepProps) =
         <StTextarea
           value={experience}
           onChange={onChangeInput}
-          placeholder="프로젝트 경험을 요약해서 작성해주세요."
+          placeholder="포트폴리오에 표시될 소개 내용을 요약하여 작성해주세요."
         />
       </StTextareaContainer>
       <S.ButtonContainer>
@@ -45,4 +44,4 @@ const StTextarea = styled.textarea`
   padding: 10px;
 `;
 
-export default Step07ProjectSummary;
+export default Step07Introduce;
