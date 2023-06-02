@@ -69,3 +69,21 @@ export const createExperienceState = atom<string>({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
+export const createYoutubeState = atom<string>({
+  key: 'createYoutubeState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createBlogState = atom<string>({
+  key: 'createBlogState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createGithubState = atom<string>({
+  key: 'createGithubState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});

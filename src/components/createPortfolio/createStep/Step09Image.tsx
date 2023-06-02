@@ -1,16 +1,19 @@
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import {
+  createBlogState,
   createCategoryState,
   createEmailState,
   createExperienceState,
   createFilterState,
+  createGithubState,
   createLocationState,
   createProjectIdListState,
   createResidenceState,
   createTechStackState,
   createTelephoneState,
   createTitleState,
+  createYoutubeState,
 } from '@src/states';
 import { useRecoilValue } from 'recoil';
 
@@ -22,13 +25,14 @@ const Step09Image = () => {
   const residence = useRecoilValue(createResidenceState);
   const location = useRecoilValue(createLocationState);
   const telephone = useRecoilValue(createTelephoneState);
-  // TODO: array -> string으로 형식 변경해서 서버 요청
-  const techStack = useRecoilValue(createTechStackState);
+  const techStackArray = useRecoilValue(createTechStackState);
   const projectIdList = useRecoilValue(createProjectIdListState);
   const experience = useRecoilValue(createExperienceState);
-  // const githubId = useRecoilValue()
-  // const youtubeUrl = useRecoilValue()
-  // const blogUrl = useRecoilValue()
+  const githubId = useRecoilValue(createGithubState);
+  const youtubeUrl = useRecoilValue(createYoutubeState);
+  const blogUrl = useRecoilValue(createBlogState);
+
+  const techStack = techStackArray.toString();
 
   const onSubmitData = () => {
     const testObj = {
@@ -42,6 +46,9 @@ const Step09Image = () => {
       techStack,
       projectIdList,
       experience,
+      githubId,
+      youtubeUrl,
+      blogUrl,
     };
 
     console.log(testObj);
