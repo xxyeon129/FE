@@ -6,7 +6,7 @@ import { styled } from 'styled-components';
 
 function PortfolioDetails() {
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
-  const [name, setName] = useState<string>('');
+  const [intro, setIntro] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [residence, setResidence] = useState<string>('');
@@ -17,6 +17,7 @@ function PortfolioDetails() {
   const [youtube, setYoutube] = useState<string>('');
   const [blog, setBlog] = useState<string>('');
   const [projectList, setProjectList] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [portEdit, setPortEdit] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
@@ -27,14 +28,17 @@ function PortfolioDetails() {
     getMyPortfolio();
   }, []);
 
-  console.log('projectList :', projectList);
-  console.log('blog :', blog);
-
-  const portfolioId = 132;
+  const portfolioId = 152;
+  // console.log(experience);
+  console.log(techStack.join(','));
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
+
     console.log(response.data.data);
+    const projects = response.data.data.projectList;
+    const projectIdList = projects.map(project => parseInt(project.id));
+    console.log(projectIdList);
 
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
@@ -45,21 +49,12 @@ function PortfolioDetails() {
     setGithubId(response.data.data.githubId);
     setBlog(response.data.data.blogUrl);
     setPortfolioImage(response.data.data.portfolioImage);
-    setProjectList(response.data.data.projectList);
-    setTechStack(response.data.data.techStack.split(','));
-
-    //프로젝트 데이터 추출 부분 진행중
-    // const projectListData = response.data.data.projectList;
-
-    // const extractedProjectList = projectListData.map(item => ({
-    //   id: item.id,
-    //   title: item.title,
-    //   term: item.term,
-    //   people: item.people,
-    //   position: item.position,
-    // }));
-
-    // setProjectList(extractedProjectList);
+    setProjectList(projectIdList);
+    setProjects(projects);
+    setIntro(response.data.data.intro);
+    if (techStack) {
+      setTechStack(response.data.data.techStack.split(','));
+    }
   };
 
   console.log('projectList : ', projectList);
@@ -68,6 +63,8 @@ function PortfolioDetails() {
     const accessToken = localStorage.getItem('accesstoken');
     const refreshToken = localStorage.getItem('refreshtoken');
 
+    const test1 = techStack.join(',');
+
     const portfolioRequestDto = {
       portfolioTitle,
       residence,
@@ -75,13 +72,16 @@ function PortfolioDetails() {
       telephone,
       email,
       githubId,
-      experience,
       youtubeUrl: youtube,
       blogUrl: blog,
       category,
       filter,
       projectIdList: projectList,
+      techStack: test1,
+      intro,
     };
+
+    console.log('요청시 리스트 : ', typeof projectList);
 
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
       type: 'application/json',
@@ -160,6 +160,10 @@ function PortfolioDetails() {
     setGithubId(e.target.value);
   };
 
+  const onProjectDetail = () => {
+    console.log('클릭');
+  };
+
   return (
     <>
       <div>
@@ -226,7 +230,7 @@ function PortfolioDetails() {
               </div>
               <div>{experience}</div>
               <div>
-                {techStack.map((item, index) => (
+                {techStack?.map((item, index) => (
                   <div key={index}>{item}</div>
                 ))}
               </div>
@@ -238,9 +242,10 @@ function PortfolioDetails() {
               </div>
               <ProjectList>
                 {/* 프로젝트 리스트 출력 */}
-                {projectList.map((item, index) => (
-                  <ProjectBox key={index}>
+                {projects.map((item, index) => (
+                  <ProjectBox key={index} onClick={onProjectDetail}>
                     <div>{item.title}</div>
+                    {/* {console.log(item)} */}
                     <div>term : {item.term}</div>
                     <div>people : {item.people}</div>
                   </ProjectBox>
