@@ -11,7 +11,7 @@ const AutoSearch = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [, setPortfolioData] = useRecoilState(portfolioDataState);
   const [, setSearchWords] = useRecoilState(searchTermState);
-  const [searchError, setSearchError] = useState();
+  const [searchError, setSearchError] = useState('');
 
   const navigate = useNavigate();
 
@@ -19,7 +19,9 @@ const AutoSearch = () => {
     const debounceSearch = debounce(async term => {
       try {
         const response = await search(1, term);
-        setSuggestions(response.data.data);
+        if (response.data) {
+          setSuggestions(response.data);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -30,16 +32,16 @@ const AutoSearch = () => {
 
   const handleChange = e => {
     const term = e.target.value;
-    setSearchTerm(term);
     setSearchError('');
+    setSearchTerm(term);
   };
 
   const handleKeyDown = async e => {
     if (e.key === 'Enter') {
-      if (searchTerm === '') {
-        setSearchError('검색어를 입력해주세요');
-        return; // 검색어가 비어있으면 동작하지 않음
-      }
+      // if (searchTerm === '') {
+      //   setSearchError('단어를 입력해주세요');
+      //   return; // 검색어가 비어있으면 동작하지 않음
+      // }
       const searchPortfolioData = await searchPage(1, searchTerm);
       setPortfolioData(searchPortfolioData);
       setSearchWords(searchTerm);
