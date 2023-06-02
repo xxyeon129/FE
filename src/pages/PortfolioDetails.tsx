@@ -33,10 +33,10 @@ function PortfolioDetails() {
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
 
-    console.log(response.data.data);
+    // console.log(response.data.data);
     const projects = response.data.data.projectList;
     const projectIdList = projects.map(project => parseInt(project.id));
-    console.log(projectIdList);
+    // console.log(projectIdList);
 
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
@@ -55,7 +55,7 @@ function PortfolioDetails() {
     }
   };
 
-  console.log('projectList : ', projectList);
+  // console.log('projectList : ', projectList);
 
   const PortfolioEdit = async () => {
     const accessToken = localStorage.getItem('accesstoken');
