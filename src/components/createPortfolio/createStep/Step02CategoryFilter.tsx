@@ -9,8 +9,12 @@ import NextStepButton from '@src/components/common/createPortfolio/NextStepButto
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import SelectDropdown from '../CreateSelectDropdown';
 import PortfolioFilter from '../CreatePortfolioFilter';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
-const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step02CategoryFilter = ({
+  onNextButtonClick,
+  onPrevButtonClick,
+}: CreatePortfolioStepProps) => {
   const [category, setCategory] = useRecoilState(createCategoryState);
   const [filter, setFilter] = useRecoilState(createFilterState);
 
@@ -18,7 +22,7 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
 
   const categoryDropdownOptions = categoryList.slice(1);
 
-  const onClickButton = () => {
+  const onClickNextButton = () => {
     if (!isAllSelected) return;
     onNextButtonClick(STEP.THREE);
   };
@@ -49,7 +53,8 @@ const Step02CategoryFilter = ({ onNextButtonClick }: CreatePortfolioStepProps) =
         </StFilterContainer>
       </StSelectContainer>
       <S.ButtonContainer>
-        <NextStepButton onClick={onClickButton} notAllowed={`${!isAllSelected}`} />
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.ONE)} />
+        <NextStepButton onClick={onClickNextButton} notAllowed={`${!isAllSelected}`} />
       </S.ButtonContainer>
     </S.Container>
   );

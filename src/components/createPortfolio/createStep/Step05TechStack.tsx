@@ -6,8 +6,9 @@ import { createTechStackState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState } from 'recoil';
 import TechStackTag from '../TechStackTag';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
-const Step05TechStack = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step05TechStack = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [techStack, setTechStack] = useRecoilState(createTechStackState);
 
   const title = '사용하고 있는 기술을 알려주세요';
@@ -19,6 +20,7 @@ const Step05TechStack = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
       <TitleTextLabel title={title} description={description} />
       <TechStackTag setTechStack={setTechStack} techStack={techStack} />
       <S.ButtonContainer>
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.FOUR)} />
         <NextStepButton onClick={() => onNextButtonClick(STEP.SIX)} />
       </S.ButtonContainer>
     </S.Container>

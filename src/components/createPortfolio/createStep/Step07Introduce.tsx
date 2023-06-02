@@ -1,5 +1,6 @@
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
@@ -8,7 +9,7 @@ import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
-const Step07Introduce = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [experience, setExperience] = useRecoilState(createExperienceState);
 
   const { onChangeInput } = useOnChangeInput(setExperience);
@@ -27,6 +28,7 @@ const Step07Introduce = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
         />
       </StTextareaContainer>
       <S.ButtonContainer>
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.SIX)} />
         <NextStepButton onClick={() => onNextButtonClick(STEP.EIGHT)} />
       </S.ButtonContainer>
     </S.Container>

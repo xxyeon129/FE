@@ -10,8 +10,9 @@ import { styled } from 'styled-components';
 import TestCreateProjectModal from '../TestCreateProjectModal';
 import { useQueryClient } from 'react-query';
 import { ProjectDataType } from '@src/types/portfolioType';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
-const Step06Project = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const setProjectIdList = useSetRecoilState<number[]>(createProjectIdListState);
   const [projectList, setProjectList] = useRecoilState<ProjectDataType[]>(createProjectListState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -55,8 +56,9 @@ const Step06Project = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
         </StProjectsList>
       </StAddProjectContainer>
 
-      <S.ButtonContainer>
-        <NextStepButton onClick={() => onNextButtonClick(STEP.SEVEN)} marginRight="-150px" />
+      <S.ButtonContainer width="900px">
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.FIVE)} />
+        <NextStepButton onClick={() => onNextButtonClick(STEP.SEVEN)} />
       </S.ButtonContainer>
 
       {isModalOpen && (

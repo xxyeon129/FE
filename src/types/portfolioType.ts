@@ -8,6 +8,7 @@ export interface PortfolioDataType {
 
 export interface CreatePortfolioStepProps {
   onNextButtonClick: (step: string) => void;
+  onPrevButtonClick: (step: string) => void;
 }
 
 export interface ProjectDataType {

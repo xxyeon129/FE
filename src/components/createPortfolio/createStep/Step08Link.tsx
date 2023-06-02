@@ -1,5 +1,6 @@
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
@@ -13,7 +14,7 @@ import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 
-const Step08Link = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step08Link = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [youtubeUrl, setYoutubeUrl] = useRecoilState<string>(createYoutubeState);
   const [blogUrl, setBlogUrl] = useRecoilState<string>(createBlogState);
   const [githubID, setGithubID] = useRecoilState<string>(createGithubState);
@@ -61,6 +62,7 @@ const Step08Link = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
         )}
       </StOutLineDiv>
       <S.ButtonContainer>
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.SEVEN)} />
         <NextStepButton onClick={() => onNextButtonClick(STEP.NINE)} />
       </S.ButtonContainer>
     </S.Container>

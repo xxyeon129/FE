@@ -3,7 +3,9 @@ import { STEP } from '@src/constants/createPortfolioConstants';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
-const Step01Intro = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
+  onNextButtonClick,
+}) => {
   const descriptionDetail = [
     {
       id: 1,

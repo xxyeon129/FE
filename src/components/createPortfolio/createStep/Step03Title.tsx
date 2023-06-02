@@ -8,15 +8,16 @@ import NextStepButton from '@src/components/common/createPortfolio/NextStepButto
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import { validateTitle } from '@src/components/common/createPortfolio/validator';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
-const Step03Title = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [portfolioTitle, setPortfolioTitle] = useRecoilState(createTitleState);
 
   const { onChangeInput } = useOnChangeInput(setPortfolioTitle);
 
   const [isInvalidTitle, errorMessage] = validateTitle(portfolioTitle);
 
-  const onClickButton = () => {
+  const onClickNextButton = () => {
     if (isInvalidTitle) return;
     onNextButtonClick(STEP.FOUR);
   };
@@ -32,7 +33,8 @@ const Step03Title = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
         {isInvalidTitle && <StErrorMessage>{errorMessage}</StErrorMessage>}
       </StInputContainer>
       <S.ButtonContainer>
-        <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidTitle}`} />
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.TWO)} />
+        <NextStepButton onClick={onClickNextButton} notAllowed={`${isInvalidTitle}`} />
       </S.ButtonContainer>
     </S.Container>
   );

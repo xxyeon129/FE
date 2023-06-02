@@ -9,8 +9,12 @@ import NextStepButton from '@src/components/common/createPortfolio/NextStepButto
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import useCreatPortfolioRecoilValues from '@src/Hook/useCreatePortfolioRecoilValues';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
+import { STEP } from '@src/constants/createPortfolioConstants';
 
-const Step09Image = () => {
+const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
+  onPrevButtonClick,
+}) => {
   const {
     portfolioTitle,
     category,
@@ -106,6 +110,7 @@ const Step09Image = () => {
         <StInput type="file" accept="image/*" id="portfolioImage" onChange={onUploadImage} />
       </StImageContainer>
       <S.ButtonContainer>
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.EIGHT)} />
         <NextStepButton onClick={onSubmitFormData} text="완료" notAllowed={`${isNoImageFile}`} />
       </S.ButtonContainer>
     </S.Container>

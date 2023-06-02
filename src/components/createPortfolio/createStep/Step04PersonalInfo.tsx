@@ -13,8 +13,9 @@ import {
 } from '@src/states';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import { validateEmail } from '@src/components/common/createPortfolio/validator';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
-const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => {
+const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [email, setEmail] = useRecoilState(createEmailState);
   const [telephone, setTelephone] = useRecoilState(createTelephoneState);
   const [residence, setResidence] = useRecoilState(createResidenceState);
@@ -79,6 +80,7 @@ const Step04PersonalInfo = ({ onNextButtonClick }: CreatePortfolioStepProps) => 
         </StAdditionalInfomationOutLineDiv>
       </StInputContainer>
       <S.ButtonContainer>
+        <PrevStepButton onClick={() => onPrevButtonClick(STEP.THREE)} />
         <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidEmail}`} />
       </S.ButtonContainer>
     </S.Container>

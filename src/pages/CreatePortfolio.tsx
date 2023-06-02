@@ -17,19 +17,27 @@ const CreatePortfolio = () => {
     setStep(step);
   };
 
+  const prevStep = (step: string) => {
+    setStep(step);
+  };
+
   return (
     <>
       {
         {
           stepOne: <Step01Intro onNextButtonClick={nextStep} />,
-          stepTwo: <Step02CategoryFilter onNextButtonClick={nextStep} />,
-          stepThree: <Step03Title onNextButtonClick={nextStep} />,
-          stepFour: <Step04PersonalInfo onNextButtonClick={nextStep} />,
-          stepFive: <Step05TechStack onNextButtonClick={nextStep} />,
-          stepSix: <Step06Project onNextButtonClick={nextStep} />,
-          stepSeven: <Step07Introduce onNextButtonClick={nextStep} />,
-          stepEight: <Step08Link onNextButtonClick={nextStep} />,
-          stepNine: <Step09Image />,
+          stepTwo: (
+            <Step02CategoryFilter onNextButtonClick={nextStep} onPrevButtonClick={prevStep} />
+          ),
+          stepThree: <Step03Title onNextButtonClick={nextStep} onPrevButtonClick={prevStep} />,
+          stepFour: (
+            <Step04PersonalInfo onNextButtonClick={nextStep} onPrevButtonClick={prevStep} />
+          ),
+          stepFive: <Step05TechStack onNextButtonClick={nextStep} onPrevButtonClick={prevStep} />,
+          stepSix: <Step06Project onNextButtonClick={nextStep} onPrevButtonClick={prevStep} />,
+          stepSeven: <Step07Introduce onNextButtonClick={nextStep} onPrevButtonClick={prevStep} />,
+          stepEight: <Step08Link onNextButtonClick={nextStep} onPrevButtonClick={prevStep} />,
+          stepNine: <Step09Image onPrevButtonClick={prevStep} />,
         }[step]
       }
     </>
