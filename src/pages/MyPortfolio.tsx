@@ -17,6 +17,10 @@ const MyPortfolio = () => {
     navigate(`${PATH_URL.DETAIL}/${portfolioId}`);
   };
 
+  const onClickCreatePortfolioButton = () => {
+    navigate(PATH_URL.CREATE_PORTFOLIO);
+  };
+
   useEffect(() => {
     const fetchMyPortfolioData = async () => {
       const myPortfolioData = await getMyPortfolio();
@@ -28,6 +32,11 @@ const MyPortfolio = () => {
   return (
     <StMyPortfolioPageContainer>
       <StMyPortfolioPageTitle>My Portfolios</StMyPortfolioPageTitle>
+      <StButtonContainer>
+        <StCreatePortfolioButton onClick={onClickCreatePortfolioButton}>
+          포트폴리오 작성하기
+        </StCreatePortfolioButton>
+      </StButtonContainer>
       {isMyPortfolioExist ? (
         <StMyPortfolioListContainer>
           {myPortfolioList?.map((portfolio, index) => (
@@ -50,6 +59,20 @@ const StMyPortfolioPageTitle = styled.h1`
   margin-top: 20px;
 `;
 
+const StButtonContainer = styled.div`
+  display: flex;
+  justify-content: right;
+  margin-right: 40px;
+`;
+
+const StCreatePortfolioButton = styled.button`
+  border: 2px solid;
+  font-weight: bold;
+  border-radius: 50px;
+  padding: 5px 10px;
+  margin-top: 1.5rem;
+`;
+
 const StMyPortfolioPageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,7 +82,7 @@ const StMyPortfolioListContainer = styled.div`
   display: flex;
   flex-flow: wrap;
   gap: 2rem;
-  margin-top: 5rem;
+  margin-top: 3rem;
   width: 100%;
 `;
 
