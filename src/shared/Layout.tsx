@@ -15,6 +15,8 @@ const StLayout = styled.div`
   display: flex;
 `;
 
-const StContent = styled.div``;
+const StContent = styled.div`
+  width: 100%;
+`;
 
 export default Layout;

@@ -9,6 +9,8 @@ export const PATH_URL = {
   PROJECT: '/project/',
   MYPAGE: `/mypage/:id`,
   HYO2: 'hyo2',
+  MYPORTFOLIO: '/myportfolio',
+  CREATE_PORTFOLIO: '/myportfolio/create',
 };
 
 export const SERVER_URL = import.meta.env.VITE_API_URL;

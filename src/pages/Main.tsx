@@ -8,6 +8,7 @@ import Filter from '@src/components/main/Filter';
 import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { categoryState, filterState } from '@src/states';
+import { filterListObject } from '@src/constants/portfolioFilteringData';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -103,14 +104,6 @@ const Main = () => {
       return;
     }
     fetchFilteredList(filterKeyword);
-  };
-
-  // --- 직무 필터링 태그 리스트 ---
-  const filterListObject = {
-    all: [],
-    develop: ['All', 'Backend', 'Frontend', 'AI', 'Big Data', 'App', 'System', 'Security'],
-    design: ['All', 'Graphic', 'UI/UX', 'Web', 'Visual', 'Interaction', 'Product', 'Brand'],
-    photograph: ['All', 'Commercial', 'Portrait', 'Wedding', 'Fashion', 'Wildlife', 'Sports'],
   };
 
   useEffect(() => {
