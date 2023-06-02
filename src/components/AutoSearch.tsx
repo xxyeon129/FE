@@ -11,6 +11,7 @@ const AutoSearch = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [, setPortfolioData] = useRecoilState(portfolioDataState);
   const [, setSearchWords] = useRecoilState(searchTermState);
+  const [searchError, setSearchError] = useState();
 
   const navigate = useNavigate();
 
@@ -30,11 +31,13 @@ const AutoSearch = () => {
   const handleChange = e => {
     const term = e.target.value;
     setSearchTerm(term);
+    setSearchError('');
   };
 
   const handleKeyDown = async e => {
     if (e.key === 'Enter') {
       if (searchTerm === '') {
+        setSearchError('검색어를 입력해주세요');
         return; // 검색어가 비어있으면 동작하지 않음
       }
       const searchPortfolioData = await searchPage(1, searchTerm);
@@ -51,6 +54,7 @@ const AutoSearch = () => {
   return (
     <div>
       <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
+      <p>{searchError}</p>
       {searchTerm !== '' && suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion, index) => (
