@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 interface NextStepButtonProps {
   marginRight?: string;
-  onClick: () => void;
+  onClick: (() => void) | ((e: React.FormEvent<HTMLButtonElement>) => void);
   text?: string;
   notAllowed?: string;
 }
