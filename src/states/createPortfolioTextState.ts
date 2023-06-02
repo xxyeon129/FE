@@ -1,3 +1,4 @@
+import { ProjectDataType } from '@src/types/portfolioType';
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
@@ -47,6 +48,18 @@ export const createLocationState = atom<string>({
 
 export const createTechStack = atom<string[]>({
   key: 'createTechStack',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createProjectList = atom<ProjectDataType[]>({
+  key: 'createProjectList',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createProjectIdList = atom<number[]>({
+  key: 'createProjectIdList',
   default: [],
   effects_UNSTABLE: [persistAtom],
 });

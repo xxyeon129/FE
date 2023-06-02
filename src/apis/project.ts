@@ -1,6 +1,5 @@
 import apiRequest from '.';
-// TEST CODE
-import { testLoginToken } from './testToken';
+import { accessToken } from './token';
 
 const RESOURCE = '/api/projects';
 
@@ -9,7 +8,7 @@ export const createProject = async (formData: FormData) => {
     const response = await apiRequest.post(RESOURCE, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: testLoginToken,
+        Authorization: accessToken,
       },
     });
 

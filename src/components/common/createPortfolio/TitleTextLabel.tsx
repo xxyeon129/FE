@@ -3,20 +3,21 @@ import { styled } from 'styled-components';
 interface TitleTextLabelProps {
   title: string;
   description: string;
+  containerWidth?: string;
 }
 
-const TitleTextLabel = ({ title, description }: TitleTextLabelProps) => {
+const TitleTextLabel = ({ title, description, containerWidth = '600px' }: TitleTextLabelProps) => {
   return (
-    <StTextContainer>
+    <StTextContainer width={containerWidth}>
       <StTitle>{title}</StTitle>
       <StDescription>{description}</StDescription>
     </StTextContainer>
   );
 };
 
-const StTextContainer = styled.div`
+const StTextContainer = styled.div<{ width: string }>`
   position: relative;
-  width: 600px;
+  width: ${({ width }) => width};
   padding-bottom: 50px;
 `;
 

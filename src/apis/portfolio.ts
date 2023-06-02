@@ -1,7 +1,6 @@
 import apiRequest from '.';
 import { GetLastIdParams, GetAllListParams, GetFilteredListParams } from '@src/types/apiParamsType';
-// TEST CODE
-import { testLoginToken, testRefreshToken } from './testToken';
+import { accessToken, refreshToken } from './token';
 
 const RESOURCE = '/api/portfolios';
 
@@ -76,8 +75,8 @@ export const createPortfolio = async (formData: FormData) => {
     const response = await apiRequest.post(RESOURCE, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: testLoginToken,
-        RefreshToken: testRefreshToken,
+        Authorization: accessToken,
+        RefreshToken: refreshToken,
       },
     });
 

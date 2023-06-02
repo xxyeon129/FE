@@ -6,8 +6,9 @@ import { useMutation, useQueryClient } from 'react-query';
 import { createProject } from '@src/apis/project';
 
 const TestCreateProjectModal: React.FC<{
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ setIsOpenModal }) => {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+}> = ({ setIsModalOpen, onClick }) => {
   const [title, setTitle] = useState<string>('');
   const [term, setTerm] = useState<string>('');
   const [people, setPeople] = useState<string>('');
@@ -77,15 +78,15 @@ const TestCreateProjectModal: React.FC<{
 
   const handleSubmit = async () => {
     await mutation.mutateAsync();
-    setIsOpenModal(false);
+    setIsModalOpen(false);
   };
 
   const handleCloseModal = () => {
-    setIsOpenModal(false);
+    setIsModalOpen(false);
   };
 
   return (
-    <StModal>
+    <StModal onClick={onClick}>
       <StModalDescription>프로젝트 작성</StModalDescription>
       <StInputContainer>
         <StLabel htmlFor="title">프로젝트 제목</StLabel>

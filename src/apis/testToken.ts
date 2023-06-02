@@ -1,5 +1,0 @@
-export const testLoginToken =
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZW1haWxAZ21haWwuY29tIiwidXNlcklkIjo0LCJleHAiOjE2ODU1NzA5MTAsImlhdCI6MTY4NTU2NzMxMH0.TbTbmBgT9slKinGyIzoYLPleslNGbmosWBgd6sg6lXM';
-
-export const testRefreshToken =
-  'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZW1haWxAZ21haWwuY29tIiwidXNlcklkIjo0LCJleHAiOjE2ODY3NzY5MTAsImlhdCI6MTY4NTU2NzMxMH0.XsXAn7AU5GBH9tcH7BzcNIL6LCRQbkc8T1CnJ6dW6pM';
