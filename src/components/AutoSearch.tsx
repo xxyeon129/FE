@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// 딜레이를 줄이기 위한 것 =  디바이스  라이브러리 : lodash
-function AutoSearch() {
+import { useRecoilState } from 'recoil';
+import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
+import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
+import { search, searchPage } from '@src/apis/search';
+
+const AutoSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
+  const [searchwords, setSearchWords] = useRecoilState(searchTermState);
+  const navigate = useNavigate();
 
-  const handleChange = async e => {
+  useEffect(() => {
+    const debounceSearch = debounce(async term => {
+      const suggestions = await search(term);
+      setSuggestions(suggestions);
+    }, 500);
+
+    debounceSearch(searchTerm);
+  }, [searchTerm]);
+
+  const handleChange = e => {
     const term = e.target.value;
     setSearchTerm(term);
+  };
 
-    try {
-      const response = await axios.get(`/api/portfolios/search?keyword=${term}`);
-      const filteredSuggestions = response.data.filter(item => {
-        return item.toLowerCase().includes(term.toLowerCase());
-      });
-      setSuggestions(filteredSuggestions);
-    } catch (error) {
-      console.error(error);
+  const handleKeyDown = async e => {
+    if (e.key === 'Enter') {
+      const portData = await searchPage(1, searchTerm);
+      setPortfolioData(portData);
+      setSearchWords(searchTerm);
+      navigate('/searchresults');
     }
   };
 
@@ -26,16 +42,18 @@ function AutoSearch() {
 
   return (
     <div>
-      <input type="text" value={searchTerm} onChange={handleChange} />
-      <ul>
-        {suggestions.map((suggestion, index) => (
-          <li key={index} onClick={() => handleClickSuggestion(suggestion)}>
-            {suggestion}
-          </li>
-        ))}
-      </ul>
+      <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
+      {searchTerm !== '' && suggestions.length > 0 && (
+        <ul>
+          {suggestions.map((suggestion, index) => (
+            <li key={index} onClick={() => handleClickSuggestion(suggestion)}>
+              {suggestion}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
-}
+};
 
 export default AutoSearch;

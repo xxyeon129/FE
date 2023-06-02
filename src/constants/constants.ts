@@ -8,6 +8,7 @@ export const PATH_URL = {
   PORTFOLIODETAILEDIT: '/portedit',
   PROJECT: '/project/',
   MYPAGE: `/mypage/:id`,
+  SEARCHRESULTS: `/searchresults`,
   HYO2: 'hyo2',
   MYPORTFOLIO: '/myportfolio',
   CREATE_PORTFOLIO: '/myportfolio/create',
