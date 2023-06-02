@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 import { useQuery, useMutation } from 'react-query';
 
-// api 테스트 완료
+// api 테스트 완료 및 구현 완료
 interface UserData {
   nickname: string;
   email: string;
