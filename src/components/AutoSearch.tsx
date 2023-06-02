@@ -5,7 +5,7 @@ import { portfolioDataState, searchTermState } from '@src/states/SearchResultsSt
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
-
+// api 테스트 및 구현 완료
 const AutoSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);

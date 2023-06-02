@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { searchPage } from '@src/apis/search';
 import { searchTermState } from '@src/states/SearchResultsState';
 import { useNavigate } from 'react-router-dom';
-
+// api 테스트 및 기능 구현 완료
 const SearchResults = () => {
   const [portfolioData, setPortfolioData] = useState();
   const searchTermData = useRecoilValue(searchTermState);
