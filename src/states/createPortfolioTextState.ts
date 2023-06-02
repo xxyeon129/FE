@@ -63,3 +63,9 @@ export const createProjectIdList = atom<number[]>({
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
+
+export const createExperienceState = atom<string>({
+  key: 'createExperienceState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
