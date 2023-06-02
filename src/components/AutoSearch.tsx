@@ -5,23 +5,21 @@ import { portfolioDataState, searchTermState } from '@src/states/SearchResultsSt
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
-// api 테스트 및 구현 완료
+
 const AutoSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [, setPortfolioData] = useRecoilState(portfolioDataState);
-  const [, setSearchWords] = useRecoilState(searchTermState);
-  const [searchError, setSearchError] = useState('');
-
+  const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
+  const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
 
   useEffect(() => {
     const debounceSearch = debounce(async term => {
       try {
-        const response = await search(1, term);
-        if (response.data) {
-          setSuggestions(response.data);
-        }
+        const response = await axios.get(
+          `http://3.34.102.60:8080/api/portfolios/autocomplete?keyword=${term}`
+        );
+        setSuggestions(response.data.data);
       } catch (error) {
         console.error(error);
       }
@@ -32,18 +30,13 @@ const AutoSearch = () => {
 
   const handleChange = e => {
     const term = e.target.value;
-    setSearchError('');
     setSearchTerm(term);
   };
 
   const handleKeyDown = async e => {
     if (e.key === 'Enter') {
-      // if (searchTerm === '') {
-      //   setSearchError('단어를 입력해주세요');
-      //   return; // 검색어가 비어있으면 동작하지 않음
-      // }
-      const searchPortfolioData = await searchPage(1, searchTerm);
-      setPortfolioData(searchPortfolioData);
+      const portData = await searchPage(1, searchTerm);
+      setPortfolioData(portData);
       setSearchWords(searchTerm);
       navigate('/searchresults');
     }
@@ -56,7 +49,6 @@ const AutoSearch = () => {
   return (
     <div>
       <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
-      <p>{searchError}</p>
       {searchTerm !== '' && suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion, index) => (
