@@ -4,10 +4,12 @@ import { portfolioDataState } from '@src/states/SearchResultsState';
 import { styled } from 'styled-components';
 import { searchPage } from '@src/apis/search';
 import { searchTermState } from '@src/states/SearchResultsState';
+import { useNavigate } from 'react-router-dom';
 
 const SearchResults = () => {
   const [portfolioData, setPortfolioData] = useState();
   const searchTermData = useRecoilValue(searchTermState);
+  const navigate = useNavigate();
 
   const handlePageButtonClick = async index => {
     const pageData = await searchPage(index, searchTermData);
@@ -17,6 +19,10 @@ const SearchResults = () => {
   // 초기 상태일 때는 검색어 x -> handlePageButtonClick => searchTermData 빈값이어서 전체 데이타 불러와지고 ->검색어 입력 searchTermState 변화 -> [searchTermData] 의존성 배열때문에  handlePageButtonClick(1); 실행됨
 
   // const portfolioDataData = useRecoilValue(portfolioDataState);
+
+  const onClickHandler = id => {
+    navigate(`/detail/${id}`);
+  };
 
   useEffect(() => {
     handlePageButtonClick(1);
@@ -29,7 +35,7 @@ const SearchResults = () => {
         <>
           <h2>'{searchTermData}' 기술 보유 포트폴리오 입니다.</h2>
           {portfolioData.content.map((portfolio, index) => (
-            <Stboard key={index}>
+            <Stboard key={index} onClick={() => onClickHandler(portfolio.id)}>
               <h3>{portfolio.portfolioTitle}</h3>
               <p>{portfolio.userName}</p>
               <img src={portfolio.userProfileImage} alt="User Profile Image" />
