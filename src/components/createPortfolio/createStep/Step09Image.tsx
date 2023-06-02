@@ -1,51 +1,40 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
+
+import { createPortfolio } from '@src/apis/portfolio';
+import { PATH_URL } from '@src/constants/constants';
+
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
-import {
-  createBlogState,
-  createCategoryState,
-  createEmailState,
-  createExperienceState,
-  createFilterState,
-  createGithubState,
-  createLocationState,
-  createProjectIdListState,
-  createResidenceState,
-  createTechStackState,
-  createTelephoneState,
-  createTitleState,
-  createYoutubeState,
-} from '@src/states';
-import { useRecoilValue } from 'recoil';
-import { useState, useEffect } from 'react';
-import { styled } from 'styled-components';
-import { createPortfolio } from '@src/apis/portfolio';
-import { useNavigate } from 'react-router-dom';
-import { PATH_URL } from '@src/constants/constants';
+import useCreatPortfolioRecoilValues from '@src/Hook/useCreatePortfolioRecoilValues';
 
 const Step09Image = () => {
-  const portfolioTitle = useRecoilValue(createTitleState);
-  const category = useRecoilValue(createCategoryState);
-  const filter = useRecoilValue(createFilterState);
-  const email = useRecoilValue(createEmailState);
-  const residence = useRecoilValue(createResidenceState);
-  const location = useRecoilValue(createLocationState);
-  const telephone = useRecoilValue(createTelephoneState);
-  const techStackArray = useRecoilValue(createTechStackState);
-  const projectIdList = useRecoilValue(createProjectIdListState);
-  const experience = useRecoilValue(createExperienceState);
-  const githubId = useRecoilValue(createGithubState);
-  const youtubeUrl = useRecoilValue(createYoutubeState);
-  const blogUrl = useRecoilValue(createBlogState);
+  const {
+    portfolioTitle,
+    category,
+    filter,
+    email,
+    residence,
+    location,
+    telephone,
+    techStackArray,
+    projectIdList,
+    experience,
+    githubId,
+    youtubeUrl,
+    blogUrl,
+  } = useCreatPortfolioRecoilValues();
 
   const techStack = techStackArray.toString();
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
 
-  const isNoImageFile = imageFile === null;
-
   const navigate = useNavigate();
+
+  const isNoImageFile = imageFile === null;
 
   const onUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -82,9 +71,6 @@ const Step09Image = () => {
 
     imageFile && formData.append('portfolioImage', imageFile);
 
-    // TEST CODE
-    // console.log(...formData);
-
     return formData;
   };
 
@@ -95,6 +81,7 @@ const Step09Image = () => {
     try {
       await createPortfolio(formData);
       alert('TEST ALERT: 포트폴리오 작성 완료');
+      localStorage.removeItem('recoil-persist');
       navigate(PATH_URL.MAIN);
     } catch (error) {
       if (isNoImageFile) alert('TEST ALERT: 이미지를 추가해주세요!');
