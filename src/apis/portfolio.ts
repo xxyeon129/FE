@@ -1,7 +1,7 @@
 import apiRequest from '.';
 import { GetLastIdParams, GetAllListParams, GetFilteredListParams } from '@src/types/apiParamsType';
+import { accessToken, refreshToken } from './token';
 
-// TODO: 서버 배포 시 API 형식에 맞게 수정
 const RESOURCE = '/api/portfolios';
 
 export const getLastId = async ({ category, filter }: GetLastIdParams) => {
@@ -70,11 +70,35 @@ export const getFilteredList = async ({
   }
 };
 
-export const createPortfolio = (formData: FormData) => {
+export const getMyPortfolio = async () => {
   try {
-    return apiRequest.post(RESOURCE, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+    const response = await apiRequest.get(`${RESOURCE}/myportfolios`, {
+      headers: {
+        Authorization: accessToken,
+        RefreshToken: refreshToken,
+      },
     });
+
+    // console.log(response.data.data);
+
+    return response.data.data;
+  } catch (error) {
+    throw new Error('API getAllList error');
+  }
+};
+
+export const createPortfolio = async (formData: FormData) => {
+  try {
+    const response = await apiRequest.post(RESOURCE, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: accessToken,
+        RefreshToken: refreshToken,
+      },
+    });
+
+    // TEST CODE
+    console.log(response);
   } catch (error) {
     throw new Error('API createPortfolio error');
   }
