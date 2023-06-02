@@ -47,7 +47,6 @@ const MyPage = () => {
       setNickname(data.nickname);
       setEmail(data.email);
       setPreviewImage(data.profileImage);
-      console.log(data);
     }
   }, [data]);
 
@@ -94,6 +93,11 @@ const MyPage = () => {
       setPreviewImage(previewURLs);
     }
   };
+
+  // const removeProfileImage = () => {
+  //   setProfileImage(null);
+  //   setPreviewImage(null);
+  // };
 
   const handleCloseClick = () => {
     setIsEditing(false);
@@ -170,6 +174,12 @@ const MyPage = () => {
     formData.append('nickname', nicknameBlob);
     profileImage && formData.append('profileImage', profileImage);
 
+    // if (previewImage) {
+    //   formData.append('profileImage', profileImage);
+    // } else {
+    //   formData.append('profileImage', null);
+    // }
+
     try {
       await updateUserMutation.mutateAsync(formData);
       refetch();
@@ -186,6 +196,7 @@ const MyPage = () => {
           <h1>회원정보 수정</h1>
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             {previewImage && <img src={previewImage} alt="Preview" />}
+            {/* <button onClick={removeProfileImage}>이미지 삭제</button> */}
             <div>
               <input
                 type="file"

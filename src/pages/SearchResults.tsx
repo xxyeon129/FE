@@ -7,7 +7,7 @@ import { searchTermState } from '@src/states/SearchResultsState';
 import { useNavigate } from 'react-router-dom';
 
 const SearchResults = () => {
-  const [portfolioData, setPortfolioData] = useState(null);
+  const [portfolioData, setPortfolioData] = useState();
   const searchTermData = useRecoilValue(searchTermState);
   const navigate = useNavigate();
 
@@ -25,31 +25,29 @@ const SearchResults = () => {
   };
 
   useEffect(() => {
-    if (searchTermData && !portfolioData) {
-      handlePageButtonClick(1);
-    }
+    handlePageButtonClick(1);
   }, [searchTermData]);
 
   return (
     <div>
       <h1>Search Result</h1>
-      {searchTermData ? (
-        portfolioData && portfolioData.content.length > 0 ? (
-          <>
+      {portfolioData && portfolioData.content.length > 0 ? (
+        <>
+          {searchTermData ? (
             <h2>'{searchTermData}' 기술 보유 포트폴리오 입니다.</h2>
-            {portfolioData.content.map((portfolio, index) => (
-              <Stboard key={index} onClick={() => onClickHandler(portfolio.id)}>
-                <h3>{portfolio.portfolioTitle}</h3>
-                <p>{portfolio.userName}</p>
-                <img src={portfolio.userProfileImage} alt="User Profile Image" />
-              </Stboard>
-            ))}
-          </>
-        ) : (
-          <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
-        )
+          ) : (
+            <h2>모든 포트폴리오입니다.</h2>
+          )}
+          {portfolioData.content.map((portfolio, index) => (
+            <Stboard key={index} onClick={() => onClickHandler(portfolio.id)}>
+              <h3>{portfolio.portfolioTitle}</h3>
+              <p>{portfolio.userName}</p>
+              <img src={portfolio.userProfileImage} alt="User Profile Image" />
+            </Stboard>
+          ))}
+        </>
       ) : (
-        <h2>다시 입력 해주세요</h2>
+        <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
       )}
       {portfolioData &&
         Array.from({ length: portfolioData.totalPages }, (_, index) => (

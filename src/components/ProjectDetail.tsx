@@ -114,6 +114,7 @@ const ProjectModal: React.FC<{
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
       setImageList(fileList);
+      console.log(fileList);
 
       const previewURLs = fileList.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
