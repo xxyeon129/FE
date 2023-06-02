@@ -23,7 +23,6 @@ const MainRouter = () => {
           <Route path={PATH_URL.PORTFOLIODETAIL} element={<PortfolioDetails />} />
           <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
           <Route path={PATH_URL.HYO2} element={<LinkPreview />} />
-          <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
           <Route path={PATH_URL.MYPORTFOLIO} element={<MyPortfolio />} />
           <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
         </Routes>
