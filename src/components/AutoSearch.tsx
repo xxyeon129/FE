@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
@@ -12,6 +12,7 @@ const AutoSearch = () => {
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
   const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const debounceSearch = debounce(async term => {
@@ -40,13 +41,42 @@ const AutoSearch = () => {
     setSearchTerm(suggestion);
   };
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const handleArrowNavigation = e => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const newIndex = Math.max(0, suggestions.indexOf(searchTerm) - 1);
+      setSearchTerm(suggestions[newIndex]);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const newIndex = Math.min(suggestions.length - 1, suggestions.indexOf(searchTerm) + 1);
+      setSearchTerm(suggestions[newIndex]);
+    }
+  };
+
   return (
     <div>
-      <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleChange}
+        onKeyDown={e => {
+          handleKeyDown(e);
+          handleArrowNavigation(e);
+        }}
+        ref={inputRef}
+      />
       {searchTerm !== '' && suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion, index) => (
-            <li key={index} onClick={() => handleClickSuggestion(suggestion)}>
+            <li
+              key={index}
+              onClick={() => handleClickSuggestion(suggestion)}
+              className={searchTerm === suggestion ? 'active' : ''}
+            >
               {suggestion}
             </li>
           ))}
