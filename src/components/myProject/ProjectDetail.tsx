@@ -33,8 +33,13 @@ const ProjectModal: React.FC<{
   const [peopleError, setPeopleError] = useState<string>('');
   const [positionError, setPositionError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
+  const accessToken = localStorage.getItem('accesstoken');
 
-  const handleEdit = () => setIsEditable(!isEditable);
+  const handleEdit = () => {
+    if (accessToken) {
+      setIsEditable(!isEditable);
+    }
+  };
 
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
     const project = await getProject();
@@ -207,13 +212,17 @@ const ProjectModal: React.FC<{
                 <div>{data?.description}</div>
               </>
             )}
-            {isEditable ? (
+            {accessToken && (
               <>
-                <button onClick={handleSubmit}>수정완료</button>
-                <button onClick={handleEdit}>취소</button>
+                {isEditable ? (
+                  <>
+                    <button onClick={handleSubmit}>수정완료</button>
+                    <button onClick={handleEdit}>취소</button>
+                  </>
+                ) : (
+                  <button onClick={handleEdit}>수정하기</button>
+                )}
               </>
-            ) : (
-              <button onClick={handleEdit}>수정하기</button>
             )}
             <button onClick={handleCloseModal}>닫기</button>
           </ModalContent>
