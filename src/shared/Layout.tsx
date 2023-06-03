@@ -16,7 +16,8 @@ const StLayout = styled.div`
 `;
 
 const StContent = styled.div`
-  width: 100%;
+  margin-left: 250px;
+  background-color: lightgray;
 `;
 
 export default Layout;

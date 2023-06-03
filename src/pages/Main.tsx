@@ -150,7 +150,7 @@ const Main = () => {
 const StPortfolioPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  /* width: 90vw; */
   align-items: center;
 `;
 

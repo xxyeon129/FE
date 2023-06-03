@@ -35,10 +35,12 @@ const StNav = styled.div`
   flex-direction: column;
   border-right: 1px solid ${({ theme }) => theme.color.lightGray};
 
-  width: 260px;
+  position: fixed;
+  height: 100vh;
+  width: 250px;
   padding: 25px;
-  /* 
-  background-color: lightcoral; */
+
+  background-color: lightcoral;
 `;
 
 const StCategoryContainer = styled.div`

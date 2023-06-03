@@ -6,7 +6,7 @@ const UserProfile = () => {
     <StProfileContainer>
       <StProfileIcon />
       <StProfileTextContainer>
-        <StUserName>USER ID</StUserName>
+        <StUserName>USER ID4389534789435754398</StUserName>
         <StUserEmail>email@gmail.com</StUserEmail>
       </StProfileTextContainer>
     </StProfileContainer>
