@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
-import { getProject, updateProject } from '@src/apis/ProjectApi';
+import { getProject, updateProject } from '@src/apis/projectapi';
 // 프로젝트 상세페이지 및 수정 기능
 interface ProjectDetailData {
   title: string;
@@ -114,11 +114,15 @@ const ProjectModal: React.FC<{
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
       setImageList(fileList);
-      console.log(fileList);
 
       const previewURLs = fileList.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
+  };
+
+  const removeImageHandler = () => {
+    setImageList([]);
+    setPreviewImages([]);
   };
 
   const handleSubmit = async () => {
@@ -131,13 +135,15 @@ const ProjectModal: React.FC<{
       position,
       description,
     });
-    const textBlob = new Blob([text], { type: 'image' });
+    const textBlob = new Blob([text], { type: 'application/json' });
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob);
+    setImageList([]);
 
     try {
       await updateProjectMutation.mutateAsync(formData);
       console.log('Project updated');
+      setIsEditable(false);
     } catch (error) {
       console.log(error);
     }
@@ -151,64 +157,67 @@ const ProjectModal: React.FC<{
   return (
     <>
       {showModal && (
-        <Modal>
-          {isEditable ? (
-            <>
-              <div>
+        <ModalWrapper>
+          <ModalContent>
+            {isEditable ? (
+              <>
                 <div>
-                  {previewImages.map((url, index) => (
-                    <img key={index} src={url} alt="Preview" />
+                  <div>
+                    {previewImages.map((url, index) => (
+                      <img key={index} src={url} alt="Preview" />
+                    ))}
+                  </div>
+                  <input type="file" onChange={imageHandler} />
+                  <button onClick={removeImageHandler}>이미지 삭제</button>
+                </div>
+                <div>
+                  <div>
+                    <input type="text" value={title} onChange={titleHandler} />
+                  </div>
+                  {titleError && <div>{titleError}</div>}
+                  <div>
+                    <input type="text" value={term} onChange={termHandler} />
+                  </div>
+                  {termError && <div>{termError}</div>}
+                  <div>
+                    <input type="text" value={people} onChange={peopleHandler} />
+                  </div>
+                  {peopleError && <div>{peopleError}</div>}
+                  <div>
+                    <input type="text" value={position} onChange={positionHandler} />
+                  </div>
+                  {positionError && <div>{positionError}</div>}
+                </div>
+                <div>
+                  <textarea value={description} onChange={descriptionHandler}></textarea>
+                </div>
+                {descriptionError && <div>{descriptionError}</div>}
+              </>
+            ) : (
+              <>
+                <div>
+                  {data?.projectImageList.map((image: any, index: number) => (
+                    <img key={index} src={image.imageUrl} alt="Preview" />
                   ))}
                 </div>
-                <input type="file" onChange={imageHandler} />
-              </div>
-              <div>
-                <div>
-                  <input type="text" value={title} onChange={titleHandler} />
-                </div>
-                {titleError && <div>{titleError}</div>}
-                <div>
-                  <input type="text" value={term} onChange={termHandler} />
-                </div>
-                {termError && <div>{termError}</div>}
-                <div>
-                  <input type="text" value={people} onChange={peopleHandler} />
-                </div>
-                {peopleError && <div>{peopleError}</div>}
-                <div>
-                  <input type="text" value={position} onChange={positionHandler} />
-                </div>
-                {positionError && <div>{positionError}</div>}
-              </div>
-              <div>
-                <textarea value={description} onChange={descriptionHandler}></textarea>
-              </div>
-              {descriptionError && <div>{descriptionError}</div>}
-            </>
-          ) : (
-            <>
-              <div>
-                {data?.projectImageList.map((image: any, index: number) => (
-                  <img key={index} src={image.imageUrl} alt="Preview" />
-                ))}
-              </div>
-              <div>{data?.title}</div>
-              <div>{data?.term}</div>
-              <div>{data?.people}</div>
-              <div>{data?.position}</div>
-              <div>{data?.description}</div>
-            </>
-          )}
-          {isEditable ? (
-            <>
-              <button onClick={handleSubmit}>수정완료</button>
-              <button onClick={handleEdit}>취소</button>
-            </>
-          ) : (
-            <button onClick={handleEdit}>수정하기</button>
-          )}
-          <button onClick={handleCloseModal}>닫기</button>
-        </Modal>
+                <div>{data?.title}</div>
+                <div>{data?.term}</div>
+                <div>{data?.people}</div>
+                <div>{data?.position}</div>
+                <div>{data?.description}</div>
+              </>
+            )}
+            {isEditable ? (
+              <>
+                <button onClick={handleSubmit}>수정완료</button>
+                <button onClick={handleEdit}>취소</button>
+              </>
+            ) : (
+              <button onClick={handleEdit}>수정하기</button>
+            )}
+            <button onClick={handleCloseModal}>닫기</button>
+          </ModalContent>
+        </ModalWrapper>
       )}
     </>
   );
@@ -216,10 +225,28 @@ const ProjectModal: React.FC<{
 
 export default ProjectModal;
 
-const Modal = styled.div`
+// const Modal = styled.div`
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   background-color: white;
+// `;
+
+const ModalWrapper = styled.div`
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
   background-color: white;
+  padding: 20px;
+  border-radius: 4px;
 `;

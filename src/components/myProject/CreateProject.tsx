@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
-import { createProject } from '@src/apis/ProjectApi';
-import { error } from 'console';
+import { createProject } from '@src/apis/projectapi';
+
 // 프로젝트 작성
 const CreateProject: React.FC<{
   showModal1: boolean;
@@ -102,6 +102,7 @@ const CreateProject: React.FC<{
     const textBlob = new Blob([text], { type: 'application/json' });
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
+    setShowModal1(false);
     return createProject(formData);
   });
 
@@ -116,40 +117,42 @@ const CreateProject: React.FC<{
   return (
     <>
       {showModal1 && (
-        <Modal>
-          <div>
+        <ModalWrapper>
+          <ModalContent>
             <div>
-              <input type="text" value={title} onChange={titleHandler} />
+              <div>
+                <input type="text" value={title} onChange={titleHandler} />
+              </div>
+              {titleError && <div>{titleError}</div>}
+              <div>
+                <input type="text" value={term} onChange={termHandler} />
+              </div>
+              {termError && <div>{termError}</div>}
+              <div>
+                <input type="text" value={people} onChange={peopleHandler} />
+              </div>
+              {peopleError && <div>{peopleError}</div>}
+              <div>
+                <input type="text" value={position} onChange={positionHandler} />
+              </div>
+              {positionError && <div>{positionError}</div>}
             </div>
-            {titleError && <div>{titleError}</div>}
             <div>
-              <input type="text" value={term} onChange={termHandler} />
+              <input type="file" onChange={imageHandler}></input>
             </div>
-            {termError && <div>{termError}</div>}
             <div>
-              <input type="text" value={people} onChange={peopleHandler} />
+              {previewImages.map((url, index) => (
+                <img key={index} src={url} alt="프리뷰" />
+              ))}
             </div>
-            {peopleError && <div>{peopleError}</div>}
             <div>
-              <input type="text" value={position} onChange={positionHandler} />
+              <textarea value={description} onChange={descriptionHandler}></textarea>
+              {descriptionError && <div>{descriptionError}</div>}
             </div>
-            {positionError && <div>{positionError}</div>}
-          </div>
-          <div>
-            <input type="file" onChange={imageHandler}></input>
-          </div>
-          <div>
-            {previewImages.map((url, index) => (
-              <img key={index} src={url} alt="프리뷰" />
-            ))}
-          </div>
-          <div>
-            <textarea value={description} onChange={descriptionHandler}></textarea>
-            {descriptionError && <div>{descriptionError}</div>}
-          </div>
-          <button onClick={handleSubmit}>작성완료</button>
-          <button onClick={handleCloseModal}>뒤로가기</button>
-        </Modal>
+            <button onClick={handleSubmit}>작성완료</button>
+            <button onClick={handleCloseModal}>뒤로가기</button>
+          </ModalContent>
+        </ModalWrapper>
       )}
     </>
   );
@@ -157,10 +160,28 @@ const CreateProject: React.FC<{
 
 export default CreateProject;
 
-const Modal = styled.div`
+// const Modal = styled.div`
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   background-color: white;
+// `;
+
+const ModalWrapper = styled.div`
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
   background-color: white;
+  padding: 20px;
+  border-radius: 4px;
 `;
