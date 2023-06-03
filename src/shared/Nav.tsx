@@ -2,8 +2,8 @@ import { categoryState, filterState } from '@src/states';
 import { categoryList } from '@src/constants/portfolioFilteringData';
 import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import AutoSearch from '../AutoSearch';
-const TestNav = () => {
+import AutoSearch from '../components/AutoSearch';
+const Nav = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
 
@@ -39,4 +39,4 @@ const StCategoryLabel = styled.div`
   cursor: pointer;
 `;
 
-export default TestNav;
+export default Nav;

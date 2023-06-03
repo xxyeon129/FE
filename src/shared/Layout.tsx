@@ -1,4 +1,4 @@
-import TestNav from '@src/components/main/TestNav';
+import TestNav from '@src/shared/Nav';
 import { styled } from 'styled-components';
 import { ReactNode } from 'react';
 
