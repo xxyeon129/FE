@@ -3,6 +3,7 @@ import { categoryList } from '@src/constants/portfolioFilteringData';
 import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import AutoSearch from '../components/AutoSearch';
+import UserProfile from '@src/components/nav/UserProfile';
 const Nav = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
@@ -13,26 +14,35 @@ const Nav = () => {
   };
 
   return (
-    <StCategoryContainer>
-      {categoryList.map((categoryItem: string, categoryItemIndex: number) => (
-        <StCategoryLabel key={categoryItemIndex} onClick={() => onClickCategory(categoryItem)}>
-          {categoryItem}
-        </StCategoryLabel>
-      ))}
+    <StNav>
+      <UserProfile />
+
       <AutoSearch />
-    </StCategoryContainer>
+
+      <StCategoryContainer>
+        {categoryList.map((categoryItem: string, categoryItemIndex: number) => (
+          <StCategoryLabel key={categoryItemIndex} onClick={() => onClickCategory(categoryItem)}>
+            {categoryItem}
+          </StCategoryLabel>
+        ))}
+      </StCategoryContainer>
+    </StNav>
   );
 };
 
-const StCategoryContainer = styled.div`
+const StNav = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 1rem;
-  gap: 0.5rem;
+  border-right: 1px solid ${({ theme }) => theme.color.lightGray};
 
   width: 260px;
-  height: 100vh;
   padding: 25px;
+  /* 
+  background-color: lightcoral; */
+`;
+
+const StCategoryContainer = styled.div`
+  background-color: lightgoldenrodyellow;
 `;
 
 const StCategoryLabel = styled.div`

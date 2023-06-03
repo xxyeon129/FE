@@ -26,7 +26,6 @@ th,
 td,
 footer,
 header,
-hgroup,
 menu,
 nav,
 section {
@@ -37,6 +36,12 @@ section {
   font: inherit;
   vertical-align: baseline;
   text-decoration: none;
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
 }
 /* HTML5 display-role reset for older browsers */
 body {

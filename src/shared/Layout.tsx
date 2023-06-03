@@ -1,11 +1,11 @@
-import TestNav from '@src/shared/Nav';
+import Nav from '@src/shared/Nav';
 import { styled } from 'styled-components';
 import { ReactNode } from 'react';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <StLayout>
-      <TestNav />
+      <Nav />
       <StContent>{children}</StContent>
     </StLayout>
   );
