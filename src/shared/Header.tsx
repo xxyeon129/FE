@@ -1,24 +1,27 @@
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
+import { selectedCategoryState, selectedHeaderState } from '@src/states';
 import { PATH_URL } from '@src/constants/constants';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
-import { useSetRecoilState } from 'recoil';
-import { selectedCategoryState } from '@src/states';
 
 const Header = () => {
   const userId = useDecodeJWT().userId;
 
   const headerList = [
-    { value: 'Main', underLineWidth: '28%', path: PATH_URL.MAIN },
+    { value: 'Services', underLineWidth: '45%', path: '' },
     { value: 'My Portfolios', underLineWidth: '75%', path: PATH_URL.MYPORTFOLIO },
     { value: 'My Page', underLineWidth: '50%', path: `${PATH_URL.MY_PAGE}/${userId}` },
-    { value: 'Notification', underLineWidth: '65%' },
+    { value: 'Notification', underLineWidth: '65%', path: '' },
   ];
 
   const setSelectedCategory = useSetRecoilState(selectedCategoryState);
+  const [selectedHeader, setSelectedHeader] = useRecoilState(selectedHeaderState);
+
   const navigate = useNavigate();
 
   const onClickText = (path: string) => {
+    setSelectedHeader(true);
     setSelectedCategory('');
     navigate(path);
   };
@@ -29,10 +32,16 @@ const Header = () => {
         {headerList.map(list => (
           <StList key={list.value}>
             <StLabel>
-              <StCheckItem type="radio" name="header" value={list.value} />
+              <StCheckItem
+                type="radio"
+                name="header"
+                value={list.value}
+                headerclicked={`${selectedHeader}`}
+              />
               <StText
                 underlinewidth={list.underLineWidth}
-                onClick={() => list.path && onClickText(list.path)}
+                headerclicked={`${selectedHeader}`}
+                onClick={() => onClickText(list.path)}
               >
                 {list.value}
               </StText>
@@ -71,7 +80,7 @@ const StLabel = styled.label`
   display: block;
 `;
 
-const StText = styled.span<{ underlinewidth: string }>`
+const StText = styled.span<{ underlinewidth: string; headerclicked: string }>`
   cursor: pointer;
   position: relative;
 
@@ -83,7 +92,7 @@ const StText = styled.span<{ underlinewidth: string }>`
     content: '';
     display: block;
     position: absolute;
-    background-color: black;
+    background-color: ${({ headerclicked }) => (headerclicked === 'true' ? 'black' : 'white')};
     margin-top: 10px;
     bottom: 0;
     width: ${({ underlinewidth }) => underlinewidth};
@@ -94,7 +103,7 @@ const StText = styled.span<{ underlinewidth: string }>`
   }
 `;
 
-const StCheckItem = styled.input`
+const StCheckItem = styled.input<{ headerclicked: string }>`
   display: none;
   &:hover + ${StText}::before {
     transform: scaleX(0.5);
@@ -105,7 +114,7 @@ const StCheckItem = styled.input`
     transition: 0.25s transform cubic-bezier(0, 0, 0.1, 1);
   }
   &:checked + ${StText} {
-    font-weight: bold;
+    font-weight: ${({ headerclicked }) => (headerclicked === 'true' ? 'bold' : 'normal')};
   }
 `;
 

@@ -1,7 +1,12 @@
 import { styled } from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { categoryState, filterState, selectedCategoryState } from '@src/states';
+import {
+  categoryState,
+  filterState,
+  selectedCategoryState,
+  selectedHeaderState,
+} from '@src/states';
 import { categoryListWithIcon } from '@src/constants/portfolioFilteringData';
 import { PATH_URL } from '@src/constants/constants';
 import { ReactComponent as HomeIcon } from '@src/assets/nav/nav-home-icon.svg';
@@ -10,6 +15,7 @@ const Category = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
   const [selectedCategory, setSelectedCategory] = useRecoilState(selectedCategoryState);
+  const setSelectedHeader = useSetRecoilState(selectedHeaderState);
 
   const navigate = useNavigate();
 
@@ -17,6 +23,7 @@ const Category = () => {
     setCategory(categoryItem);
     setFilter('All');
     setSelectedCategory(categoryItem);
+    setSelectedHeader(false);
     navigate(PATH_URL.MAIN);
   };
 
@@ -24,6 +31,7 @@ const Category = () => {
     setCategory('All');
     setFilter('All');
     setSelectedCategory('Home');
+    setSelectedHeader(false);
     navigate(PATH_URL.MAIN);
   };
 
