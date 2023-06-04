@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import AutoSearch from '../components/AutoSearch';
 import UserProfile from '@src/components/nav/UserProfile';
+import Logout from '@src/components/nav/Logout';
 const Nav = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
@@ -26,6 +27,10 @@ const Nav = () => {
           </StCategoryLabel>
         ))}
       </StCategoryContainer>
+
+      <StBottomContainer>
+        <Logout />
+      </StBottomContainer>
     </StNav>
   );
 };
@@ -50,5 +55,7 @@ const StCategoryContainer = styled.div`
 const StCategoryLabel = styled.div`
   cursor: pointer;
 `;
+
+const StBottomContainer = styled.div``;
 
 export default Nav;

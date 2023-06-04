@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { ReactComponent as ProfileIcon } from '@src/assets/default-user-image-icon.svg';
+import { ReactComponent as ProfileIcon } from '@src/assets/nav-default-user-image-icon.svg';
 import { useEffect, useState } from 'react';
 import { getUser } from '@src/apis/user';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
