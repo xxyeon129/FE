@@ -6,7 +6,7 @@ import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
 const UserProfile = () => {
   const userId = useDecodeJWT().userId;
-  const [userData, setUserData] = useState({ nickname: '', email: '' });
+  const [userData, setUserData] = useState({ nickname: '', email: '', profileImage: null });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -18,7 +18,11 @@ const UserProfile = () => {
 
   return (
     <StProfileContainer>
-      <StProfileIcon />
+      {userData.profileImage !== null ? (
+        <StProfileImg src={userData.profileImage} alt="user profile image" />
+      ) : (
+        <StProfileIcon />
+      )}
       <StProfileTextContainer>
         <StUserName>{userData.nickname}</StUserName>
         <StUserEmail>{userData.email}</StUserEmail>
@@ -30,6 +34,13 @@ const UserProfile = () => {
 const StProfileContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const StProfileImg = styled.img`
+  width: 53px;
+  height: 53px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 const StProfileIcon = styled(ProfileIcon)`
