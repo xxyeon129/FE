@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ReactTinyLink } from 'react-tiny-link';
 import { styled } from 'styled-components';
 import ProjectModal from '@src/components/ProjectDetail';
 
 function PortfolioDetails() {
+  interface Project {
+    id: number;
+    title: string;
+    term: string;
+    people: string;
+    position: string;
+  }
+
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -13,20 +20,22 @@ function PortfolioDetails() {
   const [residence, setResidence] = useState<string>('');
   const [telephone, setTelephone] = useState<string>('');
   const [experience, setExperience] = useState<string>('');
-  const [techStack, setTechStack] = useState([]);
+  const [techStack, setTechStack] = useState<string[]>([]);
   const [githubId, setGithubId] = useState<string>('');
   const [youtube, setYoutube] = useState<string>('');
   const [blog, setBlog] = useState<string>('');
-  const [projectList, setProjectList] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [projectList, setProjectList] = useState<number[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [portfolioImage, setPortfolioImage] = useState<File | null>(null);
   const [portEdit, setPortEdit] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
-  const [portfolioImage, setPortfolioImage] = useState(null);
-  const [projectModal, setProjectModal] = useState(false);
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   const navigate = useNavigate();
+
+  console.log('dd', projects);
 
   useEffect(() => {
     getMyPortfolio();
@@ -40,7 +49,6 @@ function PortfolioDetails() {
     console.log(response.data.data);
     const projects = response.data.data.projectList;
     const projectIdList = projects.map(project => parseInt(project.id));
-    // console.log(projectIdList);
 
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
@@ -58,8 +66,6 @@ function PortfolioDetails() {
       setTechStack(response.data.data.techStack.split(','));
     }
   };
-
-  console.log('projectList : ', projectList);
 
   const PortfolioEdit = async () => {
     const accessToken = localStorage.getItem('accesstoken');
@@ -83,8 +89,6 @@ function PortfolioDetails() {
       intro,
     };
 
-    console.log('요청시 리스트 : ', typeof projectList);
-
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
       type: 'application/json',
     });
@@ -94,27 +98,32 @@ function PortfolioDetails() {
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
     updatedData.append('portfolioImage', portfolioImageBlob);
 
-    const response = await axios.patch(
-      `http://3.34.102.60:8080/api/portfolios/${portfolioId}`,
-      updatedData,
-      {
-        headers: {
-          Authorization: accessToken,
-          RefreshToken: refreshToken,
-        },
+    try {
+      const response = await axios.patch(
+        `http://3.34.102.60:8080/api/portfolios/${portfolioId}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: accessToken,
+            RefreshToken: refreshToken,
+          },
+        }
+      );
+      alert('수정완료');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        //401 토큰에러
+        alert('토큰이 일치하지 않습니다.');
       }
-    );
-
-    console.log('response:', response.data);
+    }
   };
 
   const onPortfolioEdit = () => {
-    console.log('수정');
+    console.log('수정페이지 이미지 : ', portfolioImage);
     setPortEdit(true);
   };
 
   const onPortfolioUpdate = async () => {
-    console.log('수정완료');
     setPortEdit(false);
     await PortfolioEdit();
     await getMyPortfolio();
@@ -166,10 +175,8 @@ function PortfolioDetails() {
   const onProjectDetail = projectId => {
     console.log(projectId);
     setSelectedProjectId(projectId);
-    setProjectModal(true);
+    setIsProjectModalOpen(true);
   };
-
-  const onProjectModal = () => {};
 
   return (
     <>
@@ -245,6 +252,12 @@ function PortfolioDetails() {
                 <img src={portfolioImage} alt="" />
               </div>
               <div>
+                <a href={blog}>{blog}</a>
+              </div>
+              <div>
+                <a href={youtube}>{youtube}</a>
+              </div>
+              <div>
                 <img src={`https://ghchart.rshah.org/${githubId}`} alt="GitHub Contributions" />
               </div>
               <ProjectList>
@@ -258,7 +271,9 @@ function PortfolioDetails() {
                   </ProjectBox>
                 ))}
 
-                <ProjectModal projectId={selectedProjectId} />
+                {isProjectModalOpen && (
+                  <ProjectModal projectId={selectedProjectId} showModal={isProjectModalOpen} />
+                )}
               </ProjectList>
             </div>
           )}
