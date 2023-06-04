@@ -23,7 +23,7 @@ const Header = () => {
     <StHeader>
       <StUnorderedList>
         {headerList.map(list => (
-          <StList id={list.value}>
+          <StList key={list.value}>
             <StLabel>
               <StCheckItem type="radio" name="header" value={list.value} />
               <StText
