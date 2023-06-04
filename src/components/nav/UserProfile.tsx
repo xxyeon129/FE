@@ -1,13 +1,27 @@
 import { styled } from 'styled-components';
 import { ReactComponent as ProfileIcon } from '@src/assets/default-user-image-icon.svg';
+import { useEffect, useState } from 'react';
+import { getUser } from '@src/apis/user';
+import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
 const UserProfile = () => {
+  const userId = useDecodeJWT().userId;
+  const [userData, setUserData] = useState({ nickname: '', email: '' });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const serverUserData = await getUser({ id: userId });
+      setUserData(serverUserData);
+    };
+    fetchUserData();
+  }, []);
+
   return (
     <StProfileContainer>
       <StProfileIcon />
       <StProfileTextContainer>
-        <StUserName>USER ID4389534789435754398</StUserName>
-        <StUserEmail>email@gmail.com</StUserEmail>
+        <StUserName>{userData.nickname}</StUserName>
+        <StUserEmail>{userData.email}</StUserEmail>
       </StProfileTextContainer>
     </StProfileContainer>
   );
@@ -16,7 +30,6 @@ const UserProfile = () => {
 const StProfileContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: lightblue;
 `;
 
 const StProfileIcon = styled(ProfileIcon)`
