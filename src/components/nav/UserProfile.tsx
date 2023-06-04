@@ -3,37 +3,43 @@ import { ReactComponent as ProfileIcon } from '@src/assets/nav/nav-default-user-
 import { useEffect, useState } from 'react';
 import { getUser } from '@src/apis/user';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
+import { useRecoilValue } from 'recoil';
+import { loginState } from '@src/states';
 
 const UserProfile = () => {
+  const isLogin = useRecoilValue(loginState);
   const [userData, setUserData] = useState({
     nickname: '로그인해 주세요.',
     email: '',
     profileImage: null,
   });
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isLogin = localStorage.getItem('accesstoken');
   let userId: null | number = null;
-  if (isLogin !== null) userId = useDecodeJWT().userId;
 
   useEffect(() => {
+    const token = localStorage.getItem('accesstoken');
+    if (token !== null) userId = useDecodeJWT().userId;
+
     const fetchUserData = async () => {
       if (userId !== null) {
         const serverUserData = await getUser({ id: userId });
         setUserData(serverUserData);
+        setIsLoading(false);
       }
     };
     fetchUserData();
-  }, []);
+  }, [isLogin]);
 
   return (
     <StProfileContainer>
       {userData.profileImage !== null ? (
         <StProfileImg src={userData.profileImage} alt="user profile image" />
       ) : (
-        <StProfileIcon />
+        !isLoading && <StProfileIcon />
       )}
       <StProfileTextContainer>
-        <StUserName>{userData.nickname}</StUserName>
+        {!isLoading && <StUserName>{userData.nickname}</StUserName>}
         <StUserEmail>{userData.email}</StUserEmail>
       </StProfileTextContainer>
     </StProfileContainer>
@@ -43,6 +49,7 @@ const UserProfile = () => {
 const StProfileContainer = styled.div`
   display: flex;
   align-items: center;
+  height: 80px;
 `;
 
 const StProfileImg = styled.img`

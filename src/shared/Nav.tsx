@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import UserProfile from '@src/components/nav/UserProfile';
 import AutoSearch from '../components/AutoSearch';
 import Category from '@src/components/nav/Category';
-import Logout from '@src/components/nav/Logout';
+import Auth from '@src/components/nav/Auth';
 import LightAndDarkMode from '@src/components/nav/LightAndDarkMode';
 
 const Nav = () => {
@@ -19,7 +19,7 @@ const Nav = () => {
       </StCategoryContainer>
 
       <StBottomContainer>
-        <Logout />
+        <Auth />
         <LightAndDarkMode />
       </StBottomContainer>
     </StNav>
