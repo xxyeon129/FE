@@ -1,12 +1,15 @@
-import { PATH_URL } from '@src/constants/constants';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { PATH_URL } from '@src/constants/constants';
+import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
 const Header = () => {
+  const userId = useDecodeJWT().userId;
+
   const headerList = [
     { value: 'Main', underLineWidth: '28%', path: PATH_URL.MAIN },
     { value: 'My Portfolios', underLineWidth: '75%', path: PATH_URL.MYPORTFOLIO },
-    { value: 'My Page', underLineWidth: '50%' },
+    { value: 'My Page', underLineWidth: '50%', path: `${PATH_URL.MY_PAGE}/${userId}` },
     { value: 'Notification', underLineWidth: '65%' },
   ];
 
