@@ -106,6 +106,11 @@ const CreateProject: React.FC<{
     return createProject(formData);
   });
 
+  const removeImage = () => {
+    setImageList([]);
+    setPreviewImages([]);
+  };
+
   const handleSubmit = () => {
     mutation.mutate();
   };
@@ -119,7 +124,17 @@ const CreateProject: React.FC<{
       {showModal1 && (
         <ModalWrapper>
           <ModalContent>
-            <div>
+            <StLayout>
+              <h1>Create Project</h1>
+              <div>
+                {previewImages.map((url, index) => (
+                  <img key={index} src={url} alt="프리뷰" />
+                ))}
+              </div>
+              <div>
+                <input type="file" onChange={imageHandler}></input>
+                <button onClick={removeImage}>이미지 삭제</button>
+              </div>
               <div>
                 <input type="text" value={title} onChange={titleHandler} />
               </div>
@@ -136,19 +151,11 @@ const CreateProject: React.FC<{
                 <input type="text" value={position} onChange={positionHandler} />
               </div>
               {positionError && <div>{positionError}</div>}
-            </div>
-            <div>
-              <input type="file" onChange={imageHandler}></input>
-            </div>
-            <div>
-              {previewImages.map((url, index) => (
-                <img key={index} src={url} alt="프리뷰" />
-              ))}
-            </div>
-            <div>
-              <textarea value={description} onChange={descriptionHandler}></textarea>
-              {descriptionError && <div>{descriptionError}</div>}
-            </div>
+              <div>
+                <textarea value={description} onChange={descriptionHandler}></textarea>
+                {descriptionError && <div>{descriptionError}</div>}
+              </div>
+            </StLayout>
             <button onClick={handleSubmit}>작성완료</button>
             <button onClick={handleCloseModal}>뒤로가기</button>
           </ModalContent>
@@ -167,7 +174,6 @@ export default CreateProject;
 //   transform: translate(-50%, -50%);
 //   background-color: white;
 // `;
-
 const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -182,6 +188,127 @@ const ModalWrapper = styled.div`
 
 const ModalContent = styled.div`
   background-color: white;
-  padding: 20px;
-  border-radius: 4px;
+  padding: 15px;
+  border-radius: 35px;
+  background: #fefefe;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-radius: 35px;
+  width: 800px;
+  height: 779px;
+  overflow-y: auto;
+  max-height: 100%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+`;
+const StLayout = styled.div`
+  padding: 0px 75px;
+
+  @media (max-width: 600px) {
+    padding: 0;
+  }
+`;
+
+const StTextWrap = styled.div`
+  display: flex;
+  justify-content: start;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
+const StTitle = styled.div`
+  width: 30%;
+  font-weight: bold;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
+const StText = styled.div`
+  width: 70%;
+  margin-left: 20px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+`;
+
+const StInput = styled.input`
+  width: 70%;
+  margin-left: 20px;
+  height: 30px;
+  background: #fafafa;
+  border: 0.6px solid black;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+`;
+
+const StTextArea = styled.textarea`
+  width: 70%;
+  margin-left: 20px;
+  height: 10vh;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+`;
+
+const StImageBox = styled.div`
+  background-image: url('public/images/no-img.jpg');
+  background-size: 600px 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 240px;
+  margin-bottom: 40px;
+`;
+
+const StImage = styled.img`
+  width: 100%;
+  height: 240px;
+`;
+
+const StTextBox = styled.div`
+  width: 100%;
+  white-space: normal;
+  word-break: break-all;
+
+  div {
+    font-size: 20px;
+    padding-bottom: 10px;
+  }
+`;
+
+const StBottom = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    width: 88px;
+    height: 35px;
+    border: 3px solid black;
+    border-radius: 12px;
+    margin: 12px;
+  }
+`;
+
+const StError = styled.div`
+  padding-left: 195px;
 `;
