@@ -25,7 +25,9 @@ const Header = () => {
   const onClickText = (path: string) => {
     setSelectedHeader(true);
     setSelectedCategory('');
-    navigate(path);
+    if (path.length !== 0) {
+      navigate(path);
+    }
   };
 
   return (
