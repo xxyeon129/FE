@@ -42,17 +42,10 @@ const StNav = styled.div`
 
 const StAutoSearchContainer = styled.div`
   padding: 33px 0;
-
-  /* background-color: lightsalmon; */
 `;
 
 const StCategoryContainer = styled.div`
-  /* background-color: lightgoldenrodyellow; */
   height: 100%;
-`;
-
-const StCategoryLabel = styled.div`
-  cursor: pointer;
 `;
 
 const StBottomContainer = styled.div`

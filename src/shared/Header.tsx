@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { PATH_URL } from '@src/constants/constants';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
+import { useSetRecoilState } from 'recoil';
+import { selectedCategoryState } from '@src/states';
 
 const Header = () => {
   const userId = useDecodeJWT().userId;
@@ -13,9 +15,11 @@ const Header = () => {
     { value: 'Notification', underLineWidth: '65%' },
   ];
 
+  const setSelectedCategory = useSetRecoilState(selectedCategoryState);
   const navigate = useNavigate();
 
   const onClickText = (path: string) => {
+    setSelectedCategory('');
     navigate(path);
   };
 

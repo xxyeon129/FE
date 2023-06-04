@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { categoryState, filterState } from '@src/states';
+import { categoryState, filterState, selectedCategoryState } from '@src/states';
 import { categoryListWithIcon } from '@src/constants/portfolioFilteringData';
 import { PATH_URL } from '@src/constants/constants';
 import { ReactComponent as HomeIcon } from '@src/assets/nav/nav-home-icon.svg';
@@ -9,18 +9,21 @@ import { ReactComponent as HomeIcon } from '@src/assets/nav/nav-home-icon.svg';
 const Category = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
+  const [selectedCategory, setSelectedCategory] = useRecoilState(selectedCategoryState);
 
   const navigate = useNavigate();
 
   const onClickCategory = (categoryItem: string) => {
     setCategory(categoryItem);
     setFilter('All');
+    setSelectedCategory(categoryItem);
     navigate(PATH_URL.MAIN);
   };
 
   const onClickHome = () => {
     setCategory('All');
     setFilter('All');
+    setSelectedCategory('Home');
     navigate(PATH_URL.MAIN);
   };
 
@@ -28,12 +31,14 @@ const Category = () => {
     <StCategory>
       <StHome onClick={onClickHome}>
         <HomeIcon />
-        <StLabel>Home</StLabel>
+        <StLabel bold={`${selectedCategory === 'Home'}`}>Home</StLabel>
       </StHome>
       {categoryListWithIcon.map((categoryItem, categoryItemIndex: number) => (
         <StCategoryItem key={categoryItemIndex} onClick={() => onClickCategory(categoryItem.value)}>
           <categoryItem.icon />
-          <StLabel key={categoryItemIndex}>{categoryItem.value}</StLabel>
+          <StLabel key={categoryItemIndex} bold={`${selectedCategory === categoryItem.value}`}>
+            {categoryItem.value}
+          </StLabel>
         </StCategoryItem>
       ))}
     </StCategory>
@@ -61,8 +66,9 @@ const StCategoryItem = styled.div`
   ${alignText}
 `;
 
-const StLabel = styled.div`
+const StLabel = styled.div<{ bold: string }>`
   margin-left: 10px;
+  font-weight: ${({ bold }) => (bold === 'true' ? 'bold' : 'normal')};
 `;
 
 export default Category;
