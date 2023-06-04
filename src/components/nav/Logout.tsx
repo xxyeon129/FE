@@ -1,5 +1,5 @@
 import { logout } from '@src/apis/user';
-import { ReactComponent as LogoutIcon } from '@src/assets/nav-logout-icon.svg';
+import { ReactComponent as LogoutIcon } from '@src/assets/nav/nav-logout-icon.svg';
 import { styled } from 'styled-components';
 
 const Logout = () => {

@@ -1,20 +1,11 @@
-import { categoryState, filterState } from '@src/states';
-import { categoryList } from '@src/constants/portfolioFilteringData';
-import { useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import AutoSearch from '../components/AutoSearch';
 import UserProfile from '@src/components/nav/UserProfile';
+import AutoSearch from '../components/AutoSearch';
+import Category from '@src/components/nav/Category';
 import Logout from '@src/components/nav/Logout';
 import LightAndDarkMode from '@src/components/nav/LightAndDarkMode';
+
 const Nav = () => {
-  const setCategory = useSetRecoilState<string>(categoryState);
-  const setFilter = useSetRecoilState<string>(filterState);
-
-  const onClickCategory = (categoryItem: string) => {
-    setCategory(categoryItem);
-    setFilter('All');
-  };
-
   return (
     <StNav>
       <UserProfile />
@@ -24,11 +15,7 @@ const Nav = () => {
       </StAutoSearchContainer>
 
       <StCategoryContainer>
-        {categoryList.map((categoryItem: string, categoryItemIndex: number) => (
-          <StCategoryLabel key={categoryItemIndex} onClick={() => onClickCategory(categoryItem)}>
-            {categoryItem}
-          </StCategoryLabel>
-        ))}
+        <Category />
       </StCategoryContainer>
 
       <StBottomContainer>
@@ -48,9 +35,9 @@ const StNav = styled.div`
   position: fixed;
   height: 100vh;
   width: 250px;
-  padding: 42px 25px;
+  padding: 30px 25px;
 
-  /* background-color: lightcoral; */
+  background-color: white;
 `;
 
 const StAutoSearchContainer = styled.div`
@@ -60,7 +47,7 @@ const StAutoSearchContainer = styled.div`
 `;
 
 const StCategoryContainer = styled.div`
-  background-color: lightgoldenrodyellow;
+  /* background-color: lightgoldenrodyellow; */
   height: 100%;
 `;
 

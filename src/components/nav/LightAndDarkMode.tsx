@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { ReactComponent as LightIcon } from '@src/assets/nav-light-mode-icon.svg';
+import { ReactComponent as LightIcon } from '@src/assets/nav/nav-light-mode-icon.svg';
 
 const LightAndDarkMode = () => {
   return (
