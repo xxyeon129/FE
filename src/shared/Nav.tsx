@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import AutoSearch from '../components/AutoSearch';
 import UserProfile from '@src/components/nav/UserProfile';
 import Logout from '@src/components/nav/Logout';
+import LightAndDarkMode from '@src/components/nav/LightAndDarkMode';
 const Nav = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
@@ -18,7 +19,9 @@ const Nav = () => {
     <StNav>
       <UserProfile />
 
-      <AutoSearch />
+      <StAutoSearchContainer>
+        <AutoSearch />
+      </StAutoSearchContainer>
 
       <StCategoryContainer>
         {categoryList.map((categoryItem: string, categoryItemIndex: number) => (
@@ -30,6 +33,7 @@ const Nav = () => {
 
       <StBottomContainer>
         <Logout />
+        <LightAndDarkMode />
       </StBottomContainer>
     </StNav>
   );
@@ -38,24 +42,36 @@ const Nav = () => {
 const StNav = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-right: 1px solid ${({ theme }) => theme.color.lightGray};
 
   position: fixed;
   height: 100vh;
   width: 250px;
-  padding: 25px;
+  padding: 42px 25px;
 
-  background-color: lightcoral;
+  /* background-color: lightcoral; */
+`;
+
+const StAutoSearchContainer = styled.div`
+  padding: 33px 0;
+
+  /* background-color: lightsalmon; */
 `;
 
 const StCategoryContainer = styled.div`
   background-color: lightgoldenrodyellow;
+  height: 100%;
 `;
 
 const StCategoryLabel = styled.div`
   cursor: pointer;
 `;
 
-const StBottomContainer = styled.div``;
+const StBottomContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
 
 export default Nav;

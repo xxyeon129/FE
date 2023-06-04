@@ -22,13 +22,13 @@ const Logout = () => {
 };
 
 const StLogout = styled.div`
-  background-color: lightgray;
+  /* background-color: lightgray; */
 `;
 
 const StLogoutClickContainer = styled.span`
   display: flex;
   align-items: center;
-  background-color: lightgreen;
+  /* background-color: lightgreen; */
   display: inline-flex;
   cursor: pointer;
 `;
