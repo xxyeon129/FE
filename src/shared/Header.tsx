@@ -92,7 +92,7 @@ const StText = styled.span<{ underlinewidth: string; headerclicked: string }>`
     content: '';
     display: block;
     position: absolute;
-    background-color: ${({ headerclicked }) => (headerclicked === 'true' ? 'black' : 'white')};
+    background-color: black;
     margin-top: 10px;
     bottom: 0;
     width: ${({ underlinewidth }) => underlinewidth};
@@ -110,6 +110,7 @@ const StCheckItem = styled.input<{ headerclicked: string }>`
     transition: 0.25s transform cubic-bezier(0, 0, 0.1, 1);
   }
   &:checked + ${StText}::before {
+    display: ${({ headerclicked }) => headerclicked === 'false' && 'none'};
     transform: scaleX(1.3);
     transition: 0.25s transform cubic-bezier(0, 0, 0.1, 1);
   }
