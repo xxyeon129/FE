@@ -5,13 +5,22 @@ import { getUser } from '@src/apis/user';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
 const UserProfile = () => {
-  const userId = useDecodeJWT().userId;
-  const [userData, setUserData] = useState({ nickname: '', email: '', profileImage: null });
+  const [userData, setUserData] = useState({
+    nickname: '로그인해 주세요.',
+    email: '',
+    profileImage: null,
+  });
+
+  const isLogin = localStorage.getItem('accesstoken');
+  let userId: null | number = null;
+  if (isLogin !== null) userId = useDecodeJWT().userId;
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const serverUserData = await getUser({ id: userId });
-      setUserData(serverUserData);
+      if (userId !== null) {
+        const serverUserData = await getUser({ id: userId });
+        setUserData(serverUserData);
+      }
     };
     fetchUserData();
   }, []);

@@ -6,7 +6,9 @@ import { PATH_URL } from '@src/constants/constants';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
 const Header = () => {
-  const userId = useDecodeJWT().userId;
+  const isLogin = localStorage.getItem('accesstoken');
+  let userId: null | number = null;
+  if (isLogin !== null) userId = useDecodeJWT().userId;
 
   const headerList = [
     { value: 'Services', underLineWidth: '45%', path: '' },
