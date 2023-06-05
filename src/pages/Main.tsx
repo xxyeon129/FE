@@ -150,17 +150,16 @@ const Main = () => {
 const StPortfolioPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90vw;
-  align-items: center;
+  padding: 0 41px;
 `;
 
 const StPortfolioListContainer = styled.div`
   display: flex;
   flex-flow: wrap;
-  gap: 2rem;
-  margin-top: 5rem;
+  justify-content: space-evenly;
+  gap: 36px;
   width: 100%;
-  padding-left: 10rem;
+  margin-top: 10px;
 `;
 
 const StLoadingIndicator = styled.div`
