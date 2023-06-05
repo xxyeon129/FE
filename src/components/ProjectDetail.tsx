@@ -17,8 +17,8 @@ interface ProjectDetailData {
 const ProjectModal: React.FC<{
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
-}> = ({ showModal, setShowModal }) => {
-  const { projectId } = useParams();
+}> = ({ showModal, setShowModal, projectId }) => {
+  // const { projectId } = useParams();
   const [isEditable, setIsEditable] = useState(false);
   const [title, setTitle] = useState<string>('');
   const [term, setTerm] = useState<string>('');
@@ -37,9 +37,11 @@ const ProjectModal: React.FC<{
   const handleEdit = () => setIsEditable(!isEditable);
 
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
-    const project = await getProject();
+    const project = await getProject(projectId);
     return project;
   });
+
+  console.log('받아온 프로젝트 아이디', projectId);
 
   const updateProjectMutation = useMutation(async (formData: FormData) => {
     if (!title) {
@@ -136,7 +138,7 @@ const ProjectModal: React.FC<{
     formData.append('images', imageBlob);
 
     try {
-      await updateProjectMutation.mutateAsync(formData);
+      await updateProjectMutation.mutateAsync(formData, projectId);
       console.log('Project updated');
     } catch (error) {
       console.log(error);
@@ -197,6 +199,7 @@ const ProjectModal: React.FC<{
               <div>{data?.people}</div>
               <div>{data?.position}</div>
               <div>{data?.description}</div>
+              {/* {console.log(data.id)} */}
             </>
           )}
           {isEditable ? (

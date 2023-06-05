@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ReactTinyLink } from 'react-tiny-link';
 import { styled } from 'styled-components';
+import ProjectModal from '@src/components/ProjectDetail';
 
 function PortfolioDetails() {
+  interface Project {
+    id: number;
+    title: string;
+    term: string;
+    people: string;
+    position: string;
+  }
+
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -12,31 +20,33 @@ function PortfolioDetails() {
   const [residence, setResidence] = useState<string>('');
   const [telephone, setTelephone] = useState<string>('');
   const [experience, setExperience] = useState<string>('');
-  const [techStack, setTechStack] = useState([]);
+  const [techStack, setTechStack] = useState<string[]>([]);
   const [githubId, setGithubId] = useState<string>('');
   const [youtube, setYoutube] = useState<string>('');
   const [blog, setBlog] = useState<string>('');
-  const [projectList, setProjectList] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [projectList, setProjectList] = useState<number[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [portfolioImage, setPortfolioImage] = useState<File | null>(null);
   const [portEdit, setPortEdit] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
-  const [portfolioImage, setPortfolioImage] = useState(null);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     getMyPortfolio();
   }, []);
 
-  const portfolioId = 152;
+  const portfolioId = 159;
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
 
-    // console.log(response.data.data);
+    console.log(response.data.data);
     const projects = response.data.data.projectList;
     const projectIdList = projects.map(project => parseInt(project.id));
-    // console.log(projectIdList);
 
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
@@ -54,8 +64,6 @@ function PortfolioDetails() {
       setTechStack(response.data.data.techStack.split(','));
     }
   };
-
-  // console.log('projectList : ', projectList);
 
   const PortfolioEdit = async () => {
     const accessToken = localStorage.getItem('accesstoken');
@@ -79,8 +87,6 @@ function PortfolioDetails() {
       intro,
     };
 
-    console.log('요청시 리스트 : ', typeof projectList);
-
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
       type: 'application/json',
     });
@@ -90,27 +96,32 @@ function PortfolioDetails() {
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
     updatedData.append('portfolioImage', portfolioImageBlob);
 
-    const response = await axios.patch(
-      `http://3.34.102.60:8080/api/portfolios/${portfolioId}`,
-      updatedData,
-      {
-        headers: {
-          Authorization: accessToken,
-          RefreshToken: refreshToken,
-        },
+    try {
+      const response = await axios.patch(
+        `http://3.34.102.60:8080/api/portfolios/${portfolioId}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: accessToken,
+            RefreshToken: refreshToken,
+          },
+        }
+      );
+      alert('수정완료');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        //401 토큰에러
+        alert('토큰이 일치하지 않습니다.');
       }
-    );
-
-    console.log('response:', response.data);
+    }
   };
 
   const onPortfolioEdit = () => {
-    console.log('수정');
+    console.log('수정페이지 이미지 : ', portfolioImage);
     setPortEdit(true);
   };
 
   const onPortfolioUpdate = async () => {
-    console.log('수정완료');
     setPortEdit(false);
     await PortfolioEdit();
     await getMyPortfolio();
@@ -160,8 +171,9 @@ function PortfolioDetails() {
   };
 
   const onProjectDetail = projectId => {
-    console.log('클릭 : ', projectId);
-    // navigate(`/project/${projectId}`);
+    console.log(projectId);
+    setSelectedProjectId(projectId);
+    setIsProjectModalOpen(true);
   };
 
   return (
@@ -223,23 +235,38 @@ function PortfolioDetails() {
             </div>
           ) : (
             <div>
-              <h1>{portfolioTitle}</h1>
-              <img src="" alt="" />
+              <FirstSection>
+                <h1>{portfolioTitle}</h1>
+                <HorizontalLine />
+                <img src="" alt="" />
+                <div>
+                  {residence} / {email} / 희망근무: {location} / {telephone}
+                </div>
+                <div>
+                  <RepresentativeImage src={portfolioImage} alt="" />
+                </div>
+              </FirstSection>
+
+              <SecondSection>
+                <Experience>{experience}</Experience>
+                <TechStackSection>
+                  {techStack?.map((item, index) => (
+                    <TechStack key={index}>{item}</TechStack>
+                  ))}
+                </TechStackSection>
+              </SecondSection>
               <div>
-                {residence} / {email} / 희망근무: {location} / {telephone}
-              </div>
-              <div>{experience}</div>
-              <div>
-                {techStack?.map((item, index) => (
-                  <div key={index}>{item}</div>
-                ))}
+                <a href={blog}>{blog}</a>
               </div>
               <div>
-                <img src={portfolioImage} alt="" />
+                <a href={youtube}>{youtube}</a>
               </div>
-              <div>
-                <img src={`https://ghchart.rshah.org/${githubId}`} alt="GitHub Contributions" />
-              </div>
+              <Github>
+                <Gitgrass
+                  src={`https://ghchart.rshah.org/${githubId}`}
+                  alt="GitHub Contributions"
+                />
+              </Github>
               <ProjectList>
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
@@ -250,6 +277,10 @@ function PortfolioDetails() {
                     <div>{item.position}</div>
                   </ProjectBox>
                 ))}
+
+                {isProjectModalOpen && (
+                  <ProjectModal projectId={selectedProjectId} showModal={isProjectModalOpen} />
+                )}
               </ProjectList>
             </div>
           )}
@@ -260,6 +291,61 @@ function PortfolioDetails() {
 }
 
 export default PortfolioDetails;
+
+const FirstSection = styled.div`
+  margin-left: 6%;
+  margin-right: 6%;
+`;
+
+const HorizontalLine = styled.div`
+  border-bottom: 1px solid #000000;
+`;
+
+const SecondSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  margin: 5%;
+`;
+
+const Experience = styled.div`
+  width: 50%;
+  border: 1px solid black;
+`;
+
+const TechStackSection = styled.div`
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid black;
+`;
+
+const TechStack = styled.div`
+  width: calc(33.33% - 20px);
+  height: 37px;
+  border: 1px solid black;
+  border-radius: 20px;
+  text-align: center;
+  margin: 10px;
+`;
+
+const RepresentativeImage = styled.img`
+  width: 100%;
+  height: 120px;
+`;
+
+const Github = styled.div`
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 5%;
+`;
+
+const Gitgrass = styled.img`
+  width: 100%;
+  height: auto;
+`;
 
 const ProjectList = styled.div`
   display: flex;

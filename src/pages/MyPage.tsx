@@ -22,7 +22,7 @@ const MyPage = () => {
   // 수정 사항
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImage, setProfileImage] = useState<File | null>(null); //이미지
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [nicknameError, setNicknameError] = useState('');
@@ -56,6 +56,7 @@ const MyPage = () => {
 
   const handleEditClick = () => {
     setIsEditing(true);
+    console.log('회원정보 수정 버튼 클릭시 : ', profileImage);
   };
 
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -84,14 +85,13 @@ const MyPage = () => {
 
   // 수정 이미지
   const handleProfileImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length >= 0) {
-      const fileList = e.target.files[0];
-      setProfileImage(fileList);
+    const fileList = e.target.files[0];
+    // setProfileImage(fileList);
+    console.log(profileImage);
 
-      // 미리보기
-      const previewURLs = URL.createObjectURL(fileList);
-      setPreviewImage(previewURLs);
-    }
+    // 미리보기
+    const previewURLs = URL.createObjectURL(fileList);
+    setPreviewImage(previewURLs);
   };
 
   // const removeProfileImage = () => {
