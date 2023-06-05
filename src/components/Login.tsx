@@ -61,8 +61,8 @@ const Login = ({ onClose, onSignUpClick }: LoginProps) => {
   };
 
   return (
-    <ModalWrapper ref={modalRef} onClick={onBackgroundClick}>
-      <ModalContent>
+    <StModalWrapper ref={modalRef} onClick={onBackgroundClick}>
+      <StModalContent>
         <div>
           <label htmlFor="">이메일:</label>
           <input type="text" id="email" value={email} onChange={onEmailChange} />
@@ -73,14 +73,14 @@ const Login = ({ onClose, onSignUpClick }: LoginProps) => {
         </div>
         <button onClick={onSubmit}>로그인</button>
         <button onClick={onSignUp}>회원가입</button>
-      </ModalContent>
-    </ModalWrapper>
+      </StModalContent>
+    </StModalWrapper>
   );
 };
 
 export default Login;
 
-const ModalWrapper = styled.div`
+const StModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -92,8 +92,9 @@ const ModalWrapper = styled.div`
   align-items: center;
 `;
 
-const ModalContent = styled.div`
+const StModalContent = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 4px;
+  width: 100%;
 `;

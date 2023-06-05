@@ -9,9 +9,11 @@ type SignupProps = {
 function Signup({ onClose }: SignupProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [nicknameError, setNicknameError] = useState('');
   const modalRef = useRef(null);
 
@@ -40,6 +42,11 @@ function Signup({ onClose }: SignupProps) {
   const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setPasswordError('');
+  };
+
+  const onConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+    setConfirmPasswordError('');
   };
 
   const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +85,12 @@ function Signup({ onClose }: SignupProps) {
       );
       return;
     }
+
+    // 비밀번호 확인
+    if (password !== confirmPassword) {
+      setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
+      return;
+    }
     addUsers();
   };
 
@@ -96,34 +109,63 @@ function Signup({ onClose }: SignupProps) {
   };
 
   return (
-    <ModalWrapper ref={modalRef} onClick={onBackgroundClick}>
-      <ModalContent>
-        <h2>회원가입</h2>
-        <div>
-          <label htmlFor="email">이메일:</label>
-          <input type="email" id="email" value={email} onChange={onEmailChange} />
-          <div>{emailError && <ErrorMessage>{emailError}</ErrorMessage>}</div>
-          <button onClick={onEmailCheck}>중복검사</button>
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호:</label>
-          <input type="password" id="password" value={password} onChange={onPasswordChange} />
-          <div>{passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}</div>
-        </div>
-        <div>
-          <label htmlFor="nickname">닉네임:</label>
-          <input type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
-          <div>{nicknameError && <ErrorMessage>{nicknameError}</ErrorMessage>}</div>
-        </div>
-        <button onClick={onSubmit}>가입하기</button>
-      </ModalContent>
-    </ModalWrapper>
+    <StModalWrapper ref={modalRef} onClick={onBackgroundClick}>
+      <StModalContent>
+        <StTitleComment>이메일로 가입하기</StTitleComment>
+        <label htmlFor="email">이메일</label>
+        <StInputSection>
+          <StInput type="email" id="email" value={email} onChange={onEmailChange} />
+          <StButton onClick={onEmailCheck}>중복검사</StButton>
+          <div>{emailError && <StErrorMessage>{emailError}</StErrorMessage>}</div>
+        </StInputSection>
+
+        <label htmlFor="password">비밀번호</label>
+        <StInputSection>
+          <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+          <div>{passwordError && <StErrorMessage>{passwordError}</StErrorMessage>}</div>
+        </StInputSection>
+
+        <label htmlFor="confirmPassword">비밀번호 확인</label>
+        <StInputSection>
+          <StInput
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={onConfirmPasswordChange}
+          />
+          <div>
+            {confirmPasswordError && <StErrorMessage>{confirmPasswordError}</StErrorMessage>}
+          </div>
+        </StInputSection>
+
+        <label htmlFor="nickname">닉네임</label>
+        <StInputSection>
+          <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
+          <div>{nicknameError && <StErrorMessage>{nicknameError}</StErrorMessage>}</div>
+        </StInputSection>
+
+        <StSubmitButton onClick={onSubmit}>가입하기</StSubmitButton>
+      </StModalContent>
+    </StModalWrapper>
   );
 }
 
 export default Signup;
 
-const ModalWrapper = styled.div`
+const buttonStyle = `
+padding: 8px 16px;
+background-color: #3d3d3d;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+
+&:hover {
+  background-color: #bcbcbc;
+}
+`;
+
+const StModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -131,15 +173,50 @@ const ModalWrapper = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
+  display: flex;
   align-items: center;
 `;
 
-const ModalContent = styled.div`
+const StModalContent = styled.div`
   background-color: white;
-  padding: 20px;
+  padding: 100px;
   border-radius: 4px;
+  margin-top: 100px;
+  height: 100%;
+  width: 800px;
+  align-items: center;
 `;
 
-const ErrorMessage = styled.label`
+const StInputSection = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const StTitleComment = styled.h2`
+  margin-bottom: 80px;
+`;
+
+const StErrorMessage = styled.label`
   color: red;
+`;
+
+const StInput = styled.input`
+  flex: 1;
+  padding: 8px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 40px;
+  margin-top: 10px;
+`;
+
+const StButton = styled.button`
+  ${buttonStyle}
+`;
+
+const StSubmitButton = styled.button`
+  ${buttonStyle}
+  width: 150px;
+  margin-top: 50px;
 `;
