@@ -139,36 +139,36 @@ const CreateProject: React.FC<{
               </StImageContainer>
               <StTextBox>
                 <StTextWrap>
-                  <StTitle>프로젝트 기간</StTitle>
+                  <StTitle>프로젝트 제목</StTitle>
                   <StInput type="text" value={title} onChange={titleHandler} />
                 </StTextWrap>
-                {titleError && <div>{titleError}</div>}
+                {titleError && <StError>{titleError}</StError>}
                 <StTextWrap>
                   <StTitle>프로젝트 기간</StTitle>
                   <StInput type="text" value={term} onChange={termHandler} />
                 </StTextWrap>
-                {termError && <div>{termError}</div>}
+                {termError && <StError>{termError}</StError>}
                 <StTextWrap>
-                  <StTitle>프로젝트 기간</StTitle>
+                  <StTitle>프로젝트 인원</StTitle>
                   <StInput type="text" value={people} onChange={peopleHandler} />
                 </StTextWrap>
-                {peopleError && <div>{peopleError}</div>}
+                {peopleError && <StError>{peopleError}</StError>}
                 <StTextWrap>
-                  <StTitle>프로젝트 기간</StTitle>
+                  <StTitle>해당 포지션</StTitle>
                   <StInput type="text" value={position} onChange={positionHandler} />
                 </StTextWrap>
-                {positionError && <div>{positionError}</div>}
+                {positionError && <StError>{positionError}</StError>}
                 <StTextWrap>
-                  <StTitle>프로젝트 기간</StTitle>
+                  <StTitle>프로젝트 설명</StTitle>
                   <StTextArea value={description} onChange={descriptionHandler}></StTextArea>
-                  {descriptionError && <div>{descriptionError}</div>}
                 </StTextWrap>
+                {descriptionError && <StError>{descriptionError}</StError>}
               </StTextBox>
+              <StBottom>
+                <button onClick={handleSubmit}>작성완료</button>
+                <button onClick={handleCloseModal}>뒤로가기</button>
+              </StBottom>
             </StLayout>
-            <StBottom>
-              <button onClick={handleSubmit}>작성완료</button>
-              <button onClick={handleCloseModal}>뒤로가기</button>
-            </StBottom>
           </ModalContent>
         </ModalWrapper>
       )}
@@ -216,7 +216,7 @@ const ModalContent = styled.div`
   }
 `;
 const StLayout = styled.div`
-  padding: 20px 75px;
+  padding: 30px 75px;
 
   @media (max-width: 600px) {
     padding: 0;
@@ -279,14 +279,17 @@ const StTextArea = styled.textarea`
 `;
 
 const StImageBox = styled.div`
-  background-image: url('public/images/no-img.jpg');
-  background-size: 600px 250px;
+  /* background-image: url('public/images/no-img.jpg'); */
+  /* background-size: 250px 250px; */
+  border: 1px solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 240px;
+
+  /* margin-right: 20px; */
 `;
 
 const StImage = styled.img`
@@ -298,6 +301,7 @@ const StTextBox = styled.div`
   width: 100%;
   white-space: normal;
   word-break: break-all;
+  margin-bottom: 50px;
 
   div {
     font-size: 20px;
@@ -315,12 +319,12 @@ const StBottom = styled.div`
     height: 35px;
     border: 3px solid black;
     border-radius: 12px;
-    margin: 12px;
+    margin: 0 12px;
   }
 `;
 
 const StError = styled.div`
-  padding-left: 195px;
+  padding-left: 230px;
 `;
 
 const StImageContainer = styled.div`
@@ -342,5 +346,16 @@ const StimageOptions = styled.div`
   button {
     background: #d9d9d9;
     border-radius: 4px;
+  }
+`;
+const StgetContainer = styled.div`
+  display: grid;
+
+  gap: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
   }
 `;

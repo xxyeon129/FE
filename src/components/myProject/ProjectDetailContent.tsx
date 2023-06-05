@@ -261,7 +261,7 @@ const StBottom = styled.div`
 `;
 
 const StError = styled.div`
-  padding-left: 195px;
+  padding-left: 230px;
 `;
 
 const StImageContainer = styled.div`
@@ -289,9 +289,22 @@ const StgetContainer = styled.div`
   display: grid;
 
   gap: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
 `;
+
+// const StImageContainer = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   gap: 30px;
+//   margin-bottom: 40px;
+//   margin-top: 20px;
+
+//   @media (max-width: 600px) {
+//     grid-template-columns: 1fr;
+//   }
+// `;
