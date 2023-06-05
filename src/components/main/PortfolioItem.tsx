@@ -1,16 +1,20 @@
 import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-user-image-icon.svg';
+import { useNavigate } from 'react-router-dom';
+import { PATH_URL } from '@src/constants/constants';
 
-const PortfolioItem: React.FC<{ item: PortfolioDataType; onClick?: () => void }> = ({
-  item,
-  onClick,
-}) => {
+const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   const noImageUrl = 'public/images/no-img.jpg';
   const isportfolioImageExist = item.portfolioImage !== null;
+  const navigate = useNavigate();
+
+  const onClickPortfolioItem = () => {
+    navigate(`${PATH_URL.PORTFOLIO_DETAIL}/${item.id}`);
+  };
 
   return (
-    <StItemContainer onClick={onClick}>
+    <StItemContainer onClick={onClickPortfolioItem}>
       <StImgContainer>
         {isportfolioImageExist ? (
           <StPortfolioImg src={item.portfolioImage} />
