@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useSetRecoilState } from 'recoil';
+import { loginState } from '@src/states';
 import axios from 'axios';
 
 type LoginProps = {
@@ -11,8 +12,8 @@ type LoginProps = {
 const LoginModal = ({ onClose, onSignUpClick }: LoginProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const setIsLogin = useSetRecoilState(loginState);
   const modalRef = useRef(null);
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -27,6 +28,7 @@ const LoginModal = ({ onClose, onSignUpClick }: LoginProps) => {
       localStorage.setItem('accesstoken', accessToken);
       localStorage.setItem('refreshtoken', refreshToken);
 
+      setIsLogin(true);
       onClose();
     } catch (error) {
       console.error('로그인 실패:', error);

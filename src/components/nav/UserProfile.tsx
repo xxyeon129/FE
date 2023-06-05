@@ -7,19 +7,29 @@ import { useRecoilValue } from 'recoil';
 import { loginState } from '@src/states';
 
 const UserProfile = () => {
-  const isLogin = useRecoilValue(loginState);
-  const [userData, setUserData] = useState({
+  const isLogin = useRecoilValue<boolean>(loginState);
+  const [isExistToken, setIsExistToken] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const initialUserProfile = {
     nickname: '로그인해 주세요.',
     email: '',
     profileImage: null,
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  };
+  const [userData, setUserData] = useState(initialUserProfile);
 
   let userId: null | number = null;
 
   useEffect(() => {
     const token = localStorage.getItem('accesstoken');
-    if (token !== null) userId = useDecodeJWT().userId;
+
+    if (token !== null) {
+      userId = useDecodeJWT().userId;
+      setIsExistToken(true);
+    } else {
+      setIsExistToken(false);
+      setUserData(initialUserProfile);
+    }
 
     const fetchUserData = async () => {
       if (userId !== null) {
@@ -33,7 +43,7 @@ const UserProfile = () => {
 
   return (
     <StProfileContainer>
-      {userData.profileImage !== null ? (
+      {isExistToken && userData.profileImage !== null ? (
         <StProfileImg src={userData.profileImage} alt="user profile image" />
       ) : (
         !isLoading && <StProfileIcon />
