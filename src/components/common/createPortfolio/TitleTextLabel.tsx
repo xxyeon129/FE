@@ -21,7 +21,9 @@ const StTextContainer = styled.div<{ width: string }>`
   padding-bottom: 50px;
 `;
 
-const StTitle = styled.h1``;
+const StTitle = styled.h1`
+  margin-bottom: 15px;
+`;
 
 const StDescription = styled.div`
   color: gray;
