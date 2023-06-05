@@ -25,10 +25,10 @@ const UserProfile = () => {
       if (userId !== null) {
         const serverUserData = await getUser({ id: userId });
         setUserData(serverUserData);
-        setIsLoading(false);
       }
     };
     fetchUserData();
+    setIsLoading(false);
   }, [isLogin]);
 
   return (
