@@ -28,15 +28,20 @@ const Filter: React.FC<FilterPropsType> = ({ filterList, onClickFilterButton }) 
 
 const StFilterListContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 10px;
 
-  border: 1px solid gray;
-  padding: 3rem;
-  width: 80vw;
+  padding: 50px 0;
+  width: 100%;
 `;
 
-const StFilterButton = styled.button``;
+const StFilterButton = styled.button`
+  font-size: 16px;
+  width: 140px;
+  height: 37px;
+  border-radius: 50px;
+  background-color: ${({ theme }) => theme.color.lightGray};
+`;
 
 export default Filter;

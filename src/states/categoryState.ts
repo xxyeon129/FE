@@ -8,3 +8,9 @@ export const categoryState = atom<string>({
   default: 'All',
   effects_UNSTABLE: [persistAtom],
 });
+
+export const selectedCategoryState = atom<string>({
+  key: 'selectedCategoryState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
