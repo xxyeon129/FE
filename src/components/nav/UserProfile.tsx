@@ -29,7 +29,6 @@ const UserProfile = () => {
       }
     };
     fetchUserData();
-    setIsLoading(false);
   }, [isLogin]);
 
   return (
