@@ -237,20 +237,26 @@ function PortfolioDetails() {
             </div>
           ) : (
             <div>
-              <h1>{portfolioTitle}</h1>
-              <img src="" alt="" />
-              <div>
-                {residence} / {email} / 희망근무: {location} / {telephone}
-              </div>
-              <div>{experience}</div>
-              <div>
-                {techStack?.map((item, index) => (
-                  <div key={index}>{item}</div>
-                ))}
-              </div>
-              <div>
-                <img src={portfolioImage} alt="" />
-              </div>
+              <FirstSection>
+                <h1>{portfolioTitle}</h1>
+                <HorizontalLine />
+                <img src="" alt="" />
+                <div>
+                  {residence} / {email} / 희망근무: {location} / {telephone}
+                </div>
+                <div>
+                  <RepresentativeImage src={portfolioImage} alt="" />
+                </div>
+              </FirstSection>
+
+              <SecondSection>
+                <Experience>{experience}</Experience>
+                <TechStackSection>
+                  {techStack?.map((item, index) => (
+                    <TechStack key={index}>{item}</TechStack>
+                  ))}
+                </TechStackSection>
+              </SecondSection>
               <div>
                 <a href={blog}>{blog}</a>
               </div>
@@ -284,6 +290,48 @@ function PortfolioDetails() {
 }
 
 export default PortfolioDetails;
+
+const FirstSection = styled.div`
+  margin-left: 6%;
+  margin-right: 6%;
+`;
+
+const HorizontalLine = styled.div`
+  border-bottom: 1px solid #000000;
+`;
+
+const SecondSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  margin: 5%;
+`;
+
+const Experience = styled.div`
+  width: 50%;
+  border: 1px solid black;
+`;
+
+const TechStackSection = styled.div`
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid black;
+`;
+
+const TechStack = styled.div`
+  width: calc(33.33% - 20px);
+  height: 37px;
+  border: 1px solid black;
+  border-radius: 20px;
+  text-align: center;
+  margin: 10px;
+`;
+
+const RepresentativeImage = styled.img`
+  width: 931px;
+  height: 120px;
+`;
 
 const ProjectList = styled.div`
   display: flex;
