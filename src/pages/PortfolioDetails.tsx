@@ -35,8 +35,6 @@ function PortfolioDetails() {
 
   const navigate = useNavigate();
 
-  console.log('dd', projects);
-
   useEffect(() => {
     getMyPortfolio();
   }, []);
@@ -263,9 +261,12 @@ function PortfolioDetails() {
               <div>
                 <a href={youtube}>{youtube}</a>
               </div>
-              <div>
-                <img src={`https://ghchart.rshah.org/${githubId}`} alt="GitHub Contributions" />
-              </div>
+              <Github>
+                <Gitgrass
+                  src={`https://ghchart.rshah.org/${githubId}`}
+                  alt="GitHub Contributions"
+                />
+              </Github>
               <ProjectList>
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
@@ -329,8 +330,21 @@ const TechStack = styled.div`
 `;
 
 const RepresentativeImage = styled.img`
-  width: 931px;
+  width: 100%;
   height: 120px;
+`;
+
+const Github = styled.div`
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 5%;
+`;
+
+const Gitgrass = styled.img`
+  width: 100%;
+  height: auto;
 `;
 
 const ProjectList = styled.div`
