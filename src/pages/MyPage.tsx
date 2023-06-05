@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 import { useQuery, useMutation } from 'react-query';
-
+// 돌려줘
 interface UserData {
   nickname: string;
   email: string;

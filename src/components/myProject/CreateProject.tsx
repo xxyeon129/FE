@@ -126,38 +126,49 @@ const CreateProject: React.FC<{
           <ModalContent>
             <StLayout>
               <h1>Create Project</h1>
-              <div>
-                {previewImages.map((url, index) => (
-                  <img key={index} src={url} alt="프리뷰" />
-                ))}
-              </div>
-              <div>
-                <input type="file" onChange={imageHandler}></input>
-                <button onClick={removeImage}>이미지 삭제</button>
-              </div>
-              <div>
-                <input type="text" value={title} onChange={titleHandler} />
-              </div>
-              {titleError && <div>{titleError}</div>}
-              <div>
-                <input type="text" value={term} onChange={termHandler} />
-              </div>
-              {termError && <div>{termError}</div>}
-              <div>
-                <input type="text" value={people} onChange={peopleHandler} />
-              </div>
-              {peopleError && <div>{peopleError}</div>}
-              <div>
-                <input type="text" value={position} onChange={positionHandler} />
-              </div>
-              {positionError && <div>{positionError}</div>}
-              <div>
-                <textarea value={description} onChange={descriptionHandler}></textarea>
-                {descriptionError && <div>{descriptionError}</div>}
-              </div>
+              <StImageContainer>
+                <StImageBox>
+                  {previewImages.map((url, index) => (
+                    <StImage key={index} src={url} alt="프리뷰" />
+                  ))}
+                </StImageBox>
+                <StimageOptions>
+                  <input type="file" onChange={imageHandler}></input>
+                  <button onClick={removeImage}>이미지 삭제</button>
+                </StimageOptions>
+              </StImageContainer>
+              <StTextBox>
+                <StTextWrap>
+                  <StTitle>프로젝트 기간</StTitle>
+                  <StInput type="text" value={title} onChange={titleHandler} />
+                </StTextWrap>
+                {titleError && <div>{titleError}</div>}
+                <StTextWrap>
+                  <StTitle>프로젝트 기간</StTitle>
+                  <StInput type="text" value={term} onChange={termHandler} />
+                </StTextWrap>
+                {termError && <div>{termError}</div>}
+                <StTextWrap>
+                  <StTitle>프로젝트 기간</StTitle>
+                  <StInput type="text" value={people} onChange={peopleHandler} />
+                </StTextWrap>
+                {peopleError && <div>{peopleError}</div>}
+                <StTextWrap>
+                  <StTitle>프로젝트 기간</StTitle>
+                  <StInput type="text" value={position} onChange={positionHandler} />
+                </StTextWrap>
+                {positionError && <div>{positionError}</div>}
+                <StTextWrap>
+                  <StTitle>프로젝트 기간</StTitle>
+                  <StTextArea value={description} onChange={descriptionHandler}></StTextArea>
+                  {descriptionError && <div>{descriptionError}</div>}
+                </StTextWrap>
+              </StTextBox>
             </StLayout>
-            <button onClick={handleSubmit}>작성완료</button>
-            <button onClick={handleCloseModal}>뒤로가기</button>
+            <StBottom>
+              <button onClick={handleSubmit}>작성완료</button>
+              <button onClick={handleCloseModal}>뒤로가기</button>
+            </StBottom>
           </ModalContent>
         </ModalWrapper>
       )}
@@ -193,8 +204,8 @@ const ModalContent = styled.div`
   background: #fefefe;
   border: 3px solid rgba(0, 0, 0, 0.2);
   border-radius: 35px;
-  width: 800px;
-  height: 779px;
+  width: 900px;
+  height: 800px;
   overflow-y: auto;
   max-height: 100%;
 
@@ -205,7 +216,7 @@ const ModalContent = styled.div`
   }
 `;
 const StLayout = styled.div`
-  padding: 0px 75px;
+  padding: 20px 75px;
 
   @media (max-width: 600px) {
     padding: 0;
@@ -276,7 +287,6 @@ const StImageBox = styled.div`
   align-items: center;
   width: 100%;
   height: 240px;
-  margin-bottom: 40px;
 `;
 
 const StImage = styled.img`
@@ -311,4 +321,26 @@ const StBottom = styled.div`
 
 const StError = styled.div`
   padding-left: 195px;
+`;
+
+const StImageContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const StimageOptions = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+
+  button {
+    background: #d9d9d9;
+    border-radius: 4px;
+  }
 `;
