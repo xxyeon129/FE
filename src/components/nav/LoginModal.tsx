@@ -63,21 +63,24 @@ const LoginModal = ({ onClose, onSignUpClick }: LoginProps) => {
     <StModalWrapper ref={modalRef} onClick={onBackgroundClick}>
       <StModalContent>
         <div>
-          <span>
+          <h1>
             간편하게 로그인하고 다양한
             <br /> 포트폴리오를 만나보세요.
-          </span>
+          </h1>
         </div>
-        <label htmlFor="">이메일</label>
+
+        <StInputSection>
+          <label htmlFor="">이메일</label>
+          <StInput type="text" id="email" value={email} onChange={onEmailChange} />
+        </StInputSection>
+
+        <StInputSection>
+          <label htmlFor="password">비밀번호</label>
+          <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+        </StInputSection>
+
         <div>
-          <input type="text" id="email" value={email} onChange={onEmailChange} />
-        </div>
-        <label htmlFor="password">비밀번호:</label>
-        <div>
-          <input type="password" id="password" value={password} onChange={onPasswordChange} />
-        </div>
-        <div>
-          <button onClick={onSubmit}>로그인</button>
+          <LoginButton onClick={onSubmit}>로그인</LoginButton>
         </div>
 
         <div>
@@ -90,6 +93,19 @@ const LoginModal = ({ onClose, onSignUpClick }: LoginProps) => {
 };
 
 export default LoginModal;
+
+const buttonStyle = `
+padding: 8px 16px;
+background-color: #3d3d3d;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+
+&:hover {
+  background-color: #bcbcbc;
+}
+`;
 
 const StModalWrapper = styled.div`
   position: fixed;
@@ -110,4 +126,27 @@ const StModalContent = styled.div`
   height: 100%;
   width: 800px;
   justify-content: center;
+  padding: 100px;
+`;
+
+const StInputSection = styled.div`
+  margin: 30px 0;
+`;
+
+const StInput = styled.input`
+  flex: 1;
+  padding: 8px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 50px;
+  margin-top: 10px;
+  width: 100%;
+`;
+
+const LoginButton = styled.button`
+  ${buttonStyle}
+  width: 100%;
+  height: 40px;
+  margin: 20px 0;
 `;
