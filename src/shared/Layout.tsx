@@ -1,11 +1,13 @@
-import TestNav from '@src/components/main/TestNav';
+import Nav from '@src/shared/Nav';
 import { styled } from 'styled-components';
 import { ReactNode } from 'react';
+import Header from './Header';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <StLayout>
-      <TestNav />
+      <Nav />
+      <Header />
       <StContent>{children}</StContent>
     </StLayout>
   );
@@ -16,7 +18,9 @@ const StLayout = styled.div`
 `;
 
 const StContent = styled.div`
-  width: 100%;
+  margin-left: 250px;
+  margin-top: 52px;
+  width: calc(100% - 250px);
 `;
 
 export default Layout;
