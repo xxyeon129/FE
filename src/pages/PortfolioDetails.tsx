@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { styled } from 'styled-components';
 import ProjectModal from '@src/components/ProjectDetail';
+import { ReactComponent as EditIconSvg } from '@src/assets/portfolioDetail/port-edit-icon.svg';
+import { ReactComponent as Trash } from '@src/assets/portfolioDetail/port-trash-icon.svg';
+import { ReactComponent as Mail } from '@src/assets/portfolioDetail/port-mail-icon.svg';
+import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
+import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
+import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/port-youtube-icon.svg';
+import { ReactComponent as Blog } from '@src/assets/portfolioDetail/port-blog-icon.svg';
 
 function PortfolioDetails() {
   interface Project {
@@ -15,6 +22,7 @@ function PortfolioDetails() {
 
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
+  const [proFileImage, setProFileImage] = useState(null);
   const [email, setEmail] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [residence, setResidence] = useState<string>('');
@@ -60,6 +68,7 @@ function PortfolioDetails() {
     setProjectList(projectIdList);
     setProjects(projects);
     setIntro(response.data.data.intro);
+    setProFileImage(response.data.data.profileImage);
     if (techStack) {
       setTechStack(response.data.data.techStack.split(','));
     }
@@ -69,7 +78,7 @@ function PortfolioDetails() {
     const accessToken = localStorage.getItem('accesstoken');
     const refreshToken = localStorage.getItem('refreshtoken');
 
-    const test1 = techStack.join(',');
+    const techStackJoin = techStack.join(',');
 
     const portfolioRequestDto = {
       portfolioTitle,
@@ -83,7 +92,7 @@ function PortfolioDetails() {
       category,
       filter,
       projectIdList: projectList,
-      techStack: test1,
+      techStack: techStackJoin,
       intro,
     };
 
@@ -180,40 +189,52 @@ function PortfolioDetails() {
     <>
       <div>
         <div>
-          <button onClick={onPortfolioEdit}>수정</button>
-          <button onClick={onPortfolioEditClear}>수정취소</button>
-        </div>
-        <div>
           {portEdit ? (
             <div>
+              <button onClick={onPortfolioUpdate}>수정완료</button>
+              <button onClick={onPortfolioEditClear}>수정취소</button>
               <h1>수정페이지</h1>
-              <img src="" alt="" />
-              <div>
-                <label htmlFor="portfolioTitle">제목:</label>
-                <input
-                  type="text"
-                  id="portfolioTitle"
-                  value={portfolioTitle}
-                  onChange={onTitleHandler}
-                />
-              </div>
-              <div>
-                <label htmlFor="residence">거주지:</label>
-                <input type="text" id="residence" value={residence} onChange={onResidenceHandler} />
-              </div>
-              <div>
-                <label htmlFor="location">희망:</label>
-                <input type="text" id="location" value={location} onChange={onLocationHandler} />
-              </div>
 
               <div>
-                <label htmlFor="email">이메일:</label>
-                <input type="text" id="email" value={email} onChange={onEmailHandler} />
+                <img src="" alt="" />
+                <div>
+                  <label htmlFor="portfolioTitle">제목:</label>
+                  <input
+                    type="text"
+                    id="portfolioTitle"
+                    value={portfolioTitle}
+                    onChange={onTitleHandler}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="residence">거주지:</label>
+                  <input
+                    type="text"
+                    id="residence"
+                    value={residence}
+                    onChange={onResidenceHandler}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="location">희망:</label>
+                  <input type="text" id="location" value={location} onChange={onLocationHandler} />
+                </div>
+
+                <div>
+                  <label htmlFor="email">이메일:</label>
+                  <input type="text" id="email" value={email} onChange={onEmailHandler} />
+                </div>
+                <div>
+                  <label htmlFor="telephone">번호:</label>
+                  <input
+                    type="text"
+                    id="telephone"
+                    value={telephone}
+                    onChange={onTelephoneHandler}
+                  />
+                </div>
               </div>
-              <div>
-                <label htmlFor="telephone">번호:</label>
-                <input type="text" id="telephone" value={telephone} onChange={onTelephoneHandler} />
-              </div>
+
               <div>
                 <label htmlFor="image">이미지:</label>
                 <input type="file" id="image" onChange={onImageUpload} />
@@ -230,58 +251,78 @@ function PortfolioDetails() {
                 <label htmlFor="github">GitHub:</label>
                 <input type="text" id="github" value={githubId} onChange={onGithubHandler} />
               </div>
-
-              <button onClick={onPortfolioUpdate}>수정완료</button>
             </div>
           ) : (
             <div>
-              <FirstSection>
+              <StFirstSection>
                 <h1>{portfolioTitle}</h1>
-                <HorizontalLine />
-                <img src="" alt="" />
-                <div>
-                  {residence} / {email} / 희망근무: {location} / {telephone}
-                </div>
-                <div>
-                  <RepresentativeImage src={portfolioImage} alt="" />
-                </div>
-              </FirstSection>
+                <StHorizontalLine />
 
-              <SecondSection>
-                <Experience>{experience}</Experience>
-                <TechStackSection>
+                <StButtonSection>
+                  <StEditIcon onClick={onPortfolioEdit} />
+                  <StTrashIcon />
+                </StButtonSection>
+
+                <StProfileContainer>
+                  <StProFileImage>
+                    <img src={proFileImage} alt="" />
+                  </StProFileImage>
+                  <StProfileText>
+                    <div>
+                      <Mail /> {email}
+                    </div>
+                    <div>
+                      <Telephone /> {telephone}
+                    </div>
+                    <div>
+                      <Home /> {residence} | {location} 근무 희망
+                    </div>
+                    {/* {residence} / {email} / 희망근무: {location} / {telephone} */}
+                  </StProfileText>
+                </StProfileContainer>
+
+                <div>
+                  <StRepresentativeImage src={portfolioImage} alt="" />
+                </div>
+              </StFirstSection>
+
+              <StSecondSection>
+                <StExperience>{experience}</StExperience>
+                <StTechStackSection>
                   {techStack?.map((item, index) => (
-                    <TechStack key={index}>{item}</TechStack>
+                    <StTechStack key={index}>{item}</StTechStack>
                   ))}
-                </TechStackSection>
-              </SecondSection>
-              <div>
+                </StTechStackSection>
+              </StSecondSection>
+              <StYoutube>
+                {/* <Blog /> */}
                 <a href={blog}>{blog}</a>
-              </div>
-              <div>
+              </StYoutube>
+              <StBlog>
+                {/* <YouTube /> */}
                 <a href={youtube}>{youtube}</a>
-              </div>
-              <Github>
-                <Gitgrass
+              </StBlog>
+              <StGithub>
+                <StGitgrass
                   src={`https://ghchart.rshah.org/${githubId}`}
                   alt="GitHub Contributions"
                 />
-              </Github>
-              <ProjectList>
+              </StGithub>
+              <StProjectList>
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
-                  <ProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
+                  <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
                     <div>{item.title}</div>
                     <div>{item.term}</div>
                     <div>{item.people}</div>
                     <div>{item.position}</div>
-                  </ProjectBox>
+                  </StProjectBox>
                 ))}
 
                 {isProjectModalOpen && (
                   <ProjectModal projectId={selectedProjectId} showModal={isProjectModalOpen} />
                 )}
-              </ProjectList>
+              </StProjectList>
             </div>
           )}
         </div>
@@ -292,49 +333,111 @@ function PortfolioDetails() {
 
 export default PortfolioDetails;
 
-const FirstSection = styled.div`
+const StFirstSection = styled.div`
   margin-left: 6%;
   margin-right: 6%;
 `;
 
-const HorizontalLine = styled.div`
+const StHorizontalLine = styled.div`
   border-bottom: 1px solid #000000;
+  margin: 10px 0;
 `;
 
-const SecondSection = styled.div`
+const StButtonSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+`;
+
+const StEditIcon = styled(EditIconSvg)`
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
+const StTrashIcon = styled(Trash)`
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+`;
+
+const StProfileContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+`;
+
+const StProFileImage = styled.div`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid black;
+`;
+
+const StProfileText = styled.div`
+  margin-left: 10px;
+`;
+
+const StSecondSection = styled.div`
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
   margin: 5%;
 `;
 
-const Experience = styled.div`
+const StExperience = styled.div`
   width: 50%;
   border: 1px solid black;
 `;
 
-const TechStackSection = styled.div`
+const StTechStackSection = styled.div`
   width: 50%;
   display: flex;
   flex-wrap: wrap;
   border: 1px solid black;
 `;
 
-const TechStack = styled.div`
+const StTechStack = styled.div`
   width: calc(33.33% - 20px);
   height: 37px;
   border: 1px solid black;
   border-radius: 20px;
   text-align: center;
   margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
-const RepresentativeImage = styled.img`
+const StRepresentativeImage = styled.img`
   width: 100%;
   height: 120px;
 `;
 
-const Github = styled.div`
+const StYoutube = styled.div`
+  width: 90%;
+  height: 80px;
+  border: 1px solid black;
+  margin: 5%;
+`;
+
+const StBlog = styled.div`
+  width: 90%;
+  height: 80px;
+  border: 1px solid black;
+  margin: 5%;
+`;
+
+const StGithub = styled.div`
   display: flex;
   justify-content: center;
   border: 1px solid black;
@@ -342,18 +445,20 @@ const Github = styled.div`
   margin: 5%;
 `;
 
-const Gitgrass = styled.img`
+const StGitgrass = styled.img`
   width: 100%;
   height: auto;
 `;
 
-const ProjectList = styled.div`
+const StProjectList = styled.div`
+  justify-content: center;
+  margin: 5%;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 `;
 
-const ProjectBox = styled.div`
+const StProjectBox = styled.div`
   background-color: #f2f2f2;
   border-radius: 10px;
   padding: 20px;

@@ -81,6 +81,20 @@ function Signup({ onClose }: SignupProps) {
     addUsers();
   };
 
+  const onEmailCheck = async () => {
+    try {
+      const response = await axios.get(
+        `http://3.34.102.60:8080/api/users/email-check?email=${email}`
+      );
+      console.log(email);
+      console.log('중복된 아이디가 없다');
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        console.log('아이디가 중복됬습니다');
+      }
+    }
+  };
+
   return (
     <ModalWrapper ref={modalRef} onClick={onBackgroundClick}>
       <ModalContent>
@@ -89,6 +103,7 @@ function Signup({ onClose }: SignupProps) {
           <label htmlFor="email">이메일:</label>
           <input type="email" id="email" value={email} onChange={onEmailChange} />
           <div>{emailError && <ErrorMessage>{emailError}</ErrorMessage>}</div>
+          <button onClick={onEmailCheck}>중복검사</button>
         </div>
         <div>
           <label htmlFor="password">비밀번호:</label>
