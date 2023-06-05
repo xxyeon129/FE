@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
-import { ReactComponent as UserImg } from '@src/assets/test-profile-icon.svg';
+import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-user-image-icon.svg';
 
 const PortfolioItem: React.FC<{ item: PortfolioDataType; onClick?: () => void }> = ({
   item,
@@ -18,59 +18,73 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType; onClick?: () => void }>
           <StNoImg src={noImageUrl} />
         )}
       </StImgContainer>
-      <StDescriptionLabel>
-        <StTitleText>{item.portfolioTitle}</StTitleText>
+      <StDescriptionContainer>
         <StUserDescriptionContainer>
-          <StUserImgContainer>
-            <UserImg />
-          </StUserImgContainer>
+          <StUserDefaultImage />
           <StUserNameText>{item.userName}</StUserNameText>
         </StUserDescriptionContainer>
-      </StDescriptionLabel>
+        <StTitleText>{item.portfolioTitle}</StTitleText>
+      </StDescriptionContainer>
     </StItemContainer>
   );
 };
 
 const StItemContainer = styled.div`
-  border: 1px solid gray;
   cursor: pointer;
 `;
 
 const StImgContainer = styled.div`
-  height: 200px;
-  width: 300px;
+  width: 250px;
+`;
+
+const imageStyle = `
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  border: 1px solid;
+  border-radius: 7px;
 `;
 
 const StPortfolioImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  ${imageStyle}
 `;
 
 const StNoImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  ${imageStyle}
 `;
 
-const StDescriptionLabel = styled.div`
+const StDescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 1rem;
+
+  margin-top: 3px;
+  padding: 7px 10px 10px 10px;
+  border: 1px solid;
+  border-radius: 13px;
+  background: rgba(221, 221, 221, 0.27);
+  box-shadow: inset 0px 3px 7px rgba(117, 117, 117, 0.25);
 `;
 
 const StTitleText = styled.div`
   font-weight: bold;
+  padding-top: 8px;
+  color: ${({ theme }) => theme.color.fontColor};
 `;
 
 const StUserDescriptionContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: right;
 `;
 
-const StUserNameText = styled.div``;
+const StUserNameText = styled.div`
+  padding-left: 7px;
+  font-size: 14px;
+  color: ${({ theme }) => theme.color.fontColor};
+`;
 
-const StUserImgContainer = styled.div``;
+const StUserDefaultImage = styled(DefaultUserImage)`
+  width: 22px;
+  height: 22px;
+`;
 
 export default PortfolioItem;
