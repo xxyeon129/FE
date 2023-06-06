@@ -7,8 +7,8 @@ import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import SelectDropdown from '../CreateSelectDropdown';
-import PortfolioFilter from '../CreatePortfolioFilter';
+import SelectDropdown from '../CategorySelectDropdown';
+import PortfolioFilter from '../PortfolioFilter';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
 const Step02CategoryFilter = ({
@@ -32,7 +32,7 @@ const Step02CategoryFilter = ({
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} />
+      <TitleTextLabel title={title} description={description} containerWidth="750px" />
 
       <StSelectContainer>
         <StDropdownContainer>
@@ -52,7 +52,7 @@ const Step02CategoryFilter = ({
           />
         </StFilterContainer>
       </StSelectContainer>
-      <S.ButtonContainer>
+      <S.ButtonContainer width="750px">
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.ONE)} />
         <NextStepButton onClick={onClickNextButton} notAllowed={`${!isAllSelected}`} />
       </S.ButtonContainer>

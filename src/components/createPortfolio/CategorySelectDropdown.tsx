@@ -2,20 +2,21 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
+import { StInputLabel } from '../common/createPortfolio/createStepStyles';
 
-interface SelectDropdownProps {
+interface CategorySelectDropdownProps {
   dropdownOptions: string[];
   selectBarDefaultText: string;
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SelectDropdown = ({
+const CategorySelectDropdown = ({
   dropdownOptions,
   selectBarDefaultText,
   selectedOption,
   setSelectedOption,
-}: SelectDropdownProps) => {
+}: CategorySelectDropdownProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
   const onClickSelectBar = () => {
@@ -31,7 +32,7 @@ const SelectDropdown = ({
     <StDropdownContainer>
       <StSelectBar onClick={onClickSelectBar} isclicked={`${isDropdownOpen}`}>
         <StTextContainer>
-          <StLabel>직군</StLabel>
+          <StInputLabel>직군</StInputLabel>
           <StSelectValue>{selectedOption || selectBarDefaultText}</StSelectValue>
         </StTextContainer>
         {isDropdownOpen ? <StArrowUpIcon /> : <StArrowDownIcon />}
@@ -57,7 +58,7 @@ const StDropdownContainer = styled.div``;
 const StSelectBar = styled.div<{ isclicked: string }>`
   outline: ${({ isclicked }) => (isclicked === 'true' ? '2px solid' : '1px solid gray')};
   border-radius: 10px;
-  width: 600px;
+  width: 750px;
   height: 50px;
   display: flex;
   padding: 30px 20px;
@@ -76,17 +77,12 @@ const StTextContainer = styled.div`
   gap: 5px;
 `;
 
-const StLabel = styled.div`
-  color: gray;
-  font-size: 13px;
-`;
-
 const StSelectValue = styled.div``;
 
 const StDropdownListContainer = styled.div`
   border: 1px solid gray;
   border-radius: 10px;
-  width: 600px;
+  width: 750px;
   margin-top: 5px;
   background-color: white;
 
@@ -122,4 +118,4 @@ const StArrowUpIcon = styled(IoIosArrowUp)`
   font-size: 30px;
 `;
 
-export default SelectDropdown;
+export default CategorySelectDropdown;
