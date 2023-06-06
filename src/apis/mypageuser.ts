@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { accessToken } from './token';
-
-const BASE_URL = 'http://3.34.102.60:8080/api/users';
+import { SERVER_URL } from '@src/constants/constants';
 
 export const getUser = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/38`);
+    const response = await axios.get(`${SERVER_URL}/api/users/39`);
     return response.data.data;
   } catch (error) {
     console.error(error);
@@ -15,7 +14,7 @@ export const getUser = async () => {
 
 export const updateUser = async formData => {
   try {
-    const response = await axios.patch(`${BASE_URL}/38`, formData, {
+    const response = await axios.patch(`${SERVER_URL}/api/users/39`, formData, {
       headers: {
         Authorization: accessToken,
       },
@@ -29,7 +28,7 @@ export const updateUser = async formData => {
 
 export const deleteUser = async () => {
   try {
-    await axios.delete(`${BASE_URL}/38`, {
+    await axios.delete(`${SERVER_URL}/api/users/39`, {
       headers: {
         Authorization: accessToken,
       },
@@ -43,7 +42,7 @@ export const deleteUser = async () => {
 
 export const updatePassword = async passwordData => {
   try {
-    await axios.put(`${BASE_URL}/38/password`, passwordData, {
+    await axios.put(`${SERVER_URL}/api/users/39/password`, passwordData, {
       headers: {
         Authorization: accessToken,
       },

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { styled } from 'styled-components';
-import ProjectModal from '@src/components/ProjectDetail';
+import ProjectModal from '@src/components/myProject/ProjectDetail';
 import { ReactComponent as EditIconSvg } from '@src/assets/portfolioDetail/port-edit-icon.svg';
 import { ReactComponent as Trash } from '@src/assets/portfolioDetail/port-trash-icon.svg';
 import { ReactComponent as Mail } from '@src/assets/portfolioDetail/port-mail-icon.svg';

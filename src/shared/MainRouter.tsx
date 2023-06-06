@@ -12,7 +12,6 @@ import LinkPreview from '@src/components/LinkPreview';
 import MyPortfolio from '@src/pages/MyPortfolio';
 import CreatePortfolio from '@src/pages/CreatePortfolio';
 
-
 const MainRouter = () => {
   return (
     <BrowserRouter>

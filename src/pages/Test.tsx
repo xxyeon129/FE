@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ProjectModal from '@src/components/ProjectDetail';
+import ProjectModal from '@src/components/myProject/ProjectDetail';
 import AutoSearch from '@src/components/AutoSearch';
-import Project from '@src/components/CreateProject';
+import Project from '@src/components/myProject/CreateProject';
 
 const Test: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
