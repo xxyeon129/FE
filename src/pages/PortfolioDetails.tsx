@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { styled } from 'styled-components';
 import ProjectModal from '@src/components/myProject/ProjectDetail';
@@ -35,19 +35,20 @@ function PortfolioDetails() {
   const [projectList, setProjectList] = useState<number[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [portfolioImage, setPortfolioImage] = useState<File | null>(null);
+  const [portfolioImagePreview, setPortfolioImagePreview] = useState('');
   const [portEdit, setPortEdit] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
   const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     getMyPortfolio();
   }, []);
 
-  const portfolioId = 159;
+  const { id } = useParams();
+
+  const portfolioId = id;
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
@@ -179,10 +180,30 @@ function PortfolioDetails() {
     setGithubId(e.target.value);
   };
 
+  const handlePortfolioImageChange = e => {
+    const file = e.target.files[0];
+    setPortfolioImage(file);
+    setPortfolioImagePreview(URL.createObjectURL(file));
+    console.log('이미지 프리뷰 : ', portfolioImagePreview);
+  };
+
   const onProjectDetail = projectId => {
     console.log(projectId);
     setSelectedProjectId(projectId);
     setIsProjectModalOpen(true);
+  };
+
+  const onProjectDelete = async projectId => {
+    const confirmDelete = window.confirm('삭제하실?');
+
+    if (confirmDelete) {
+      console.log('삭제 : ', projectId);
+      try {
+        const response = await axios.delete(`http://3.34.102.60:8080/api/projects/${projectId}`);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -239,9 +260,14 @@ function PortfolioDetails() {
                 </div>
               </StFirstEditWrapper>
 
-              <StRepresentativeImageEdit>
-                <input type="file" id="image" onChange={onImageUpload} />
-              </StRepresentativeImageEdit>
+              <div>
+                {portfolioImagePreview ? (
+                  <StRepresentativeImageEdit src={portfolioImagePreview} alt="" />
+                ) : (
+                  <div>No image preview</div>
+                )}
+                <input type="file" id="image" onChange={handlePortfolioImageChange} />
+              </div>
 
               <StRinkWrapper>
                 <div>
@@ -267,6 +293,16 @@ function PortfolioDetails() {
                   />
                 </div>
               </StRinkWrapper>
+              <div>
+                {projects.map((item, index) => (
+                  <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
+                    <div>{item.title}</div>
+                    <div>{item.term}</div>
+                    <div>{item.people}</div>
+                    <div>{item.position}</div>
+                  </StProjectBox>
+                ))}
+              </div>
             </StEditWrapper>
           ) : (
             <div>
@@ -280,9 +316,10 @@ function PortfolioDetails() {
                 </StButtonSection>
 
                 <StProfileContainer>
-                  <StProFileImage>
-                    <img src={proFileImage} alt="" />
-                  </StProFileImage>
+                  <div>
+                    <StProFileImage src={proFileImage} alt="" />
+                  </div>
+
                   <StProfileText>
                     <div>
                       <Mail /> {email}
@@ -310,24 +347,33 @@ function PortfolioDetails() {
                   ))}
                 </StTechStackSection>
               </StSecondSection>
-              <StYoutube>
-                {/* <Blog /> */}
-                <a href={blog}>{blog}</a>
-              </StYoutube>
-              <StBlog>
-                {/* <YouTube /> */}
-                <a href={youtube}>{youtube}</a>
-              </StBlog>
-              <StGithub>
-                <StGitgrass
-                  src={`https://ghchart.rshah.org/${githubId}`}
-                  alt="GitHub Contributions"
-                />
-              </StGithub>
+
+              {blog && (
+                <StBlog>
+                  <a href={blog}>{blog}</a>
+                </StBlog>
+              )}
+
+              {youtube && (
+                <StYoutube>
+                  <a href={youtube}>{youtube}</a>
+                </StYoutube>
+              )}
+
+              {githubId && (
+                <StGithub>
+                  <StGitgrass
+                    src={`https://ghchart.rshah.org/${githubId}`}
+                    alt="GitHub Contributions"
+                  />
+                </StGithub>
+              )}
+
               <StProjectList>
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
+                    <div>{item.title}</div>
                     <div>{item.title}</div>
                     <div>{item.term}</div>
                     <div>{item.people}</div>
@@ -336,7 +382,11 @@ function PortfolioDetails() {
                 ))}
 
                 {isProjectModalOpen && (
-                  <ProjectModal projectId={selectedProjectId} showModal={isProjectModalOpen} />
+                  <ProjectModal
+                    showModal={isProjectModalOpen}
+                    projectId={selectedProjectId}
+                    setShowModal={setIsProjectModalOpen}
+                  />
                 )}
               </StProjectList>
             </div>
@@ -390,10 +440,12 @@ const StFirstSection = styled.div`
   margin-right: 6%;
 `;
 
-const StRepresentativeImageEdit = styled.div`
-  border: 1px solid black;
+const StRepresentativeImageEdit = styled.img`
   width: 100%;
   height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StRinkWrapper = styled.div`
@@ -437,7 +489,7 @@ const StProfileContainer = styled.div`
   margin: 20px 0;
 `;
 
-const StProFileImage = styled.div`
+const StProFileImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;

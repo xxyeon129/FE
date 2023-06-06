@@ -15,8 +15,8 @@ interface ProjectDetailData {
 const ProjectModal: React.FC<{
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
-}> = ({ showModal, setShowModal }) => {
-  const { projectId } = useParams();
+}> = ({ showModal, setShowModal, projectId }) => {
+  // const { projectId } = useParams();
   const [isEditable, setIsEditable] = useState(false);
   const [title, setTitle] = useState<string>('');
   const [term, setTerm] = useState<string>('');
@@ -40,7 +40,7 @@ const ProjectModal: React.FC<{
   };
 
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
-    const project = await getProject();
+    const project = await getProject(projectId);
     return project;
   });
 
@@ -84,7 +84,7 @@ const ProjectModal: React.FC<{
       setDescriptionError('제목은 3자 이상 50자 이하여야 합니다.');
       return;
     }
-    await updateProject(formData);
+    await updateProject(formData, projectId);
     refetch();
     setIsEditable(false);
   });
