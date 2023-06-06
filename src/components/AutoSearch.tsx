@@ -5,6 +5,7 @@ import { portfolioDataState, searchTermState } from '@src/states/SearchResultsSt
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
+import { styled } from 'styled-components';
 
 const AutoSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -59,8 +60,9 @@ const AutoSearch = () => {
 
   return (
     <div>
-      <input
+      <StSearch
         type="text"
+        placeholder=" Search..."
         value={searchTerm}
         onChange={handleChange}
         onKeyDown={e => {
@@ -70,7 +72,7 @@ const AutoSearch = () => {
         ref={inputRef}
       />
       {searchTerm !== '' && suggestions.length > 0 && (
-        <ul>
+        <StSearchUl>
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
@@ -80,10 +82,41 @@ const AutoSearch = () => {
               {suggestion}
             </li>
           ))}
-        </ul>
+        </StSearchUl>
       )}
     </div>
   );
 };
 
 export default AutoSearch;
+
+const StSearch = styled.input`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 10px;
+
+  height: 20px;
+
+  background: #f5f5f5;
+  border-radius: 16px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+`;
+
+const StSearchUl = styled.ul`
+  padding: 16px;
+
+  li {
+    padding: 8px;
+    cursor: pointer;
+
+    &.active {
+      background-color: #f0f0f0;
+    }
+  }
+`;
