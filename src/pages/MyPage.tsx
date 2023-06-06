@@ -18,7 +18,7 @@ const MyPage = () => {
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImage, setProfileImage] = useState<File | null>(null); //이미지
   const [previewImage, setPreviewImage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [nicknameError, setNicknameError] = useState('');
@@ -121,6 +121,7 @@ const MyPage = () => {
 
   const handleEditClick = () => {
     setIsEditing(true);
+    console.log('회원정보 수정 버튼 클릭시 : ', profileImage);
   };
 
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
