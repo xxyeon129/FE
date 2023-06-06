@@ -1,14 +1,16 @@
 import { styled } from 'styled-components';
-import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
-import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
-import { STEP } from '@src/constants/createPortfolioConstants';
-import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState } from 'recoil';
+
 import { createEmailState } from '@src/states';
-import useOnChangeInput from '@src/Hook/useOnChangeInput';
+import { CreatePortfolioStepProps } from '@src/types/portfolioType';
+import { STEP } from '@src/constants/createPortfolioConstants';
 import { validateEmail } from '@src/components/common/createPortfolio/validator';
+
+import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import useOnChangeInput from '@src/Hook/useOnChangeInput';
+import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
+import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import AdditionalPersonalInfo from '../AdditionalPersonalInfo';
 import ErrorMessage from '../ErrorMessage';
 
