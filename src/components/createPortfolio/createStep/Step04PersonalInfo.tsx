@@ -5,30 +5,20 @@ import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { useRecoilState } from 'recoil';
-import {
-  createEmailState,
-  createLocationState,
-  createResidenceState,
-  createTelephoneState,
-} from '@src/states';
+import { createEmailState } from '@src/states';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import { validateEmail } from '@src/components/common/createPortfolio/validator';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
+import AdditionalPersonalInfo from '../AdditionalPersonalInfo';
 
 const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [email, setEmail] = useRecoilState(createEmailState);
-  const [telephone, setTelephone] = useRecoilState(createTelephoneState);
-  const [residence, setResidence] = useRecoilState(createResidenceState);
-  const [location, setLocation] = useRecoilState(createLocationState);
 
   const {
     onChangeInput: onChangeEmail,
     isInvalid: isInvalidEmail,
     errorMessage,
   } = useOnChangeInput({ inputValue: email, setRecoilState: setEmail, validator: validateEmail });
-  const { onChangeInput: onChangeTelephone } = useOnChangeInput({ setRecoilState: setTelephone });
-  const { onChangeInput: onChangeResidence } = useOnChangeInput({ setRecoilState: setResidence });
-  const { onChangeInput: onChangeLocation } = useOnChangeInput({ setRecoilState: setLocation });
 
   const onClickButton = () => {
     if (isInvalidEmail) return;
@@ -54,32 +44,7 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
           </StOutLineDiv>
           {isInvalidEmail && <StErrorMessage>{errorMessage}</StErrorMessage>}
         </StEmailContainer>
-        <StAdditionalInfomationOutLineDiv>
-          <StAdditionalInfomationItem>
-            <StInputDescription>전화번호</StInputDescription>
-            <StPersonalInfoInput
-              value={telephone}
-              onChange={onChangeTelephone}
-              placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
-            />
-          </StAdditionalInfomationItem>
-          <StAdditionalInfomationItem>
-            <StInputDescription>거주지</StInputDescription>
-            <StPersonalInfoInput
-              value={residence}
-              onChange={onChangeResidence}
-              placeholder="포트폴리오에 표시될 거주지를 입력해주세요."
-            />
-          </StAdditionalInfomationItem>
-          <StAdditionalInfomationItem>
-            <StInputDescription>희망 근무지역</StInputDescription>
-            <StPersonalInfoInput
-              value={location}
-              onChange={onChangeLocation}
-              placeholder="포트폴리오에 표시될 희망 근무지역을 입력해주세요."
-            />
-          </StAdditionalInfomationItem>
-        </StAdditionalInfomationOutLineDiv>
+        <AdditionalPersonalInfo sharedStyle={sharedStyle} />
       </StInputContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.THREE)} />
@@ -118,23 +83,6 @@ const StErrorMessage = styled.div`
   margin: 8px 0 0 5px;
   font-size: 15px;
   color: red;
-`;
-
-const StAdditionalInfomationOutLineDiv = styled.div`
-  width: 600px;
-  height: 195px;
-  border: 1px solid gray;
-  border-radius: 10px;
-`;
-
-const StAdditionalInfomationItem = styled.div`
-  ${sharedStyle}
-
-  border-bottom: 1px solid gray;
-
-  &:last-child {
-    border: none;
-  }
 `;
 
 const StInputDescription = styled.div`
