@@ -16,7 +16,6 @@ const MyPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState<Boolean>(false);
-  const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -120,10 +119,6 @@ const MyPage = () => {
     }
   };
 
-  const handleEditPasswordClick = () => {
-    setIsEditingPassword(true);
-  };
-
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -180,118 +175,122 @@ const MyPage = () => {
 
   return (
     <div>
+      <StHeader></StHeader>
       {isEditing ? (
-        <div>
-          <h1>회원정보 수정</h1>
-          {previewImage && <img src={previewImage} alt="Preview" />}
-          <div>
-            <input
-              type="file"
-              name="profileImage"
-              onChange={handleProfileImageChange}
-              placeholder="프로필 이미지"
-            />
-            <button type="button" onClick={removeProfileImage}>
-              삭제 버튼
-            </button>
-          </div>
-          <div>
-            <input
-              type="text"
-              name="nickname"
-              value={nickname}
-              onChange={handleNicknameChange}
-              placeholder="닉네임"
-            />
-            {nicknameError && <div>{nicknameError}</div>}
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleEmailChange}
-              placeholder="이메일"
-              disabled
-            />
-          </div>
-          {isEditingPassword && (
-            <>
+        <StMyPageEditBox>
+          <StLayout>
+            <StImageEditBox>
+              {previewImage && <StImage src={previewImage} alt="Preview" />}
+            </StImageEditBox>
+            <div>
+              <StFileUpload
+                type="file"
+                name="profileImage"
+                onChange={handleProfileImageChange}
+                placeholder="프로필 이미지"
+              />
+              <button type="button" onClick={removeProfileImage}>
+                삭제 버튼
+              </button>
+            </div>
+            <StTextBox>
               <div>
-                <input
+                <StTitle>닉네임</StTitle>
+                <StInput
+                  type="text"
+                  name="nickname"
+                  value={nickname}
+                  onChange={handleNicknameChange}
+                  placeholder="닉네임을 적어주세요"
+                />
+              </div>
+              {nicknameError && <StError>{nicknameError}</StError>}
+              <div>
+                <StTitle>이메일</StTitle>
+                <StInput
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  disabled
+                />
+              </div>
+              <StButtonStyle onClick={handleSubmit}>저장</StButtonStyle>
+            </StTextBox>
+
+            <StTextBox>
+              <div>
+                <StTitle>현재 비밀번호</StTitle>
+                <StInput
                   type="password"
                   name="password"
                   value={oldpassword}
                   onChange={handleCurrentPasswordChange}
                   placeholder="현재 비밀번호"
                 />
-                {oldpasswordError && <p>{oldpasswordError}</p>}
+                {oldpasswordError && <StError>{oldpasswordError}</StError>}
               </div>
               <div>
-                <input
+                <StTitle>비밀번호</StTitle>
+                <StInput
                   type="password"
                   name="password"
                   value={newpassword}
                   onChange={handlePasswordChange}
                   placeholder="비밀번호"
                 />
-                {newpasswordError && <p>{newpasswordError}</p>}
+                {newpasswordError && <StError>{newpasswordError}</StError>}
               </div>
               <div>
-                <input
+                <StTitle>비밀번호 확인</StTitle>
+                <StInput
                   type="password"
                   name="passwordCheck"
                   value={checknewpassword}
                   onChange={handlePasswordCheckChange}
                   placeholder="비밀번호 확인"
                 />
-                {checknewpasswordError && <p>{checknewpasswordError}</p>}
+                {checknewpasswordError && <StError>{checknewpasswordError}</StError>}
               </div>
-              {apiError && <p>{apiError}</p>}
-            </>
-          )}
-          {isEditingPassword ? (
-            <>
-              <button onClick={() => setIsEditingPassword(false)}>비밀번호 수정 취소</button>
-              <button type="button" onClick={handleSavePassword}>
-                비밀번호 저장
-              </button>
-            </>
-          ) : (
-            <button onClick={handleEditPasswordClick}>비밀번호 수정</button>
-          )}
-          <div>
-            <button type="submit" onClick={handleSubmit}>
-              저장
-            </button>
-            <button type="submit" onClick={handleCloseClick}>
-              닫기
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <div>{data?.profileImage && <img src={data.profileImage} alt="Profile" />}</div>
-          <h1>{data?.nickname}</h1>
-          <p>{data?.email}</p>
+              {apiError && <StError>{apiError}</StError>}
+              <StButtonStyle onClick={handleSavePassword}>비밀번호 저장</StButtonStyle>
+            </StTextBox>
 
-          <button onClick={handleEditClick}>회원정보수정</button>
-          <button onClick={handleWithdrawalClick}>회원탈퇴</button>
-        </div>
+            <StButtonStyle type="submit" onClick={handleCloseClick}>
+              닫기
+            </StButtonStyle>
+          </StLayout>
+        </StMyPageEditBox>
+      ) : (
+        <StMyPageBox>
+          <StEditButton>
+            <button onClick={handleEditClick}>회원정보수정</button>
+          </StEditButton>
+          <StImageBox>
+            {data?.profileImage && <StImage src={data.profileImage} alt="Profile" />}
+          </StImageBox>
+          <StBottom>
+            <h1>{data?.nickname}</h1>
+            <p>{data?.email}</p>
+            <button onClick={handleWithdrawalClick}>회원탈퇴</button>
+          </StBottom>
+        </StMyPageBox>
       )}
       {showModal && (
-        <Modal>
-          <div>
+        <ModalWrapper>
+          <ModalContent>
             <h2>회원탈퇴</h2>
-            <p>지금까지 폴 서비스를 이용해주셔서 감사합니다</p>
-            <br />
-            <p>회원 탈퇴시 폴 서비스 내 계정 정보가 삭제되고 복구할 수 없습니다.</p>
+            <StLayout>
+              <p>지금까지 폴 서비스를 이용해주셔서 감사합니다</p>
+              <br />
+              <p>회원 탈퇴시 폴 서비스 내 계정 정보가</p> <p>삭제되고 복구할 수 없습니다.</p>
+            </StLayout>
             <div>
               <button onClick={handleWithdrawal}>탈퇴하기</button>
               <button onClick={handleCloseModal}>취소</button>
             </div>
-          </div>
-        </Modal>
+          </ModalContent>
+        </ModalWrapper>
       )}
     </div>
   );
@@ -299,10 +298,184 @@ const MyPage = () => {
 
 export default MyPage;
 
-const Modal = styled.div`
+const ModalWrapper = styled.div`
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 60px 0px;
+  background: #fefefe;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+  height: 500px;
+  overflow-y: auto;
+  max-height: 100%;
+`;
+
+const StMyPageBox = styled.div`
+  position: relative;
+  width: 916px;
+  height: 470px;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
+  transform: translate(-50%, -35%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(184, 227, 180, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25);
+  border-radius: 15px;
+`;
+
+const StHeader = styled.div`
+  /* position: relative; */
+  width: 100%;
+  height: 311px;
+  background: #a9a9a9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StImageBox = styled.div`
+  border: 1px solid black;
+  width: 168px;
+  height: 168px;
+  margin: 20px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+`;
+
+const StBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  button {
+    margin-top: 100px;
+  }
+`;
+
+const StEditButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  margin-left: 300px;
+`;
+
+//-------------------------------------------------------------
+
+const StMyPageEditBox = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -47%);
+  width: 458px;
+  height: 830px;
+  background: rgba(255, 245, 190, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25);
+  border-radius: 15px;
+`;
+
+const StLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 75px;
+`;
+
+const StTitle = styled.div`
+  font-weight: bold;
+`;
+
+const StTextBox = styled.div`
+  width: 100%;
+  white-space: normal;
+  word-break: break-all;
+  div {
+    padding-bottom: 15px;
+  }
+`;
+const StInput = styled.input`
+  width: 100%;
+  height: 30px;
+  background: #fafafa;
+  border: 0.6px solid black;
+  width: 308px;
+  height: 39px;
+  left: 684px;
+  top: 509px;
+  background: #ffffff;
+  border: 2px solid rgba(203, 203, 203, 0.7);
+  border-radius: 40px;
+`;
+
+const StButtonStyle = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  cursor: pointer;
+  border: 1px solid black;
+  width: 100%;
+  height: 30px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+
+  &:hover {
+    background-color: lightgray;
+    border-color: gray;
+  }
+`;
+
+const StError = styled.div`
+  font-size: 14px;
+  padding: 4px;
+  color: #767676;
+`;
+
+const StFileUpload = styled.input`
+  width: 187px;
+  height: 42px;
+  left: 760px;
+  top: 372px;
+`;
+
+const StImageEditBox = styled.div`
+  border: 1px solid black;
+  width: 120px;
+  height: 107px;
+  left: 786px;
+  top: 236px;
+  margin: 20px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
