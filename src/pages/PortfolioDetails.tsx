@@ -190,16 +190,15 @@ function PortfolioDetails() {
       <div>
         <div>
           {portEdit ? (
-            <div>
+            <StEditWrapper>
               <button onClick={onPortfolioUpdate}>수정완료</button>
               <button onClick={onPortfolioEditClear}>수정취소</button>
-              <h1>수정페이지</h1>
 
-              <div>
+              <StFirstEditWrapper>
                 <img src="" alt="" />
                 <div>
-                  <label htmlFor="portfolioTitle">제목:</label>
-                  <input
+                  <StLabel htmlFor="portfolioTitle">제목</StLabel>
+                  <StInput
                     type="text"
                     id="portfolioTitle"
                     value={portfolioTitle}
@@ -207,8 +206,8 @@ function PortfolioDetails() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="residence">거주지:</label>
-                  <input
+                  <StLabel htmlFor="residence">거주지</StLabel>
+                  <StInput
                     type="text"
                     id="residence"
                     value={residence}
@@ -216,42 +215,59 @@ function PortfolioDetails() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="location">희망:</label>
-                  <input type="text" id="location" value={location} onChange={onLocationHandler} />
+                  <StLabel htmlFor="location">희망</StLabel>
+                  <StInput
+                    type="text"
+                    id="location"
+                    value={location}
+                    onChange={onLocationHandler}
+                  />
                 </div>
 
                 <div>
-                  <label htmlFor="email">이메일:</label>
-                  <input type="text" id="email" value={email} onChange={onEmailHandler} />
+                  <StLabel htmlFor="email">이메일</StLabel>
+                  <StInput type="text" id="email" value={email} onChange={onEmailHandler} />
                 </div>
                 <div>
-                  <label htmlFor="telephone">번호:</label>
-                  <input
+                  <StLabel htmlFor="telephone">번호</StLabel>
+                  <StInput
                     type="text"
                     id="telephone"
                     value={telephone}
                     onChange={onTelephoneHandler}
                   />
                 </div>
-              </div>
+              </StFirstEditWrapper>
 
-              <div>
-                <label htmlFor="image">이미지:</label>
+              <StRepresentativeImageEdit>
                 <input type="file" id="image" onChange={onImageUpload} />
-              </div>
-              <div>
-                <label htmlFor="youtube">유튜브:</label>
-                <input type="text" id="youtube" value={youtube} onChange={onYoutubeHandler} />
-              </div>
-              <div>
-                <label htmlFor="blog">블로그:</label>
-                <input type="text" id="blog" value={blog} onChange={onBlogHandler} />
-              </div>
-              <div>
-                <label htmlFor="github">GitHub:</label>
-                <input type="text" id="github" value={githubId} onChange={onGithubHandler} />
-              </div>
-            </div>
+              </StRepresentativeImageEdit>
+
+              <StRinkWrapper>
+                <div>
+                  <StLabel htmlFor="youtube">유튜브:</StLabel>
+                  <StRinkInput
+                    type="text"
+                    id="youtube"
+                    value={youtube}
+                    onChange={onYoutubeHandler}
+                  />
+                </div>
+                <div>
+                  <StLabel htmlFor="blog">블로그:</StLabel>
+                  <StRinkInput type="text" id="blog" value={blog} onChange={onBlogHandler} />
+                </div>
+                <div>
+                  <StLabel htmlFor="github">GitHub:</StLabel>
+                  <StRinkInput
+                    type="text"
+                    id="github"
+                    value={githubId}
+                    onChange={onGithubHandler}
+                  />
+                </div>
+              </StRinkWrapper>
+            </StEditWrapper>
           ) : (
             <div>
               <StFirstSection>
@@ -333,9 +349,57 @@ function PortfolioDetails() {
 
 export default PortfolioDetails;
 
+const input = `
+flex: 1;
+padding: 8px;
+margin-right: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+height: 40px;
+width: 40%;
+margin-top: 10px;
+`;
+
+const StEditWrapper = styled.div`
+  padding: 120px;
+  height: 100vh;
+`;
+
+const StFirstEditWrapper = styled.div`
+  background-color: #f8f8f8;
+  padding: 30px;
+  margin: 30px 0;
+`;
+
+const StLabel = styled.label`
+  display: inline-block;
+  width: 60px;
+`;
+
+const StRinkInput = styled.input`
+  ${input}
+  width: 88%;
+`;
+
+const StInput = styled.input`
+  ${input}
+`;
+
 const StFirstSection = styled.div`
   margin-left: 6%;
   margin-right: 6%;
+`;
+
+const StRepresentativeImageEdit = styled.div`
+  border: 1px solid black;
+  width: 100%;
+  height: 200px;
+`;
+
+const StRinkWrapper = styled.div`
+  background-color: #f8f8f8;
+  padding: 30px;
+  margin: 30px 0;
 `;
 
 const StHorizontalLine = styled.div`
@@ -387,7 +451,7 @@ const StProfileText = styled.div`
 const StSecondSection = styled.div`
   display: flex;
   justify-content: space-between;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin: 5%;
 `;
 
@@ -400,7 +464,7 @@ const StTechStackSection = styled.div`
   width: 50%;
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 const StTechStack = styled.div`
