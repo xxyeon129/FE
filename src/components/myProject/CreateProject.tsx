@@ -139,7 +139,9 @@ const CreateProject: React.FC<{
               </StImageContainer>
               <StTextBox>
                 <StTextWrap>
-                  <StTitle>프로젝트 제목</StTitle>
+                  <StTitleContainer>
+                    <StTitle>프로젝트 제목</StTitle>
+                  </StTitleContainer>
                   <StInput
                     type="text"
                     value={title}
@@ -149,7 +151,9 @@ const CreateProject: React.FC<{
                 </StTextWrap>
                 {titleError && <StError>{titleError}</StError>}
                 <StTextWrap>
-                  <StTitle>프로젝트 기간</StTitle>
+                  <StTitleContainer>
+                    <StTitle>프로젝트 기간</StTitle>
+                  </StTitleContainer>
                   <StInput
                     type="text"
                     value={term}
@@ -159,7 +163,9 @@ const CreateProject: React.FC<{
                 </StTextWrap>
                 {termError && <StError>{termError}</StError>}
                 <StTextWrap>
-                  <StTitle>프로젝트 인원</StTitle>
+                  <StTitleContainer>
+                    <StTitle>프로젝트 인원</StTitle>
+                  </StTitleContainer>
                   <StInput
                     type="text"
                     value={people}
@@ -169,7 +175,9 @@ const CreateProject: React.FC<{
                 </StTextWrap>
                 {peopleError && <StError>{peopleError}</StError>}
                 <StTextWrap>
-                  <StTitle>해당 포지션</StTitle>
+                  <StTitleContainer>
+                    <StTitle>해당 포지션</StTitle>
+                  </StTitleContainer>
                   <StInput
                     type="text"
                     value={position}
@@ -179,7 +187,9 @@ const CreateProject: React.FC<{
                 </StTextWrap>
                 {positionError && <StError>{positionError}</StError>}
                 <StTextWrap>
-                  <StTitle>프로젝트 설명</StTitle>
+                  <StTitleContainer>
+                    <StTitle>프로젝트 설명</StTitle>
+                  </StTitleContainer>
                   <StTextArea
                     value={description}
                     onChange={descriptionHandler}
@@ -243,15 +253,27 @@ const StLayout = styled.div`
 const StTextWrap = styled.div`
   display: flex;
   justify-content: start;
+  align-items: center;
 
   @media (max-width: 600px) {
     flex-direction: column;
   }
 `;
 
+const StTitleContainer = styled.div`
+  display: flex;
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
 const StTitle = styled.div`
-  width: 30%;
   font-weight: bold;
+  width: 100%;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -285,6 +307,7 @@ const StTextArea = styled.textarea`
   margin-left: 20px;
   height: 10vh;
   border: 1px solid #d6d6d6;
+  background: #fafafa;
   border-radius: 10px;
   transition: font-size 0.3s;
   font-size: 15px;
@@ -326,10 +349,13 @@ const StTextBox = styled.div`
   word-break: break-all;
   margin-bottom: 40px;
   font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-  div {
+  /* div {
     padding-bottom: 10px;
-  }
+  } */
 `;
 
 const StBottom = styled.div`
@@ -364,7 +390,7 @@ const StBadButton = styled.button`
 `;
 
 const StError = styled.div`
-  padding-left: 230px;
+  padding-left: 165px;
   font-size: 12px;
   color: red;
 `;

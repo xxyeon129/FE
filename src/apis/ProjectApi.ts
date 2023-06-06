@@ -24,7 +24,6 @@ export const updateProject = async (formData: FormData) => {
   await axios.patch(`${SERVER_URL}/api/projects/169`, formData, {
     headers: {
       Authorization: accessToken,
-      Authorization: accessToken,
     },
   });
 };

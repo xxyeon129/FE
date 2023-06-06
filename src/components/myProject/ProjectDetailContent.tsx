@@ -28,7 +28,6 @@ interface ProjectDetailContentProps {
   handleSubmit: () => void;
   handleCloseModal: () => void;
 }
-// sdsd
 const ProjectDetailContent: React.FC<ProjectDetailContentProps> = ({
   isEditable,
   data,
@@ -74,7 +73,9 @@ const ProjectDetailContent: React.FC<ProjectDetailContentProps> = ({
           </StImageContainer>
           <StTextBox>
             <StTextWrap>
-              <StTitle>프로젝트 제목</StTitle>
+              <StTitleContainer>
+                <StTitle>프로젝트 제목</StTitle>
+              </StTitleContainer>
               <StInput
                 type="text"
                 value={title}
@@ -84,7 +85,9 @@ const ProjectDetailContent: React.FC<ProjectDetailContentProps> = ({
             </StTextWrap>
             {titleError && <StError>{titleError}</StError>}
             <StTextWrap>
-              <StTitle>프로젝트 기간</StTitle>
+              <StTitleContainer>
+                <StTitle>프로젝트 기간</StTitle>
+              </StTitleContainer>
               <StInput
                 type="text"
                 value={term}
@@ -94,7 +97,9 @@ const ProjectDetailContent: React.FC<ProjectDetailContentProps> = ({
             </StTextWrap>
             {termError && <StError>{termError}</StError>}
             <StTextWrap>
-              <StTitle>프로젝트 인원</StTitle>
+              <StTitleContainer>
+                <StTitle>프로젝트 인원</StTitle>
+              </StTitleContainer>
               <StInput
                 type="text"
                 value={people}
@@ -104,7 +109,9 @@ const ProjectDetailContent: React.FC<ProjectDetailContentProps> = ({
             </StTextWrap>
             {peopleError && <StError>{peopleError}</StError>}
             <StTextWrap>
-              <StTitle>해당 포지션</StTitle>
+              <StTitleContainer>
+                <StTitle>해당 포지션</StTitle>
+              </StTitleContainer>
               <StInput
                 type="text"
                 value={position}
@@ -114,7 +121,9 @@ const ProjectDetailContent: React.FC<ProjectDetailContentProps> = ({
             </StTextWrap>
             {positionError && <StError>{positionError}</StError>}
             <StTextWrap>
-              <StTitle>프로젝트 설명</StTitle>
+              <StTitleContainer>
+                <StTitle>프로젝트 설명</StTitle>
+              </StTitleContainer>
               <StTextArea
                 value={description}
                 onChange={descriptionHandler}
@@ -136,27 +145,38 @@ const ProjectDetailContent: React.FC<ProjectDetailContentProps> = ({
           <StgetContainer>
             <StTextBox>
               <StTextWrap>
-                <StTitle>프로젝트 제목</StTitle>
+                <StTitleContainer>
+                  <StTitle>프로젝트 제목</StTitle>
+                </StTitleContainer>
                 <StText>{data?.title}</StText>
               </StTextWrap>
               <StTextWrap>
-                <StTitle>프로젝트 기간</StTitle>
+                <StTitleContainer>
+                  <StTitle>프로젝트 기간</StTitle>
+                </StTitleContainer>
                 <StText>{data?.term}</StText>
               </StTextWrap>
               <StTextWrap>
-                <StTitle>프로젝트 인원</StTitle>
+                <StTitleContainer>
+                  <StTitle>프로젝트 인원</StTitle>
+                </StTitleContainer>
                 <StText>{data?.people}</StText>
               </StTextWrap>
               <StTextWrap>
-                <StTitle>해당 포지션</StTitle>
+                <StTitleContainer>
+                  <StTitle>해당 포지션</StTitle>
+                </StTitleContainer>
                 <StText>{data?.position}</StText>
               </StTextWrap>
               <StTextWrap>
-                <StTitle>프로젝트 설명</StTitle>
+                <StTitleContainer>
+                  <StTitle>프로젝트 설명</StTitle>
+                </StTitleContainer>
                 <StText>{data?.description}</StText>
               </StTextWrap>
             </StTextBox>
           </StgetContainer>
+          <StBottom></StBottom>
         </>
       )}
       {accessToken && (
@@ -194,10 +214,16 @@ const StTextWrap = styled.div`
     flex-direction: column;
   }
 `;
+const StTitleContainer = styled.div`
+  display: flex;
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+`;
 
 const StTitle = styled.div`
-  width: 30%;
   font-weight: bold;
+  width: 100%;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -205,7 +231,7 @@ const StTitle = styled.div`
 `;
 
 const StText = styled.div`
-  width: 70%;
+  width: 80%;
   margin-left: 20px;
   border-bottom: 1px solid #d6d6d6;
   padding: 5px;
@@ -218,7 +244,7 @@ const StText = styled.div`
 `;
 
 const StInput = styled.input`
-  width: 70%;
+  width: 80%;
   margin-left: 20px;
   height: 3.3em;
   background: #fafafa;
@@ -239,10 +265,11 @@ const StInput = styled.input`
 `;
 
 const StTextArea = styled.textarea`
-  width: 70%;
+  width: 80%;
   padding: 0.3em;
   margin-left: 20px;
   height: 10vh;
+  background: #fafafa;
   border: 1px solid #d6d6d6;
   border-radius: 10px;
   transition: font-size 0.3s;
@@ -286,10 +313,13 @@ const StTextBox = styled.div`
   word-break: break-all;
   margin-bottom: 40px;
   font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 
-  div {
+  /* div {
     padding-bottom: 10px;
-  }
+  } */
 `;
 
 const StBottom = styled.div`
