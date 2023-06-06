@@ -10,6 +10,7 @@ import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import { validateEmail } from '@src/components/common/createPortfolio/validator';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import AdditionalPersonalInfo from '../AdditionalPersonalInfo';
+import ErrorMessage from '../ErrorMessage';
 
 const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [email, setEmail] = useRecoilState(createEmailState);
@@ -42,7 +43,7 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
               placeholder="포트폴리오에 표시될 email을 입력해주세요."
             />
           </StOutLineDiv>
-          {isInvalidEmail && <StErrorMessage>{errorMessage}</StErrorMessage>}
+          {isInvalidEmail && <ErrorMessage errorMessage={errorMessage} />}
         </StEmailContainer>
         <AdditionalPersonalInfo sharedStyle={sharedStyle} />
       </StInputContainer>
@@ -77,12 +78,6 @@ const StOutLineDiv = styled.div`
 
   border: 1px solid gray;
   border-radius: 10px;
-`;
-
-const StErrorMessage = styled.div`
-  margin: 8px 0 0 5px;
-  font-size: 15px;
-  color: red;
 `;
 
 const StInputDescription = styled.div`

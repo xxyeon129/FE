@@ -9,6 +9,7 @@ import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabe
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import { validateTitle } from '@src/components/common/createPortfolio/validator';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
+import ErrorMessage from '../ErrorMessage';
 
 const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [portfolioTitle, setPortfolioTitle] = useRecoilState(createTitleState);
@@ -37,7 +38,7 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
       <TitleTextLabel title={title} description={description} />
       <StInputContainer>
         <StInput value={portfolioTitle} onChange={onChangeInput} />
-        {isInvalidTitle && <StErrorMessage>{errorMessage}</StErrorMessage>}
+        {isInvalidTitle && <ErrorMessage errorMessage={errorMessage} />}
       </StInputContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.TWO)} />
@@ -62,12 +63,6 @@ const StInput = styled.input`
   &:focus {
     border: 3px solid;
   }
-`;
-
-const StErrorMessage = styled.div`
-  margin: 8px 0 0 5px;
-  font-size: 15px;
-  color: red;
 `;
 
 export default Step03Title;
