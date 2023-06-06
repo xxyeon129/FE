@@ -1,18 +1,20 @@
-import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
-import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
-import { STEP } from '@src/constants/createPortfolioConstants';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useQueryClient } from 'react-query';
+import { css, styled } from 'styled-components';
+
 import { createProjectIdListState, createProjectListState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
-import { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { css, styled } from 'styled-components';
-import TestCreateProjectModal from '../TestCreateProjectModal';
-import { useQueryClient } from 'react-query';
 import { ProjectDataType } from '@src/types/portfolioType';
-import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
-import ProjectItem from '@src/components/project/ProjectItem';
+import { STEP } from '@src/constants/createPortfolioConstants';
 import { deleteProject } from '@src/apis/project';
+
+import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import ProjectItem from '@src/components/project/ProjectItem';
+import TestCreateProjectModal from '../TestCreateProjectModal';
+import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
+import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
+import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
 const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [projectIdList, setProjectIdList] = useRecoilState<number[]>(createProjectIdListState);
