@@ -1,14 +1,26 @@
 const ERROR_MESSAGE = {
-  TITLE: '제목을 2글자 이상 입력해주세요.',
-  EMAIL: '공백 없이 @를 포함한 올바른 이메일 주소를 입력해주세요.',
+  TITLE_UNDER_5: '제목을 5글자 이상 입력해주세요.',
+  TITLE_OVER_20: '제목을 20글자 미만으로 입력해주세요.',
+  EMAIL: '올바른 이메일 주소를 입력해주세요.',
 };
 
-export const validateTitle = (title: string) => {
-  const isInvalid = title.length < 2;
-  return [isInvalid, isInvalid && ERROR_MESSAGE.TITLE];
+export const validateTitle = (value: string) => {
+  const isUnderValue = value.length < 5;
+  const isOverValue = value.length > 19;
+  if (isUnderValue) {
+    return [isUnderValue, isUnderValue && ERROR_MESSAGE.TITLE_UNDER_5];
+  }
+  if (isOverValue) {
+    return [isOverValue, isOverValue && ERROR_MESSAGE.TITLE_OVER_20];
+  }
+  const vauleIsValid = false;
+  const noErrorMessage = '';
+  return [vauleIsValid, noErrorMessage];
 };
 
-export const validateEmail = (email: string) => {
-  const isInvalid = !email.trim().includes('@');
+export const validateEmail = (value: string) => {
+  const EMAIL_REGEX =
+    /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/;
+  const isInvalid = !EMAIL_REGEX.test(value);
   return [isInvalid, isInvalid && ERROR_MESSAGE.EMAIL];
 };

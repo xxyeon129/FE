@@ -13,9 +13,15 @@ import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButto
 const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [portfolioTitle, setPortfolioTitle] = useRecoilState(createTitleState);
 
-  const { onChangeInput } = useOnChangeInput(setPortfolioTitle);
-
-  const [isInvalidTitle, errorMessage] = validateTitle(portfolioTitle);
+  const {
+    onChangeInput,
+    isInvalid: isInvalidTitle,
+    errorMessage,
+  } = useOnChangeInput({
+    inputValue: portfolioTitle,
+    setRecoilState: setPortfolioTitle,
+    validator: validateTitle,
+  });
 
   const onClickNextButton = () => {
     if (isInvalidTitle) return;
@@ -23,7 +29,8 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
   };
 
   const title = '포트폴리오를 잘 나타내는 제목을 입력해주세요';
-  const description = '작성하신 제목은 나중에 수정하실 수 있습니다.';
+  const description =
+    '제목을 5자 이상, 20자 미만으로 작성해주세요.\n작성하신 제목은 나중에 수정하실 수 있습니다. 자유롭게 작성해주세요!';
 
   return (
     <S.Container>

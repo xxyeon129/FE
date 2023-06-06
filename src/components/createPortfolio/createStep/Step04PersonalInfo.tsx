@@ -21,12 +21,14 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
   const [residence, setResidence] = useRecoilState(createResidenceState);
   const [location, setLocation] = useRecoilState(createLocationState);
 
-  const { onChangeInput: onChangeEmail } = useOnChangeInput(setEmail);
-  const { onChangeInput: onChangeTelephone } = useOnChangeInput(setTelephone);
-  const { onChangeInput: onChangeResidence } = useOnChangeInput(setResidence);
-  const { onChangeInput: onChangeLocation } = useOnChangeInput(setLocation);
-
-  const [isInvalidEmail, errorMessage] = validateEmail(email);
+  const {
+    onChangeInput: onChangeEmail,
+    isInvalid: isInvalidEmail,
+    errorMessage,
+  } = useOnChangeInput({ inputValue: email, setRecoilState: setEmail, validator: validateEmail });
+  const { onChangeInput: onChangeTelephone } = useOnChangeInput({ setRecoilState: setTelephone });
+  const { onChangeInput: onChangeResidence } = useOnChangeInput({ setRecoilState: setResidence });
+  const { onChangeInput: onChangeLocation } = useOnChangeInput({ setRecoilState: setLocation });
 
   const onClickButton = () => {
     if (isInvalidEmail) return;
