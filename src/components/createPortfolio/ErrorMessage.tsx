@@ -2,9 +2,11 @@ import { styled } from 'styled-components';
 import { IoMdCloseCircle } from 'react-icons/io';
 
 const ErrorMessage: React.FC<{ errorMessage: string | boolean }> = ({ errorMessage }) => {
+  const isErrorMessageExist = typeof errorMessage === 'string' && errorMessage.length !== 0;
+
   return (
     <StErrorMessage>
-      <StErrorIcon />
+      {isErrorMessageExist && <StErrorIcon />}
       <StErrorText>{errorMessage}</StErrorText>
     </StErrorMessage>
   );
