@@ -5,13 +5,14 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 import { useQuery, useMutation } from 'react-query';
-// 돌려줘
+import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
+import { ReactComponent as UploadIcon } from 'src/assets/image-upload.svg';
+
 interface UserData {
   nickname: string;
   email: string;
   profileImage: string;
 }
-
 const MyPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -183,17 +184,21 @@ const MyPage = () => {
             <StImageEditBox>
               {previewImage && <StImage src={previewImage} alt="Preview" />}
             </StImageEditBox>
-            <div>
+            <StImageUploadWrap>
+              <label htmlFor="file">
+                <UploadIcon />
+              </label>
               <StFileUpload
                 type="file"
                 name="profileImage"
+                id="file"
                 onChange={handleProfileImageChange}
                 placeholder="프로필 이미지"
               />
               <button type="button" onClick={removeProfileImage}>
-                삭제 버튼
+                ❌
               </button>
-            </div>
+            </StImageUploadWrap>
             <StTextBox>
               <div>
                 <StTitle>닉네임</StTitle>
@@ -268,7 +273,7 @@ const MyPage = () => {
       ) : (
         <StMyPageBox>
           <StEditButton>
-            <button onClick={handleEditClick}>회원정보수정</button>
+            <StEditIcon onClick={handleEditClick} />
           </StEditButton>
           <StImageBox>
             {data?.profileImage && <StImage src={data.profileImage} alt="Profile" />}
@@ -318,7 +323,7 @@ const ModalContent = styled.div`
   background-color: white;
   padding: 60px 0px;
   background: #fefefe;
-  border: 3px solid rgba(0, 0, 0, 0.2);
+  /* border: 3px solid rgba(0, 0, 0, 0.2); */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -327,6 +332,7 @@ const ModalContent = styled.div`
   height: 500px;
   overflow-y: auto;
   max-height: 100%;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 `;
 
 const StMyPageBox = styled.div`
@@ -341,10 +347,13 @@ const StMyPageBox = styled.div`
   justify-content: center;
   align-items: center;
   /* background: rgba(184, 227, 180, 0.7); */
-  background: #6bf65f;
-  opacity: 0.85;
-  border: 1px solid rgba(0, 0, 0, 0.02);
-  box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25);
+  background: white;
+  /* opacity: 0.85; */
+  /* border: 1px solid black; */
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  /* box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25); */
   border-radius: 15px;
 `;
 
@@ -359,7 +368,7 @@ const StHeader = styled.div`
 `;
 
 const StImageBox = styled.div`
-  border: 1px solid black;
+  border: 1px solid #d3d3d3;
   width: 168px;
   height: 168px;
   margin: 20px;
@@ -402,9 +411,13 @@ const StMyPageEditBox = styled.div`
   transform: translate(-50%, -47%);
   width: 458px;
   height: 830px;
-  background: rgba(255, 245, 190, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.02);
-  box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25);
+  background: white;
+  /* border: 1px solid rgba(0, 0, 0, 0.02); */
+  /* box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25); 
+  */
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
   border-radius: 15px;
 `;
 
@@ -453,18 +466,18 @@ const StInput = styled.input`
 //   font-size: 15px;
 // `;
 
-const StButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  cursor: pointer;
-  border: 1px solid black;
-  width: 100%;
-  height: 30px;
-  margin-bottom: 20px;
-  border-radius: 20px;
-`;
+// const StButton = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 10px;
+//   cursor: pointer;
+//   border: 1px solid black;
+//   width: 100%;
+//   height: 30px;
+//   margin-bottom: 20px;
+//   border-radius: 20px;
+// `;
 
 const StError = styled.div`
   font-size: 14px;
@@ -473,20 +486,19 @@ const StError = styled.div`
 `;
 
 const StFileUpload = styled.input`
-  width: 187px;
+  width: 0;
   height: 42px;
-  left: 760px;
-  top: 372px;
+  opacity: 0;
 `;
 
 const StImageEditBox = styled.div`
-  border: 1px solid black;
+  border: 1px solid #d3d3d3;
   width: 120px;
-  height: 107px;
+  height: 120px;
   left: 786px;
   top: 236px;
   margin: 20px;
-  border-radius: 100%;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -516,4 +528,19 @@ const StBadButton = styled.button`
   &:hover {
     background-color: #d3d3d3;
   }
+`;
+
+const StEditIcon = styled(EditIcon)`
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+
+  &:hover {
+    background-color: #d3d3d3;
+  }
+`;
+
+const StImageUploadWrap = styled.div`
+  display: flex;
+  justify-content: center;
 `;
