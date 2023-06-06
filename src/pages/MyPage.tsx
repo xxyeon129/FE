@@ -215,7 +215,9 @@ const MyPage = () => {
                   disabled
                 />
               </div>
-              <StButtonStyle onClick={handleSubmit}>저장</StButtonStyle>
+              <div>
+                <StGoodButton onClick={handleSubmit}>저장</StGoodButton>
+              </div>
             </StTextBox>
 
             <StTextBox>
@@ -253,12 +255,13 @@ const MyPage = () => {
                 {checknewpasswordError && <StError>{checknewpasswordError}</StError>}
               </div>
               {apiError && <StError>{apiError}</StError>}
-              <StButtonStyle onClick={handleSavePassword}>비밀번호 저장</StButtonStyle>
+              <div>
+                <StGoodButton onClick={handleSavePassword}>비밀번호 저장</StGoodButton>
+              </div>
             </StTextBox>
-
-            <StButtonStyle type="submit" onClick={handleCloseClick}>
+            <StBadButton type="submit" onClick={handleCloseClick}>
               닫기
-            </StButtonStyle>
+            </StBadButton>
           </StLayout>
         </StMyPageEditBox>
       ) : (
@@ -328,7 +331,7 @@ const ModalContent = styled.div`
 const StMyPageBox = styled.div`
   position: relative;
   width: 916px;
-  height: 470px;
+  height: 550px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -35%);
@@ -336,7 +339,9 @@ const StMyPageBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(184, 227, 180, 0.7);
+  /* background: rgba(184, 227, 180, 0.7); */
+  background: #6bf65f;
+  opacity: 0.85;
   border: 1px solid rgba(0, 0, 0, 0.02);
   box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25);
   border-radius: 15px;
@@ -425,6 +430,7 @@ const StTextBox = styled.div`
 const StInput = styled.input`
   width: 100%;
   height: 30px;
+  padding: 20px;
   background: #fafafa;
   border: 0.6px solid black;
   width: 308px;
@@ -435,8 +441,18 @@ const StInput = styled.input`
   border: 2px solid rgba(203, 203, 203, 0.7);
   border-radius: 40px;
 `;
+// const StInput = styled.input`
+//   width: 100%;
 
-const StButtonStyle = styled.button`
+//   height: 3.3em;
+//   background: #fafafa;
+//   border: 1px solid #d6d6d6;
+//   border-radius: 10px;
+//   transition: font-size 0.3s;
+//   font-size: 15px;
+// `;
+
+const StButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -447,11 +463,6 @@ const StButtonStyle = styled.button`
   height: 30px;
   margin-bottom: 20px;
   border-radius: 20px;
-
-  &:hover {
-    background-color: lightgray;
-    border-color: gray;
-  }
 `;
 
 const StError = styled.div`
@@ -478,4 +489,30 @@ const StImageEditBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StGoodButton = styled.button`
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+
+  background-color: #6bf65f;
+  &:hover {
+    background-color: #4ae040;
+    color: white;
+  }
+`;
+
+const StBadButton = styled.button`
+  padding: 10px 20px;
+  width: 100%;
+  margin: 0px 20px 0px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  font-weight: bold;
+  color: gray;
+  &:hover {
+    background-color: #d3d3d3;
+  }
 `;
