@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
+import { styled } from 'styled-components';
 
 const AutoSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,6 +13,7 @@ const AutoSearch = () => {
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
   const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const debounceSearch = debounce(async term => {
@@ -40,20 +42,81 @@ const AutoSearch = () => {
     setSearchTerm(suggestion);
   };
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const handleArrowNavigation = e => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const newIndex = Math.max(0, suggestions.indexOf(searchTerm) - 1);
+      setSearchTerm(suggestions[newIndex]);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const newIndex = Math.min(suggestions.length - 1, suggestions.indexOf(searchTerm) + 1);
+      setSearchTerm(suggestions[newIndex]);
+    }
+  };
+
   return (
     <div>
-      <input type="text" value={searchTerm} onChange={handleChange} onKeyDown={handleKeyDown} />
+      <StSearch
+        type="text"
+        placeholder=" Search..."
+        value={searchTerm}
+        onChange={handleChange}
+        onKeyDown={e => {
+          handleKeyDown(e);
+          handleArrowNavigation(e);
+        }}
+        ref={inputRef}
+      />
       {searchTerm !== '' && suggestions.length > 0 && (
-        <ul>
+        <StSearchUl>
           {suggestions.map((suggestion, index) => (
-            <li key={index} onClick={() => handleClickSuggestion(suggestion)}>
+            <li
+              key={index}
+              onClick={() => handleClickSuggestion(suggestion)}
+              className={searchTerm === suggestion ? 'active' : ''}
+            >
               {suggestion}
             </li>
           ))}
-        </ul>
+        </StSearchUl>
       )}
     </div>
   );
 };
 
 export default AutoSearch;
+
+const StSearch = styled.input`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 10px;
+
+  height: 20px;
+
+  background: #f5f5f5;
+  border-radius: 16px;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+`;
+
+const StSearchUl = styled.ul`
+  padding: 16px;
+
+  li {
+    padding: 8px;
+    cursor: pointer;
+
+    &.active {
+      background-color: #f0f0f0;
+    }
+  }
+`;

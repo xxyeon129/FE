@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { styled } from 'styled-components';
-import ProjectModal from '@src/components/ProjectDetail';
+import ProjectModal from '@src/components/myProject/ProjectDetail';
 
 function PortfolioDetails() {
   interface Project {
