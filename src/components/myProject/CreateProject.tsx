@@ -140,33 +140,57 @@ const CreateProject: React.FC<{
               <StTextBox>
                 <StTextWrap>
                   <StTitle>프로젝트 제목</StTitle>
-                  <StInput type="text" value={title} onChange={titleHandler} />
+                  <StInput
+                    type="text"
+                    value={title}
+                    onChange={titleHandler}
+                    placeholder="프로젝트 제목을 입력하세요"
+                  />
                 </StTextWrap>
                 {titleError && <StError>{titleError}</StError>}
                 <StTextWrap>
                   <StTitle>프로젝트 기간</StTitle>
-                  <StInput type="text" value={term} onChange={termHandler} />
+                  <StInput
+                    type="text"
+                    value={term}
+                    onChange={termHandler}
+                    placeholder="프로젝트 기간을 입력하세요"
+                  />
                 </StTextWrap>
                 {termError && <StError>{termError}</StError>}
                 <StTextWrap>
                   <StTitle>프로젝트 인원</StTitle>
-                  <StInput type="text" value={people} onChange={peopleHandler} />
+                  <StInput
+                    type="text"
+                    value={people}
+                    onChange={peopleHandler}
+                    placeholder="프로젝트 인원을 입력하세요"
+                  />
                 </StTextWrap>
                 {peopleError && <StError>{peopleError}</StError>}
                 <StTextWrap>
                   <StTitle>해당 포지션</StTitle>
-                  <StInput type="text" value={position} onChange={positionHandler} />
+                  <StInput
+                    type="text"
+                    value={position}
+                    onChange={positionHandler}
+                    placeholder="해당 포지션을 입력하세요"
+                  />
                 </StTextWrap>
                 {positionError && <StError>{positionError}</StError>}
                 <StTextWrap>
                   <StTitle>프로젝트 설명</StTitle>
-                  <StTextArea value={description} onChange={descriptionHandler}></StTextArea>
+                  <StTextArea
+                    value={description}
+                    onChange={descriptionHandler}
+                    placeholder="프로젝트 설명을 입력하세요"
+                  ></StTextArea>
                 </StTextWrap>
                 {descriptionError && <StError>{descriptionError}</StError>}
               </StTextBox>
               <StBottom>
-                <button onClick={handleSubmit}>작성완료</button>
-                <button onClick={handleCloseModal}>뒤로가기</button>
+                <StGoodButton onClick={handleSubmit}>작성완료</StGoodButton>
+                <StBadButton onClick={handleCloseModal}>닫기</StBadButton>
               </StBottom>
             </StLayout>
           </ModalContent>
@@ -178,13 +202,6 @@ const CreateProject: React.FC<{
 
 export default CreateProject;
 
-// const Modal = styled.div`
-//   position: fixed;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   background-color: white;
-// `;
 const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -202,10 +219,10 @@ const ModalContent = styled.div`
   padding: 15px;
   border-radius: 35px;
   background: #fefefe;
-  border: 3px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 35px;
   width: 900px;
-  height: 800px;
+  height: 860px;
   overflow-y: auto;
   max-height: 100%;
 
@@ -241,23 +258,19 @@ const StTitle = styled.div`
   }
 `;
 
-const StText = styled.div`
-  width: 70%;
-  margin-left: 20px;
-
-  @media (max-width: 600px) {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 5px;
-  }
-`;
-
 const StInput = styled.input`
   width: 70%;
   margin-left: 20px;
-  height: 30px;
+  height: 3.3em;
   background: #fafafa;
-  border: 0.6px solid black;
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  transition: font-size 0.3s;
+  font-size: 15px;
+  &:focus::placeholder {
+    font-size: 0.8em;
+    transition: font-size 0.3s;
+  }
 
   @media (max-width: 600px) {
     width: 100%;
@@ -268,8 +281,18 @@ const StInput = styled.input`
 
 const StTextArea = styled.textarea`
   width: 70%;
+  padding: 0.3em;
   margin-left: 20px;
   height: 10vh;
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  transition: font-size 0.3s;
+  font-size: 15px;
+
+  &:focus::placeholder {
+    font-size: 0.8em;
+    transition: font-size 0.3s;
+  }
 
   @media (max-width: 600px) {
     width: 100%;
@@ -281,30 +304,30 @@ const StTextArea = styled.textarea`
 const StImageBox = styled.div`
   /* background-image: url('public/images/no-img.jpg'); */
   /* background-size: 250px 250px; */
-  border: 1px solid;
+  border: 1px solid #d6d6d6;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 240px;
-
-  /* margin-right: 20px; */
+  border-radius: 15px;
 `;
 
 const StImage = styled.img`
   width: 100%;
   height: 240px;
+  border-radius: 15px;
 `;
 
 const StTextBox = styled.div`
   width: 100%;
   white-space: normal;
   word-break: break-all;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  font-size: 20px;
 
   div {
-    font-size: 20px;
     padding-bottom: 10px;
   }
 `;
@@ -313,18 +336,37 @@ const StBottom = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
+`;
 
-  button {
-    width: 88px;
-    height: 35px;
-    border: 3px solid black;
-    border-radius: 12px;
-    margin: 0 12px;
+const StGoodButton = styled.button`
+  max-width: 120px;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-right: 70px;
+  background-color: #6bf65f;
+  &:hover {
+    background-color: #4ae040;
+    color: white;
+  }
+`;
+
+const StBadButton = styled.button`
+  padding: 15px 25px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  font-weight: bold;
+  color: gray;
+  &:hover {
+    background-color: #d3d3d3;
   }
 `;
 
 const StError = styled.div`
   padding-left: 230px;
+  font-size: 12px;
+  color: red;
 `;
 
 const StImageContainer = styled.div`
@@ -346,16 +388,5 @@ const StimageOptions = styled.div`
   button {
     background: #d9d9d9;
     border-radius: 4px;
-  }
-`;
-const StgetContainer = styled.div`
-  display: grid;
-
-  gap: 30px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
   }
 `;
