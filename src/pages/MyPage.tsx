@@ -30,7 +30,7 @@ const MyPage = () => {
   const [newpasswordError, setNewPasswordError] = useState('');
   const [checknewpasswordError, setCheckNewPasswordError] = useState('');
   const [apiError, setApiError] = useState('');
-  const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', getUser);
+  const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () => getUser(id));
 
   useEffect(() => {
     if (data) {
@@ -42,7 +42,10 @@ const MyPage = () => {
 
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {
-      alert('회원 정보가 수정 되었습니다..');
+      alert('회원 정보가 수정되었습니다.');
+    },
+    onError: error => {
+      setNicknameError(error.response.data.errorMessage);
     },
   });
   const deleteUserMutation = useMutation(deleteUser, {
@@ -61,7 +64,7 @@ const MyPage = () => {
 
   const handleWithdrawal = async () => {
     try {
-      await deleteUserMutation.mutateAsync();
+      await deleteUserMutation.mutateAsync(id);
       console.log('User account deleted');
       navigate('/');
     } catch (error) {
@@ -86,11 +89,6 @@ const MyPage = () => {
       return;
     }
 
-    if (newpassword !== checknewpassword) {
-      setCheckNewPasswordError('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
     const passwordData = {
       oldPassword: oldpassword,
       newPassword: newpassword,
@@ -98,7 +96,7 @@ const MyPage = () => {
     };
 
     try {
-      await updatePasswordMutation.mutateAsync(passwordData);
+      await updatePasswordMutation.mutateAsync([passwordData, id]);
       setApiError('');
       console.log('Password updated successfully');
     } catch (error) {
@@ -109,10 +107,6 @@ const MyPage = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (nickname.trim() === '') {
-      setNicknameError('닉네임을 적어주세요.');
-      return;
-    }
 
     const formData = new FormData();
     const text = JSON.stringify({
@@ -123,7 +117,7 @@ const MyPage = () => {
     formData.append('profileImage', profileImage);
 
     try {
-      await updateUserMutation.mutateAsync(formData);
+      await updateUserMutation.mutateAsync([formData, id]);
       refetch();
       setIsEditing(false);
     } catch (error) {
@@ -270,8 +264,8 @@ const MyPage = () => {
                   placeholder="비밀번호 확인"
                 />
                 {checknewpasswordError && <StError>{checknewpasswordError}</StError>}
+                {apiError && <StError>{apiError}</StError>}
               </div>
-              {apiError && <StError>{apiError}</StError>}
               <div>
                 <StGoodButton onClick={handleSavePassword}>비밀번호 저장</StGoodButton>
               </div>
