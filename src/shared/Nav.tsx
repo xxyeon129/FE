@@ -5,7 +5,12 @@ import Category from '@src/components/nav/Category';
 import Auth from '@src/components/nav/Auth';
 import LightAndDarkMode from '@src/components/nav/LightAndDarkMode';
 
-const Nav = () => {
+interface NavProps {
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Nav = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: NavProps) => {
   return (
     <StNav>
       <UserProfile />
@@ -19,7 +24,10 @@ const Nav = () => {
       </StCategoryContainer>
 
       <StBottomContainer>
-        <Auth />
+        <Auth
+          setIsLoginModalOpen={setIsLoginModalOpen}
+          setIsSignUpModalOpen={setIsSignUpModalOpen}
+        />
         <LightAndDarkMode />
       </StBottomContainer>
     </StNav>

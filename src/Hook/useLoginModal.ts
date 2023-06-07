@@ -15,6 +15,7 @@ const useLoginModal = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: useLoginMo
   };
 
   const onSignUpButtonClick = () => {
+    setIsLoginModalOpen(false);
     setIsSignUpModalOpen(true);
   };
 
