@@ -9,6 +9,7 @@ import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { categoryState, filterState } from '@src/states';
 import { filterListObject } from '@src/constants/portfolioFilteringData';
+import * as S from '@src/style/common/portfolioStyle';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -128,40 +129,24 @@ const Main = () => {
   }, [selectedCategory]);
 
   return (
-    <StPortfolioPageContainer>
+    <S.PageContainer>
       <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
-      <StPortfolioListContainer>
+      <S.PortfolioListContainer>
         {isExistData ? (
           list.map((item: PortfolioDataType) => <PortfolioItem key={item.id} item={item} />)
         ) : (
           <StNoDataTextContainer>포트폴리오가 존재하지 않습니다.</StNoDataTextContainer>
         )}
-      </StPortfolioListContainer>
+      </S.PortfolioListContainer>
       {isMoreLoading ? (
         <StLoadingSpinner />
       ) : (
         // TODO: api 명세 수정 반영된 후 해당하는 데이터가 없을 경우 데이터 없다는 문구 표시(!isNoMoreData &&)
         <StLoadingIndicator ref={lastItemRef} />
       )}
-    </StPortfolioPageContainer>
+    </S.PageContainer>
   );
 };
-
-const StPortfolioPageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 41px;
-`;
-
-const StPortfolioListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  grid-auto-rows: min-content;
-  row-gap: 56px;
-  column-gap: 50px;
-  width: 100%;
-  margin-top: 10px;
-`;
 
 const StLoadingIndicator = styled.div`
   padding: 1rem;
