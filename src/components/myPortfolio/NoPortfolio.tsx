@@ -24,9 +24,8 @@ const NoPortfolio = () => {
 };
 
 const StNoPortfolioContainer = styled.div`
-  /* TODO: Nav, Header에 맞게 뷰포트 조정 필요 */
-  width: 90vw;
-  height: 100vh;
+  width: 100%;
+  height: 80vh;
 
   display: flex;
   flex-direction: column;
@@ -40,10 +39,18 @@ const StNoPortfolioText = styled.h3`
 `;
 
 const StCreatePortfolioButton = styled.button`
-  font-size: 20px;
+  font-size: 18px;
+  margin-top: 15px;
   font-weight: bold;
-  background-color: lightgray;
-  padding: 10px;
+  background-color: ${({ theme }) => theme.color.neonGreen};
+  border-radius: 50px;
+  padding: 15px 25px;
+
+  &:hover {
+    transition: 0.5s;
+    color: white;
+    background-color: ${({ theme }) => theme.color.lightGreen};
+  }
 `;
 
 export default NoPortfolio;

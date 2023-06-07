@@ -1,6 +1,8 @@
 import { CATEGORY_KEYWORD, filterListObject } from '@src/constants/portfolioFilteringData';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import SelectCategoryRequest from './SelectCategoryRequest';
+import { StInputLabel } from '../common/createPortfolio/createStepStyles';
 
 interface PortfolioFilterProps {
   category: string;
@@ -37,44 +39,52 @@ const PortfolioFilter = ({ category, selectedFilter, setSelectedFilter }: Portfo
   }, [category]);
 
   return (
-    <StFilterListContainer>
-      {isSelectCategory ? (
-        filterList.map((filter: string, index: number) => (
-          <StFilterButton
-            key={index}
-            type="button"
-            onClick={() => onClickFilterItem(filter)}
-            isselected={`${selectedFilter === filter}`}
-          >
-            {filter}
-          </StFilterButton>
-        ))
-      ) : (
-        <StNoCategoryText>
-          선택한 카테고리가 없습니다.
-          <br /> 카테고리를 선택해주세요!
-        </StNoCategoryText>
-      )}
-    </StFilterListContainer>
+    <StPortfolioFilter>
+      <StInputLabel>직무</StInputLabel>
+      <StFilterListContainer>
+        {isSelectCategory ? (
+          filterList.map((filter: string, index: number) => (
+            <StFilterButton
+              key={index}
+              type="button"
+              onClick={() => onClickFilterItem(filter)}
+              isselected={`${selectedFilter === filter}`}
+            >
+              {filter}
+            </StFilterButton>
+          ))
+        ) : (
+          <SelectCategoryRequest />
+        )}
+      </StFilterListContainer>
+    </StPortfolioFilter>
   );
 };
 
-const StFilterListContainer = styled.div`
-  border: 1px solid gray;
+const StPortfolioFilter = styled.div`
+  border: 1px solid lightgray;
   border-radius: 10px;
   padding: 20px;
+  padding-top: 15px;
+  width: 750px;
+`;
 
+const StFilterListContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 1rem;
-`;
-
-const StNoCategoryText = styled.div`
-  color: gray;
+  padding: 20px 0;
+  flex-wrap: wrap;
 `;
 
 const StFilterButton = styled.button<{ isselected: string }>`
-  outline: ${({ isselected }) => (isselected === 'true' ? '2px solid' : '1px solid gray')};
+  border-radius: 50px;
+  padding: 10px 20px;
+  outline: ${({ isselected, theme: { color } }) =>
+    isselected === 'true' ? `1px solid ${color.neonGreen}` : '1px solid gray'};
+  font-weight: ${({ isselected }) => (isselected === 'true' ? `bold` : 'normal')};
+  background-color: ${({ isselected, theme: { color } }) =>
+    isselected === 'true' ? color.neonGreen : 'none'};
 `;
 
 export default PortfolioFilter;

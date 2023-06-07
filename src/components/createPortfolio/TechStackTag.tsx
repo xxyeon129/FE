@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 import { SetterOrUpdater } from 'recoil';
-import { TiDelete } from 'react-icons/ti';
+import { GrClose } from 'react-icons/gr';
 
 interface TechStackTagProps {
   techStack: string[];
   setTechStack: SetterOrUpdater<string[]>;
+  StWidth: string;
 }
 
-const TechStackTag = ({ techStack, setTechStack }: TechStackTagProps) => {
+const TechStackTag = ({ techStack, setTechStack, StWidth }: TechStackTagProps) => {
   const [inputValue, setInputValue] = useState('');
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(() => e.target.value);
@@ -39,8 +41,12 @@ const TechStackTag = ({ techStack, setTechStack }: TechStackTagProps) => {
     setTechStack(deletedTechStack);
   };
 
+  const onFocusInput = () => setIsInputFocused(true);
+
+  const onBlurInput = () => setIsInputFocused(false);
+
   return (
-    <StTechStackTagContainer>
+    <StTechStackTagContainer isfocused={`${isInputFocused}`} width={StWidth}>
       <StTechStackTagUnorderedList>
         {techStack.length !== 0 &&
           techStack.map((tag, index) => (
@@ -57,21 +63,29 @@ const TechStackTag = ({ techStack, setTechStack }: TechStackTagProps) => {
         onKeyUp={createTag}
         onChange={onChangeInput}
         value={inputValue}
+        onFocus={onFocusInput}
+        onBlur={onBlurInput}
         placeholder="입력 후 Enter로 태그를 생성해주세요."
       />
     </StTechStackTagContainer>
   );
 };
 
-const StTechStackTagContainer = styled.div`
+const StTechStackTagContainer = styled.div<{ isfocused: string; width: string }>`
   display: flex;
 
   padding: 1rem;
-  border: 1px solid gray;
+  outline: 1px solid gray;
   border-radius: 10px;
-  width: 600px;
+  width: ${({ width }) => width};
   flex-flow: wrap;
   gap: 1rem;
+
+  ${({ isfocused }) =>
+    isfocused === 'true' &&
+    css`
+      outline: 2px solid;
+    `}
 `;
 
 const StTechStackTagUnorderedList = styled.ul`
@@ -83,17 +97,18 @@ const StTechStackTagList = styled.li`
   display: flex;
   align-items: center;
 
-  background-color: lightgray;
-  border-radius: 5px;
-  padding: 2px 5px 2px 10px;
+  background-color: #e3e3e3;
+  border-radius: 50px;
+  padding: 8px 12px;
 `;
 
 const StTechStackTagText = styled.span``;
 
-const StTagDeleteIcon = styled(TiDelete)`
-  font-size: 20px;
+const StTagDeleteIcon = styled(GrClose)`
+  font-size: 12px;
   padding: 0;
-  margin: 0;
+  margin-left: 6px;
+  cursor: pointer;
 `;
 
 const StTechStackTagInput = styled.input`

@@ -60,6 +60,7 @@ const StNoImg = styled.img`
 const StDescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 250px;
 
   margin-top: 3px;
   padding: 7px 10px 10px 10px;

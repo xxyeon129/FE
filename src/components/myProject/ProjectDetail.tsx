@@ -14,8 +14,8 @@ interface ProjectDetailData {
 const ProjectModal: React.FC<{
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
-}> = ({ showModal, setShowModal }) => {
-  const { projectId } = useParams();
+}> = ({ showModal, setShowModal, projectId }) => {
+  // const { projectId } = useParams();
   const [isEditable, setIsEditable] = useState(false);
   const [title, setTitle] = useState<string>('');
   const [term, setTerm] = useState<string>('');
