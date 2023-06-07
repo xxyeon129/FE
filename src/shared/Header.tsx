@@ -16,10 +16,10 @@ const Header = () => {
   const navigate = useNavigate();
 
   const headerList = [
-    { value: 'Services', underLineWidth: '45%', path: '' },
-    { value: 'My Portfolios', underLineWidth: '75%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
-    { value: 'My Page', underLineWidth: '50%', path: `${PATH_URL.MY_PAGE}/${userId}` },
-    { value: 'Notification', underLineWidth: '65%', path: '' },
+    { value: 'Services', underLineWidth: '35%', path: '' },
+    { value: 'My Portfolios', underLineWidth: '57%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
+    { value: 'My Page', underLineWidth: '37%', path: `${PATH_URL.MY_PAGE}/${userId}` },
+    { value: 'Notification', underLineWidth: '50%', path: '' },
   ];
 
   const onClickText = (path: string) => {
@@ -36,8 +36,6 @@ const Header = () => {
       loginToken !== null ? setUserId(useDecodeJWT().userId) : setUserId('');
     };
     getToken();
-
-    // !isLogin && setIsLoginModalOpen(true);
   }, [isLogin]);
 
   return (
@@ -87,7 +85,7 @@ const StUnorderedList = styled.ul`
 `;
 
 const StList = styled.li`
-  width: 100px;
+  width: 130px;
 `;
 
 const StLabel = styled.label`
