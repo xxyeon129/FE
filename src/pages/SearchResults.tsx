@@ -8,13 +8,24 @@ import { useNavigate } from 'react-router-dom';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-user-image-icon.svg';
 // api 테스트 및 기능 구현 완료
+
+interface PortfolioDataContent {
+  id: number;
+  userProfileImage?: string;
+  userName: string;
+  portfolioTitle: string;
+}
+interface PortfolioData {
+  content: PortfolioDataContent[];
+  totalPages: number;
+}
 const SearchResults = () => {
-  const [portfolioData, setPortfolioData] = useState();
+  const [portfolioData, setPortfolioData] = useState<PortfolioData | undefined>();
   const searchTermData = useRecoilValue(searchTermState);
   const navigate = useNavigate();
   const noImageUrl = 'public/images/no-img.jpg';
 
-  const handlePageButtonClick = async index => {
+  const handlePageButtonClick = async (index: number) => {
     const pageData = await searchPage(index, searchTermData);
     setPortfolioData(pageData);
     console.log(pageData);
@@ -23,7 +34,7 @@ const SearchResults = () => {
 
   // const portfolioDataData = useRecoilValue(portfolioDataState);
 
-  const onClickHandler = id => {
+  const onClickHandler = (id: number) => {
     navigate(`/detail/${id}`);
   };
 
@@ -44,15 +55,16 @@ const SearchResults = () => {
             ) : (
               <h2>모든 포트폴리오입니다.</h2>
             )}
+            {/* userProfileImage */}
           </StHeader>
           <StLayout>
             {portfolioData.content.map((portfolio, index) => (
               <StItemContainer key={index} onClick={() => onClickHandler(portfolio.id)}>
                 <StImgContainer>
-                  {portfolio.userProfileImage ? (
-                    <StPortfolioImg src={portfolio.userProfileImage} alt="User Profile Image" />
+                  {portfolio.portfolioImage ? (
+                    <StPortfolioImg src={portfolio.portfolioImage} />
                   ) : (
-                    <StNoImg src={noImageUrl} alt="No Image" />
+                    <StNoImg src={noImageUrl} />
                   )}
                 </StImgContainer>
                 <StDescriptionContainer>
@@ -110,11 +122,19 @@ const imageStyle = `
 `;
 
 const StPortfolioImg = styled.img`
-  ${imageStyle}
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  border: 1px solid;
+  border-radius: 7px;
 `;
 
 const StNoImg = styled.img`
-  ${imageStyle}
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  border: 1px solid;
+  border-radius: 7px;
 `;
 
 const StDescriptionContainer = styled.div`
