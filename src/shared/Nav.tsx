@@ -44,6 +44,7 @@ const StNav = styled.div`
   height: 100vh;
   width: 250px;
   padding: 30px 25px;
+  box-shadow: inset -30px 4px 50px rgba(0, 0, 0, 0.06);
 
   background-color: white;
 `;
