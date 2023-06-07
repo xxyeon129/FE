@@ -18,6 +18,7 @@ function DeletePortfolioModal({ portId, onCloseModal }) {
         },
       });
       navigate('/');
+      //테스트
     } catch (error) {
       console.log(error);
     }
