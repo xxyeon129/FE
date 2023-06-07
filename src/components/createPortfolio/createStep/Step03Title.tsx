@@ -55,6 +55,7 @@ const StInputContainer = styled.div`
 `;
 
 const StInput = styled.input`
+  border: 2px solid gray;
   border-radius: 10px;
   width: 600px;
   height: 50px;
