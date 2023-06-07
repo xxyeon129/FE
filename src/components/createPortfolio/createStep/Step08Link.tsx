@@ -19,9 +19,9 @@ const Step08Link = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSte
   const [blogUrl, setBlogUrl] = useRecoilState<string>(createBlogState);
   const [githubID, setGithubID] = useRecoilState<string>(createGithubState);
 
-  const { onChangeInput: onChangeYoutubeUrl } = useOnChangeInput(setYoutubeUrl);
-  const { onChangeInput: onChangeBlogUrl } = useOnChangeInput(setBlogUrl);
-  const { onChangeInput: onChangeGithubID } = useOnChangeInput(setGithubID);
+  const { onChangeInput: onChangeYoutubeUrl } = useOnChangeInput({ setRecoilState: setYoutubeUrl });
+  const { onChangeInput: onChangeBlogUrl } = useOnChangeInput({ setRecoilState: setBlogUrl });
+  const { onChangeInput: onChangeGithubID } = useOnChangeInput({ setRecoilState: setGithubID });
 
   const selectedCategory = useRecoilValue(createCategoryState);
   const isDeveloper = selectedCategory === 'Develop';
