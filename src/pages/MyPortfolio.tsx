@@ -1,25 +1,24 @@
-import { getMyPortfolio } from '@src/apis/portfolio';
-import PortfolioItem from '@src/components/main/PortfolioItem';
-import NoPortfolio from '@src/components/myPortfolio/NoPortfolio';
-import { PATH_URL } from '@src/constants/constants';
-import { PortfolioDataType } from '@src/types/portfolioType';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { getMyPortfolio } from '@src/apis/portfolio';
+import { PortfolioDataType } from '@src/types/portfolioType';
+import { PATH_URL } from '@src/constants/constants';
+import PortfolioItem from '@src/components/main/PortfolioItem';
+import NoPortfolio from '@src/components/myPortfolio/NoPortfolio';
 
 const MyPortfolio = () => {
   const [myPortfolioList, setMyPortfolioList] = useState<PortfolioDataType[]>([]);
+  const [isMyPortfolioExist, setIsMyPortfolioExist] = useState(false);
   const navigate = useNavigate();
-
-  const isMyPortfolioExist = myPortfolioList.length !== 0;
-
-  const onClickPortfolio = (portfolioId: number) => {
-    navigate(`${PATH_URL.DETAIL}/${portfolioId}`);
-  };
 
   const onClickCreatePortfolioButton = () => {
     navigate(PATH_URL.CREATE_PORTFOLIO);
   };
+
+  useEffect(() => {
+    myPortfolioList.length !== 0 && setIsMyPortfolioExist(true);
+  }, [myPortfolioList]);
 
   useEffect(() => {
     const fetchMyPortfolioData = async () => {
@@ -40,11 +39,7 @@ const MyPortfolio = () => {
       {isMyPortfolioExist ? (
         <StMyPortfolioListContainer>
           {myPortfolioList?.map((portfolio, index) => (
-            <PortfolioItem
-              key={index}
-              item={portfolio}
-              onClick={() => onClickPortfolio(portfolio.id)}
-            />
+            <PortfolioItem key={index} item={portfolio} />
           ))}
         </StMyPortfolioListContainer>
       ) : (

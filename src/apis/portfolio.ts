@@ -78,9 +78,6 @@ export const getMyPortfolio = async () => {
         RefreshToken: refreshToken,
       },
     });
-
-    // console.log(response.data.data);
-
     return response.data.data;
   } catch (error) {
     throw new Error('API getAllList error');
@@ -98,7 +95,7 @@ export const createPortfolio = async (formData: FormData) => {
     });
 
     // TEST CODE
-    console.log(response);
+    // console.log(response);
   } catch (error) {
     throw new Error('API createPortfolio error');
   }
