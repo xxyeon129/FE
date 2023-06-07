@@ -7,7 +7,7 @@ function RedirectionNaver() {
 
   const authNaverLogin = async code => {
     try {
-      const response = await axios.get(`/users/kakao?code=${code}`);
+      const response = await axios.get(`/api/users/naver?code=${code}`);
       console.log('response', response);
       return response;
     } catch (error) {

@@ -11,6 +11,7 @@ import PortfolioDetails from '@src/pages/PortfolioDetails';
 import LinkPreview from '@src/components/LinkPreview';
 import MyPortfolio from '@src/pages/MyPortfolio';
 import CreatePortfolio from '@src/pages/CreatePortfolio';
+import RedirectionNaver from '@src/components/RedirectionNaver';
 
 const MainRouter = () => {
   return (
@@ -27,6 +28,7 @@ const MainRouter = () => {
           <Route path={PATH_URL.HYO2} element={<LinkPreview />} />
           <Route path={PATH_URL.MYPORTFOLIO} element={<MyPortfolio />} />
           <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
+          <Route path="/api/users/naver" element={<RedirectionNaver />}></Route>
         </Routes>
       </Layout>
     </BrowserRouter>
