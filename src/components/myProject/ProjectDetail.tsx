@@ -38,7 +38,7 @@ const ProjectModal: React.FC<{
   };
 
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
-    const project = await getProject();
+    const project = await getProject(projectId);
     return project;
   });
 
@@ -80,7 +80,7 @@ const ProjectModal: React.FC<{
         return;
       }
 
-      await updateProject(formData);
+      await updateProject(formData, projectId);
       refetch();
       setIsEditable(false);
     },
