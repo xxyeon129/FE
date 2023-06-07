@@ -2,9 +2,9 @@ import axios from 'axios';
 import { accessToken } from './token';
 import { SERVER_URL } from '@src/constants/constants';
 
-export const getUser = async () => {
+export const getUser = async id => {
   try {
-    const response = await axios.get(`${SERVER_URL}/api/users/39`);
+    const response = await axios.get(`${SERVER_URL}/api/users/${id}`);
     return response.data.data;
   } catch (error) {
     console.error(error);
@@ -12,9 +12,10 @@ export const getUser = async () => {
   }
 };
 
-export const updateUser = async formData => {
+export const updateUser = async ([formData, id]) => {
+  console.log(id);
   try {
-    const response = await axios.patch(`${SERVER_URL}/api/users/39`, formData, {
+    const response = await axios.patch(`${SERVER_URL}/api/users/${id}`, formData, {
       headers: {
         Authorization: accessToken,
       },
@@ -26,9 +27,9 @@ export const updateUser = async formData => {
   }
 };
 
-export const deleteUser = async () => {
+export const deleteUser = async id => {
   try {
-    await axios.delete(`${SERVER_URL}/api/users/39`, {
+    await axios.delete(`${SERVER_URL}/api/users/${id}`, {
       headers: {
         Authorization: accessToken,
       },
@@ -40,9 +41,9 @@ export const deleteUser = async () => {
   }
 };
 
-export const updatePassword = async passwordData => {
+export const updatePassword = async ([passwordData, id]) => {
   try {
-    await axios.put(`${SERVER_URL}/api/users/39/password`, passwordData, {
+    await axios.put(`${SERVER_URL}/api/users/${id}/password`, passwordData, {
       headers: {
         Authorization: accessToken,
       },
