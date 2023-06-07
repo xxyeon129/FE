@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
-import { createProject } from '@src/apis/projectapi';
+import { createProject } from '@src/apis/ProjectApi';
 
 // 프로젝트 작성
 const CreateProject: React.FC<{

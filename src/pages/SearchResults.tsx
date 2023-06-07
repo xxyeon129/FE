@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-user-image-icon.svg';
 interface PortfolioDataContent {
   id: number;
-  userProfileImage?: string;
+  portfolioImage?: string;
   userName: string;
   portfolioTitle: string;
 }
