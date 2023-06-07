@@ -17,3 +17,17 @@ export const createProject = async (formData: FormData) => {
     return error;
   }
 };
+
+export const deleteProject = async (id: number) => {
+  try {
+    const response = await apiRequest.delete(`${RESOURCE}/${id}`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    return response.data.data;
+  } catch (error) {
+    return error;
+  }
+};

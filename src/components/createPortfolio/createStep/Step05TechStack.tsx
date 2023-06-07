@@ -1,11 +1,13 @@
-import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
-import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
-import { STEP } from '@src/constants/createPortfolioConstants';
+import { useRecoilState } from 'recoil';
+
 import { createTechStackState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
-import { useRecoilState } from 'recoil';
+import { STEP } from '@src/constants/createPortfolioConstants';
+
+import * as S from '@src/components/common/createPortfolio/createStepStyles';
 import TechStackTag from '../TechStackTag';
+import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
+import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 
 const Step05TechStack = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
@@ -18,7 +20,7 @@ const Step05TechStack = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
   return (
     <S.Container>
       <TitleTextLabel title={title} description={description} />
-      <TechStackTag setTechStack={setTechStack} techStack={techStack} />
+      <TechStackTag setTechStack={setTechStack} techStack={techStack} StWidth="600px" />
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.FOUR)} />
         <NextStepButton onClick={() => onNextButtonClick(STEP.SIX)} />

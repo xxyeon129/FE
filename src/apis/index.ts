@@ -16,6 +16,8 @@ const apiRequest = {
 
   post: <T>(url: string, data: T, config?: AxiosRequestConfig) =>
     baseInstance.post(url, data, config),
+
+  delete: (url: string, config?: AxiosRequestConfig) => baseInstance.delete(url, config),
 };
 
 export default apiRequest;

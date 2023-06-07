@@ -14,3 +14,8 @@ export const ButtonContainer = styled.div<{ width?: string }>`
   width: ${({ width }) => (width ? width : '600px')};
   margin-top: 50px;
 `;
+
+export const StInputLabel = styled.div`
+  color: gray;
+  font-size: 13px;
+`;

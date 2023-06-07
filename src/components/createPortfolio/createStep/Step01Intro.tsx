@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
-import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
 const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
   onNextButtonClick,
@@ -10,17 +9,17 @@ const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
     {
       id: 1,
       label: '포트폴리오 기본 정보를 입력해주세요',
-      text: '표시될 포트폴리오 제목과 주요 사용 기술, 카테고리 등 기본 정보를 알려주세요.',
+      text: '표시될 포트폴리오 제목과 주요 사용 기술, 카테고리 등\n기본 정보를 알려주세요.',
     },
     {
       id: 2,
       label: '포트폴리오 추가 정보를 입력해주세요',
-      text: '포트폴리오 대표 이미지를 제출하고 Youtube, Blog 링크를 추가해주시면 포트폴리오가 더 돋보일 수 있어요.',
+      text: '참여하신 프로젝트 이력과 Youtube, Blog 링크를 추가해주시면\n포트폴리오가 더 돋보일 수 있어요.',
     },
     {
       id: 3,
       label: '등록을 완료하세요',
-      text: '참여하신 프로젝트가 있다면 프로젝트를 입력하고 등록을 완료하세요.',
+      text: '포트폴리오 대표 이미지를 제출하고 등록을 완료하세요.\n바로 등록하지 않으셔도 기존 작성 내용이 임시저장됩니다.',
     },
   ];
 
@@ -61,7 +60,8 @@ const StStep01Container = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  padding: 0 41px;
+  padding-right: 40px;
+  padding-left: 60px;
 `;
 
 const StContentContainer = styled.div`
@@ -83,9 +83,11 @@ const StDetailContainer = styled.div`
 
 const StDetailItem = styled.div`
   border-bottom: 1px solid lightgray;
+  margin-bottom: 30px;
 
   &:last-child {
     border: none;
+    margin: 0;
   }
 `;
 
@@ -94,18 +96,23 @@ const StLabelContainer = styled.div`
   margin-top: 5px;
 `;
 
-const StLabel = styled.h3``;
+const StLabel = styled.h3`
+  font-size: 19px;
+`;
 
 const StLabelNumber = styled.h3`
   margin-right: 9px;
+  font-size: 19px;
 `;
 
 const StDetailText = styled.div`
   color: gray;
   padding-left: 18px;
+  padding-top: 10px;
   max-width: 450px;
   min-height: 100px;
   line-height: 150%;
+  white-space: pre-wrap;
 `;
 
 const StButtonContainer = styled.div`
