@@ -53,14 +53,27 @@ const CreateProject: React.FC<{
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
       setImageList(fileList);
-      console.log(fileList);
 
       const previewURLs = fileList.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
   };
 
-  const mutation = useMutation(async () => {
+  const mutation = useMutation(createProject, {
+    onSuccess: () => {
+      alert('프로젝트가 성공적으로 작성되었습니다.');
+    },
+    onError: () => {
+      alert('프로젝트 작성에 실패했습니다.');
+    },
+  });
+
+  const removeImage = () => {
+    setImageList([]);
+    setPreviewImages([]);
+  };
+
+  const handleSubmit = async () => {
     if (!title) {
       setTitleError('제목을 입력하세요');
       return;
@@ -103,16 +116,11 @@ const CreateProject: React.FC<{
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
     setShowModal1(false);
-    return createProject(formData);
-  });
-
-  const removeImage = () => {
-    setImageList([]);
-    setPreviewImages([]);
-  };
-
-  const handleSubmit = () => {
-    mutation.mutate();
+    try {
+      await mutation.mutateAsync(formData);
+    } catch (error) {
+      // Error handling will be handled by onError callback
+    }
   };
 
   const handleCloseModal = () => {
@@ -229,12 +237,15 @@ const ModalContent = styled.div`
   padding: 15px;
   border-radius: 35px;
   background: #fefefe;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 35px;
+  /* border: 3px solid rgba(0, 0, 0, 0.2); */
+  /* border-radius: 35px; */
   width: 900px;
-  height: 860px;
+  height: 865px;
   overflow-y: auto;
   max-height: 100%;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -242,6 +253,7 @@ const ModalContent = styled.div`
     border-radius: 0;
   }
 `;
+
 const StLayout = styled.div`
   padding: 30px 75px;
 
@@ -253,22 +265,16 @@ const StLayout = styled.div`
 const StTextWrap = styled.div`
   display: flex;
   justify-content: start;
-  align-items: center;
 
   @media (max-width: 600px) {
     flex-direction: column;
   }
 `;
-
 const StTitleContainer = styled.div`
   display: flex;
   width: 20%;
   align-items: center;
   justify-content: center;
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
 `;
 
 const StTitle = styled.div`
@@ -280,8 +286,21 @@ const StTitle = styled.div`
   }
 `;
 
+const StText = styled.div`
+  width: 80%;
+  margin-left: 20px;
+  border-bottom: 1px solid #d6d6d6;
+  padding: 5px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+`;
+
 const StInput = styled.input`
-  width: 70%;
+  width: 80%;
   margin-left: 20px;
   height: 3.3em;
   background: #fafafa;
@@ -302,12 +321,12 @@ const StInput = styled.input`
 `;
 
 const StTextArea = styled.textarea`
-  width: 70%;
+  width: 80%;
   padding: 0.3em;
   margin-left: 20px;
   height: 10vh;
-  border: 1px solid #d6d6d6;
   background: #fafafa;
+  border: 1px solid #d6d6d6;
   border-radius: 10px;
   transition: font-size 0.3s;
   font-size: 15px;
@@ -335,6 +354,7 @@ const StImageBox = styled.div`
   width: 100%;
   height: 240px;
   border-radius: 15px;
+  /* margin-right: 20px; */
 `;
 
 const StImage = styled.img`
@@ -351,7 +371,7 @@ const StTextBox = styled.div`
   font-size: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 
   /* div {
     padding-bottom: 10px;
@@ -362,7 +382,6 @@ const StBottom = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
 `;
 
 const StGoodButton = styled.button`
@@ -370,7 +389,7 @@ const StGoodButton = styled.button`
   padding: 15px 25px;
   border-radius: 10px;
   font-weight: bold;
-  margin-right: 70px;
+  margin: 0px 20px 0px;
   background-color: #6bf65f;
   &:hover {
     background-color: #4ae040;
@@ -380,6 +399,7 @@ const StGoodButton = styled.button`
 
 const StBadButton = styled.button`
   padding: 15px 25px;
+  margin: 0px 20px 0px;
   border: 1px solid lightgray;
   border-radius: 10px;
   font-weight: bold;
