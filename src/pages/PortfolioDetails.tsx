@@ -8,8 +8,8 @@ import { ReactComponent as Trash } from '@src/assets/portfolioDetail/port-trash-
 import { ReactComponent as Mail } from '@src/assets/portfolioDetail/port-mail-icon.svg';
 import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
 import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
-import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/port-youtube-icon.svg';
-import { ReactComponent as Blog } from '@src/assets/portfolioDetail/port-blog-icon.svg';
+import { ReactComponent as Blog } from '@src/assets/portfolioDetail/port-blogger-icon.svg';
+import DeletePortfolioModal from '@src/components/myPortfolio/DeletePortfolioModal';
 
 function PortfolioDetails() {
   interface Project {
@@ -19,7 +19,7 @@ function PortfolioDetails() {
     people: string;
     position: string;
   }
-
+  const [portid, SetPortId] = useState();
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
   const [proFileImage, setProFileImage] = useState(null);
@@ -27,7 +27,6 @@ function PortfolioDetails() {
   const [location, setLocation] = useState<string>('');
   const [residence, setResidence] = useState<string>('');
   const [telephone, setTelephone] = useState<string>('');
-  const [experience, setExperience] = useState<string>('');
   const [techStack, setTechStack] = useState<string[]>([]);
   const [githubId, setGithubId] = useState<string>('');
   const [youtube, setYoutube] = useState<string>('');
@@ -41,6 +40,7 @@ function PortfolioDetails() {
   const [filter, setFilter] = useState<string>('');
   const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     getMyPortfolio();
@@ -57,12 +57,12 @@ function PortfolioDetails() {
     const projects = response.data.data.projectList;
     const projectIdList = projects.map(project => parseInt(project.id));
 
+    SetPortId(response.data.data.id);
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
     setTelephone(response.data.data.telephone);
     setLocation(response.data.data.location);
     setResidence(response.data.data.residence);
-    setExperience(response.data.data.experience);
     setGithubId(response.data.data.githubId);
     setBlog(response.data.data.blogUrl);
     setPortfolioImage(response.data.data.portfolioImage);
@@ -131,6 +131,11 @@ function PortfolioDetails() {
     setPortEdit(true);
   };
 
+  const onPortfolioDelete = () => {
+    console.log('삭제중');
+    setIsDeleteModalOpen(true);
+  };
+
   const onPortfolioUpdate = async () => {
     setPortEdit(false);
     await PortfolioEdit();
@@ -138,8 +143,6 @@ function PortfolioDetails() {
   };
 
   const onPortfolioEditClear = () => {
-    console.log('수정취소');
-    alert('수정사항을 취소하시겠습니까?');
     setPortEdit(false);
   };
 
@@ -195,11 +198,17 @@ function PortfolioDetails() {
 
   const onProjectDelete = async projectId => {
     const confirmDelete = window.confirm('삭제하실?');
+    const accessToken = localStorage.getItem('accesstoken');
+    const refreshToken = localStorage.getItem('refreshtoken');
 
     if (confirmDelete) {
       console.log('삭제 : ', projectId);
       try {
-        const response = await axios.delete(`http://3.34.102.60:8080/api/projects/${projectId}`);
+        const response = await axios.delete(`http://3.34.102.60:8080/api/projects/${projectId}`, {
+          headers: {
+            Authorization: accessToken,
+          },
+        });
       } catch (error) {
         console.error(error);
       }
@@ -264,7 +273,7 @@ function PortfolioDetails() {
                 {portfolioImagePreview ? (
                   <StRepresentativeImageEdit src={portfolioImagePreview} alt="" />
                 ) : (
-                  <div>No image preview</div>
+                  <div>선택된 이미지가 없습니다.</div>
                 )}
                 <input type="file" id="image" onChange={handlePortfolioImageChange} />
               </div>
@@ -312,7 +321,7 @@ function PortfolioDetails() {
 
                 <StButtonSection>
                   <StEditIcon onClick={onPortfolioEdit} />
-                  <StTrashIcon />
+                  <StTrashIcon onClick={onPortfolioDelete} />
                 </StButtonSection>
 
                 <StProfileContainer>
@@ -330,7 +339,6 @@ function PortfolioDetails() {
                     <div>
                       <Home /> {residence} | {location} 근무 희망
                     </div>
-                    {/* {residence} / {email} / 희망근무: {location} / {telephone} */}
                   </StProfileText>
                 </StProfileContainer>
 
@@ -340,7 +348,7 @@ function PortfolioDetails() {
               </StFirstSection>
 
               <StSecondSection>
-                <StExperience>{experience}</StExperience>
+                <StIntro>{intro}</StIntro>
                 <StTechStackSection>
                   {techStack?.map((item, index) => (
                     <StTechStack key={index}>{item}</StTechStack>
@@ -350,6 +358,7 @@ function PortfolioDetails() {
 
               {blog && (
                 <StBlog>
+                  <Blog />
                   <a href={blog}>{blog}</a>
                 </StBlog>
               )}
@@ -373,11 +382,10 @@ function PortfolioDetails() {
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
+                    {console.log(item)}
+
+                    {/* <div>{item}</div> */}
                     <div>{item.title}</div>
-                    <div>{item.title}</div>
-                    <div>{item.term}</div>
-                    <div>{item.people}</div>
-                    <div>{item.position}</div>
                   </StProjectBox>
                 ))}
 
@@ -386,6 +394,13 @@ function PortfolioDetails() {
                     showModal={isProjectModalOpen}
                     projectId={selectedProjectId}
                     setShowModal={setIsProjectModalOpen}
+                  />
+                )}
+
+                {isDeleteModalOpen && (
+                  <DeletePortfolioModal
+                    portId={portid}
+                    onCloseModal={() => setIsDeleteModalOpen(false)}
                   />
                 )}
               </StProjectList>
@@ -507,9 +522,8 @@ const StSecondSection = styled.div`
   margin: 5%;
 `;
 
-const StExperience = styled.div`
+const StIntro = styled.div`
   width: 50%;
-  border: 1px solid black;
 `;
 
 const StTechStackSection = styled.div`
@@ -547,6 +561,7 @@ const StYoutube = styled.div`
 `;
 
 const StBlog = styled.div`
+  display: flex;
   width: 90%;
   height: 80px;
   border: 1px solid black;
