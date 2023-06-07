@@ -40,9 +40,20 @@ const MyPage = () => {
     }
   }, [data]);
 
-  const updateUserMutation = useMutation(updateUser);
-  const deleteUserMutation = useMutation(deleteUser);
+  const updateUserMutation = useMutation(updateUser, {
+    onSuccess: () => {
+      alert('회원 정보가 수정 되었습니다..');
+    },
+  });
+  const deleteUserMutation = useMutation(deleteUser, {
+    onSuccess: () => {
+      alert('회원 탈퇴 되었습니다.');
+    },
+  });
   const updatePasswordMutation = useMutation(updatePassword, {
+    onSuccess: () => {
+      alert('비밀번호가 변경되었습니다.');
+    },
     onError: error => {
       setApiError(error.response.data.errorMessage);
     },
@@ -410,7 +421,7 @@ const StMyPageEditBox = styled.div`
   left: 55%;
   transform: translate(-50%, -47%);
   width: 458px;
-  height: 830px;
+  height: 860px;
   background: white;
   /* border: 1px solid rgba(0, 0, 0, 0.02); */
   /* box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25); 
