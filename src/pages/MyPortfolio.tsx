@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { FaPlus } from 'react-icons/fa';
 import { getMyPortfolio } from '@src/apis/portfolio';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { PATH_URL } from '@src/constants/constants';
@@ -13,7 +14,7 @@ const MyPortfolio = () => {
   const [isMyPortfolioExist, setIsMyPortfolioExist] = useState(false);
   const navigate = useNavigate();
 
-  const onClickCreatePortfolioButton = () => {
+  const onClickCreatePortfolio = () => {
     navigate(PATH_URL.CREATE_PORTFOLIO);
   };
 
@@ -34,12 +35,13 @@ const MyPortfolio = () => {
       <StMyPortfolioPageTitle>My Portfolios</StMyPortfolioPageTitle>
       {isMyPortfolioExist ? (
         <StMyPortfolioContainer>
-          <StButtonContainer>
-            <StCreatePortfolioButton onClick={onClickCreatePortfolioButton}>
-              포트폴리오 작성하기
-            </StCreatePortfolioButton>
-          </StButtonContainer>
           <S.PortfolioListContainer>
+            <StCreatePortfolio onClick={onClickCreatePortfolio}>
+              <StCreateIconContainer>
+                <StCreateIcon />
+              </StCreateIconContainer>
+              <StCreateText>새 포트폴리오 작성</StCreateText>
+            </StCreatePortfolio>
             {myPortfolioList?.map((portfolio, index) => (
               <PortfolioItem key={index} item={portfolio} />
             ))}
@@ -57,20 +59,43 @@ const StMyPortfolioPageTitle = styled.h1`
   margin-top: 20px;
 `;
 
-const StButtonContainer = styled.div`
+const StCreatePortfolio = styled.div`
+  cursor: pointer;
+  border-radius: 7px;
+  width: 250px;
+  height: 380px;
+  background-color: #dfdfdf;
   display: flex;
-  justify-content: right;
-  margin-right: 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
-const StCreatePortfolioButton = styled.button`
-  border: 2px solid;
-  font-weight: bold;
+const StCreateIconContainer = styled.div`
+  width: 90px;
+  height: 90px;
   border-radius: 50px;
-  padding: 5px 10px;
-  margin-top: 1.5rem;
+  background-color: #c8c8c8;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const StMyPortfolioContainer = styled.div``;
+const StCreateIcon = styled(FaPlus)`
+  width: 50px;
+  height: 50px;
+  color: white;
+`;
+
+const StCreateText = styled.div`
+  margin-top: 20px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.color.fontColor};
+`;
+
+const StMyPortfolioContainer = styled.div`
+  margin-top: 50px;
+`;
 
 export default MyPortfolio;
