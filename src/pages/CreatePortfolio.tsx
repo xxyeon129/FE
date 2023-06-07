@@ -9,6 +9,7 @@ import Step06Project from '@src/components/createPortfolio/createStep/Step06Proj
 import Step07Introduce from '@src/components/createPortfolio/createStep/Step07Introduce';
 import Step08Link from '@src/components/createPortfolio/createStep/Step08Link';
 import Step09Image from '@src/components/createPortfolio/createStep/Step09Image';
+import { styled } from 'styled-components';
 
 const CreatePortfolio = () => {
   const [step, setStep] = useState(STEP.ONE);
@@ -22,7 +23,7 @@ const CreatePortfolio = () => {
   };
 
   return (
-    <>
+    <StCreatePortfolio>
       {
         {
           stepOne: <Step01Intro onNextButtonClick={nextStep} />,
@@ -40,8 +41,12 @@ const CreatePortfolio = () => {
           stepNine: <Step09Image onPrevButtonClick={prevStep} />,
         }[step]
       }
-    </>
+    </StCreatePortfolio>
   );
 };
+
+const StCreatePortfolio = styled.div`
+  height: 93vh;
+`;
 
 export default CreatePortfolio;

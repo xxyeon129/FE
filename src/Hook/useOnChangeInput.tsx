@@ -1,12 +1,33 @@
+import { useEffect, useState } from 'react';
 import { SetterOrUpdater } from 'recoil';
 
-const useOnChangeInput = (setRecoilState: SetterOrUpdater<string>) => {
+interface useOnChangeInputProps {
+  setRecoilState: SetterOrUpdater<string>;
+  inputValue?: string;
+  validator?: (value: string) => (string | boolean)[];
+}
+
+const useOnChangeInput = ({ setRecoilState, inputValue, validator }: useOnChangeInputProps) => {
+  const [isInvalid, setIsInvalid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | boolean>('');
+
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRecoilState(() => e.target.value);
   };
 
+  useEffect(() => {
+    if (inputValue && validator) {
+      const [isInvalid, errorMessage] = validator(inputValue);
+      const isInvalidBoolean = Boolean(isInvalid);
+      setIsInvalid(isInvalidBoolean);
+      typeof errorMessage !== 'boolean' && setErrorMessage(errorMessage);
+    }
+  }, [inputValue]);
+
   return {
     onChangeInput,
+    isInvalid,
+    errorMessage,
   };
 };
 
