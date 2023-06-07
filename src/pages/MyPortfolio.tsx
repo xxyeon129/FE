@@ -64,7 +64,7 @@ const StCreatePortfolio = styled.div`
   border-radius: 7px;
   width: 250px;
   height: 380px;
-  background-color: #dfdfdf;
+  background-color: #e6e6e6;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -72,8 +72,8 @@ const StCreatePortfolio = styled.div`
 `;
 
 const StCreateIconContainer = styled.div`
-  width: 90px;
-  height: 90px;
+  width: 85px;
+  height: 85px;
   border-radius: 50px;
   background-color: #c8c8c8;
 
@@ -95,7 +95,7 @@ const StCreateText = styled.div`
 `;
 
 const StMyPortfolioContainer = styled.div`
-  margin-top: 50px;
+  margin: 50px 0;
 `;
 
 export default MyPortfolio;
