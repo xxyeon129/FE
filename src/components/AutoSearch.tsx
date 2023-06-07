@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
@@ -7,16 +7,16 @@ import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
 import { styled } from 'styled-components';
 
-const AutoSearch = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+const AutoSearch: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
   const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
   const inputRef = useRef(null);
 
   useEffect(() => {
-    const debounceSearch = debounce(async term => {
+    const debounceSearch = debounce(async (term: string) => {
       const suggestions = await search(term);
       setSuggestions(suggestions);
     }, 500);
@@ -24,12 +24,12 @@ const AutoSearch = () => {
     debounceSearch(searchTerm);
   }, [searchTerm]);
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
   };
 
-  const handleKeyDown = async e => {
+  const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const portData = await searchPage(1, searchTerm);
       setPortfolioData(portData);
@@ -38,7 +38,7 @@ const AutoSearch = () => {
     }
   };
 
-  const handleClickSuggestion = suggestion => {
+  const handleClickSuggestion = (suggestion: string) => {
     setSearchTerm(suggestion);
   };
 
@@ -46,7 +46,7 @@ const AutoSearch = () => {
     inputRef.current.focus();
   }, []);
 
-  const handleArrowNavigation = e => {
+  const handleArrowNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
       const newIndex = Math.max(0, suggestions.indexOf(searchTerm) - 1);
