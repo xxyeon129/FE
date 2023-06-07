@@ -1,26 +1,26 @@
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import { selectedCategoryState, selectedHeaderState } from '@src/states';
+import { loginState, selectedCategoryState, selectedHeaderState } from '@src/states';
 import { PATH_URL } from '@src/constants/constants';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
+import { useEffect, useState } from 'react';
+import { getAccessToken } from '@src/apis/token';
 
 const Header = () => {
-  const isLogin = localStorage.getItem('accesstoken');
-  let userId: null | number = null;
-  if (isLogin !== null) userId = useDecodeJWT().userId;
-
-  const headerList = [
-    { value: 'Services', underLineWidth: '45%', path: '' },
-    { value: 'My Portfolios', underLineWidth: '75%', path: PATH_URL.MYPORTFOLIO },
-    { value: 'My Page', underLineWidth: '50%', path: `${PATH_URL.MY_PAGE}/${userId}` },
-    { value: 'Notification', underLineWidth: '65%', path: '' },
-  ];
-
+  const [userId, setUserId] = useState('');
+  const isLogin = useRecoilValue(loginState);
   const setSelectedCategory = useSetRecoilState(selectedCategoryState);
   const [selectedHeader, setSelectedHeader] = useRecoilState(selectedHeaderState);
 
   const navigate = useNavigate();
+
+  const headerList = [
+    { value: 'Services', underLineWidth: '45%', path: '' },
+    { value: 'My Portfolios', underLineWidth: '75%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
+    { value: 'My Page', underLineWidth: '50%', path: `${PATH_URL.MY_PAGE}/${userId}` },
+    { value: 'Notification', underLineWidth: '65%', path: '' },
+  ];
 
   const onClickText = (path: string) => {
     setSelectedHeader(true);
@@ -29,6 +29,16 @@ const Header = () => {
       navigate(path);
     }
   };
+
+  useEffect(() => {
+    const getToken = async () => {
+      const loginToken = await getAccessToken();
+      loginToken !== null ? setUserId(useDecodeJWT().userId) : setUserId('');
+    };
+    getToken();
+
+    // !isLogin && setIsLoginModalOpen(true);
+  }, [isLogin]);
 
   return (
     <StHeader>

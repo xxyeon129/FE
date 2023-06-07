@@ -11,6 +11,7 @@ import PortfolioDetails from '@src/pages/PortfolioDetails';
 import LinkPreview from '@src/components/LinkPreview';
 import MyPortfolio from '@src/pages/MyPortfolio';
 import CreatePortfolio from '@src/pages/CreatePortfolio';
+import Login from '@src/pages/Login';
 
 const MainRouter = () => {
   return (
@@ -25,8 +26,9 @@ const MainRouter = () => {
           <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
           <Route path={PATH_URL.SEARCHRESULTS} element={<SearchResults />} />
           <Route path={PATH_URL.HYO2} element={<LinkPreview />} />
-          <Route path={PATH_URL.MYPORTFOLIO} element={<MyPortfolio />} />
+          <Route path={PATH_URL.MY_PORTFOLIO_PATH} element={<MyPortfolio />} />
           <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
+          <Route path="*" element={<Login />} />
         </Routes>
       </Layout>
     </BrowserRouter>
