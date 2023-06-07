@@ -15,7 +15,7 @@ export const searchPage = async (pageNum: number, searchTerm?: string) => {
   console.log(pageNum);
   try {
     const response = await axios.get(
-      `${SERVER_URL}/api/portfolios/search?keyword=${searchTerm}&page=${pageNum}&size=12`
+      `${SERVER_URL}/api/portfolios/search?keyword=${searchTerm}&page=${pageNum}&size=15`
     );
     return response.data.data;
   } catch (error) {
