@@ -1,6 +1,6 @@
 import apiRequest from '.';
 import { GetLastIdParams, GetAllListParams, GetFilteredListParams } from '@src/types/apiParamsType';
-import { accessToken, refreshToken } from './token';
+import { accessToken, getAccessToken, getRefreshToken, refreshToken } from './token';
 
 const RESOURCE = '/api/portfolios';
 
@@ -70,17 +70,22 @@ export const getFilteredList = async ({
   }
 };
 
+type AxiosHeaderValue = string | undefined;
+
 export const getMyPortfolio = async () => {
   try {
+    const asyncAccessToken = await getAccessToken();
+    const asyncRefreshToken = await getRefreshToken();
+
     const response = await apiRequest.get(`${RESOURCE}/myportfolios`, {
       headers: {
-        Authorization: accessToken,
-        RefreshToken: refreshToken,
+        Authorization: asyncAccessToken as AxiosHeaderValue,
+        RefreshToken: asyncRefreshToken as AxiosHeaderValue,
       },
     });
     return response.data.data;
   } catch (error) {
-    throw new Error('API getAllList error');
+    throw new Error('API getMyPortfolio error');
   }
 };
 
