@@ -2,7 +2,12 @@ import axios from 'axios';
 import { accessToken } from './token';
 import { SERVER_URL } from '@src/constants/constants';
 
-export const getUser = async id => {
+// type FormDataType = {
+//   nickname: string;
+//   profileImage: File;
+// };
+
+export const getUser = async (id: number) => {
   try {
     const response = await axios.get(`${SERVER_URL}/api/users/${id}`);
     return response.data.data;
@@ -12,7 +17,7 @@ export const getUser = async id => {
   }
 };
 
-export const updateUser = async ([formData, id]) => {
+export const updateUser = async ([formData, id]: [FormData, number]) => {
   console.log(id);
   try {
     const response = await axios.patch(`${SERVER_URL}/api/users/${id}`, formData, {
@@ -27,7 +32,7 @@ export const updateUser = async ([formData, id]) => {
   }
 };
 
-export const deleteUser = async id => {
+export const deleteUser = async (id: number) => {
   try {
     await axios.delete(`${SERVER_URL}/api/users/${id}`, {
       headers: {
@@ -41,7 +46,7 @@ export const deleteUser = async id => {
   }
 };
 
-export const updatePassword = async ([passwordData, id]) => {
+export const updatePassword = async ([passwordData, id]: [object, number]) => {
   try {
     await axios.put(`${SERVER_URL}/api/users/${id}/password`, passwordData, {
       headers: {

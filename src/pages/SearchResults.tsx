@@ -15,6 +15,9 @@ interface PortfolioData {
   content: PortfolioDataContent[];
   totalPages: number;
 }
+interface StButtonProps {
+  selected: boolean;
+}
 const SearchResults = () => {
   const [portfolioData, setPortfolioData] = useState<PortfolioData | undefined>();
   const searchTermData = useRecoilValue(searchTermState);
@@ -26,7 +29,10 @@ const SearchResults = () => {
     setPortfolioData(pageData);
     setSelectedPage(index);
     console.log(pageData);
+    console.log(searchTermData);
   };
+
+  // 초기 상태일 때는 검색어 x -> handlePageButtonClick => searchTermData 빈값이어서 전체 데이타 불러와지고 ->검색어 입력 searchTermState 변화 -> [searchTermData] 의존성 배열때문에  handlePageButtonClick(1); 실행됨
 
   const onClickHandler = (id: number) => {
     navigate(`/detail/${id}`);
@@ -206,7 +212,7 @@ const StButtonList = styled.div`
   text-align: center;
 `;
 
-const StButton = styled.button`
+const StButton = styled.button<StButtonProps>`
   box-sizing: border-box;
   position: relative;
   display: block;

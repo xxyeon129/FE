@@ -13,7 +13,7 @@ const AutoSearch: React.FC = () => {
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
   const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const debounceSearch = debounce(async (term: string) => {
@@ -43,7 +43,7 @@ const AutoSearch: React.FC = () => {
   };
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }, []);
 
   const handleArrowNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
