@@ -100,10 +100,6 @@ const CreateProject: React.FC<{
       setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
       return;
     }
-    if (description.length < 3 || description.length > 50) {
-      setDescriptionError('제목은 3자 이상 50자 이하여야 합니다.');
-      return;
-    }
 
     const formData = new FormData();
     const imageBlob = new Blob(imageList);
@@ -149,7 +145,6 @@ const CreateProject: React.FC<{
                     </label>
                     <StFileUpload type="file" id="file" onChange={imageHandler}></StFileUpload>
                     <ImageEditIcon onClick={removeImage} />
-                    {/* <button onClick={removeImage}>이미지 삭제</button> */}
                   </StImageUploadWrap>
                 </StimageOptions>
               </StImageContainer>
@@ -283,6 +278,10 @@ const StTitleContainer = styled.div`
   width: 20%;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const StTitle = styled.div`
@@ -352,8 +351,8 @@ const StTextArea = styled.textarea`
 `;
 
 const StImageBox = styled.div`
-  /* background-image: url('public/images/no-img.jpg'); */
-  /* background-size: 250px 250px; */
+  background-image: url('public/images/no-img.jpg');
+  background-size: 100% 100%;
   border: 1px solid #d6d6d6;
   display: flex;
   flex-direction: column;
