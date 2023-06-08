@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { createProject } from '@src/apis/projectapi';
 
 // 프로젝트 작성
@@ -53,77 +53,90 @@ const CreateProject: React.FC<{
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
       setImageList(fileList);
-      console.log(fileList);
+      // console.log(fileList);
 
       const previewURLs = fileList.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
   };
 
-  const mutation = useMutation(async () => {
-    if (!title) {
-      setTitleError('제목을 입력하세요');
-      return;
-    }
-    if (!term) {
-      setTermError('기간을 입력하세요');
-      return;
-    }
-    if (!people) {
-      setPeopleError('인원을 입력하세요');
-      return;
-    }
-    if (!position) {
-      setPositionError('담당 포지션을 입력하세요');
-      return;
-    }
-    if (!description) {
-      setDescriptionError('설명을 입력하세요');
-      return;
-    }
-    if (title.length < 3 || title.length > 50) {
-      setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
-      return;
-    }
-    if (description.length < 3 || description.length > 50) {
-      setDescriptionError('제목은 3자 이상 50자 이하여야 합니다.');
-      return;
-    }
+  const queryClient = useQueryClient();
 
-    const formData = new FormData();
-    const imageBlob = new Blob(imageList);
-    const text = JSON.stringify({
-      title,
-      term,
-      people,
-      position,
-      description,
-    });
-    const textBlob = new Blob([text], { type: 'application/json' });
-    formData.append('projectRequestDto', textBlob);
-    formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
-    setShowModal1(false);
-    return createProject(formData);
-  });
+  const mutation = useMutation(
+    async () => {
+      if (!title) {
+        setTitleError('제목을 입력하세요');
+        return;
+      }
+      if (!term) {
+        setTermError('기간을 입력하세요');
+        return;
+      }
+      if (!people) {
+        setPeopleError('인원을 입력하세요');
+        return;
+      }
+      if (!position) {
+        setPositionError('담당 포지션을 입력하세요');
+        return;
+      }
+      if (!description) {
+        setDescriptionError('설명을 입력하세요');
+        return;
+      }
+      if (title.length < 3 || title.length > 50) {
+        setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
+        return;
+      }
+      if (description.length < 3 || description.length > 50) {
+        setDescriptionError('제목은 3자 이상 50자 이하여야 합니다.');
+        return;
+      }
+
+      const formData = new FormData();
+      const imageBlob = new Blob(imageList);
+      const text = JSON.stringify({
+        title,
+        term,
+        people,
+        position,
+        description,
+      });
+      const textBlob = new Blob([text], { type: 'application/json' });
+      formData.append('projectRequestDto', textBlob);
+      formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
+      return createProject(formData);
+    },
+    {
+      onSuccess: data => {
+        queryClient.setQueryData('projectData', data.data);
+      },
+    }
+  );
 
   const removeImage = () => {
     setImageList([]);
     setPreviewImages([]);
   };
 
-  const handleSubmit = () => {
-    mutation.mutate();
+  const handleSubmit = async () => {
+    await mutation.mutateAsync();
+    setShowModal1(false);
   };
 
   const handleCloseModal = () => {
     setShowModal1(false);
   };
 
+  const keepModalWindow = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
   return (
     <>
       {showModal1 && (
         <ModalWrapper>
-          <ModalContent>
+          <ModalContent onClick={keepModalWindow}>
             <StLayout>
               <h1>Create Project</h1>
               <StImageContainer>
