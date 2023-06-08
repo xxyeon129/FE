@@ -47,6 +47,7 @@ const StNav = styled.div`
   box-shadow: inset -30px 4px 50px rgba(0, 0, 0, 0.06);
 
   background-color: white;
+  font-family: 'Open Sans', sans-serif;
 `;
 
 const StAutoSearchContainer = styled.div`
