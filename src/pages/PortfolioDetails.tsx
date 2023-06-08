@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { styled } from 'styled-components';
 import ProjectModal from '@src/components/myProject/ProjectDetail';
 import { ReactComponent as EditIconSvg } from '@src/assets/portfolioDetail/port-edit-icon.svg';
@@ -10,13 +10,14 @@ import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-te
 import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
 import { ReactComponent as Blog } from '@src/assets/portfolioDetail/port-blogger-icon.svg';
 import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/port-youtube-icon.svg';
+import User from '@src/assets/nav/nav-default-user-image-icon.svg';
 import DeletePortfolioModal from '@src/components/myPortfolio/DeletePortfolioModal';
 import TechStackTag from '@src/components/createPortfolio/TechStackTag';
 import CreateProject from '@src/components/myProject/CreateProject';
-import { createProject } from '@src/apis/projectapi';
 
 function PortfolioDetails() {
   interface Project {
+    projectImageList: any;
     id: number;
     title: string;
     term: string;
@@ -38,6 +39,7 @@ function PortfolioDetails() {
   const [projectList, setProjectList] = useState<number[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [portfolioImage, setPortfolioImage] = useState<File | null>(null);
+  const [getPortfolioImage, setGetPortFolioImage] = useState(null);
   const [portfolioImagePreview, setPortfolioImagePreview] = useState('');
   const [portEdit, setPortEdit] = useState<boolean>(false);
   const [category, setCategory] = useState<string>('');
@@ -46,6 +48,10 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+
+  // console.log(proFileImage);
+
+  // console.log(User());
 
   useEffect(() => {
     getMyPortfolio();
@@ -60,7 +66,7 @@ function PortfolioDetails() {
 
     console.log(response.data.data);
     const projects = response.data.data.projectList;
-    const projectIdList = projects.map(project => parseInt(project.id));
+    const projectIdList = projects.map((project: { id: string }) => parseInt(project.id));
 
     SetPortId(response.data.data.id);
     setPortfolioTitle(response.data.data.portfolioTitle);
@@ -70,11 +76,14 @@ function PortfolioDetails() {
     setResidence(response.data.data.residence);
     setGithubId(response.data.data.githubId);
     setBlog(response.data.data.blogUrl);
-    setPortfolioImage(response.data.data.portfolioImage);
+    setGetPortFolioImage(response.data.data.portfolioImage);
     setProjectList(projectIdList);
     setProjects(projects);
     setIntro(response.data.data.intro);
-    setProFileImage(response.data.data.profileImage);
+
+    setProFileImage(response.data.data.profileImage || (User as string));
+
+    console.log(User);
     if (techStack) {
       setTechStack(response.data.data.techStack.split(','));
     }
@@ -105,12 +114,15 @@ function PortfolioDetails() {
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
       type: 'application/json',
     });
-    const portfolioImageBlob = new Blob([portfolioImage], { type: 'multipart/form-data' });
+    const portfolioImageBlob = portfolioImage
+      ? new Blob([portfolioImage], { type: 'multipart/form-data' })
+      : null;
 
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
-    updatedData.append('portfolioImage', portfolioImageBlob);
-
+    if (portfolioImageBlob) {
+      updatedData.append('portfolioImage', portfolioImageBlob);
+    }
     try {
       const response = await axios.patch(
         `http://3.34.102.60:8080/api/portfolios/${portfolioId}`,
@@ -123,9 +135,8 @@ function PortfolioDetails() {
         }
       );
       alert('수정완료');
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        //401 토큰에러
+    } catch (error: unknown) {
+      if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
         alert('토큰이 일치하지 않습니다.');
       }
     }
@@ -181,13 +192,15 @@ function PortfolioDetails() {
     setGithubId(e.target.value);
   };
 
-  const onhandlePortfolioImageChange = e => {
-    const file = e.target.files[0];
-    setPortfolioImage(file);
-    setPortfolioImagePreview(URL.createObjectURL(file));
+  const onhandlePortfolioImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file: File | undefined = e.target.files?.[0];
+    if (file) {
+      setPortfolioImage(file);
+      setPortfolioImagePreview(URL.createObjectURL(file));
+    }
   };
 
-  const onProjectDetail = projectId => {
+  const onProjectDetail = (projectId: number) => {
     setSelectedProjectId(projectId);
     setIsProjectModalOpen(true);
   };
@@ -198,12 +211,12 @@ function PortfolioDetails() {
   };
 
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const onProjectDelete = async projectId => {
+  const onProjectDelete = async (projectId: number) => {
     const confirmDelete = window.confirm('삭제하실?');
     const accessToken = localStorage.getItem('accesstoken');
     const refreshToken = localStorage.getItem('refreshtoken');
@@ -348,7 +361,7 @@ function PortfolioDetails() {
 
                 <StProfileContainer>
                   <div>
-                    <StProFileImage src={proFileImage} alt="" />
+                    <StProFileImage src={proFileImage!} alt="" />
                   </div>
 
                   <StProfileText>
@@ -362,7 +375,7 @@ function PortfolioDetails() {
                       <Home /> {residence} | {location} 근무 희망
                     </div>
                   </StProfileText>
-                  <StRepresentativeImage src={portfolioImage} alt="" />
+                  <StRepresentativeImage src={getPortfolioImage!} alt="" />
                 </StProfileContainer>
               </StFirstSection>
 
@@ -403,7 +416,6 @@ function PortfolioDetails() {
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
                     <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
-                    {/* <Trash /> */}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
@@ -558,7 +570,7 @@ const StProFileImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 const StProfileText = styled.div`
