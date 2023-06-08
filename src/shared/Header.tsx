@@ -6,14 +6,13 @@ import { PATH_URL } from '@src/constants/constants';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { useEffect, useState } from 'react';
 import { getAccessToken } from '@src/apis/token';
+import jwtDecode from 'jwt-decode';
 
 const Header = () => {
   const [userId, setUserId] = useState('');
   const isLogin = useRecoilValue(loginState);
   const setSelectedCategory = useSetRecoilState(selectedCategoryState);
   const [selectedHeader, setSelectedHeader] = useRecoilState(selectedHeaderState);
-
-  const navigate = useNavigate();
 
   const headerList = [
     { value: 'Services', underLineWidth: '38%', path: '' },

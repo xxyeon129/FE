@@ -14,6 +14,9 @@ import User from '@src/assets/nav/nav-default-user-image-icon.svg';
 import DeletePortfolioModal from '@src/components/myPortfolio/DeletePortfolioModal';
 import TechStackTag from '@src/components/createPortfolio/TechStackTag';
 import CreateProject from '@src/components/myProject/CreateProject';
+import { useRecoilValue } from 'recoil';
+import { projectDataAtom } from '@src/states/createProjectState';
+import jwtDecode from 'jwt-decode';
 
 function PortfolioDetails() {
   interface Project {
@@ -25,6 +28,7 @@ function PortfolioDetails() {
     position: string;
   }
   const [portid, SetPortId] = useState();
+  const [hostid, setHostid] = useState();
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
   const [proFileImage, setProFileImage] = useState(null);
@@ -48,10 +52,26 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [createProjects, setCreateProjects] = useState([]);
 
-  // console.log(proFileImage);
+  const projectData = useRecoilValue(projectDataAtom);
 
-  // console.log(User());
+  const accessToken = localStorage.getItem('accesstoken');
+  const refreshToken = localStorage.getItem('refreshtoken');
+
+  const test2 = jwtDecode(accessToken);
+
+  const userid = test2.userId;
+
+  console.log('포트폴리오 유저 아이디 : ', hostid);
+  console.log('토큰 디코드 유저 아이디 : ', userid);
+
+  // useEffect(() => {
+  //   const projectValues = Object.values(projectData);
+  //   setCreateProjects(prevProjects => [...prevProjects, ...projectValues]);
+  // }, [projectData]);
+
+  console.log('projectData : ', projectData);
 
   useEffect(() => {
     getMyPortfolio();
@@ -69,6 +89,7 @@ function PortfolioDetails() {
     const projectIdList = projects.map((project: { id: string }) => parseInt(project.id));
 
     SetPortId(response.data.data.id);
+    setHostid(response.data.data.userId);
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
     setTelephone(response.data.data.telephone);
@@ -331,19 +352,25 @@ function PortfolioDetails() {
                   />
                 </div>
               </StRinkWrapper>
+              <button onClick={onProjectCreate}>생성</button>
               <StProjectEditBox>
-                <button onClick={onProjectCreate}>생성</button>
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
                     <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
+                {/* {createProjects.map((item, index) => (
+                  <StProjectBox key={index}>
+                    <StProjectImg src={item.imageList[0].name} alt="프로젝트 이미지" />
+                    <StProjectTitle key={index}>{item.title}</StProjectTitle>
+                  </StProjectBox>
+                ))} */}
               </StProjectEditBox>
+
               {createProjectModalOpen && (
                 <CreateProject
                   showModal1={createProjectModalOpen}
-                  // porid={id}
                   setShowModal1={setCreateProjectModalOpen}
                 />
               )}
@@ -355,14 +382,16 @@ function PortfolioDetails() {
                 <StHorizontalLine />
 
                 <StButtonSection>
-                  <StEditIcon onClick={onPortfolioEdit} />
-                  <StTrashIcon onClick={onPortfolioDelete} />
+                  {hostid === userid ? (
+                    <>
+                      <StEditIcon onClick={onPortfolioEdit} />
+                      <StTrashIcon onClick={onPortfolioDelete} />
+                    </>
+                  ) : null}
                 </StButtonSection>
 
                 <StProfileContainer>
-                  <div>
-                    <StProFileImage src={proFileImage!} alt="" />
-                  </div>
+                  <div>{proFileImage && <StProFileImage src={proFileImage} alt="" />}</div>
 
                   <StProfileText>
                     <div>
@@ -375,8 +404,8 @@ function PortfolioDetails() {
                       <Home /> {residence} | {location} 근무 희망
                     </div>
                   </StProfileText>
-                  <StRepresentativeImage src={getPortfolioImage!} alt="" />
                 </StProfileContainer>
+                {getPortfolioImage && <StRepresentativeImage src={getPortfolioImage} alt="" />}
               </StFirstSection>
 
               <StSecondSection>
@@ -487,7 +516,7 @@ const StFirstSection = styled.div`
 `;
 
 const StImagePreviewer = styled.div`
-  border: 1px solid black;
+  border: 2px dotted black;
   height: 250px;
   margin-bottom: 50px;
   display: flex;
@@ -603,7 +632,7 @@ const StTechStack = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f3fefe;
+  background-color: #f3f3f3;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -613,13 +642,9 @@ const StTechStack = styled.div`
 
 const StRepresentativeImage = styled.img`
   width: 100%;
-  height: 100%;
-  opacity: 0.2;
-  border-radius: 50px;
-  position: absolute;
+  height: 300px;
   top: 0;
   left: 0;
-  z-index: -1;
 `;
 
 const StYoutube = styled.div`

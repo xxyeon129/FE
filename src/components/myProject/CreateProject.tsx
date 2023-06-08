@@ -4,6 +4,8 @@ import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
 import { createProject } from '@src/apis/projectapi';
+import { projectDataAtom } from '@src/states/createProjectState';
+import { useRecoilState } from 'recoil';
 
 // 프로젝트 작성
 const CreateProject: React.FC<{
@@ -23,6 +25,8 @@ const CreateProject: React.FC<{
   const [peopleError, setPeopleError] = useState<string>('');
   const [positionError, setPositionError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
+
+  const [projectData, setProjectData] = useRecoilState(projectDataAtom);
 
   const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -103,6 +107,8 @@ const CreateProject: React.FC<{
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
     setShowModal1(false);
+    const recoilData = { title, term, people, position, description, imageList };
+    setProjectData(recoilData);
     return createProject(formData);
   });
 
