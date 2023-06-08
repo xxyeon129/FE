@@ -37,6 +37,7 @@ const StContent = styled.div`
   margin-left: 250px;
   padding-top: 52px;
   width: calc(100% - 250px);
+  min-height: 100vh;
 `;
 
 export default Layout;

@@ -9,7 +9,7 @@ import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { categoryState, filterState } from '@src/states';
 import { filterListObject } from '@src/constants/portfolioFilteringData';
-import * as S from '@src/style/common/portfolioStyle';
+import * as S from '@src/style/common/mainPagePortfolioStyle';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -131,19 +131,16 @@ const Main = () => {
   return (
     <S.PageContainer>
       <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
-      <S.PortfolioListContainer>
-        {isExistData ? (
-          list.map((item: PortfolioDataType) => <PortfolioItem key={item.id} item={item} />)
-        ) : (
-          <StNoDataTextContainer>포트폴리오가 존재하지 않습니다.</StNoDataTextContainer>
-        )}
-      </S.PortfolioListContainer>
-      {isMoreLoading ? (
-        <StLoadingSpinner />
+      {isExistData ? (
+        <S.PortfolioListContainer>
+          {list.map((item: PortfolioDataType) => (
+            <PortfolioItem key={item.id} item={item} />
+          ))}
+        </S.PortfolioListContainer>
       ) : (
-        // TODO: api 명세 수정 반영된 후 해당하는 데이터가 없을 경우 데이터 없다는 문구 표시(!isNoMoreData &&)
-        <StLoadingIndicator ref={lastItemRef} />
+        <StNoDataTextContainer>포트폴리오가 존재하지 않습니다.</StNoDataTextContainer>
       )}
+      {isMoreLoading ? <StLoadingSpinner /> : <StLoadingIndicator ref={lastItemRef} />}
     </S.PageContainer>
   );
 };
@@ -167,6 +164,16 @@ const StLoadingSpinner = styled(AiOutlineLoading3Quarters)`
   color: gray;
 `;
 
-const StNoDataTextContainer = styled.div``;
+const StNoDataTextContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 20px;
+  font-weight: 500;
+  color: gray;
+`;
 
 export default Main;
