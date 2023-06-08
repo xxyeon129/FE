@@ -5,13 +5,14 @@ import { useRecoilState } from 'recoil';
 import { loginState } from '@src/states';
 import { PATH_URL } from '@src/constants/constants';
 import { ReactComponent as AuthIcon } from '@src/assets/nav/nav-logout-icon.svg';
-import Signup from '../Signup';
-import LoginModal from './LoginModal';
 
-const Auth = () => {
+interface AuthProps {
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Auth = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: AuthProps) => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,19 +24,6 @@ const Auth = () => {
     } else {
       setIsLoginModalOpen(true);
     }
-  };
-
-  const onLoginCloseModal = () => {
-    setIsLoginModalOpen(false);
-    setIsLogin(true);
-  };
-
-  const onSignUpButtonClick = () => {
-    setIsSignUpModalOpen(true);
-  };
-
-  const onSignUpCloseModal = () => {
-    setIsSignUpModalOpen(false);
   };
 
   useEffect(() => {
@@ -50,10 +38,6 @@ const Auth = () => {
         <AuthIcon />
         <StLabel>{isLogin ? 'Logout' : 'Login'}</StLabel>
       </StAuthClickContainer>
-      {isLoginModalOpen && (
-        <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />
-      )}
-      {isSignUpModalOpen && <Signup onClose={onSignUpCloseModal} />}
     </StAuth>
   );
 };

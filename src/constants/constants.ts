@@ -12,8 +12,10 @@ export const PATH_URL = {
   MY_PAGE: '/mypage',
   SEARCHRESULTS: `/searchresults`,
   HYO2: 'hyo2',
-  MYPORTFOLIO: '/myportfolio',
+  MY_PORTFOLIO: '/myportfolio',
+  MY_PORTFOLIO_PATH: '/myportfolio/:id',
   CREATE_PORTFOLIO: '/myportfolio/create',
+  KAKAO_AUTH: '/auth/kakao',
 };
 
 export const SERVER_URL = import.meta.env.VITE_API_URL;
