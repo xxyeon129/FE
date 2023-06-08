@@ -11,6 +11,9 @@ import PortfolioDetails from '@src/pages/PortfolioDetails';
 import LinkPreview from '@src/components/LinkPreview';
 import MyPortfolio from '@src/pages/MyPortfolio';
 import CreatePortfolio from '@src/pages/CreatePortfolio';
+import Login from '@src/pages/Login';
+import KakaoAuth from '@src/components/auth/KakaoAuth';
+import TestKakaoLogin from '@src/components/auth/TestKakaoLogin';
 import RedirectionNaver from '@src/components/RedirectionNaver';
 
 const MainRouter = () => {
@@ -26,8 +29,11 @@ const MainRouter = () => {
           <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
           <Route path={PATH_URL.SEARCHRESULTS} element={<SearchResults />} />
           <Route path={PATH_URL.HYO2} element={<LinkPreview />} />
-          <Route path={PATH_URL.MYPORTFOLIO} element={<MyPortfolio />} />
+          <Route path={PATH_URL.MY_PORTFOLIO_PATH} element={<MyPortfolio />} />
           <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
+          <Route path="*" element={<Login />} />
+          <Route path={PATH_URL.KAKAO_AUTH} element={<KakaoAuth />} />
+          <Route path="/test/kakao" element={<TestKakaoLogin />} />
           <Route path="/api/users/naver" element={<RedirectionNaver />}></Route>
         </Routes>
       </Layout>

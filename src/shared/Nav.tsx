@@ -5,7 +5,12 @@ import Category from '@src/components/nav/Category';
 import Auth from '@src/components/nav/Auth';
 import LightAndDarkMode from '@src/components/nav/LightAndDarkMode';
 
-const Nav = () => {
+interface NavProps {
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Nav = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: NavProps) => {
   return (
     <StNav>
       <UserProfile />
@@ -19,7 +24,10 @@ const Nav = () => {
       </StCategoryContainer>
 
       <StBottomContainer>
-        <Auth />
+        <Auth
+          setIsLoginModalOpen={setIsLoginModalOpen}
+          setIsSignUpModalOpen={setIsSignUpModalOpen}
+        />
         <LightAndDarkMode />
       </StBottomContainer>
     </StNav>
@@ -36,8 +44,10 @@ const StNav = styled.div`
   height: 100vh;
   width: 250px;
   padding: 30px 25px;
+  box-shadow: inset -30px 4px 50px rgba(0, 0, 0, 0.06);
 
   background-color: white;
+  font-family: 'Open Sans', sans-serif;
 `;
 
 const StAutoSearchContainer = styled.div`
