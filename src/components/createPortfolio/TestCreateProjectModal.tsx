@@ -68,12 +68,13 @@ const TestCreateProjectModal: React.FC<{
     {
       onSuccess: data => {
         queryClient.setQueryData('projectData', data);
+        // console.log(data);
       },
     }
   );
 
   const testHandler = () => {
-    console.log(mutation.data);
+    mutation.mutateAsync();
   };
 
   const handleSubmit = async () => {
