@@ -3,17 +3,22 @@ import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '@src/states';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
 type LoginProps = {
   onClose: () => void;
   onSignUpClick: () => void;
+  navigatePath?: string;
 };
 
-const LoginModal = ({ onClose, onSignUpClick }: LoginProps) => {
+const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const setIsLogin = useSetRecoilState(loginState);
   const modalRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -28,7 +33,10 @@ const LoginModal = ({ onClose, onSignUpClick }: LoginProps) => {
       localStorage.setItem('accesstoken', accessToken);
       localStorage.setItem('refreshtoken', refreshToken);
 
+      const userId = useDecodeJWT().userId;
+
       setIsLogin(true);
+      navigatePath && navigate(`${navigatePath}${userId}`);
       onClose();
     } catch (error) {
       console.error('로그인 실패:', error);
@@ -111,12 +119,15 @@ const StModalWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  /* width: 100vw;
+  height: 100vh; */
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 `;
 
 const StModalContent = styled.div`

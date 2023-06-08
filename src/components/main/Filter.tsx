@@ -42,6 +42,7 @@ const StFilterButton = styled.button`
   height: 37px;
   border-radius: 50px;
   background-color: ${({ theme }) => theme.color.lightGray};
+  font-family: 'Open Sans', sans-serif;
 `;
 
 export default Filter;
