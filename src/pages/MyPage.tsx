@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,9 @@ import { useQuery, useMutation } from 'react-query';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
 import { ReactComponent as UploadIcon } from 'src/assets/image-upload.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/mypageimage-del.svg';
+import DefaultIcon from 'src/assets/defaultimg.jpg';
+import user from 'src/assets/nav/nav-default-user-image-icon.svg';
+
 interface UserData {
   nickname: string;
   email: string;
@@ -39,7 +42,7 @@ const MyPage = () => {
     if (data) {
       setNickname(data.nickname);
       setEmail(data.email);
-      setPreviewImage(data.profileImage);
+      setPreviewImage(data.profileImage || user);
     }
   }, [data]);
 
@@ -48,8 +51,8 @@ const MyPage = () => {
       alert('회원 정보가 수정되었습니다.');
       refetch();
     },
-    onError: error => {
-      setNicknameError(error.response.data.errorMessage);
+    onError: (error: any) => {
+      setNicknameError(error.response?.data.errorMessage);
     },
   });
   const deleteUserMutation = useMutation(deleteUser, {
@@ -61,7 +64,7 @@ const MyPage = () => {
     onSuccess: () => {
       alert('비밀번호가 변경되었습니다.');
     },
-    onError: error => {
+    onError: (error: any) => {
       setApiError(error.response.data.errorMessage);
     },
   });
@@ -103,7 +106,7 @@ const MyPage = () => {
       await updatePasswordMutation.mutateAsync([passwordData, Number(id)]);
       setApiError('');
       console.log('Password updated successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.response.data.errorMessage);
       throw error;
     }
@@ -111,6 +114,11 @@ const MyPage = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (nickname.trim() === '') {
+      setNicknameError('닉네임을 입력하세요');
+      return;
+    }
 
     const formData = new FormData();
     const text = JSON.stringify({
@@ -122,7 +130,7 @@ const MyPage = () => {
 
     try {
       await updateUserMutation.mutateAsync([formData, Number(id)]);
-      // refetch();
+      refetch();
       setIsEditing(false);
     } catch (error) {
       console.error(error);
@@ -191,7 +199,7 @@ const MyPage = () => {
         <StMyPageEditBox>
           <StLayout>
             <StImageEditBox>
-              {typeof previewImage === 'string' && <StImage src={previewImage} alt="Preview" />}
+              {typeof previewImage === 'string' && <StImage src={previewImage} />}
             </StImageEditBox>
             <StImageUploadWrap>
               <label htmlFor="file">
@@ -354,15 +362,15 @@ const StMyPageBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background: rgba(184, 227, 180, 0.7); */
   background: white;
-  /* opacity: 0.85; */
-  /* border: 1px solid black; */
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
     rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
     rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
-  /* box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25); */
   border-radius: 15px;
+
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
 `;
 
 const StHeader = styled.div`
@@ -380,6 +388,8 @@ const StImageBox = styled.div`
   width: 168px;
   height: 168px;
   margin: 20px;
+  background-image: url(${DefaultIcon});
+  background-size: 168px;
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -389,6 +399,8 @@ const StImageBox = styled.div`
 const StImage = styled.img`
   width: 100%;
   height: 100%;
+  background-image: url(${DefaultIcon});
+  background-size: 100%;
   border-radius: 100%;
 `;
 
@@ -408,6 +420,12 @@ const StEditButton = styled.div`
   justify-content: center;
   align-items: flex-end;
   margin-left: 300px;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 20px;
+    align-items: center;
+  }
 `;
 
 //-------------------------------------------------------------
@@ -427,6 +445,11 @@ const StMyPageEditBox = styled.div`
     rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
     rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
   border-radius: 15px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    height: 100%;
+  }
 `;
 
 const StLayout = styled.div`
@@ -462,6 +485,10 @@ const StInput = styled.input`
   background: #ffffff;
   border: 2px solid rgba(203, 203, 203, 0.7);
   border-radius: 40px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 // const StInput = styled.input`
 //   width: 100%;
