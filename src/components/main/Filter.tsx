@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { filterState } from '@src/states';
 
 interface FilterPropsType {
@@ -7,8 +7,8 @@ interface FilterPropsType {
   onClickFilterButton: (filterKeyword: string) => Promise<void>;
 }
 
-const Filter: React.FC<FilterPropsType> = ({ filterList, onClickFilterButton }) => {
-  const setFilter = useSetRecoilState<string>(filterState);
+const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
+  const [filter, setFilter] = useRecoilState<string>(filterState);
 
   const onClickFilter = (filterKeyword: string) => {
     setFilter(filterKeyword);
@@ -18,7 +18,11 @@ const Filter: React.FC<FilterPropsType> = ({ filterList, onClickFilterButton }) 
   return (
     <StFilterListContainer>
       {filterList.map((filterKeyword, filterItemIndex) => (
-        <StFilterButton key={filterItemIndex} onClick={() => onClickFilter(filterKeyword)}>
+        <StFilterButton
+          key={filterItemIndex}
+          onClick={() => onClickFilter(filterKeyword)}
+          isselected={`${filterKeyword === filter}`}
+        >
           {filterKeyword}
         </StFilterButton>
       ))}
@@ -36,12 +40,14 @@ const StFilterListContainer = styled.div`
   width: 100%;
 `;
 
-const StFilterButton = styled.button`
+const StFilterButton = styled.button<{ isselected: string }>`
   font-size: 16px;
   width: 140px;
   height: 37px;
   border-radius: 50px;
-  background-color: ${({ theme }) => theme.color.lightGray};
+  background-color: ${({ theme, isselected }) =>
+    isselected === 'true' ? theme.color.neonGreen : theme.color.lightGray};
+  font-weight: ${({ isselected }) => isselected === 'true' && 'bold'};
   font-family: 'Open Sans', sans-serif;
 `;
 
