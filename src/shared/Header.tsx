@@ -16,10 +16,10 @@ const Header = () => {
   const navigate = useNavigate();
 
   const headerList = [
-    { value: 'Services', underLineWidth: '35%', path: '' },
-    { value: 'My Portfolios', underLineWidth: '57%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
-    { value: 'My Page', underLineWidth: '37%', path: `${PATH_URL.MY_PAGE}/${userId}` },
-    { value: 'Notification', underLineWidth: '50%', path: '' },
+    { value: 'Services', underLineWidth: '38%', path: '' },
+    { value: 'My Portfolios', underLineWidth: '63%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
+    { value: 'My Page', underLineWidth: '40%', path: `${PATH_URL.MY_PAGE}/${userId}` },
+    { value: 'Notification', underLineWidth: '57%', path: '' },
   ];
 
   const onClickText = (path: string) => {
@@ -98,7 +98,7 @@ const StText = styled.span<{ underlinewidth: string; headerclicked: string }>`
 
   display: flex;
   justify-content: center;
-  padding-bottom: 3px;
+  padding-bottom: 7px;
 
   &::before {
     content: '';

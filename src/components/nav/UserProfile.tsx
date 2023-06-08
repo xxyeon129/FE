@@ -83,14 +83,16 @@ const StProfileTextContainer = styled.div`
 const StUserName = styled.h4`
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 130%;
 `;
 
 const StUserEmail = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   margin-top: 5px;
 
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 120%;
 `;
 
 export default UserProfile;
