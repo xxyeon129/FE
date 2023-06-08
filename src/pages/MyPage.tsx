@@ -7,20 +7,21 @@ import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypag
 import { useQuery, useMutation } from 'react-query';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
 import { ReactComponent as UploadIcon } from 'src/assets/image-upload.svg';
-
+import { ReactComponent as DeleteIcon } from 'src/assets/mypageimage-del.svg';
 interface UserData {
   nickname: string;
   email: string;
   profileImage: string;
 }
+
 const MyPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [profileImage, setProfileImage] = useState<File | null>(null); //이미지
-  const [previewImage, setPreviewImage] = useState('');
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<File | string>('');
   const [showModal, setShowModal] = useState(false);
   const [nicknameError, setNicknameError] = useState('');
   const [oldpassword, setOldPassword] = useState('');
@@ -30,7 +31,9 @@ const MyPage = () => {
   const [newpasswordError, setNewPasswordError] = useState('');
   const [checknewpasswordError, setCheckNewPasswordError] = useState('');
   const [apiError, setApiError] = useState('');
-  const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () => getUser(id));
+  const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () =>
+    getUser(Number(id))
+  );
 
   useEffect(() => {
     if (data) {
@@ -43,6 +46,7 @@ const MyPage = () => {
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {
       alert('회원 정보가 수정되었습니다.');
+      refetch();
     },
     onError: error => {
       setNicknameError(error.response.data.errorMessage);
@@ -64,7 +68,7 @@ const MyPage = () => {
 
   const handleWithdrawal = async () => {
     try {
-      await deleteUserMutation.mutateAsync(id);
+      await deleteUserMutation.mutateAsync(Number(id));
       console.log('User account deleted');
       navigate('/');
     } catch (error) {
@@ -96,7 +100,7 @@ const MyPage = () => {
     };
 
     try {
-      await updatePasswordMutation.mutateAsync([passwordData, id]);
+      await updatePasswordMutation.mutateAsync([passwordData, Number(id)]);
       setApiError('');
       console.log('Password updated successfully');
     } catch (error) {
@@ -114,11 +118,11 @@ const MyPage = () => {
     });
     const nicknameBlob = new Blob([text], { type: 'application/json' });
     formData.append('nickname', nicknameBlob);
-    formData.append('profileImage', profileImage);
+    formData.append('profileImage', profileImage || '');
 
     try {
-      await updateUserMutation.mutateAsync([formData, id]);
-      refetch();
+      await updateUserMutation.mutateAsync([formData, Number(id)]);
+      // refetch();
       setIsEditing(false);
     } catch (error) {
       console.error(error);
@@ -187,7 +191,7 @@ const MyPage = () => {
         <StMyPageEditBox>
           <StLayout>
             <StImageEditBox>
-              {previewImage && <StImage src={previewImage} alt="Preview" />}
+              {typeof previewImage === 'string' && <StImage src={previewImage} alt="Preview" />}
             </StImageEditBox>
             <StImageUploadWrap>
               <label htmlFor="file">
@@ -200,9 +204,7 @@ const MyPage = () => {
                 onChange={handleProfileImageChange}
                 placeholder="프로필 이미지"
               />
-              <button type="button" onClick={removeProfileImage}>
-                ❌
-              </button>
+              <DeleteIcon onClick={removeProfileImage} />
             </StImageUploadWrap>
             <StTextBox>
               <div>
@@ -299,10 +301,10 @@ const MyPage = () => {
               <br />
               <p>회원 탈퇴시 폴 서비스 내 계정 정보가</p> <p>삭제되고 복구할 수 없습니다.</p>
             </StLayout>
-            <div>
-              <button onClick={handleWithdrawal}>탈퇴하기</button>
-              <button onClick={handleCloseModal}>취소</button>
-            </div>
+            <StDelUser>
+              <StBadButton onClick={handleWithdrawal}>탈퇴하기</StBadButton>
+              <StGoodButton onClick={handleCloseModal}>취소</StGoodButton>
+            </StDelUser>
           </ModalContent>
         </ModalWrapper>
       )}
@@ -326,6 +328,7 @@ const ModalWrapper = styled.div`
 
 const ModalContent = styled.div`
   background-color: white;
+  border-radius: 15px;
   padding: 60px 0px;
   background: #fefefe;
   /* border: 3px solid rgba(0, 0, 0, 0.2); */
@@ -334,9 +337,9 @@ const ModalContent = styled.div`
   align-items: center;
   flex-direction: column;
   width: 500px;
-  height: 500px;
-  overflow-y: auto;
-  max-height: 100%;
+  height: 600px;
+  /* overflow-y: auto;
+  max-height: 100%; */
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 `;
 
@@ -548,4 +551,11 @@ const StEditIcon = styled(EditIcon)`
 const StImageUploadWrap = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StDelUser = styled.div`
+  display: flex;
+  width: 300px;
 `;

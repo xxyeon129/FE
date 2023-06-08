@@ -4,6 +4,8 @@ import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
 import { createProject } from '@src/apis/ProjectApi';
+import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
+import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
 
 // 프로젝트 작성
 const CreateProject: React.FC<{
@@ -141,8 +143,14 @@ const CreateProject: React.FC<{
                   ))}
                 </StImageBox>
                 <StimageOptions>
-                  <input type="file" onChange={imageHandler}></input>
-                  <button onClick={removeImage}>이미지 삭제</button>
+                  <StImageUploadWrap>
+                    <label htmlFor="file">
+                      <UploadIcon />
+                    </label>
+                    <StFileUpload type="file" id="file" onChange={imageHandler}></StFileUpload>
+                    <ImageEditIcon onClick={removeImage} />
+                    {/* <button onClick={removeImage}>이미지 삭제</button> */}
+                  </StImageUploadWrap>
                 </StimageOptions>
               </StImageContainer>
               <StTextBox>
@@ -435,4 +443,18 @@ const StimageOptions = styled.div`
     background: #d9d9d9;
     border-radius: 4px;
   }
+`;
+
+const StFileUpload = styled.input`
+  width: 0;
+  height: 42px;
+  opacity: 0;
+`;
+
+const StImageUploadWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0px;
 `;

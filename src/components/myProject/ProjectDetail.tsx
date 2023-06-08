@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-query';
 import { getProject, updateProject } from '@src/apis/ProjectApi';
 import { styled } from 'styled-components';
+import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
+import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
+
 interface ProjectDetailData {
   title: string;
   term: string;
@@ -13,6 +16,7 @@ interface ProjectDetailData {
 }
 const ProjectModal: React.FC<{
   showModal: boolean;
+  projectId: number;
   setShowModal: (showModal: boolean) => void;
 }> = ({ showModal, setShowModal, projectId }) => {
   // const { projectId } = useParams();
@@ -173,8 +177,14 @@ const ProjectModal: React.FC<{
                       ))}
                     </StImageBox>
                     <StimageOptions>
-                      <input type="file" id="file" onChange={imageHandler} />
-                      <button onClick={removeImageHandler}>이미지 삭제</button>
+                      <StImageUploadWrap>
+                        <label htmlFor="file">
+                          <UploadIcon />
+                        </label>
+                        <StFileUpload type="file" id="file" onChange={imageHandler} />
+                        <ImageEditIcon onClick={removeImageHandler} />
+                      </StImageUploadWrap>
+                      {/* <button onClick={removeImageHandler}>이미지 삭제</button> */}
                     </StimageOptions>
                   </StImageContainer>
                   <StTextBox>
@@ -549,20 +559,20 @@ const StGetImageContainer = styled.div`
   }
 `;
 
+// const StUploadIcon = styled(UploadIcon)`
+//   /* width: 160px; */
+//   /* height: 60px; */
+// `;
 const StFileUpload = styled.input`
   width: 0;
-  height: 0px;
+  height: 42px;
   opacity: 0;
 `;
 
 const StImageUploadWrap = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  margin: 50px 0px;
 `;
-
-// const StUploadIcon = styled(UploadIcon)`
-//   /* width: 160px; */
-//   /* height: 60px; */
-// `;
