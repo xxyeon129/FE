@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { styled } from 'styled-components';
@@ -9,7 +9,11 @@ import { ReactComponent as Mail } from '@src/assets/portfolioDetail/port-mail-ic
 import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
 import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
 import { ReactComponent as Blog } from '@src/assets/portfolioDetail/port-blogger-icon.svg';
+import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/port-youtube-icon.svg';
 import DeletePortfolioModal from '@src/components/myPortfolio/DeletePortfolioModal';
+import TechStackTag from '@src/components/createPortfolio/TechStackTag';
+import CreateProject from '@src/components/myProject/CreateProject';
+import { createProject } from '@src/apis/projectapi';
 
 function PortfolioDetails() {
   interface Project {
@@ -39,6 +43,7 @@ function PortfolioDetails() {
   const [category, setCategory] = useState<string>('');
   const [filter, setFilter] = useState<string>('');
   const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
+  const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -127,12 +132,10 @@ function PortfolioDetails() {
   };
 
   const onPortfolioEdit = () => {
-    console.log('수정페이지 이미지 : ', portfolioImage);
     setPortEdit(true);
   };
 
   const onPortfolioDelete = () => {
-    console.log('삭제중');
     setIsDeleteModalOpen(true);
   };
 
@@ -166,11 +169,6 @@ function PortfolioDetails() {
     setTelephone(e.target.value);
   };
 
-  const onImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
-    setPortfolioImage(file);
-  };
-
   const onYoutubeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setYoutube(e.target.value);
   };
@@ -183,18 +181,27 @@ function PortfolioDetails() {
     setGithubId(e.target.value);
   };
 
-  const handlePortfolioImageChange = e => {
+  const onhandlePortfolioImageChange = e => {
     const file = e.target.files[0];
     setPortfolioImage(file);
     setPortfolioImagePreview(URL.createObjectURL(file));
-    console.log('이미지 프리뷰 : ', portfolioImagePreview);
   };
 
   const onProjectDetail = projectId => {
-    console.log(projectId);
     setSelectedProjectId(projectId);
     setIsProjectModalOpen(true);
   };
+
+  const onProjectCreate = () => {
+    setCreateProjectModalOpen(true);
+    console.log('프로젝트 모달 생성', createProjectModalOpen);
+  };
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const fileInputRef = useRef(null);
 
   const onProjectDelete = async projectId => {
     const confirmDelete = window.confirm('삭제하실?');
@@ -269,13 +276,22 @@ function PortfolioDetails() {
                 </div>
               </StFirstEditWrapper>
 
-              <div>
+              <StImagePreviewer onClick={handleImageClick}>
                 {portfolioImagePreview ? (
                   <StRepresentativeImageEdit src={portfolioImagePreview} alt="" />
                 ) : (
-                  <div>선택된 이미지가 없습니다.</div>
+                  <StPreviewerComment>선택된 이미지가 없습니다.</StPreviewerComment>
                 )}
-                <input type="file" id="image" onChange={handlePortfolioImageChange} />
+                <StFileUpload
+                  type="file"
+                  id="image"
+                  ref={fileInputRef}
+                  onChange={onhandlePortfolioImageChange}
+                />
+              </StImagePreviewer>
+
+              <div>
+                <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="100%" />
               </div>
 
               <StRinkWrapper>
@@ -302,16 +318,22 @@ function PortfolioDetails() {
                   />
                 </div>
               </StRinkWrapper>
-              <div>
+              <StProjectEditBox>
+                <button onClick={onProjectCreate}>생성</button>
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
-                    <div>{item.title}</div>
-                    <div>{item.term}</div>
-                    <div>{item.people}</div>
-                    <div>{item.position}</div>
+                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
-              </div>
+              </StProjectEditBox>
+              {createProjectModalOpen && (
+                <CreateProject
+                  showModal1={createProjectModalOpen}
+                  // porid={id}
+                  setShowModal1={setCreateProjectModalOpen}
+                />
+              )}
             </StEditWrapper>
           ) : (
             <div>
@@ -340,11 +362,8 @@ function PortfolioDetails() {
                       <Home /> {residence} | {location} 근무 희망
                     </div>
                   </StProfileText>
-                </StProfileContainer>
-
-                <div>
                   <StRepresentativeImage src={portfolioImage} alt="" />
-                </div>
+                </StProfileContainer>
               </StFirstSection>
 
               <StSecondSection>
@@ -365,6 +384,7 @@ function PortfolioDetails() {
 
               {youtube && (
                 <StYoutube>
+                  <YouTube />
                   <a href={youtube}>{youtube}</a>
                 </StYoutube>
               )}
@@ -382,28 +402,27 @@ function PortfolioDetails() {
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
-                    {console.log(item)}
-
-                    {/* <div>{item}</div> */}
-                    <div>{item.title}</div>
+                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {/* <Trash /> */}
+                    <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
-
-                {isProjectModalOpen && (
-                  <ProjectModal
-                    showModal={isProjectModalOpen}
-                    projectId={selectedProjectId}
-                    setShowModal={setIsProjectModalOpen}
-                  />
-                )}
-
-                {isDeleteModalOpen && (
-                  <DeletePortfolioModal
-                    portId={portid}
-                    onCloseModal={() => setIsDeleteModalOpen(false)}
-                  />
-                )}
               </StProjectList>
+
+              {isProjectModalOpen && (
+                <ProjectModal
+                  showModal={isProjectModalOpen}
+                  projectId={selectedProjectId}
+                  setShowModal={setIsProjectModalOpen}
+                />
+              )}
+
+              {isDeleteModalOpen && (
+                <DeletePortfolioModal
+                  portId={portid}
+                  onCloseModal={() => setIsDeleteModalOpen(false)}
+                />
+              )}
             </div>
           )}
         </div>
@@ -455,12 +474,41 @@ const StFirstSection = styled.div`
   margin-right: 6%;
 `;
 
+const StImagePreviewer = styled.div`
+  border: 1px solid black;
+  height: 250px;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+const StFileUpload = styled.input`
+  display: none;
+`;
+
+const StPreviewerComment = styled.div`
+  /* text-align: center; */
+  font-size: 25px;
+`;
+
 const StRepresentativeImageEdit = styled.img`
   width: 100%;
-  height: 200px;
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StProjectEditBox = styled.div`
+  display: flex;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 20px;
+  gap: 30px;
+  width: 100%;
 `;
 
 const StRinkWrapper = styled.div`
@@ -500,8 +548,10 @@ const StTrashIcon = styled(Trash)`
 
 const StProfileContainer = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   margin: 20px 0;
+  padding: 20px 20px;
 `;
 
 const StProFileImage = styled.img`
@@ -518,7 +568,6 @@ const StProfileText = styled.div`
 const StSecondSection = styled.div`
   display: flex;
   justify-content: space-between;
-  /* border: 1px solid black; */
   margin: 5%;
 `;
 
@@ -536,11 +585,13 @@ const StTechStackSection = styled.div`
 const StTechStack = styled.div`
   width: calc(33.33% - 20px);
   height: 37px;
-  border: 1px solid black;
   border-radius: 20px;
-  text-align: center;
   margin: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3fefe;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -550,10 +601,17 @@ const StTechStack = styled.div`
 
 const StRepresentativeImage = styled.img`
   width: 100%;
-  height: 120px;
+  height: 100%;
+  opacity: 0.2;
+  border-radius: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 `;
 
 const StYoutube = styled.div`
+  display: flex;
   width: 90%;
   height: 80px;
   border: 1px solid black;
@@ -574,6 +632,7 @@ const StGithub = styled.div`
   border: 1px solid black;
   padding: 20px;
   margin: 5%;
+  border-radius: 20px;
 `;
 
 const StGitgrass = styled.img`
@@ -592,8 +651,24 @@ const StProjectList = styled.div`
 const StProjectBox = styled.div`
   background-color: #f2f2f2;
   border-radius: 10px;
-  padding: 20px;
   margin-top: 20px;
-  width: 30%;
+  width: 20%;
   cursor: pointer;
+  text-align: center;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const StProjectImg = styled.img`
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+`;
+
+const StProjectTitle = styled.div`
+  margin-bottom: 15px;
+  font-weight: bold;
 `;
