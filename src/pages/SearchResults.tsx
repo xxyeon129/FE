@@ -5,6 +5,7 @@ import { searchPage } from '@src/apis/search';
 import { searchTermState } from '@src/states/SearchResultsState';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-user-image-icon.svg';
+import { PATH_URL } from '@src/constants/constants';
 interface PortfolioDataContent {
   id: number;
   portfolioImage?: string;
@@ -35,7 +36,7 @@ const SearchResults = () => {
   // 초기 상태일 때는 검색어 x -> handlePageButtonClick => searchTermData 빈값이어서 전체 데이타 불러와지고 ->검색어 입력 searchTermState 변화 -> [searchTermData] 의존성 배열때문에  handlePageButtonClick(1); 실행됨
 
   const onClickHandler = (id: number) => {
-    navigate(`/detail/${id}`);
+    navigate(`${PATH_URL.PORTFOLIO_DETAIL}/${id}`);
   };
 
   useEffect(() => {
@@ -109,6 +110,11 @@ const StContainer = styled.div`
   height: calc(
     100vh - 80px - 50px
   ); /* Subtract the top padding and bottom margin from the full viewport height */
+
+  @media (max-width: 768px) {
+    margin-bottom: 30px;
+    height: calc(100vh - 60px - 30px);
+  }
 `;
 
 const StLayout = styled.div`
@@ -118,15 +124,28 @@ const StLayout = styled.div`
   gap: 36px;
   width: 100%;
   margin-top: 10px;
+
+  @media (max-width: 768px) {
+    gap: 18px;
+    margin-top: 5px;
+  }
 `;
 
 const StItemContainer = styled.div`
   width: 250px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 200px;
+  }
 `;
 
 const StImgContainer = styled.div`
   width: 250px;
+
+  @media (max-width: 768px) {
+    width: 200px;
+  }
 `;
 
 const imageStyle = `
@@ -200,6 +219,11 @@ const StbuttonContainer = styled.div`
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
   margin-left: 250px; /* Add margin-left of 250px */
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0px;
+  }
 `;
 
 const StButtonList = styled.div`
