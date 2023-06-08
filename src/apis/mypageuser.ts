@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { accessToken } from './token';
+import axios, { AxiosHeaderValue } from 'axios';
+import { accessToken, getAccessToken } from './token';
 import { SERVER_URL } from '@src/constants/constants';
 
 // type FormDataType = {
@@ -20,9 +20,10 @@ export const getUser = async (id: number) => {
 export const updateUser = async ([formData, id]: [FormData, number]) => {
   console.log(id);
   try {
+    const asyncAccessToken = await getAccessToken();
     const response = await axios.patch(`${SERVER_URL}/api/users/${id}`, formData, {
       headers: {
-        Authorization: accessToken,
+        Authorization: asyncAccessToken as AxiosHeaderValue,
       },
     });
     return response.data;
