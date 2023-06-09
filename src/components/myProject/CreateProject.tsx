@@ -6,8 +6,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { projectDataAtom } from '@src/states/createProjectState';
 import { useRecoilState } from 'recoil';
 import { createProject } from '@src/apis/projectapi';
-import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
-import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
+// import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
+// import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
 
 // 프로젝트 작성
 const CreateProject: React.FC<{
@@ -159,11 +159,9 @@ const CreateProject: React.FC<{
                 </StImageBox>
                 <StimageOptions>
                   <StImageUploadWrap>
-                    <label htmlFor="file">
-                      <UploadIcon />
-                    </label>
+                    <StLabel htmlFor="file">파일 선택</StLabel>
                     <StFileUpload type="file" id="file" onChange={imageHandler}></StFileUpload>
-                    <ImageEditIcon onClick={removeImage} />
+                    <StImgEditDiv onClick={removeImage}>이미지 삭제</StImgEditDiv>
                   </StImageUploadWrap>
                 </StimageOptions>
               </StImageContainer>
@@ -475,4 +473,26 @@ const StImageUploadWrap = styled.div`
   justify-content: center;
   align-items: center;
   margin: 50px 0px;
+`;
+
+const StLabel = styled.label`
+  width: 160px;
+  height: 44px;
+  background: #ebebeb;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StImgEditDiv = styled.div`
+  width: 160px;
+  height: 44px;
+  background: #ebebeb;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;

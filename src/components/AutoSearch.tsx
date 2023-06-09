@@ -7,6 +7,7 @@ import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
 import { styled } from 'styled-components';
 import { ReactComponent as SearchIcon } from 'src/assets/Icons.svg';
+
 const AutoSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('');
