@@ -186,7 +186,7 @@ const ProjectModal: React.FC<{
                       <StImageUploadWrap>
                         <StLabel htmlFor="file">파일 선택</StLabel>
                         <StFileUpload type="file" id="file" onChange={imageHandler} />
-                        <StImgEditDiv onClick={removeImageHandler}></StImgEditDiv>
+                        <StImgEditDiv onClick={removeImageHandler}>이미지 삭제</StImgEditDiv>
                       </StImageUploadWrap>
                     </StimageOptions>
                   </StImageContainer>
