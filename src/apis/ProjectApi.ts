@@ -9,18 +9,19 @@ export const createProject = async (formData: FormData) => {
         Authorization: accessToken,
       },
     });
+    console.log(response.data);
     return response.data;
   } catch (error: unknown) {
     return error;
   }
 };
 
-export const getProject = async projectId => {
+export const getProject = async (projectId: number) => {
   const response = await axios.get(`${SERVER_URL}/api/projects/${projectId}`);
   return response.data.data;
 };
 
-export const updateProject = async (formData: FormData, projectId) => {
+export const updateProject = async (formData: FormData, projectId: number) => {
   await axios.patch(`${SERVER_URL}/api/projects/${projectId}`, formData, {
     headers: {
       Authorization: accessToken,

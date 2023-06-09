@@ -14,6 +14,7 @@ interface ProjectDetailData {
 }
 const ProjectModal: React.FC<{
   showModal: boolean;
+  projectId: number | null;
   setShowModal: (showModal: boolean) => void;
 }> = ({ showModal, setShowModal, projectId }) => {
   // const { projectId } = useParams();
