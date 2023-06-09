@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
@@ -6,17 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
 import { styled } from 'styled-components';
-
-const AutoSearch = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+import { ReactComponent as SearchIcon } from 'src/assets/Icons.svg';
+const AutoSearch: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedSuggestion, setSelectedSuggestion] = useState<string>('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
   const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const debounceSearch = debounce(async term => {
+    const debounceSearch = debounce(async (term: string) => {
       const suggestions = await search(term);
       setSuggestions(suggestions);
     }, 500);
@@ -24,60 +25,75 @@ const AutoSearch = () => {
     debounceSearch(searchTerm);
   }, [searchTerm]);
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
   };
 
-  const handleKeyDown = async e => {
+  const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const portData = await searchPage(1, searchTerm);
+      e.preventDefault();
+      const searchQuery = selectedSuggestion ? selectedSuggestion : searchTerm;
+      const portData = await searchPage(1, searchQuery);
       setPortfolioData(portData);
-      setSearchWords(searchTerm);
+      setSearchWords(searchQuery);
       navigate('/searchresults');
+
+      setSelectedSuggestion('');
     }
   };
 
-  const handleClickSuggestion = suggestion => {
-    setSearchTerm(suggestion);
+  const handleClickSuggestion = (suggestion: string) => {
+    setSelectedSuggestion(suggestion);
+    inputRef.current?.focus();
   };
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }, []);
 
-  const handleArrowNavigation = e => {
+  const handleArrowNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      const newIndex = Math.max(0, suggestions.indexOf(searchTerm) - 1);
-      setSearchTerm(suggestions[newIndex]);
+      const newIndex = Math.max(0, suggestions.indexOf(selectedSuggestion) - 1);
+      setSelectedSuggestion(suggestions[newIndex]);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      const newIndex = Math.min(suggestions.length - 1, suggestions.indexOf(searchTerm) + 1);
-      setSearchTerm(suggestions[newIndex]);
+      const newIndex = Math.min(
+        suggestions.length - 1,
+        suggestions.indexOf(selectedSuggestion) + 1
+      );
+      setSelectedSuggestion(suggestions[newIndex]);
     }
   };
 
   return (
     <div>
-      <StSearch
-        type="text"
-        placeholder=" Search..."
-        value={searchTerm}
-        onChange={handleChange}
-        onKeyDown={e => {
-          handleKeyDown(e);
-          handleArrowNavigation(e);
-        }}
-        ref={inputRef}
-      />
+      <StSearch>
+        <SearchContainer>
+          <SearchIcon />
+          <input
+            id="fileinput"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleChange}
+            onKeyDown={e => {
+              handleArrowNavigation(e);
+              handleKeyDown(e);
+            }}
+            ref={inputRef}
+          />
+        </SearchContainer>
+      </StSearch>
+
       {searchTerm !== '' && suggestions.length > 0 && (
         <StSearchUl>
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
               onClick={() => handleClickSuggestion(suggestion)}
-              className={searchTerm === suggestion ? 'active' : ''}
+              className={selectedSuggestion === suggestion ? 'active' : ''}
             >
               {suggestion}
             </li>
@@ -90,33 +106,56 @@ const AutoSearch = () => {
 
 export default AutoSearch;
 
-const StSearch = styled.input`
+const StSearch = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
-  padding: 16px;
-  gap: 10px;
-
-  height: 20px;
-
-  background: #f5f5f5;
+  flex-direction: row;
+  padding: 0px 0px 0px 30px;
+  border: none;
+  width: 200px;
+  height: 56px;
+  background: #f0efef;
   border-radius: 16px;
+  font-size: 16px;
 
-  flex: none;
-  order: 1;
-  flex-grow: 0;
+  input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 16px;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+  }
 `;
 
 const StSearchUl = styled.ul`
-  padding: 16px;
+  margin-top: 8px;
+  position: fixed;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 15px;
+  width: 200px;
 
   li {
     padding: 8px;
+    margin: 0px 34px;
     cursor: pointer;
+    border-radius: 15px;
 
     &.active {
-      background-color: #f0f0f0;
+      width: 166px;
+
+      background-color: #6bf65f;
     }
   }
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  gap: 10px;
 `;

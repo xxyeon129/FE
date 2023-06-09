@@ -16,12 +16,12 @@ export const createProject = async (formData: FormData) => {
   }
 };
 
-export const getProject = async (projectId: number) => {
+export const getProject = async (projectId: number | null) => {
   const response = await axios.get(`${SERVER_URL}/api/projects/${projectId}`);
   return response.data.data;
 };
 
-export const updateProject = async (formData: FormData, projectId: number) => {
+export const updateProject = async (formData: FormData, projectId: number | null) => {
   await axios.patch(`${SERVER_URL}/api/projects/${projectId}`, formData, {
     headers: {
       Authorization: accessToken,
