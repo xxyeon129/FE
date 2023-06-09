@@ -5,6 +5,7 @@ import { getProject, updateProject } from '@src/apis/ProjectApi';
 import { styled } from 'styled-components';
 import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
 import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
+import jwtDecode from 'jwt-decode';
 
 interface ProjectDetailData {
   title: string;
@@ -33,13 +34,16 @@ const ProjectModal: React.FC<{
   const [peopleError, setPeopleError] = useState<string>('');
   const [positionError, setPositionError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
-  const accessToken = localStorage.getItem('accesstoken');
+  const accessToken = localStorage.getItem('accesstoken') || '';
 
   const handleEdit = () => {
     if (accessToken) {
       setIsEditable(!isEditable);
     }
   };
+
+  const { userId } = jwtDecode<{ userId: string }>(accessToken);
+  console.log(userId);
 
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
     const project = await getProject(projectId);
@@ -184,7 +188,6 @@ const ProjectModal: React.FC<{
                         <StFileUpload type="file" id="file" onChange={imageHandler} />
                         <ImageEditIcon onClick={removeImageHandler} />
                       </StImageUploadWrap>
-                      {/* <button onClick={removeImageHandler}>이미지 삭제</button> */}
                     </StimageOptions>
                   </StImageContainer>
                   <StTextBox>
@@ -259,7 +262,7 @@ const ProjectModal: React.FC<{
                     </StImageBox>
                   </StGetImageContainer>
                   <StgetContainer>
-                    <StTextBox>
+                    <StGetTextBox>
                       <StTextWrap>
                         <StTitleContainer>
                           <StTitle>프로젝트 제목</StTitle>
@@ -290,7 +293,7 @@ const ProjectModal: React.FC<{
                         </StTitleContainer>
                         <StText>{data?.description}</StText>
                       </StTextWrap>
-                    </StTextBox>
+                    </StGetTextBox>
                   </StgetContainer>
                 </>
               )}
@@ -375,6 +378,10 @@ const StTitleContainer = styled.div`
   width: 20%;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const StTitle = styled.div`
@@ -455,6 +462,8 @@ const StImageBox = styled.div`
   height: 240px;
   border-radius: 15px;
   /* margin-right: 20px; */
+  background-image: url('public/images/no-img.jpg');
+  background-size: 100% 100%;
 `;
 
 const StImage = styled.img`
@@ -539,7 +548,7 @@ const StimageOptions = styled.div`
 const StgetContainer = styled.div`
   display: grid;
 
-  gap: 30px;
+  gap: 60px;
   margin-bottom: 20px;
   margin-top: 20px;
 
@@ -559,10 +568,6 @@ const StGetImageContainer = styled.div`
   }
 `;
 
-// const StUploadIcon = styled(UploadIcon)`
-//   /* width: 160px; */
-//   /* height: 60px; */
-// `;
 const StFileUpload = styled.input`
   width: 0;
   height: 42px;
@@ -575,4 +580,15 @@ const StImageUploadWrap = styled.div`
   justify-content: center;
   align-items: center;
   margin: 50px 0px;
+`;
+
+const StGetTextBox = styled.div`
+  width: 100%;
+  white-space: normal;
+  word-break: break-all;
+  margin-bottom: 40px;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 55px;
 `;
