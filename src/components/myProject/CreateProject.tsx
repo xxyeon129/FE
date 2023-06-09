@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
+import { projectDataAtom } from '@src/states/createProjectState';
+import { useRecoilState } from 'recoil';
 import { createProject } from '@src/apis/ProjectApi';
 import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
 import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
@@ -25,6 +27,8 @@ const CreateProject: React.FC<{
   const [peopleError, setPeopleError] = useState<string>('');
   const [positionError, setPositionError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
+
+  const [projectData, setProjectData] = useRecoilState(projectDataAtom);
 
   const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -114,11 +118,10 @@ const CreateProject: React.FC<{
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
     setShowModal1(false);
-    try {
-      await mutation.mutateAsync(formData);
-    } catch (error) {
-      // Error handling will be handled by onError callback
-    }
+
+    // const recoilData = { title, term, people, position, description, imageList };
+    // setProjectData(recoilData);
+    return createProject(formData);
   };
 
   const handleCloseModal = () => {

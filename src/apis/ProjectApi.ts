@@ -9,6 +9,7 @@ export const createProject = async (formData: FormData) => {
         Authorization: accessToken,
       },
     });
+    console.log(response.data);
     return response.data;
   } catch (error: unknown) {
     return error;
