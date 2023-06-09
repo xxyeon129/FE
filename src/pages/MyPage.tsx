@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 import { useQuery, useMutation } from 'react-query';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
-import { ReactComponent as UploadIcon } from 'src/assets/image-upload.svg';
+import { ReactComponent as UploadIcon } from 'src/assets/mypageimg-upload.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/mypageimage-del.svg';
 import DefaultIcon from 'src/assets/defaultimg.jpg';
 import user from 'src/assets/nav/nav-default-user-image-icon.svg';
@@ -190,9 +190,9 @@ const MyPage = () => {
               {typeof previewImage === 'string' && <StImage src={previewImage} />}
             </StImageEditBox>
             <StImageUploadWrap>
-              <label htmlFor="file">
-                <UploadIcon />
-              </label>
+              <StLabel htmlFor="file">
+                <StUploadIcon /> 프로필 사진 업로드
+              </StLabel>
               <StFileUpload
                 type="file"
                 name="profileImage"
@@ -478,29 +478,6 @@ const StInput = styled.input`
     width: 100%;
   }
 `;
-// const StInput = styled.input`
-//   width: 100%;
-
-//   height: 3.3em;
-//   background: #fafafa;
-//   border: 1px solid #d6d6d6;
-//   border-radius: 10px;
-//   transition: font-size 0.3s;
-//   font-size: 15px;
-// `;
-
-// const StButton = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-top: 10px;
-//   cursor: pointer;
-//   border: 1px solid black;
-//   width: 100%;
-//   height: 30px;
-//   margin-bottom: 20px;
-//   border-radius: 20px;
-// `;
 
 const StError = styled.div`
   font-size: 14px;
@@ -573,4 +550,17 @@ const StImageUploadWrap = styled.div`
 const StDelUser = styled.div`
   display: flex;
   width: 300px;
+`;
+
+const StLabel = styled.label`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  font-size: 16px;
+`;
+
+const StUploadIcon = styled(UploadIcon)`
+  margin-right: 12px;
 `;

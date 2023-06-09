@@ -159,12 +159,7 @@ const ProjectModal: React.FC<{
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob);
 
-    try {
-      await updateProjectMutation.mutateAsync(formData);
-      console.log('Project updated');
-    } catch (error) {
-      console.log(error);
-    }
+    await updateProjectMutation.mutateAsync(formData);
   };
 
   const handleCloseModal = () => {
@@ -189,11 +184,9 @@ const ProjectModal: React.FC<{
                     </StImageBox>
                     <StimageOptions>
                       <StImageUploadWrap>
-                        <label htmlFor="file">
-                          <UploadIcon />
-                        </label>
+                        <StLabel htmlFor="file">파일 선택</StLabel>
                         <StFileUpload type="file" id="file" onChange={imageHandler} />
-                        <ImageEditIcon onClick={removeImageHandler} />
+                        <StImgEditDiv onClick={removeImageHandler}></StImgEditDiv>
                       </StImageUploadWrap>
                     </StimageOptions>
                   </StImageContainer>
@@ -347,8 +340,6 @@ const ModalContent = styled.div`
   padding: 15px;
   border-radius: 35px;
   background: #fefefe;
-  /* border: 3px solid rgba(0, 0, 0, 0.2); */
-  /* border-radius: 35px; */
   width: 900px;
   height: 865px;
   overflow-y: auto;
@@ -458,8 +449,6 @@ const StTextArea = styled.textarea`
 `;
 
 const StImageBox = styled.div`
-  /* background-image: url('public/images/no-img.jpg'); */
-  /* background-size: 250px 250px; */
   border: 1px solid #d6d6d6;
   display: flex;
   flex-direction: column;
@@ -468,7 +457,6 @@ const StImageBox = styled.div`
   width: 100%;
   height: 240px;
   border-radius: 15px;
-  /* margin-right: 20px; */
   background-image: url('public/images/no-img.jpg');
   background-size: 100% 100%;
 `;
@@ -598,4 +586,26 @@ const StGetTextBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 55px;
+`;
+
+const StLabel = styled.label`
+  width: 160px;
+  height: 44px;
+  background: #ebebeb;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StImgEditDiv = styled.div`
+  width: 160px;
+  height: 44px;
+  background: #ebebeb;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
