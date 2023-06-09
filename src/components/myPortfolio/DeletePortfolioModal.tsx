@@ -3,7 +3,12 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function DeletePortfolioModal({ portId, onCloseModal }) {
+interface DeletePortfoliosModalProps {
+  portId: number | undefined;
+  onCloseModal: () => void;
+}
+
+function DeletePortfolioModal({ portId, onCloseModal }: DeletePortfoliosModalProps) {
   const navigate = useNavigate();
 
   const onHandleDelete = async () => {
