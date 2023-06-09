@@ -18,6 +18,7 @@ import { useRecoilValue } from 'recoil';
 import { projectDataAtom } from '@src/states/createProjectState';
 import jwtDecode from 'jwt-decode';
 import { SERVER_URL } from '@src/constants/constants';
+import { getAccessToken } from '@src/apis/token';
 
 function PortfolioDetails() {
   interface Project {
@@ -41,7 +42,7 @@ function PortfolioDetails() {
   const [githubId, setGithubId] = useState<string>('');
   const [youtube, setYoutube] = useState<string>('');
   const [blog, setBlog] = useState<string>('');
-  const [projectList, setProjectList] = useState<number[]>([]);
+  const [projectIdList, setProjectIdList] = useState<number[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [portfolioImage, setPortfolioImage] = useState<File | null>(null);
   const [getPortfolioImage, setGetPortFolioImage] = useState(null);
@@ -53,18 +54,17 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [createProjects, setCreateProjects] = useState([]);
 
   const projectData = useRecoilValue(projectDataAtom);
 
-  // useEffect(() => {
-  //   if (projectData) {
-  //     setCreateProjects(prevProjects => [...prevProjects, projectData]);
-  //   }
-  // }, [projectData]);
+  useEffect(() => {
+    if (projectData !== null) {
+      const projectId = projectData.id;
+      setProjects(prevProjects => [...prevProjects, projectData]);
+      setProjectIdList(prevProjects => [...prevProjects, projectId]);
+    }
+  }, [projectData]);
 
-  // console.log('새로 만들어진 프로젝트 :', createProjects);
-  // console.log('기존에 있던 프로젝트 :', projects);
   interface DecodeTokenType {
     sub: string;
     userId: number;
@@ -77,12 +77,14 @@ function PortfolioDetails() {
   const portfolioId = id;
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accesstoken');
-    if (accessToken) {
-      const DecodeToken: DecodeTokenType = jwtDecode(`${accessToken}`);
-      DecodeToken && setUserId(DecodeToken.userId);
-    }
-
+    const getToken = async () => {
+      const accessToken = await getAccessToken();
+      if (accessToken) {
+        const DecodeToken: DecodeTokenType = jwtDecode(`${accessToken}`);
+        DecodeToken && setUserId(DecodeToken.userId);
+      }
+    };
+    getToken();
     if (portfolioId) {
       getMyPortfolio();
     }
@@ -91,9 +93,9 @@ function PortfolioDetails() {
   const getMyPortfolio = async () => {
     const response = await axios.get(`${SERVER_URL}/api/portfolios/${portfolioId}`);
 
-    console.log(response.data.data);
-    const projects = response.data.data.projectList;
-    const projectIdList = projects.map((project: { id: string }) => parseInt(project.id));
+    const newProjectData = projects.map((item: { id: number }) => item.id);
+    const selprojects = response.data.data.projectList;
+    const projectIdList = selprojects.map((project: { id: string }) => parseInt(project.id));
 
     setPortId(response.data.data.id);
     setHostid(response.data.data.userId);
@@ -105,13 +107,11 @@ function PortfolioDetails() {
     setGithubId(response.data.data.githubId);
     setBlog(response.data.data.blogUrl);
     setGetPortFolioImage(response.data.data.portfolioImage);
-    setProjectList(projectIdList);
-    setProjects(projects);
+    setProjectIdList([...projectIdList, ...newProjectData]);
+    setProjects(selprojects);
     setIntro(response.data.data.intro);
-
     setProFileImage(response.data.data.profileImage || (User as string));
 
-    console.log(User);
     if (techStack) {
       setTechStack(response.data.data.techStack.split(','));
     }
@@ -123,8 +123,12 @@ function PortfolioDetails() {
 
     const techStackJoin = techStack.join(',');
 
+    // console.log('projectList  : ', projectIdList);
+
     const portfolioRequestDto = {
       portfolioTitle,
+      intro,
+      techStack: techStackJoin,
       residence,
       location,
       telephone,
@@ -134,9 +138,7 @@ function PortfolioDetails() {
       blogUrl: blog,
       category,
       filter,
-      projectIdList: projectList,
-      techStack: techStackJoin,
-      intro,
+      projectIdList,
     };
 
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
@@ -151,9 +153,10 @@ function PortfolioDetails() {
     if (portfolioImageBlob) {
       updatedData.append('portfolioImage', portfolioImageBlob);
     }
+
     try {
       const response = await axios.patch(
-        `${SERVER_URL}api/portfolios/${portfolioId}`,
+        `${SERVER_URL}/api/portfolios/${portfolioId}`,
         updatedData,
         {
           headers: {
@@ -235,7 +238,6 @@ function PortfolioDetails() {
 
   const onProjectCreate = () => {
     setCreateProjectModalOpen(true);
-    console.log('프로젝트 모달 생성', createProjectModalOpen);
   };
 
   const handleImageClick = () => {
@@ -243,18 +245,17 @@ function PortfolioDetails() {
   };
 
   const onProjectReset = () => {
-    // setCreateProjects([]);
+    setProjects([]);
   };
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const onProjectDelete = async (projectId: number) => {
-    const confirmDelete = window.confirm('삭제하실?');
+    const confirmDelete = window.confirm('프로젝트를 삭제하시겠습니까?');
     const accessToken = localStorage.getItem('accesstoken');
     const refreshToken = localStorage.getItem('refreshtoken');
 
     if (confirmDelete) {
-      console.log('삭제 : ', projectId);
       try {
         const response = await axios.delete(`${SERVER_URL}/api/projects/${projectId}`, {
           headers: {
@@ -373,25 +374,6 @@ function PortfolioDetails() {
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
-
-                {/* {createProjects.map((item, index) => (
-                  <StProjectBox key={index}>
-                    {item.imageList.map((image, imageIndex) => {
-                      if (image instanceof File) {
-                        const imageUrl = URL.createObjectURL(image);
-                        return (
-                          <StProjectImg
-                            key={imageIndex}
-                            src={imageUrl}
-                            alt={`Image ${imageIndex}`}
-                          />
-                        );
-                      }
-                      return null;
-                    })}
-                    <StProjectTitle>{item.title}</StProjectTitle>
-                  </StProjectBox>
-                ))} */}
               </StProjectEditBox>
 
               {createProjectModalOpen && (
@@ -567,6 +549,7 @@ const StRepresentativeImageEdit = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
+  object-fit: cover;
 `;
 
 const StProjectEditBox = styled.div`
@@ -727,7 +710,9 @@ const StProjectBox = styled.div`
 
 const StProjectImg = styled.img`
   width: 100%;
-  border-radius: 10px;
+  height: 70%;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   margin-bottom: 20px;
 `;
 
