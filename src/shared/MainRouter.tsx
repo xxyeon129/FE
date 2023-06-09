@@ -14,6 +14,7 @@ import CreatePortfolio from '@src/pages/CreatePortfolio';
 import Login from '@src/pages/Login';
 import KakaoAuth from '@src/components/auth/KakaoAuth';
 import TestKakaoLogin from '@src/components/auth/TestKakaoLogin';
+import RedirectionNaver from '@src/components/RedirectionNaver';
 
 const MainRouter = () => {
   return (
@@ -33,6 +34,7 @@ const MainRouter = () => {
           <Route path="*" element={<Login />} />
           <Route path={PATH_URL.KAKAO_AUTH} element={<KakaoAuth />} />
           <Route path="/test/kakao" element={<TestKakaoLogin />} />
+          <Route path="/api/users/naver" element={<RedirectionNaver />}></Route>
         </Routes>
       </Layout>
     </BrowserRouter>

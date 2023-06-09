@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function DeletePortfolioModal({ portId, onCloseModal }) {
   const navigate = useNavigate();
 
-  const onhandleDelete = async () => {
+  const onHandleDelete = async () => {
     const accessToken = localStorage.getItem('accesstoken');
     const refreshToken = localStorage.getItem('refreshtoken');
 
@@ -18,7 +18,6 @@ function DeletePortfolioModal({ portId, onCloseModal }) {
         },
       });
       navigate('/');
-      //테스트
     } catch (error) {
       console.log(error);
     }
@@ -27,9 +26,12 @@ function DeletePortfolioModal({ portId, onCloseModal }) {
   return (
     <StModalContainer>
       <StModalContent>
-        <h2>포트폴리오 삭제 모달</h2>
-        <button onClick={onhandleDelete}>삭제</button>
-        <button onClick={onCloseModal}>닫기</button>
+        <h2>포트폴리오를 삭제하시겠습니까?</h2>
+        <h3></h3>
+        <StButtonContainer>
+          <StButton onClick={onHandleDelete}>삭제</StButton>
+          <StButton onClick={onCloseModal}>닫기</StButton>
+        </StButtonContainer>
       </StModalContent>
     </StModalContainer>
   );
@@ -50,7 +52,39 @@ const StModalContainer = styled.div`
 `;
 
 const StModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 20%;
   background-color: #fff;
   padding: 20px;
   border-radius: 4px;
+`;
+
+const StButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: 20px;
+`;
+
+const StButton = styled.button`
+  background-color: #6bf65f;
+  color: black;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 8px;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+
+  &:not([notallowed='true']):hover {
+    transition: 0.5s;
+    background-color: ${({ theme }) => theme.color.lightGreen};
+    color: white;
+  }
 `;

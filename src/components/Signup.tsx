@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
 
 type SignupProps = {
@@ -7,14 +7,15 @@ type SignupProps = {
 };
 
 function Signup({ onClose }: SignupProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [nicknameError, setNicknameError] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
+  const [nicknameError, setNicknameError] = useState<string>('');
+  const [emailCheck, setEmailCheck] = useState<string>('');
   const modalRef = useRef(null);
 
   const addUsers = async () => {
@@ -28,7 +29,7 @@ function Signup({ onClose }: SignupProps) {
       onClose();
       return response;
     } catch (error) {
-      console.error('회원가입 API 에러 : ', error);
+      alert('회원가입 실패');
       alert(error);
       throw error;
     }
@@ -67,19 +68,19 @@ function Signup({ onClose }: SignupProps) {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
     // 이메일 유효성 검사
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email) || null) {
       setEmailError('유효한 이메일 주소를 입력해주세요.');
       return;
     }
 
     // 닉네임 유효성 검사
-    if (!nicknameRegex.test(nickname)) {
+    if (!nicknameRegex.test(nickname) || null) {
       setNicknameError('유효한 닉네임을 입력해주세요.');
       return;
     }
 
     // 비밀번호 유효성 검사
-    if (!passwordRegex.test(password)) {
+    if (!passwordRegex.test(password) || null) {
       setPasswordError(
         '유효한 비밀번호를 입력해주세요.\n비밀번호는 최소 6자리 이상이어야 하며, 영문과 숫자가 포함되어야 합니다.'
       );
@@ -100,10 +101,10 @@ function Signup({ onClose }: SignupProps) {
         `http://3.34.102.60:8080/api/users/email-check?email=${email}`
       );
       console.log(email);
-      console.log('중복된 아이디가 없다');
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        console.log('아이디가 중복됬습니다');
+      setEmailCheck('사용가능한 아이디입니다.');
+    } catch (error: unknown) {
+      if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
+        setEmailCheck('중복된 아이디입니다.');
       }
     }
   };
@@ -116,14 +117,21 @@ function Signup({ onClose }: SignupProps) {
         <StInputSection>
           <StInput type="email" id="email" value={email} onChange={onEmailChange} />
           <StButton onClick={onEmailCheck}>중복검사</StButton>
-          <div>{emailError && <StErrorMessage>{emailError}</StErrorMessage>}</div>
         </StInputSection>
+        <StErrorSection>
+          {emailError && <StErrorMessage>{emailError}</StErrorMessage>}
+        </StErrorSection>
+        <StErrorSection>
+          {emailCheck && <StErrorMessage>{emailCheck}</StErrorMessage>}
+        </StErrorSection>
 
         <label htmlFor="password">비밀번호</label>
         <StInputSection>
           <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
-          <div>{passwordError && <StErrorMessage>{passwordError}</StErrorMessage>}</div>
         </StInputSection>
+        <StErrorSection>
+          {passwordError && <StErrorMessage>{passwordError}</StErrorMessage>}
+        </StErrorSection>
 
         <label htmlFor="confirmPassword">비밀번호 확인</label>
         <StInputSection>
@@ -133,16 +141,18 @@ function Signup({ onClose }: SignupProps) {
             value={confirmPassword}
             onChange={onConfirmPasswordChange}
           />
-          <div>
-            {confirmPasswordError && <StErrorMessage>{confirmPasswordError}</StErrorMessage>}
-          </div>
         </StInputSection>
+        <StErrorSection>
+          {confirmPasswordError && <StErrorMessage>{confirmPasswordError}</StErrorMessage>}
+        </StErrorSection>
 
         <label htmlFor="nickname">닉네임</label>
         <StInputSection>
           <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
-          <div>{nicknameError && <StErrorMessage>{nicknameError}</StErrorMessage>}</div>
         </StInputSection>
+        <StErrorSection>
+          {nicknameError && <StErrorMessage>{nicknameError}</StErrorMessage>}
+        </StErrorSection>
 
         <StSubmitButton onClick={onSubmit}>가입하기</StSubmitButton>
       </StModalContent>
@@ -191,6 +201,11 @@ const StInputSection = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+`;
+
+const StErrorSection = styled.div`
+  margin-bottom: 30px;
+  margin-top: -15px;
 `;
 
 const StTitleComment = styled.h2`
