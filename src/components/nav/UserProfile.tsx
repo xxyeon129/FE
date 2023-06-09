@@ -5,11 +5,13 @@ import { getUser } from '@src/apis/user';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '@src/states';
+import { myPageEditState } from '@src/states/myPageEditState';
 
 const UserProfile = () => {
   const isLogin = useRecoilValue<boolean>(loginState);
   const [isExistToken, setIsExistToken] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const myPageEdit = useRecoilValue(myPageEditState);
 
   const initialUserProfile = {
     nickname: '로그인해 주세요.',
@@ -39,7 +41,7 @@ const UserProfile = () => {
     };
     fetchUserData();
     setIsLoading(false);
-  }, [isLogin]);
+  }, [isLogin, myPageEdit]);
 
   return (
     <StProfileContainer>
