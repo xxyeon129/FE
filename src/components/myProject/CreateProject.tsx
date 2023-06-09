@@ -90,7 +90,7 @@ const CreateProject: React.FC<{
     },
     {
       onSuccess: data => {
-        queryClient.setQueryData('projectData 김효환', data.data);
+        queryClient.setQueryData('projectData', data.data);
         alert('프로젝트가 성공적으로 작성되었습니다.');
       },
       onError: () => {
