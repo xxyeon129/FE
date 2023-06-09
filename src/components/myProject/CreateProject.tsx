@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { projectDataAtom } from '@src/states/createProjectState';
 import { useRecoilState } from 'recoil';
 import { createProject } from '@src/apis/projectapi';
@@ -28,7 +28,7 @@ const CreateProject: React.FC<{
   const [positionError, setPositionError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
 
-  const [projectData, setProjectData] = useRecoilState(projectDataAtom);
+  // const [projectData, setProjectData] = useRecoilState(projectDataAtom);
 
   const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -59,20 +59,45 @@ const CreateProject: React.FC<{
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
       setImageList(fileList);
+      // console.log(fileList);
 
       const previewURLs = fileList.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
   };
 
-  const mutation = useMutation(createProject, {
-    onSuccess: () => {
-      alert('프로젝트가 성공적으로 작성되었습니다.');
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    async () => {
+      const formData = new FormData();
+      const imageBlob = new Blob(imageList);
+      const text = JSON.stringify({
+        title,
+        term,
+        people,
+        position,
+        description,
+      });
+      const textBlob = new Blob([text], { type: 'application/json' });
+      formData.append('projectRequestDto', textBlob);
+      formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
+
+      // const recoilData = { title, term, people, position, description, imageList };
+      // setProjectData(recoilData);
+
+      return createProject(formData);
     },
-    onError: () => {
-      alert('프로젝트 작성에 실패했습니다.');
-    },
-  });
+    {
+      onSuccess: data => {
+        queryClient.setQueryData('projectData', data.data);
+        alert('프로젝트가 성공적으로 작성되었습니다.');
+      },
+      onError: () => {
+        alert('프로젝트 작성에 실패했습니다.');
+      },
+    }
+  );
 
   const removeImage = () => {
     setImageList([]);
@@ -105,34 +130,23 @@ const CreateProject: React.FC<{
       return;
     }
 
-    const formData = new FormData();
-    const imageBlob = new Blob(imageList);
-    const text = JSON.stringify({
-      title,
-      term,
-      people,
-      position,
-      description,
-    });
-    const textBlob = new Blob([text], { type: 'application/json' });
-    formData.append('projectRequestDto', textBlob);
-    formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
+    await mutation.mutateAsync();
     setShowModal1(false);
-
-    // const recoilData = { title, term, people, position, description, imageList };
-    // setProjectData(recoilData);
-    return createProject(formData);
   };
 
   const handleCloseModal = () => {
     setShowModal1(false);
   };
 
+  const keepModalWindow = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
   return (
     <>
       {showModal1 && (
         <ModalWrapper>
-          <ModalContent>
+          <ModalContent onClick={keepModalWindow}>
             <StLayout>
               <h1>Create Project</h1>
               <StImageContainer>

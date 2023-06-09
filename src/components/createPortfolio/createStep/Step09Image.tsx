@@ -8,7 +8,7 @@ import { PATH_URL } from '@src/constants/constants';
 import { STEP } from '@src/constants/createPortfolioConstants';
 
 import useCreatPortfolioRecoilValues from '@src/Hook/useCreatePortfolioRecoilValues';
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';

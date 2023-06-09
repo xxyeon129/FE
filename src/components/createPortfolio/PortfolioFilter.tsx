@@ -2,7 +2,7 @@ import { CATEGORY_KEYWORD, filterListObject } from '@src/constants/portfolioFilt
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import SelectCategoryRequest from './SelectCategoryRequest';
-import { StInputLabel } from '../common/createPortfolio/createStepStyles';
+import { StInputLabel } from '../../style/common/createStepStyles';
 
 interface PortfolioFilterProps {
   category: string;
