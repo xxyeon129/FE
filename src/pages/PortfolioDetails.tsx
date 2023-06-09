@@ -65,6 +65,8 @@ function PortfolioDetails() {
     }
   }, [projectData]);
 
+  console.log('프리뷰', portfolioImagePreview);
+
   interface DecodeTokenType {
     sub: string;
     userId: number;
@@ -93,6 +95,8 @@ function PortfolioDetails() {
   const getMyPortfolio = async () => {
     const response = await axios.get(`${SERVER_URL}/api/portfolios/${portfolioId}`);
 
+    console.log(response.data.data);
+
     const newProjectData = projects.map((item: { id: number }) => item.id);
     const selprojects = response.data.data.projectList;
     const projectIdList = selprojects.map((project: { id: string }) => parseInt(project.id));
@@ -106,6 +110,7 @@ function PortfolioDetails() {
     setResidence(response.data.data.residence);
     setGithubId(response.data.data.githubId);
     setBlog(response.data.data.blogUrl);
+    setYoutube(response.data.data.youtubeUrl);
     setGetPortFolioImage(response.data.data.portfolioImage);
     setProjectIdList([...projectIdList, ...newProjectData]);
     setProjects(selprojects);
@@ -244,8 +249,16 @@ function PortfolioDetails() {
     fileInputRef.current?.click();
   };
 
-  const onProjectReset = () => {
-    setProjects([]);
+  const onGitHandler = () => {
+    window.location.href = `https://github.com/${githubId}`;
+  };
+
+  const onMyBlog = () => {
+    window.location.href = `${blog}`;
+  };
+
+  const onMyYoutube = () => {
+    window.location.href = `${youtube}`;
   };
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -278,7 +291,6 @@ function PortfolioDetails() {
               <button onClick={onPortfolioEditClear}>수정취소</button>
 
               <StFirstEditWrapper>
-                <img src="" alt="" />
                 <div>
                   <StLabel htmlFor="portfolioTitle">제목</StLabel>
                   <StInput
@@ -364,10 +376,11 @@ function PortfolioDetails() {
                   />
                 </div>
               </StRinkWrapper>
-              <button onClick={onProjectCreate}>생성</button>
-              <button onClick={onProjectReset}>초기화</button>
 
               <StProjectEditBox>
+                <div>
+                  <StButton onClick={onProjectCreate}>+</StButton>
+                </div>
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
                     <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
@@ -426,21 +439,21 @@ function PortfolioDetails() {
               </StSecondSection>
 
               {blog && (
-                <StBlog>
-                  <Blog />
-                  <a href={blog}>{blog}</a>
+                <StBlog onClick={onMyBlog}>
+                  <StyledBlog />
+                  <span>{blog}</span>
                 </StBlog>
               )}
 
               {youtube && (
-                <StYoutube>
-                  <YouTube />
-                  <a href={youtube}>{youtube}</a>
+                <StYoutube onClick={onMyYoutube}>
+                  <StyledYouTube />
+                  <span>{youtube}</span>
                 </StYoutube>
               )}
 
               {githubId && (
-                <StGithub>
+                <StGithub onClick={onGitHandler}>
                   <StGitgrass
                     src={`https://ghchart.rshah.org/${githubId}`}
                     alt="GitHub Contributions"
@@ -489,8 +502,32 @@ margin-right: 8px;
 border: 1px solid #ccc;
 border-radius: 4px;
 height: 40px;
-width: 40%;
+width: 60%;
 margin-top: 10px;
+`;
+
+const StButton = styled.button`
+  background-color: #6bf65f;
+  color: black;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: -20px;
+  left: 100%;
+  transform: translateX(-50%);
+
+  &:not([notallowed='true']):hover {
+    transition: 0.5s;
+    background-color: ${({ theme }) => theme.color.lightGreen};
+    color: white;
+  }
 `;
 
 const StEditWrapper = styled.div`
@@ -559,6 +596,7 @@ const StProjectEditBox = styled.div`
   padding: 20px;
   gap: 30px;
   width: 100%;
+  position: relative; // 부모 컨테이너에 position을 추가합니다.
 `;
 
 const StRinkWrapper = styled.div`
@@ -656,20 +694,44 @@ const StRepresentativeImage = styled.img`
   left: 0;
 `;
 
-const StYoutube = styled.div`
-  display: flex;
-  width: 90%;
-  height: 80px;
-  border: 1px solid black;
-  margin: 5%;
-`;
-
 const StBlog = styled.div`
   display: flex;
+  align-items: center;
   width: 90%;
-  height: 80px;
-  border: 1px solid black;
+  height: 120px;
   margin: 5%;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: #f2f2f2;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ddd;
+  }
+`;
+
+const StYoutube = styled.div`
+  display: flex;
+  align-items: center;
+  width: 90%;
+  height: 120px;
+  margin: 5%;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: #f2f2f2;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ddd;
+  }
+`;
+
+const StyledBlog = styled(Blog)`
+  margin-right: 8px;
+`;
+
+const StyledYouTube = styled(YouTube)`
+  margin-right: 8px;
 `;
 
 const StGithub = styled.div`
@@ -679,6 +741,7 @@ const StGithub = styled.div`
   padding: 20px;
   margin: 5%;
   border-radius: 20px;
+  cursor: pointer;
 `;
 
 const StGitgrass = styled.img`

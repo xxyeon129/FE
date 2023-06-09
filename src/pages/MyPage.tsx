@@ -8,7 +8,7 @@ import { useQuery, useMutation } from 'react-query';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
 import { ReactComponent as UploadIcon } from 'src/assets/mypageimg-upload.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/mypageimage-del.svg';
-import DefaultIcon from 'src/assets/defaultimg.jpg';
+import DefaultIcon from 'public/images/defaultimg.jpg';
 import user from 'src/assets/nav/nav-default-user-image-icon.svg';
 
 interface UserData {
@@ -370,7 +370,7 @@ const StHeader = styled.div`
   /* position: relative; */
   width: 100%;
   height: 311px;
-  background: #a9a9a9;
+  /* background: #a9a9a9; */
   display: flex;
   justify-content: center;
   align-items: center;
