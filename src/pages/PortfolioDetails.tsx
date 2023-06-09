@@ -52,25 +52,29 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [createProjects, setCreateProjects] = useState([]);
+  // const [createProjects, setCreateProjects] = useState([]);
 
-  const projectData = useRecoilValue(projectDataAtom);
-  // console.log('리코일로 받은데이터 : ', projectData);
+  // const projectData = useRecoilValue(projectDataAtom);
 
-  useEffect(() => {
-    if (projectData) {
-      setCreateProjects(prevProjects => [...prevProjects, projectData]);
-    }
-  }, [projectData]);
+  // useEffect(() => {
+  //   if (projectData) {
+  //     setCreateProjects(prevProjects => [...prevProjects, projectData]);
+  //   }
+  // }, [projectData]);
 
-  console.log('새로 만들어진 프로젝트 :', createProjects);
-  console.log('기존에 있던 프로젝트 :', projects);
-
-  // console.log('내가 사용할 데이터 : ', createProjects);
+  // console.log('새로 만들어진 프로젝트 :', createProjects);
+  // console.log('기존에 있던 프로젝트 :', projects);
+  interface DecodeTokenType {
+    sub: string;
+    userId: number;
+    exp: number;
+    iat: number;
+  }
 
   const accessToken = localStorage.getItem('accesstoken');
-  const DecodeToken = jwtDecode(accessToken);
-  const userid = DecodeToken.userId;
+  const DecodeToken: DecodeTokenType = jwtDecode(`${accessToken}`);
+  const [userid, setUserId] = useState<number>();
+  DecodeToken && setUserId(DecodeToken.userId);
 
   useEffect(() => {
     getMyPortfolio();
@@ -235,7 +239,7 @@ function PortfolioDetails() {
   };
 
   const onProjectReset = () => {
-    setCreateProjects([]);
+    // setCreateProjects([]);
   };
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -366,7 +370,7 @@ function PortfolioDetails() {
                   </StProjectBox>
                 ))}
 
-                {createProjects.map((item, index) => (
+                {/* {createProjects.map((item, index) => (
                   <StProjectBox key={index}>
                     {item.imageList.map((image, imageIndex) => {
                       if (image instanceof File) {
@@ -383,7 +387,7 @@ function PortfolioDetails() {
                     })}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
-                ))}
+                ))} */}
               </StProjectEditBox>
 
               {createProjectModalOpen && (

@@ -107,8 +107,8 @@ const CreateProject: React.FC<{
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob, '.jpg' || '.png' || '.jpeg');
     setShowModal1(false);
-    const recoilData = { title, term, people, position, description, imageList };
-    setProjectData(recoilData);
+    // const recoilData = { title, term, people, position, description, imageList };
+    // setProjectData(recoilData);
     return createProject(formData);
   });
 
