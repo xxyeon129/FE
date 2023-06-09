@@ -149,6 +149,7 @@ const StSearchUl = styled.ul`
 
     &.active {
       width: 166px;
+
       background-color: #6bf65f;
     }
   }
