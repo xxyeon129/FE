@@ -90,7 +90,9 @@ const CreateProject: React.FC<{
     },
     {
       onSuccess: data => {
-        queryClient.setQueryData('projectData 김효환', data.data);
+        queryClient.setQueryData('projectData', data.data);
+        console.log('테스트 : ', data.data);
+        setProjectData(data.data);
         alert('프로젝트가 성공적으로 작성되었습니다.');
       },
       onError: () => {
@@ -368,7 +370,7 @@ const StTextArea = styled.textarea`
 `;
 
 const StImageBox = styled.div`
-  background-image: url('public/images/no-img.jpg');
+  /* background-image: url('public/images/no-img.jpg'); */
   background-size: 100% 100%;
   border: 1px solid #d6d6d6;
   display: flex;
