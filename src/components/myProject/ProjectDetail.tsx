@@ -6,6 +6,7 @@ import { styled } from 'styled-components';
 import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
 import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
 import jwtDecode from 'jwt-decode';
+import DefaultImg from 'public/images/no-img.jpg';
 
 interface ProjectDetailData {
   title: string;
@@ -63,8 +64,9 @@ const ProjectModal: React.FC<{
       setPeople(data.people);
       setPosition(data.position);
       setDescription(data.description);
-      setPreviewImages(data.projectImageList.map((image: ImageType) => image.imageUrl));
-      console.log(data.projectImageList);
+      setPreviewImages(
+        data.projectImageList.map((image: ImageType) => image.imageUrl) || DefaultImg
+      );
     }
   }, [data]);
 
