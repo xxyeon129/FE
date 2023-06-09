@@ -5,6 +5,7 @@ import { loginState } from '@src/states';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
+import { SERVER_URL } from '@src/constants/constants';
 
 type LoginProps = {
   onClose: () => void;
@@ -23,7 +24,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post<string>('http://3.34.102.60:8080/api/users/login', {
+      const response = await axios.post<string>(`${SERVER_URL}/api/users/login`, {
         email,
         password,
       });

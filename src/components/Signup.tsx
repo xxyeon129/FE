@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
+import { SERVER_URL } from '@src/constants/constants';
 
 type SignupProps = {
   onClose: () => void;
@@ -20,7 +21,7 @@ function Signup({ onClose }: SignupProps) {
 
   const addUsers = async () => {
     try {
-      const response = await axios.post<string>('http://3.34.102.60:8080/api/users/signup', {
+      const response = await axios.post<string>(`${SERVER_URL}/api/users/signup`, {
         email,
         password,
         nickname,
@@ -97,9 +98,7 @@ function Signup({ onClose }: SignupProps) {
 
   const onEmailCheck = async () => {
     try {
-      const response = await axios.get(
-        `http://3.34.102.60:8080/api/users/email-check?email=${email}`
-      );
+      const response = await axios.get(`${SERVER_URL}/api/users/email-check?email=${email}`);
       console.log(email);
       setEmailCheck('사용가능한 아이디입니다.');
     } catch (error: unknown) {
