@@ -28,7 +28,7 @@ const CreateProject: React.FC<{
   const [positionError, setPositionError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
 
-  // const [projectData, setProjectData] = useRecoilState(projectDataAtom);
+  const [projectData, setProjectData] = useRecoilState(projectDataAtom);
 
   const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -90,7 +90,7 @@ const CreateProject: React.FC<{
     },
     {
       onSuccess: data => {
-        queryClient.setQueryData('projectData', data.data);
+        queryClient.setQueryData('projectData 김효환', data.data);
         alert('프로젝트가 성공적으로 작성되었습니다.');
       },
       onError: () => {

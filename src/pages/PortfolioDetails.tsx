@@ -17,6 +17,7 @@ import CreateProject from '@src/components/myProject/CreateProject';
 import { useRecoilValue } from 'recoil';
 import { projectDataAtom } from '@src/states/createProjectState';
 import jwtDecode from 'jwt-decode';
+import { SERVER_URL } from '@src/constants/constants';
 
 function PortfolioDetails() {
   interface Project {
@@ -52,9 +53,9 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  // const [createProjects, setCreateProjects] = useState([]);
+  const [createProjects, setCreateProjects] = useState([]);
 
-  // const projectData = useRecoilValue(projectDataAtom);
+  const projectData = useRecoilValue(projectDataAtom);
 
   // useEffect(() => {
   //   if (projectData) {
@@ -88,7 +89,7 @@ function PortfolioDetails() {
   }, []);
 
   const getMyPortfolio = async () => {
-    const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
+    const response = await axios.get(`${SERVER_URL}/api/portfolios/${portfolioId}`);
 
     console.log(response.data.data);
     const projects = response.data.data.projectList;
@@ -152,7 +153,7 @@ function PortfolioDetails() {
     }
     try {
       const response = await axios.patch(
-        `http://3.34.102.60:8080/api/portfolios/${portfolioId}`,
+        `${SERVER_URL}api/portfolios/${portfolioId}`,
         updatedData,
         {
           headers: {
@@ -255,7 +256,7 @@ function PortfolioDetails() {
     if (confirmDelete) {
       console.log('삭제 : ', projectId);
       try {
-        const response = await axios.delete(`http://3.34.102.60:8080/api/projects/${projectId}`, {
+        const response = await axios.delete(`${SERVER_URL}/api/projects/${projectId}`, {
           headers: {
             Authorization: accessToken,
           },
