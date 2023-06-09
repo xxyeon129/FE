@@ -27,8 +27,8 @@ function PortfolioDetails() {
     people: string;
     position: string;
   }
-  const [portid, SetPortId] = useState();
-  const [hostid, setHostid] = useState();
+  const [portid, setPortId] = useState<number>();
+  const [hostid, setHostid] = useState<number>();
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
   const [proFileImage, setProFileImage] = useState(null);
@@ -71,18 +71,21 @@ function PortfolioDetails() {
     iat: number;
   }
 
-  const accessToken = localStorage.getItem('accesstoken');
-  const DecodeToken: DecodeTokenType = jwtDecode(`${accessToken}`);
   const [userid, setUserId] = useState<number>();
-  DecodeToken && setUserId(DecodeToken.userId);
+  const { id } = useParams();
+  const portfolioId = id;
 
   useEffect(() => {
-    getMyPortfolio();
+    const accessToken = localStorage.getItem('accesstoken');
+    if (accessToken) {
+      const DecodeToken: DecodeTokenType = jwtDecode(`${accessToken}`);
+      DecodeToken && setUserId(DecodeToken.userId);
+    }
+
+    if (portfolioId) {
+      getMyPortfolio();
+    }
   }, []);
-
-  const { id } = useParams();
-
-  const portfolioId = id;
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`http://3.34.102.60:8080/api/portfolios/${portfolioId}`);
@@ -91,7 +94,7 @@ function PortfolioDetails() {
     const projects = response.data.data.projectList;
     const projectIdList = projects.map((project: { id: string }) => parseInt(project.id));
 
-    SetPortId(response.data.data.id);
+    setPortId(response.data.data.id);
     setHostid(response.data.data.userId);
     setPortfolioTitle(response.data.data.portfolioTitle);
     setEmail(response.data.data.email);
