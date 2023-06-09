@@ -40,8 +40,6 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   };
 
   useEffect(() => {
-    console.log('프로젝트 데이터 있니? => ', projectData);
-
     if (projectData) {
       setIsProjectExist(true);
       setProjectList(prevProject => [...prevProject, projectData]);
@@ -50,8 +48,6 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   }, [projectData]);
 
   useEffect(() => {
-    console.log('이건 실행되냐??');
-
     isProjectListExist ? setIsProjectExist(true) : setIsProjectExist(false);
   }, [projectList]);
 
