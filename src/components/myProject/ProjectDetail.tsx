@@ -15,6 +15,11 @@ interface ProjectDetailData {
   description: string;
   projectImageList: [];
 }
+interface ImageType {
+  id: number;
+  imageUrl: string;
+}
+
 const ProjectModal: React.FC<{
   showModal: boolean;
   projectId: number | null;
@@ -57,7 +62,8 @@ const ProjectModal: React.FC<{
       setPeople(data.people);
       setPosition(data.position);
       setDescription(data.description);
-      setPreviewImages(data.projectImageList.map((image: any) => image.imageUrl));
+      setPreviewImages(data.projectImageList.map((image: ImageType) => image.imageUrl));
+      console.log(data.projectImageList);
     }
   }, [data]);
 
@@ -256,7 +262,7 @@ const ProjectModal: React.FC<{
                 <>
                   <StGetImageContainer>
                     <StImageBox>
-                      {data?.projectImageList.map((image: any, index: number) => (
+                      {data?.projectImageList.map((image: ImageType, index: number) => (
                         <StImage key={index} src={image.imageUrl} alt="Preview" />
                       ))}
                     </StImageBox>

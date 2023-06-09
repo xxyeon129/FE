@@ -16,6 +16,9 @@ interface UserData {
   email: string;
   profileImage: string;
 }
+interface ErrorResponse {
+  errorMessage: string;
+}
 
 const MyPage = () => {
   const { id } = useParams();
@@ -51,8 +54,8 @@ const MyPage = () => {
       alert('회원 정보가 수정되었습니다.');
       refetch();
     },
-    onError: (error: any) => {
-      setNicknameError(error.response?.data.errorMessage);
+    onError: (error: AxiosError<ErrorResponse>) => {
+      setNicknameError(error.response?.data.errorMessage ?? '알 수 없는 오류 입니다.');
     },
   });
   const deleteUserMutation = useMutation(deleteUser, {
@@ -64,19 +67,14 @@ const MyPage = () => {
     onSuccess: () => {
       alert('비밀번호가 변경되었습니다.');
     },
-    onError: (error: any) => {
-      setApiError(error.response.data.errorMessage);
+    onError: (error: AxiosError<ErrorResponse>) => {
+      setApiError(error.response?.data.errorMessage ?? '알 수 없는 오류 입니다.');
     },
   });
 
   const handleWithdrawal = async () => {
-    try {
-      await deleteUserMutation.mutateAsync(Number(id));
-      console.log('User account deleted');
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-    }
+    await deleteUserMutation.mutateAsync(Number(id));
+    navigate('/');
     setShowModal(false);
   };
 
@@ -102,14 +100,8 @@ const MyPage = () => {
       checkNewPassword: checknewpassword,
     };
 
-    try {
-      await updatePasswordMutation.mutateAsync([passwordData, Number(id)]);
-      setApiError('');
-      console.log('Password updated successfully');
-    } catch (error: any) {
-      console.log(error.response.data.errorMessage);
-      throw error;
-    }
+    await updatePasswordMutation.mutateAsync([passwordData, Number(id)]);
+    setApiError('');
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -128,13 +120,9 @@ const MyPage = () => {
     formData.append('nickname', nicknameBlob);
     formData.append('profileImage', profileImage || '');
 
-    try {
-      await updateUserMutation.mutateAsync([formData, Number(id)]);
-      refetch();
-      setIsEditing(false);
-    } catch (error) {
-      console.error(error);
-    }
+    await updateUserMutation.mutateAsync([formData, Number(id)]);
+    refetch();
+    setIsEditing(false);
   };
 
   const handleEditClick = () => {
