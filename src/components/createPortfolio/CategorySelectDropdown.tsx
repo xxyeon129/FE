@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
-import { StInputLabel } from '../common/createPortfolio/createStepStyles';
+import { StInputLabel } from '../../style/common/createStepStyles';
 
 interface CategorySelectDropdownProps {
   dropdownOptions: string[];

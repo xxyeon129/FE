@@ -6,7 +6,7 @@ import { categoryList } from '@src/constants/portfolioFilteringData';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import SelectDropdown from '../CategorySelectDropdown';
 import PortfolioFilter from '../PortfolioFilter';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';

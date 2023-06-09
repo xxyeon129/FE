@@ -7,11 +7,11 @@ import { STEP } from '@src/constants/createPortfolioConstants';
 import { validateExperience } from '@src/components/common/createPortfolio/validator';
 
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../../common/createPortfolio/ErrorMessage';
 
 const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [experience, setExperience] = useRecoilState(createExperienceState);

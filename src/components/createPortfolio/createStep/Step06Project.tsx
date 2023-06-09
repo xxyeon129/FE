@@ -9,7 +9,7 @@ import { ProjectDataType } from '@src/types/portfolioType';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { deleteProject } from '@src/apis/project';
 
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import ProjectItem from '@src/components/project/ProjectItem';
 import CreateProject from '@src/components/myProject/CreateProject';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
