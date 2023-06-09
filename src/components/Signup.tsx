@@ -183,6 +183,7 @@ const StModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   display: flex;
+  background-color: rgba(0, 0, 0, 0.3);
   align-items: center;
 `;
 
