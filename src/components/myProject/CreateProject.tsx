@@ -368,7 +368,7 @@ const StTextArea = styled.textarea`
 `;
 
 const StImageBox = styled.div`
-  background-image: url('public/images/no-img.jpg');
+  /* background-image: url('public/images/no-img.jpg'); */
   background-size: 100% 100%;
   border: 1px solid #d6d6d6;
   display: flex;
