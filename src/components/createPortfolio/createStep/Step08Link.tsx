@@ -2,7 +2,7 @@ import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import {
   createBlogState,

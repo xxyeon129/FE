@@ -9,9 +9,9 @@ import { ProjectDataType } from '@src/types/portfolioType';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { deleteProject } from '@src/apis/project';
 
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import ProjectItem from '@src/components/project/ProjectItem';
-import TestCreateProjectModal from '../TestCreateProjectModal';
+import CreateProject from '@src/components/myProject/CreateProject';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
@@ -25,12 +25,10 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   const queryClient = useQueryClient();
   const projectData = queryClient.getQueryData('projectData') as ProjectDataType | null;
 
+  const isProjectListExist = projectList.length !== 0;
+
   const handleModal = () => {
     setIsModalOpen(!isModalOpen);
-  };
-
-  const keepModalWindow = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
   };
 
   const onClickdeleteProject = (id: number) => {
@@ -50,9 +48,11 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   }, [projectData]);
 
   useEffect(() => {
-    projectList.length !== 0 && setIsProjectExist(true);
-    projectList.length === 0 && setIsProjectExist(false);
+    isProjectListExist ? setIsProjectExist(true) : setIsProjectExist(false);
   }, [projectList]);
+
+  console.log('projectData => ', projectData);
+  console.log('projectList => ', projectList);
 
   const title = '프로젝트를 추가하세요';
   const description =
@@ -64,7 +64,7 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
       <StAddProjectContainer>
         <StAddProjectButton onClick={handleModal}>+ 프로젝트 추가</StAddProjectButton>
         <StProjectsList isprojectexist={`${isProjectExist}`}>
-          {projectList?.length !== 0 &&
+          {isProjectListExist &&
             projectList.map(project => (
               <ProjectItem
                 key={project.id}
@@ -90,7 +90,7 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
 
       {isModalOpen && (
         <StBackground onClick={handleModal}>
-          <TestCreateProjectModal setIsModalOpen={setIsModalOpen} onClick={keepModalWindow} />
+          <CreateProject showModal1={isModalOpen} setShowModal1={setIsModalOpen} />
         </StBackground>
       )}
     </S.Container>

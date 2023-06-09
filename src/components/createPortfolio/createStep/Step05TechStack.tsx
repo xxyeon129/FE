@@ -4,7 +4,7 @@ import { createTechStackState } from '@src/states';
 import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { STEP } from '@src/constants/createPortfolioConstants';
 
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import TechStackTag from '../TechStackTag';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';

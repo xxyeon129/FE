@@ -5,7 +5,7 @@ import { FaPlus } from 'react-icons/fa';
 import { getMyPortfolio } from '@src/apis/portfolio';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { PATH_URL } from '@src/constants/constants';
-import * as S from '@src/style/common/portfolioStyle';
+import * as S from '@src/style/common/mainPagePortfolioStyle';
 import PortfolioItem from '@src/components/main/PortfolioItem';
 import NoPortfolio from '@src/components/myPortfolio/NoPortfolio';
 

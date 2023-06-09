@@ -6,12 +6,12 @@ import { CreatePortfolioStepProps } from '@src/types/portfolioType';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { validateTitle } from '@src/components/common/createPortfolio/validator';
 
-import * as S from '@src/components/common/createPortfolio/createStepStyles';
+import * as S from '@src/style/common/createStepStyles';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../../common/createPortfolio/ErrorMessage';
 
 const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [portfolioTitle, setPortfolioTitle] = useRecoilState(createTitleState);
