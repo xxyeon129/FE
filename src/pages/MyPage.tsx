@@ -118,11 +118,16 @@ const MyPage = () => {
     });
     const nicknameBlob = new Blob([text], { type: 'application/json' });
     formData.append('nickname', nicknameBlob);
-    formData.append('profileImage', profileImage || '');
+    console.log(profileImage);
+    formData.append('profileImage', profileImage as Blob);
 
-    await updateUserMutation.mutateAsync([formData, Number(id)]);
-    refetch();
-    setIsEditing(false);
+    try {
+      await updateUserMutation.mutateAsync([formData, Number(id)]);
+      refetch();
+      setIsEditing(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleEditClick = () => {
