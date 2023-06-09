@@ -21,15 +21,18 @@ const TestReDesignPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item
         ) : (
           <StNoImg src={noImageUrl} />
         )}
-        <StDescriptionContainerTest>{item.userName}</StDescriptionContainerTest>
+        <StDescriptionContainerTest>
+          <StUserNameTextTest>{item.userName}</StUserNameTextTest>
+          <StTitle>{item.portfolioTitle}</StTitle>
+        </StDescriptionContainerTest>
       </StImgContainer>
-      <StDescriptionContainer>
+      {/* <StDescriptionContainer>
         <StUserDescriptionContainer>
           <StUserDefaultImage />
           <StUserNameText>{item.userName}</StUserNameText>
         </StUserDescriptionContainer>
         <StTitleText>{item.portfolioTitle}</StTitleText>
-      </StDescriptionContainer>
+      </StDescriptionContainer> */}
     </StItemContainer>
   );
 };
@@ -40,12 +43,14 @@ const StItemContainer = styled.div`
 
 const StImgContainer = styled.div`
   width: 250px;
+  height: 310px;
+  background-color: lightblue;
   position: relative;
 `;
 
 const imageStyle = `
   width: 100%;
-  height: 310px;
+  height: 350px;
   object-fit: cover;
   border-radius: 7px;
 `;
@@ -93,6 +98,20 @@ const StUserDefaultImage = styled(DefaultUserImage)`
   height: 22px;
 `;
 
-const StDescriptionContainerTest = styled.div``;
+const StDescriptionContainerTest = styled.div`
+  position: absolute;
+  bottom: 0%;
+  left: 5%;
+`;
+
+const StUserNameTextTest = styled.div`
+  color: white;
+  font-size: 16px;
+`;
+
+const StTitle = styled.div`
+  color: white;
+  font-weight: bold;
+`;
 
 export default TestReDesignPortfolioItem;
