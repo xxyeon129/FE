@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-query';
-import { getProject, updateProject } from '@src/apis/ProjectApi';
+import { getProject, updateProject } from '@src/apis/projectapi';
 import { styled } from 'styled-components';
 import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
 import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';

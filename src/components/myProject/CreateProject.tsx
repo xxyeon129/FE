@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import { useMutation } from 'react-query';
 import { projectDataAtom } from '@src/states/createProjectState';
 import { useRecoilState } from 'recoil';
-import { createProject } from '@src/apis/ProjectApi';
+import { createProject } from '@src/apis/projectapi';
 import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
 import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
 
