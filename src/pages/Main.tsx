@@ -73,7 +73,7 @@ const Main = () => {
 
     if (filterKeyword !== 'All') {
       fetchFilteredList(filterKeyword);
-      console.log('FirstMountList if문 걸려서 실행 -> filteredList 함수로 이동');
+      // console.log('FirstMountList if문 걸려서 실행 -> filteredList 함수로 이동');
 
       return;
     }
@@ -84,7 +84,7 @@ const Main = () => {
     while (length10List.length < 10) {
       const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
       length10List = [...length10List, ...serverData];
-      console.log('firstMount while render test');
+      // console.log('firstMount while render test');
 
       if (serverData.length < 10) {
         serverDataLastId -= 10;
