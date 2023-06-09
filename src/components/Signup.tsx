@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
 
 type SignupProps = {
@@ -102,8 +102,8 @@ function Signup({ onClose }: SignupProps) {
       );
       console.log(email);
       setEmailCheck('사용가능한 아이디입니다.');
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
+    } catch (error: unknown) {
+      if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
         setEmailCheck('중복된 아이디입니다.');
       }
     }

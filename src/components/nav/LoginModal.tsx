@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '@src/states';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
@@ -39,8 +39,8 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
       setIsLogin(true);
       navigatePath && navigate(`${navigatePath}${userId}`);
       onClose();
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
+    } catch (error: unknown) {
+      if ((error as AxiosError).response && (error as AxiosError).response?.status === 400) {
         setErrorMessage('유효하지 않은 아이디나 비밀번호입니다.');
       }
     }
