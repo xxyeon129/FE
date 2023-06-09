@@ -14,6 +14,7 @@ interface ProjectDetailData {
   position: string;
   description: string;
   projectImageList: [];
+  userId: string;
 }
 interface ImageType {
   id: number;
@@ -303,7 +304,7 @@ const ProjectModal: React.FC<{
                   </StgetContainer>
                 </>
               )}
-              {accessToken ? (
+              {accessToken && userId === data?.userId ? (
                 <StBottom>
                   {isEditable ? (
                     <>
