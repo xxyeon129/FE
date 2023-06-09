@@ -10,6 +10,7 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import { categoryState, filterState } from '@src/states';
 import { filterListObject } from '@src/constants/portfolioFilteringData';
 import * as S from '@src/style/common/mainPagePortfolioStyle';
+import TestReDesignPortfolioItem from '@src/components/common/TestReDesignPortfolioItem';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -134,7 +135,8 @@ const Main = () => {
       {isExistData ? (
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
-            <PortfolioItem key={item.id} item={item} />
+            // <PortfolioItem key={item.id} item={item} />
+            <TestReDesignPortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       ) : (
