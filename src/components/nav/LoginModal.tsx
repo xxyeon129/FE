@@ -15,6 +15,7 @@ type LoginProps = {
 const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const setIsLogin = useSetRecoilState(loginState);
   const modalRef = useRef(null);
 
@@ -39,7 +40,9 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
       navigatePath && navigate(`${navigatePath}${userId}`);
       onClose();
     } catch (error) {
-      console.error('로그인 실패:', error);
+      if (error.response && error.response.status === 400) {
+        setErrorMessage('유효하지 않은 아이디나 비밀번호입니다.');
+      }
     }
   };
 
@@ -86,6 +89,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
           <label htmlFor="password">비밀번호</label>
           <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
         </StInputSection>
+        {errorMessage && <StErrorMessage>{errorMessage}</StErrorMessage>}
 
         <div>
           <LoginButton onClick={onSubmit}>로그인</LoginButton>
@@ -121,8 +125,6 @@ const StModalWrapper = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  /* width: 100vw;
-  height: 100vh; */
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
@@ -134,7 +136,7 @@ const StModalContent = styled.div`
   margin-top: 105px;
   background-color: white;
   padding: 20px;
-  height: 100%;
+  height: 80%;
   width: 800px;
   justify-content: center;
   padding: 100px;
@@ -151,7 +153,7 @@ const StInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   height: 50px;
-  margin-top: 10px;
+  margin: 15px 0;
   width: 100%;
 `;
 
@@ -160,4 +162,8 @@ const LoginButton = styled.button`
   width: 100%;
   height: 40px;
   margin: 20px 0;
+`;
+
+const StErrorMessage = styled.label`
+  color: red;
 `;
