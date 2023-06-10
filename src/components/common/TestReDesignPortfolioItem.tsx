@@ -36,7 +36,7 @@ const TestReDesignPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item
 
 const StItemContainer = styled.div`
   cursor: pointer;
-  font-family: 'Pretenadard';
+  font-family: 'Lato', sans-serif;
 
   &:hover {
     transform: scale(1.05);
