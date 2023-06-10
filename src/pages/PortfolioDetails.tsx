@@ -692,6 +692,7 @@ const StRepresentativeImage = styled.img`
   height: 300px;
   top: 0;
   left: 0;
+  object-fit: cover;
 `;
 
 const StBlog = styled.div`
