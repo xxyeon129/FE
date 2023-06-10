@@ -73,20 +73,56 @@ const Main = () => {
 
     if (filterKeyword !== 'All') {
       fetchFilteredList(filterKeyword);
+      // console.log('FirstMountList if문 걸려서 실행 -> filteredList 함수로 이동');
+
       return;
     }
 
-    const serverDataLastId = await fetchLastId();
-    const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
-    setList(serverData);
+    let serverDataLastId = await fetchLastId();
+    let length10List: PortfolioDataType[] = [];
+
+    while (length10List.length < 10) {
+      const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
+      length10List = [...length10List, ...serverData];
+      // console.log('firstMount while render test');
+
+      if (serverData.length < 10) {
+        serverDataLastId -= 10;
+        setLastId(serverDataLastId);
+      }
+    }
+
+    setList(length10List);
   };
 
   const fetchFilteredList = async (filterKeyword: string) => {
     if (filterKeyword === 'All') {
       fetchFirstMountList(filterKeyword);
+      // console.log('All 선택했을 경우 filteredList 함수에서 조건걸려서 FirstMount로 이동');
+      // return;
     }
 
     const serverDataLastId = await fetchLastId(filterKeyword);
+    // let length10List: PortfolioDataType[] = []
+
+    // console.log('필터데이터 최대id', serverDataLastId);
+
+    // while (length10List.length < 10) {
+    //   const filteredData = await getFilteredList({
+    //     lastId: serverDataLastId,
+    //     category: selectedCategory,
+    //     filter: filterKeyword,
+    //   });
+    //   length10List = [...length10List, ...filteredData];
+    //   console.log('filtered data test => ', length10List); // 계속 8개 받아옴
+
+    //   if (filteredData.length < 10) {
+    //     serverDataLastId -= 10;
+    //     console.log('minusedLastId', serverDataLastId);
+
+    //     setLastId(serverDataLastId);
+    //   }
+    // }
 
     const filteredData = await getFilteredList({
       lastId: serverDataLastId,
@@ -95,6 +131,7 @@ const Main = () => {
     });
 
     setList(filteredData);
+    // setList(length10List);
   };
 
   // --- 직무 필터링 ---
@@ -135,8 +172,8 @@ const Main = () => {
       {isExistData ? (
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
-            <PortfolioItem key={item.id} item={item} />
-            // <TestReDesignPortfolioItem key={item.id} item={item} />
+            // TODO: 컴포넌트명 변경 예정
+            <TestReDesignPortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       ) : (

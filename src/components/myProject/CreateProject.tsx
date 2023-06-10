@@ -91,7 +91,7 @@ const CreateProject: React.FC<{
     {
       onSuccess: data => {
         queryClient.setQueryData('projectData', data.data);
-        console.log('테스트 : ', data.data);
+        // console.log('테스트 : ', data.data);
         setProjectData(data.data);
         alert('프로젝트가 성공적으로 작성되었습니다.');
       },

@@ -73,6 +73,7 @@ const StHeader = styled.header`
   height: 52px;
   background-color: white;
   font-family: 'Open Sans', sans-serif;
+  z-index: 999;
 `;
 
 const StUnorderedList = styled.ul`

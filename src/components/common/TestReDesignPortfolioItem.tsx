@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
-import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-user-image-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
+import UserProfileImage from './UserProfileImage';
 
 const TestReDesignPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   const noImageUrl = 'public/images/no-img.jpg';
@@ -21,33 +21,43 @@ const TestReDesignPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item
         ) : (
           <StNoImg src={noImageUrl} />
         )}
-        <StDescriptionContainerTest>{item.userName}</StDescriptionContainerTest>
+        <StShadow />
+        <StDescriptionContainer>
+          <StTitle>{item.portfolioTitle}</StTitle>
+          <StUserContainer>
+            <UserProfileImage imgSrc={item.userProfileImage} size="22px" />
+            <StUserNameText>{item.userName}</StUserNameText>
+          </StUserContainer>
+        </StDescriptionContainer>
       </StImgContainer>
-      <StDescriptionContainer>
-        <StUserDescriptionContainer>
-          <StUserDefaultImage />
-          <StUserNameText>{item.userName}</StUserNameText>
-        </StUserDescriptionContainer>
-        <StTitleText>{item.portfolioTitle}</StTitleText>
-      </StDescriptionContainer>
     </StItemContainer>
   );
 };
 
 const StItemContainer = styled.div`
   cursor: pointer;
+  font-family: 'Lato', sans-serif;
+
+  &:hover {
+    transform: scale(1.05);
+    transition: 1s ease;
+    cursor: pointer;
+    z-index: 11;
+  }
 `;
 
 const StImgContainer = styled.div`
   width: 250px;
+  height: 310px;
   position: relative;
 `;
 
 const imageStyle = `
   width: 100%;
-  height: 310px;
+  height: 350px;
   object-fit: cover;
-  border-radius: 7px;
+  border-radius: 10px;
+  z-index: -1
 `;
 
 const StPortfolioImg = styled.img`
@@ -59,40 +69,40 @@ const StNoImg = styled.img`
 `;
 
 const StDescriptionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 250px;
-
-  margin-top: 3px;
-  padding: 7px 10px 10px 10px;
-  border: 1px solid;
-  border-radius: 13px;
-  background: rgba(221, 221, 221, 0.27);
-  box-shadow: inset 0px 3px 7px rgba(117, 117, 117, 0.25);
+  position: absolute;
+  bottom: -7%;
+  left: 5%;
+  z-index: 10;
 `;
 
-const StTitleText = styled.div`
-  font-weight: bold;
-  padding-top: 8px;
-  color: ${({ theme }) => theme.color.fontColor};
-`;
-
-const StUserDescriptionContainer = styled.div`
+const StUserContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 8px;
 `;
 
 const StUserNameText = styled.div`
-  padding-left: 7px;
-  font-size: 14px;
-  color: ${({ theme }) => theme.color.fontColor};
+  color: white;
+  font-size: 15px;
+  padding-left: 6px;
 `;
 
-const StUserDefaultImage = styled(DefaultUserImage)`
-  width: 22px;
-  height: 22px;
+const StTitle = styled.div`
+  color: white;
+  font-weight: bold;
+  font-size: 19px;
 `;
 
-const StDescriptionContainerTest = styled.div``;
+const StShadow = styled.div`
+  position: relative;
+  padding: 50px;
+  bottom: 33%;
+  width: 100%;
+  z-index: 1;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px -100px 36px -38px inset;
+`;
 
 export default TestReDesignPortfolioItem;
