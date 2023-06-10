@@ -39,8 +39,6 @@ const StItemContainer = styled.div`
   font-family: 'Pretenadard';
 
   &:hover {
-    -webkit-transform: scale(1.2);
-    -ms-transform: scale(1.2);
     transform: scale(1.05);
     transition: 1s ease;
     cursor: pointer;
@@ -83,13 +81,6 @@ const StUserContainer = styled.div`
   margin-top: 8px;
 `;
 
-const StUserImg = styled.img`
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
-
 const StUserNameText = styled.div`
   color: white;
   font-size: 15px;
@@ -107,7 +98,7 @@ const StShadow = styled.div`
   padding: 50px;
   bottom: 33%;
   width: 100%;
-  z-index: 9;
+  z-index: 1;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 
