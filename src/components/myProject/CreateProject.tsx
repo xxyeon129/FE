@@ -132,7 +132,7 @@ const CreateProject: React.FC<{
       return;
     }
     if (description.length < 3 || description.length > 1500) {
-      setTitleError('제목은 3자 이상 1500자 이하여야 합니다.');
+      setTitleError('설명은 3자 이상 1500자 이하여야 합니다.');
       return;
     }
 

@@ -28,7 +28,7 @@ const MyPage = () => {
   const [isEditing, setIsEditing] = useState<Boolean>(false);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImage, setProfileImage] = useState<File | null | string>(null);
   const [previewImage, setPreviewImage] = useState<File | string>('');
   const [showModal, setShowModal] = useState(false);
   const [nicknameError, setNicknameError] = useState('');
@@ -122,9 +122,9 @@ const MyPage = () => {
     const nicknameBlob = new Blob([text], { type: 'application/json' });
     formData.append('nickname', nicknameBlob);
     console.log(profileImage);
-    if (profileImage) {
-      formData.append('profileImage', profileImage as Blob);
-    }
+    // if (profileImage) {
+    formData.append('profileImage', profileImage as Blob);
+    // }
 
     try {
       await updateUserMutation.mutateAsync([formData, Number(id)]);
@@ -166,10 +166,10 @@ const MyPage = () => {
     setCheckNewPasswordError('');
   };
 
-  const removeProfileImage = () => {
-    setProfileImage(null);
-    setPreviewImage(user);
-  };
+  // const removeProfileImage = () => {
+  //   setProfileImage(null);
+  //   setPreviewImage(user);
+  // };
 
   const handleCloseClick = () => {
     setIsEditing(false);
@@ -212,7 +212,7 @@ const MyPage = () => {
                 onChange={handleProfileImageChange}
                 placeholder="프로필 이미지"
               />
-              <DeleteIcon onClick={removeProfileImage} />
+              {/* <DeleteIcon onClick={removeProfileImage} /> */}
             </StImageUploadWrap>
             <StTextBox>
               <div>
