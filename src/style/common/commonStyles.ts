@@ -12,7 +12,7 @@ export const PortfolioListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   grid-auto-rows: min-content;
-  row-gap: 56px;
+  row-gap: 80px;
   column-gap: 50px;
   width: 100%;
   margin-top: 10px;

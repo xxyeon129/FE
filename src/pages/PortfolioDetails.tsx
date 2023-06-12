@@ -19,6 +19,7 @@ import { projectDataAtom } from '@src/states/createProjectState';
 import jwtDecode from 'jwt-decode';
 import { SERVER_URL } from '@src/constants/constants';
 import { getAccessToken } from '@src/apis/token';
+import NoImage from '@src/components/common/NoImage';
 
 function PortfolioDetails() {
   interface Project {
@@ -52,8 +53,11 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [imageLoadError, setImageLoadError] = useState(false);
 
   const projectData = useRecoilValue(projectDataAtom);
+
+  console.log(getPortfolioImage);
 
   useEffect(() => {
     if (projectData !== null) {
@@ -141,18 +145,12 @@ function PortfolioDetails() {
     });
     const portfolioImageBlob = portfolioImage
       ? new Blob([portfolioImage], { type: 'multipart/form-data' })
-      : null;
-
-    // if (portfolioImageBlob === null) {
-    // }
+      : new Blob([], { type: 'multipart/form-data' });
 
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
-    if (portfolioImageBlob) {
-      updatedData.append('portfolioImage', portfolioImageBlob);
-    } else if (!portfolioImageBlob) {
-      console.log('이미지 없음');
-    }
+
+    updatedData.append('portfolioImage', portfolioImageBlob);
 
     try {
       const response = await axios.patch(
@@ -276,6 +274,10 @@ function PortfolioDetails() {
     }
   };
 
+  const onImageError = () => {
+    setImageLoadError(true);
+  };
+
   return (
     <>
       <div>
@@ -378,7 +380,15 @@ function PortfolioDetails() {
                 </div>
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
-                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 && !imageLoadError ? (
+                      <StProjectImg
+                        src={item.projectImageList[0].imageUrl}
+                        alt="프로젝트 이미지"
+                        onError={onImageError}
+                      />
+                    ) : (
+                      <NoImage height="70%" borderTopRadius="10px" />
+                    )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
@@ -421,7 +431,11 @@ function PortfolioDetails() {
                     </div>
                   </StProfileText>
                 </StProfileContainer>
-                {getPortfolioImage && <StRepresentativeImage src={getPortfolioImage} alt="" />}
+                {getPortfolioImage && !imageLoadError ? (
+                  <StRepresentativeImage src={getPortfolioImage} alt="" onError={onImageError} />
+                ) : (
+                  <NoImage height="250px" />
+                )}
               </StFirstSection>
 
               <StSecondSection>
@@ -460,7 +474,11 @@ function PortfolioDetails() {
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
-                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 ? (
+                      <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    ) : (
+                      <NoImage height="70%" borderTopRadius="10px" />
+                    )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
@@ -687,6 +705,7 @@ const StRepresentativeImage = styled.img`
   height: 300px;
   top: 0;
   left: 0;
+  object-fit: cover;
 `;
 
 const StBlog = styled.div`

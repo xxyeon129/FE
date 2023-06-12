@@ -5,6 +5,7 @@ import { ProjectDataType } from '@src/types/portfolioType';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { getUser } from '@src/apis/user';
 import UserProfileImage from '../common/UserProfileImage';
+import NoImage from '../common/NoImage';
 
 interface ProjectItemProps {
   project: ProjectDataType;
@@ -33,11 +34,13 @@ const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) =
             <StDeleteIcon />
           </StIconContainer>
         )}
-        {project.projectImageList && (
+        {project.projectImageList.length !== 0 ? (
           <StProjectImg
             src={project.projectImageList[0].imageUrl}
             alt="project representative image"
           />
+        ) : (
+          <NoImage height="100%" borderTopRadius="20px" />
         )}
       </StImgContainer>
       <StDescriptionContainer>

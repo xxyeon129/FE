@@ -8,6 +8,7 @@ import { PATH_URL } from '@src/constants/constants';
 import { STEP } from '@src/constants/createPortfolioConstants';
 
 import useCreatPortfolioRecoilValues from '@src/Hook/useCreatePortfolioRecoilValues';
+import useResetCreatePortfolioRecoilValues from '@src/Hook/useResetCreatePortfolioRecoilValues';
 import * as S from '@src/style/common/createStepStyles';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
@@ -36,6 +37,7 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isImageExist, setIsImageExist] = useState(false);
   const navigate = useNavigate();
+  const resetRecoilValues = useResetCreatePortfolioRecoilValues();
 
   const techStack = techStackArray.toString();
   const isNoImageFile = imageFile === null;
@@ -92,6 +94,7 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
         const leaveLoginState = { loginState: parsedData.loginState };
         localStorage.setItem('recoil-persist', JSON.stringify(leaveLoginState));
       }
+      resetRecoilValues();
 
       navigate(PATH_URL.MAIN);
     } catch (error) {

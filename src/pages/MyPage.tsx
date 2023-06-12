@@ -8,8 +8,10 @@ import { useQuery, useMutation } from 'react-query';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
 import { ReactComponent as UploadIcon } from 'src/assets/mypageimg-upload.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/mypageimage-del.svg';
-import DefaultIcon from 'src/assets/defaultimg.jpg';
+import DefaultIcon from 'public/images/defaultimg.jpg';
 import user from 'src/assets/nav/nav-default-user-image-icon.svg';
+import { useSetRecoilState } from 'recoil';
+import { myPageEditState } from '@src/states/myPageEditState';
 
 interface UserData {
   nickname: string;
@@ -37,6 +39,7 @@ const MyPage = () => {
   const [newpasswordError, setNewPasswordError] = useState('');
   const [checknewpasswordError, setCheckNewPasswordError] = useState('');
   const [apiError, setApiError] = useState('');
+  const setMyPageEdit = useSetRecoilState(myPageEditState);
   const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () =>
     getUser(Number(id))
   );
@@ -125,6 +128,7 @@ const MyPage = () => {
       await updateUserMutation.mutateAsync([formData, Number(id)]);
       refetch();
       setIsEditing(false);
+      setMyPageEdit(true);
     } catch (err) {
       console.log(err);
     }
@@ -132,6 +136,7 @@ const MyPage = () => {
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setMyPageEdit(false);
     console.log('회원정보 수정 버튼 클릭시 : ', profileImage);
   };
 
@@ -370,7 +375,7 @@ const StHeader = styled.div`
   /* position: relative; */
   width: 100%;
   height: 311px;
-  background: #a9a9a9;
+  /* background: #a9a9a9; */
   display: flex;
   justify-content: center;
   align-items: center;

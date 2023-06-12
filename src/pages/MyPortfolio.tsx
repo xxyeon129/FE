@@ -5,9 +5,9 @@ import { FaPlus } from 'react-icons/fa';
 import { getMyPortfolio } from '@src/apis/portfolio';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { PATH_URL } from '@src/constants/constants';
-import * as S from '@src/style/common/mainPagePortfolioStyle';
-import PortfolioItem from '@src/components/main/PortfolioItem';
+import * as S from '@src/style/common/commonStyles';
 import NoPortfolio from '@src/components/myPortfolio/NoPortfolio';
+import PortfolioItem from '@src/components/common/PortfolioItem';
 
 const MyPortfolio = () => {
   const [myPortfolioList, setMyPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -42,8 +42,8 @@ const MyPortfolio = () => {
               </StCreateIconContainer>
               <StCreateText>새 포트폴리오 작성</StCreateText>
             </StCreatePortfolio>
-            {myPortfolioList?.map((portfolio, index) => (
-              <PortfolioItem key={index} item={portfolio} />
+            {myPortfolioList?.map(portfolio => (
+              <PortfolioItem key={portfolio.id} item={portfolio} />
             ))}
           </S.PortfolioListContainer>
         </StMyPortfolioContainer>
@@ -63,7 +63,7 @@ const StCreatePortfolio = styled.div`
   cursor: pointer;
   border-radius: 7px;
   width: 250px;
-  height: 380px;
+  height: 350px;
   background-color: #e6e6e6;
   display: flex;
   flex-direction: column;

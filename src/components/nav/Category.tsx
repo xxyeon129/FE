@@ -25,6 +25,10 @@ const Category = () => {
     setSelectedCategory(categoryItem);
     setSelectedHeader(false);
     navigate(PATH_URL.MAIN);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const onClickHome = () => {
@@ -33,6 +37,10 @@ const Category = () => {
     setSelectedCategory('Home');
     setSelectedHeader(false);
     navigate(PATH_URL.MAIN);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   return (
