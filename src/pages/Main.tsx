@@ -5,12 +5,11 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 import { getAllList, getFilteredList, getLastId } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
-import PortfolioItem from '@src/components/main/PortfolioItem';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { categoryState, filterState } from '@src/states';
 import { filterListObject } from '@src/constants/portfolioFilteringData';
-import * as S from '@src/style/common/mainPagePortfolioStyle';
-import TestReDesignPortfolioItem from '@src/components/common/TestReDesignPortfolioItem';
+import * as S from '@src/style/common/commonStyles';
+import PortfolioItem from '@src/components/common/PortfolioItem';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -173,7 +172,7 @@ const Main = () => {
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
             // TODO: 컴포넌트명 변경 예정
-            <TestReDesignPortfolioItem key={item.id} item={item} />
+            <PortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       ) : (

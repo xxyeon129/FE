@@ -4,7 +4,8 @@ import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
 
-const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
+// 리디자인 이전 버전 포트폴리오 아이템 컴포넌트 - 유사 시 참고, 모든 기능 완료 후 삭제 예정
+const PreviousDesignPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   const noImageUrl = 'public/images/no-img.jpg';
   const isportfolioImageExist = item.portfolioImage !== null;
   const navigate = useNavigate();
@@ -92,4 +93,4 @@ const StUserDefaultImage = styled(DefaultUserImage)`
   height: 22px;
 `;
 
-export default PortfolioItem;
+export default PreviousDesignPortfolioItem;
