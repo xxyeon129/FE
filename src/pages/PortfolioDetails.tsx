@@ -241,11 +241,11 @@ function PortfolioDetails() {
     setCreateProjectModalOpen(true);
   };
 
-  const handleImageClick = () => {
+  const onImageClick = () => {
     fileInputRef.current?.click();
   };
 
-  const onGitHandler = () => {
+  const onMyGit = () => {
     window.location.href = `https://github.com/${githubId}`;
   };
 
@@ -262,7 +262,6 @@ function PortfolioDetails() {
   const onProjectDelete = async (projectId: number) => {
     const confirmDelete = window.confirm('프로젝트를 삭제하시겠습니까?');
     const accessToken = localStorage.getItem('accesstoken');
-    const refreshToken = localStorage.getItem('refreshtoken');
 
     if (confirmDelete) {
       try {
@@ -330,7 +329,7 @@ function PortfolioDetails() {
                 </div>
               </StFirstEditWrapper>
 
-              <StImagePreviewer onClick={handleImageClick}>
+              <StImagePreviewer onClick={onImageClick}>
                 {portfolioImagePreview ? (
                   <StRepresentativeImageEdit src={portfolioImagePreview} alt="" />
                 ) : (
@@ -449,7 +448,7 @@ function PortfolioDetails() {
               )}
 
               {githubId && (
-                <StGithub onClick={onGitHandler}>
+                <StGithub onClick={onMyGit}>
                   <StGitgrass
                     src={`https://ghchart.rshah.org/${githubId}`}
                     alt="GitHub Contributions"
