@@ -8,7 +8,7 @@ import { useQuery, useMutation } from 'react-query';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
 import { ReactComponent as UploadIcon } from 'src/assets/mypageimg-upload.svg';
 import { ReactComponent as DeleteIcon } from 'src/assets/mypageimage-del.svg';
-import DefaultIcon from 'public/images/defaultimg.jpg';
+import DefaultIcon from '@src/assets/images/defaultimg.jpg';
 import user from 'src/assets/nav/nav-default-user-image-icon.svg';
 import { useSetRecoilState } from 'recoil';
 import { myPageEditState } from '@src/states/myPageEditState';
