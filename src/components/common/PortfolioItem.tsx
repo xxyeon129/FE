@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { useState } from 'react';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
@@ -6,6 +7,8 @@ import UserProfileImage from './UserProfileImage';
 import NoImage from './NoImage';
 
 const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
+  const [imageLoadError, setImageLoadError] = useState(false);
+
   const isportfolioImageExist = item.portfolioImage !== null;
   const navigate = useNavigate();
 
@@ -13,11 +16,15 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
     navigate(`${PATH_URL.PORTFOLIO_DETAIL}/${item.id}`);
   };
 
+  const onImageError = () => {
+    setImageLoadError(true);
+  };
+
   return (
     <StItemContainer onClick={onClickPortfolioItem}>
       <StImgContainer>
-        {isportfolioImageExist ? (
-          <StPortfolioImg src={item.portfolioImage} />
+        {isportfolioImageExist && !imageLoadError ? (
+          <StPortfolioImg src={item.portfolioImage} onError={onImageError} />
         ) : (
           <NoImage height="350px" borderRadius="10px" />
         )}
