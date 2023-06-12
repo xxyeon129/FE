@@ -6,7 +6,7 @@ import { styled } from 'styled-components';
 import { ReactComponent as UploadIcon } from 'src/assets/projetcimage-upload.svg';
 import { ReactComponent as ImageEditIcon } from 'src/assets/projectimage-edit.svg';
 import jwtDecode from 'jwt-decode';
-import DefaultImg from 'public/images/no-img.jpg';
+import DefaultImg from '@src/assets/images/no-img.jpg';
 
 interface ProjectDetailData {
   title: string;
@@ -459,7 +459,7 @@ const StImageBox = styled.div`
   width: 100%;
   height: 240px;
   border-radius: 15px;
-  background-image: url('public/images/no-img.jpg');
+  /* background-image: url('public/images/no-img.jpg'); */
   background-size: 100% 100%;
 `;
 
