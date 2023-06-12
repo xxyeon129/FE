@@ -129,6 +129,7 @@ function PortfolioDetails() {
     const techStackJoin = techStack.join(',');
 
     // console.log('projectList  : ', projectIdList);
+    console.log(projects);
 
     const portfolioRequestDto = {
       portfolioTitle,
@@ -383,7 +384,9 @@ function PortfolioDetails() {
                 </div>
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
-                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 && (
+                      <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
@@ -465,7 +468,9 @@ function PortfolioDetails() {
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
-                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 && (
+                      <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
