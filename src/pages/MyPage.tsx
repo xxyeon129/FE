@@ -58,7 +58,7 @@ const MyPage = () => {
       refetch();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      setNicknameError(error.response?.data.errorMessage ?? '알 수 없는 오류 입니다.');
+      setNicknameError(error.response?.data.errorMessage as string);
     },
   });
   const deleteUserMutation = useMutation(deleteUser, {
@@ -71,7 +71,7 @@ const MyPage = () => {
       alert('비밀번호가 변경되었습니다.');
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      setApiError(error.response?.data.errorMessage ?? '알 수 없는 오류 입니다.');
+      setApiError(error.response?.data.errorMessage as string);
     },
   });
 
@@ -122,7 +122,9 @@ const MyPage = () => {
     const nicknameBlob = new Blob([text], { type: 'application/json' });
     formData.append('nickname', nicknameBlob);
     console.log(profileImage);
-    formData.append('profileImage', profileImage as Blob);
+    if (profileImage) {
+      formData.append('profileImage', profileImage as Blob);
+    }
 
     try {
       await updateUserMutation.mutateAsync([formData, Number(id)]);
@@ -166,7 +168,7 @@ const MyPage = () => {
 
   const removeProfileImage = () => {
     setProfileImage(null);
-    setPreviewImage('');
+    setPreviewImage(user);
   };
 
   const handleCloseClick = () => {
@@ -289,7 +291,11 @@ const MyPage = () => {
             <StEditIcon onClick={handleEditClick} />
           </StEditButton>
           <StImageBox>
-            {data?.profileImage && <StImage src={data.profileImage} alt="Profile" />}
+            {data?.profileImage ? (
+              <StImage src={data.profileImage} alt="Profile" />
+            ) : (
+              <StImage src={user} alt="Profile" />
+            )}
           </StImageBox>
           <StBottom>
             <h1>{data?.nickname}</h1>
@@ -386,7 +392,7 @@ const StImageBox = styled.div`
   width: 168px;
   height: 168px;
   margin: 20px;
-  background-image: url(${DefaultIcon});
+  /* background-image: url(${DefaultIcon}); */
   background-size: 168px;
   border-radius: 100%;
   display: flex;
@@ -397,7 +403,7 @@ const StImageBox = styled.div`
 const StImage = styled.img`
   width: 100%;
   height: 100%;
-  background-image: url(${DefaultIcon});
+  /* background-image: url(${DefaultIcon}); */
   background-size: 100%;
   border-radius: 100%;
 `;
