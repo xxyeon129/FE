@@ -16,7 +16,11 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   return (
     <StItemContainer onClick={onClickPortfolioItem}>
       <StImgContainer>
-        {isportfolioImageExist ? <StPortfolioImg src={item.portfolioImage} /> : <NoImage />}
+        {isportfolioImageExist ? (
+          <StPortfolioImg src={item.portfolioImage} />
+        ) : (
+          <NoImage height="350px" borderRadius="10px" />
+        )}
         <StShadow />
         <StDescriptionContainer>
           <StTitle>{item.portfolioTitle}</StTitle>

@@ -472,7 +472,7 @@ function PortfolioDetails() {
                     {item.projectImageList.length !== 0 ? (
                       <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
                     ) : (
-                      <NoImage />
+                      <NoImage height="70%" borderTopRadius="10px" />
                     )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
