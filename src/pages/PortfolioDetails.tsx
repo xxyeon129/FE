@@ -19,6 +19,7 @@ import { projectDataAtom } from '@src/states/createProjectState';
 import jwtDecode from 'jwt-decode';
 import { SERVER_URL } from '@src/constants/constants';
 import { getAccessToken } from '@src/apis/token';
+import NoImage from '@src/components/common/NoImage';
 
 function PortfolioDetails() {
   interface Project {
@@ -468,8 +469,10 @@ function PortfolioDetails() {
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
-                    {item.projectImageList.length !== 0 && (
+                    {item.projectImageList.length !== 0 ? (
                       <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    ) : (
+                      <NoImage />
                     )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>

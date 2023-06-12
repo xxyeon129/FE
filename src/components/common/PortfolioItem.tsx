@@ -3,9 +3,9 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
 import UserProfileImage from './UserProfileImage';
+import NoImage from './NoImage';
 
 const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
-  const noImageUrl = 'public/images/no-img.jpg';
   const isportfolioImageExist = item.portfolioImage !== null;
   const navigate = useNavigate();
 
@@ -16,11 +16,7 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   return (
     <StItemContainer onClick={onClickPortfolioItem}>
       <StImgContainer>
-        {isportfolioImageExist ? (
-          <StPortfolioImg src={item.portfolioImage} />
-        ) : (
-          <StNoImg src={noImageUrl} />
-        )}
+        {isportfolioImageExist ? <StPortfolioImg src={item.portfolioImage} /> : <NoImage />}
         <StShadow />
         <StDescriptionContainer>
           <StTitle>{item.portfolioTitle}</StTitle>
@@ -52,20 +48,12 @@ const StImgContainer = styled.div`
   position: relative;
 `;
 
-const imageStyle = `
+const StPortfolioImg = styled.img`
   width: 100%;
   height: 350px;
   object-fit: cover;
   border-radius: 10px;
-  z-index: -1
-`;
-
-const StPortfolioImg = styled.img`
-  ${imageStyle}
-`;
-
-const StNoImg = styled.img`
-  ${imageStyle}
+  z-index: -1;
 `;
 
 const StDescriptionContainer = styled.div`
