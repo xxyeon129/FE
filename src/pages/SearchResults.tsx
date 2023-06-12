@@ -3,17 +3,12 @@ import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 import { searchPage } from '@src/apis/search';
 import { searchTermState } from '@src/states/SearchResultsState';
-import { useNavigate } from 'react-router-dom';
-import { ReactComponent as DefaultUserImage } from '@src/assets/nav/nav-default-user-image-icon.svg';
-import { PATH_URL } from '@src/constants/constants';
-interface PortfolioDataContent {
-  id: number;
-  portfolioImage?: string;
-  userName: string;
-  portfolioTitle: string;
-}
+import { PortfolioDataType } from '@src/types/portfolioType';
+import PortfolioItem from '@src/components/common/PortfolioItem';
+import * as S from '@src/style/common/commonStyles';
+
 interface PortfolioData {
-  content: PortfolioDataContent[];
+  content: PortfolioDataType[];
   totalPages: number;
 }
 interface StButtonProps {
@@ -22,8 +17,6 @@ interface StButtonProps {
 const SearchResults = () => {
   const [portfolioData, setPortfolioData] = useState<PortfolioData | undefined>();
   const searchTermData = useRecoilValue(searchTermState);
-  const navigate = useNavigate();
-  const noImageUrl = 'public/images/no-img.jpg';
   const [selectedPage, setSelectedPage] = useState(1);
   const handlePageButtonClick = async (index: number) => {
     const pageData = await searchPage(index, searchTermData);
@@ -34,10 +27,6 @@ const SearchResults = () => {
   };
 
   // 초기 상태일 때는 검색어 x -> handlePageButtonClick => searchTermData 빈값이어서 전체 데이타 불러와지고 ->검색어 입력 searchTermState 변화 -> [searchTermData] 의존성 배열때문에  handlePageButtonClick(1); 실행됨
-
-  const onClickHandler = (id: number) => {
-    navigate(`${PATH_URL.PORTFOLIO_DETAIL}/${id}`);
-  };
 
   useEffect(() => {
     handlePageButtonClick(1);
@@ -58,24 +47,11 @@ const SearchResults = () => {
             )}
           </StHeader>
           <StLayout>
-            {portfolioData.content.map((portfolio, index) => (
-              <StItemContainer key={index} onClick={() => onClickHandler(portfolio.id)}>
-                <StImgContainer>
-                  {portfolio.portfolioImage ? (
-                    <StPortfolioImg src={portfolio.portfolioImage} />
-                  ) : (
-                    <StNoImg src={noImageUrl} />
-                  )}
-                </StImgContainer>
-                <StDescriptionContainer>
-                  <StUserDescriptionContainer>
-                    <StUserDefaultImage />
-                    <StUserNameText>{portfolio.userName}</StUserNameText>
-                  </StUserDescriptionContainer>
-                  <StTitleText>{portfolio.portfolioTitle}</StTitleText>
-                </StDescriptionContainer>
-              </StItemContainer>
-            ))}
+            <S.PortfolioListContainer>
+              {portfolioData.content.map(portfolio => (
+                <PortfolioItem key={portfolio.id} item={portfolio} />
+              ))}
+            </S.PortfolioListContainer>
           </StLayout>
         </>
       ) : (
@@ -118,83 +94,13 @@ const StContainer = styled.div`
 `;
 
 const StLayout = styled.div`
-  display: flex;
-  flex-flow: wrap;
-  justify-content: space-evenly;
-  gap: 36px;
   width: 100%;
+  padding: 0 41px;
   margin-top: 10px;
 
   @media (max-width: 768px) {
-    gap: 18px;
     margin-top: 5px;
   }
-`;
-
-const StItemContainer = styled.div`
-  width: 250px;
-  cursor: pointer;
-
-  @media (max-width: 768px) {
-    width: 200px;
-  }
-`;
-
-const StImgContainer = styled.div`
-  width: 250px;
-
-  @media (max-width: 768px) {
-    width: 200px;
-  }
-`;
-
-const imageStyle = `
-  width: 100%;
-  height: 310px;
-  object-fit: cover;
-  border: 1px solid;
-  border-radius: 7px;
-`;
-
-const StPortfolioImg = styled.img`
-  ${imageStyle}
-`;
-
-const StNoImg = styled.img`
-  ${imageStyle}
-`;
-
-const StDescriptionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 3px;
-  padding: 7px 10px 10px 10px;
-  border: 1px solid;
-  border-radius: 13px;
-  background: rgba(221, 221, 221, 0.27);
-  box-shadow: inset 0px 3px 7px rgba(117, 117, 117, 0.25);
-`;
-
-const StTitleText = styled.div`
-  font-weight: bold;
-  padding-top: 8px;
-  color: ${({ theme }) => theme.color.fontColor};
-`;
-
-const StUserDescriptionContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StUserNameText = styled.div`
-  padding-left: 7px;
-  font-size: 14px;
-  color: ${({ theme }) => theme.color.fontColor};
-`;
-
-const StUserDefaultImage = styled(DefaultUserImage)`
-  width: 22px;
-  height: 22px;
 `;
 
 const StHeader = styled.div`

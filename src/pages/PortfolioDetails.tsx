@@ -19,6 +19,7 @@ import { projectDataAtom } from '@src/states/createProjectState';
 import jwtDecode from 'jwt-decode';
 import { SERVER_URL } from '@src/constants/constants';
 import { getAccessToken } from '@src/apis/token';
+import NoImage from '@src/components/common/NoImage';
 
 function PortfolioDetails() {
   interface Project {
@@ -48,14 +49,15 @@ function PortfolioDetails() {
   const [getPortfolioImage, setGetPortFolioImage] = useState(null);
   const [portfolioImagePreview, setPortfolioImagePreview] = useState('');
   const [portEdit, setPortEdit] = useState<boolean>(false);
-  const [category, setCategory] = useState<string>('');
-  const [filter, setFilter] = useState<string>('');
   const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [imageLoadError, setImageLoadError] = useState(false);
 
   const projectData = useRecoilValue(projectDataAtom);
+
+  console.log(getPortfolioImage);
 
   useEffect(() => {
     if (projectData !== null) {
@@ -64,8 +66,6 @@ function PortfolioDetails() {
       setProjectIdList(prevProjects => [...prevProjects, projectId]);
     }
   }, [projectData]);
-
-  console.log('프리뷰', portfolioImagePreview);
 
   interface DecodeTokenType {
     sub: string;
@@ -94,8 +94,6 @@ function PortfolioDetails() {
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`${SERVER_URL}/api/portfolios/${portfolioId}`);
-
-    console.log(response.data.data);
 
     const newProjectData = projects.map((item: { id: number }) => item.id);
     const selprojects = response.data.data.projectList;
@@ -128,8 +126,6 @@ function PortfolioDetails() {
 
     const techStackJoin = techStack.join(',');
 
-    // console.log('projectList  : ', projectIdList);
-
     const portfolioRequestDto = {
       portfolioTitle,
       intro,
@@ -141,8 +137,6 @@ function PortfolioDetails() {
       githubId,
       youtubeUrl: youtube,
       blogUrl: blog,
-      category,
-      filter,
       projectIdList,
     };
 
@@ -151,13 +145,12 @@ function PortfolioDetails() {
     });
     const portfolioImageBlob = portfolioImage
       ? new Blob([portfolioImage], { type: 'multipart/form-data' })
-      : null;
+      : new Blob([], { type: 'multipart/form-data' });
 
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
-    if (portfolioImageBlob) {
-      updatedData.append('portfolioImage', portfolioImageBlob);
-    }
+
+    updatedData.append('portfolioImage', portfolioImageBlob);
 
     try {
       const response = await axios.patch(
@@ -176,6 +169,7 @@ function PortfolioDetails() {
         alert('토큰이 일치하지 않습니다.');
       }
     }
+    console.log(portfolioImageBlob);
   };
 
   const onPortfolioEdit = () => {
@@ -245,11 +239,11 @@ function PortfolioDetails() {
     setCreateProjectModalOpen(true);
   };
 
-  const handleImageClick = () => {
+  const onImageClick = () => {
     fileInputRef.current?.click();
   };
 
-  const onGitHandler = () => {
+  const onMyGit = () => {
     window.location.href = `https://github.com/${githubId}`;
   };
 
@@ -266,7 +260,6 @@ function PortfolioDetails() {
   const onProjectDelete = async (projectId: number) => {
     const confirmDelete = window.confirm('프로젝트를 삭제하시겠습니까?');
     const accessToken = localStorage.getItem('accesstoken');
-    const refreshToken = localStorage.getItem('refreshtoken');
 
     if (confirmDelete) {
       try {
@@ -279,6 +272,10 @@ function PortfolioDetails() {
         console.error(error);
       }
     }
+  };
+
+  const onImageError = () => {
+    setImageLoadError(true);
   };
 
   return (
@@ -334,7 +331,7 @@ function PortfolioDetails() {
                 </div>
               </StFirstEditWrapper>
 
-              <StImagePreviewer onClick={handleImageClick}>
+              <StImagePreviewer onClick={onImageClick}>
                 {portfolioImagePreview ? (
                   <StRepresentativeImageEdit src={portfolioImagePreview} alt="" />
                 ) : (
@@ -383,7 +380,15 @@ function PortfolioDetails() {
                 </div>
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
-                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 && !imageLoadError ? (
+                      <StProjectImg
+                        src={item.projectImageList[0].imageUrl}
+                        alt="프로젝트 이미지"
+                        onError={onImageError}
+                      />
+                    ) : (
+                      <NoImage height="70%" borderTopRadius="10px" />
+                    )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}
@@ -426,7 +431,11 @@ function PortfolioDetails() {
                     </div>
                   </StProfileText>
                 </StProfileContainer>
-                {getPortfolioImage && <StRepresentativeImage src={getPortfolioImage} alt="" />}
+                {getPortfolioImage && !imageLoadError ? (
+                  <StRepresentativeImage src={getPortfolioImage} alt="" onError={onImageError} />
+                ) : (
+                  <NoImage height="250px" />
+                )}
               </StFirstSection>
 
               <StSecondSection>
@@ -453,7 +462,7 @@ function PortfolioDetails() {
               )}
 
               {githubId && (
-                <StGithub onClick={onGitHandler}>
+                <StGithub onClick={onMyGit}>
                   <StGitgrass
                     src={`https://ghchart.rshah.org/${githubId}`}
                     alt="GitHub Contributions"
@@ -465,7 +474,11 @@ function PortfolioDetails() {
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
-                    <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 ? (
+                      <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    ) : (
+                      <NoImage height="70%" borderTopRadius="10px" />
+                    )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
                 ))}

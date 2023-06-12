@@ -104,6 +104,8 @@ function Signup({ onClose }: SignupProps) {
     } catch (error: unknown) {
       if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
         setEmailCheck('중복된 아이디입니다.');
+      } else if ((error as AxiosError).response && (error as AxiosError).response?.status === 400) {
+        setEmailCheck('이메일 형식이 올바르지 않습니다.');
       }
     }
   };
@@ -119,8 +121,6 @@ function Signup({ onClose }: SignupProps) {
         </StInputSection>
         <StErrorSection>
           {emailError && <StErrorMessage>{emailError}</StErrorMessage>}
-        </StErrorSection>
-        <StErrorSection>
           {emailCheck && <StErrorMessage>{emailCheck}</StErrorMessage>}
         </StErrorSection>
 

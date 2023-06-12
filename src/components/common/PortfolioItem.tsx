@@ -1,11 +1,14 @@
 import { styled } from 'styled-components';
+import { useState } from 'react';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
 import UserProfileImage from './UserProfileImage';
+import NoImage from './NoImage';
 
-const TestReDesignPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
-  const noImageUrl = 'public/images/no-img.jpg';
+const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
+  const [imageLoadError, setImageLoadError] = useState(false);
+
   const isportfolioImageExist = item.portfolioImage !== null;
   const navigate = useNavigate();
 
@@ -13,13 +16,17 @@ const TestReDesignPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item
     navigate(`${PATH_URL.PORTFOLIO_DETAIL}/${item.id}`);
   };
 
+  const onImageError = () => {
+    setImageLoadError(true);
+  };
+
   return (
     <StItemContainer onClick={onClickPortfolioItem}>
       <StImgContainer>
-        {isportfolioImageExist ? (
-          <StPortfolioImg src={item.portfolioImage} />
+        {isportfolioImageExist && !imageLoadError ? (
+          <StPortfolioImg src={item.portfolioImage} onError={onImageError} />
         ) : (
-          <StNoImg src={noImageUrl} />
+          <NoImage height="350px" borderRadius="10px" />
         )}
         <StShadow />
         <StDescriptionContainer>
@@ -52,20 +59,12 @@ const StImgContainer = styled.div`
   position: relative;
 `;
 
-const imageStyle = `
+const StPortfolioImg = styled.img`
   width: 100%;
   height: 350px;
   object-fit: cover;
   border-radius: 10px;
-  z-index: -1
-`;
-
-const StPortfolioImg = styled.img`
-  ${imageStyle}
-`;
-
-const StNoImg = styled.img`
-  ${imageStyle}
+  z-index: -1;
 `;
 
 const StDescriptionContainer = styled.div`
@@ -105,4 +104,4 @@ const StShadow = styled.div`
   box-shadow: rgba(0, 0, 0, 0.35) 0px -100px 36px -38px inset;
 `;
 
-export default TestReDesignPortfolioItem;
+export default PortfolioItem;
