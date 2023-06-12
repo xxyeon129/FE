@@ -49,8 +49,6 @@ function PortfolioDetails() {
   const [getPortfolioImage, setGetPortFolioImage] = useState(null);
   const [portfolioImagePreview, setPortfolioImagePreview] = useState('');
   const [portEdit, setPortEdit] = useState<boolean>(false);
-  const [category, setCategory] = useState<string>('');
-  const [filter, setFilter] = useState<string>('');
   const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
@@ -68,8 +66,6 @@ function PortfolioDetails() {
       setProjectIdList(prevProjects => [...prevProjects, projectId]);
     }
   }, [projectData]);
-
-  console.log('프리뷰', portfolioImagePreview);
 
   interface DecodeTokenType {
     sub: string;
@@ -98,8 +94,6 @@ function PortfolioDetails() {
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`${SERVER_URL}/api/portfolios/${portfolioId}`);
-
-    // console.log(response.data.data);
 
     const newProjectData = projects.map((item: { id: number }) => item.id);
     const selprojects = response.data.data.projectList;
@@ -132,9 +126,6 @@ function PortfolioDetails() {
 
     const techStackJoin = techStack.join(',');
 
-    // console.log('projectList  : ', projectIdList);
-    // console.log(projects);
-
     const portfolioRequestDto = {
       portfolioTitle,
       intro,
@@ -146,8 +137,6 @@ function PortfolioDetails() {
       githubId,
       youtubeUrl: youtube,
       blogUrl: blog,
-      category,
-      filter,
       projectIdList,
     };
 
@@ -160,6 +149,7 @@ function PortfolioDetails() {
 
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
+
     updatedData.append('portfolioImage', portfolioImageBlob);
 
     try {
@@ -179,6 +169,7 @@ function PortfolioDetails() {
         alert('토큰이 일치하지 않습니다.');
       }
     }
+    console.log(portfolioImageBlob);
   };
 
   const onPortfolioEdit = () => {
@@ -248,11 +239,11 @@ function PortfolioDetails() {
     setCreateProjectModalOpen(true);
   };
 
-  const handleImageClick = () => {
+  const onImageClick = () => {
     fileInputRef.current?.click();
   };
 
-  const onGitHandler = () => {
+  const onMyGit = () => {
     window.location.href = `https://github.com/${githubId}`;
   };
 
@@ -269,7 +260,6 @@ function PortfolioDetails() {
   const onProjectDelete = async (projectId: number) => {
     const confirmDelete = window.confirm('프로젝트를 삭제하시겠습니까?');
     const accessToken = localStorage.getItem('accesstoken');
-    const refreshToken = localStorage.getItem('refreshtoken');
 
     if (confirmDelete) {
       try {
@@ -341,7 +331,7 @@ function PortfolioDetails() {
                 </div>
               </StFirstEditWrapper>
 
-              <StImagePreviewer onClick={handleImageClick}>
+              <StImagePreviewer onClick={onImageClick}>
                 {portfolioImagePreview ? (
                   <StRepresentativeImageEdit src={portfolioImagePreview} alt="" />
                 ) : (
@@ -472,7 +462,7 @@ function PortfolioDetails() {
               )}
 
               {githubId && (
-                <StGithub onClick={onGitHandler}>
+                <StGithub onClick={onMyGit}>
                   <StGitgrass
                     src={`https://ghchart.rshah.org/${githubId}`}
                     alt="GitHub Contributions"
