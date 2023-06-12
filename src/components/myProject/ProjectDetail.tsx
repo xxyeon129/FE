@@ -96,6 +96,10 @@ const ProjectModal: React.FC<{
         setTitleError('제목은 3자 이상 50자 이하여야 합니다.');
         return;
       }
+      if (description.length < 3 || description.length > 1500) {
+        setTitleError('설명은 3자 이상 1500자 이하여야 합니다.');
+        return;
+      }
 
       await updateProject(formData, projectId);
       refetch();
