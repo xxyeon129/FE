@@ -48,8 +48,6 @@ function PortfolioDetails() {
   const [getPortfolioImage, setGetPortFolioImage] = useState(null);
   const [portfolioImagePreview, setPortfolioImagePreview] = useState('');
   const [portEdit, setPortEdit] = useState<boolean>(false);
-  const [category, setCategory] = useState<string>('');
-  const [filter, setFilter] = useState<string>('');
   const [isProjectModalOpen, setIsProjectModalOpen] = useState<boolean>(false);
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
@@ -64,8 +62,6 @@ function PortfolioDetails() {
       setProjectIdList(prevProjects => [...prevProjects, projectId]);
     }
   }, [projectData]);
-
-  console.log('프리뷰', portfolioImagePreview);
 
   interface DecodeTokenType {
     sub: string;
@@ -94,8 +90,6 @@ function PortfolioDetails() {
 
   const getMyPortfolio = async () => {
     const response = await axios.get(`${SERVER_URL}/api/portfolios/${portfolioId}`);
-
-    console.log(response.data.data);
 
     const newProjectData = projects.map((item: { id: number }) => item.id);
     const selprojects = response.data.data.projectList;
@@ -128,8 +122,6 @@ function PortfolioDetails() {
 
     const techStackJoin = techStack.join(',');
 
-    // console.log('projectList  : ', projectIdList);
-
     const portfolioRequestDto = {
       portfolioTitle,
       intro,
@@ -141,8 +133,6 @@ function PortfolioDetails() {
       githubId,
       youtubeUrl: youtube,
       blogUrl: blog,
-      category,
-      filter,
       projectIdList,
     };
 
@@ -153,10 +143,15 @@ function PortfolioDetails() {
       ? new Blob([portfolioImage], { type: 'multipart/form-data' })
       : null;
 
+    // if (portfolioImageBlob === null) {
+    // }
+
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
     if (portfolioImageBlob) {
       updatedData.append('portfolioImage', portfolioImageBlob);
+    } else if (!portfolioImageBlob) {
+      console.log('이미지 없음');
     }
 
     try {
@@ -176,6 +171,7 @@ function PortfolioDetails() {
         alert('토큰이 일치하지 않습니다.');
       }
     }
+    console.log(portfolioImageBlob);
   };
 
   const onPortfolioEdit = () => {
