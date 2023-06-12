@@ -55,8 +55,11 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [imageLoadError, setImageLoadError] = useState(false);
 
   const projectData = useRecoilValue(projectDataAtom);
+
+  console.log(getPortfolioImage);
 
   useEffect(() => {
     if (projectData !== null) {
@@ -96,7 +99,7 @@ function PortfolioDetails() {
   const getMyPortfolio = async () => {
     const response = await axios.get(`${SERVER_URL}/api/portfolios/${portfolioId}`);
 
-    console.log(response.data.data);
+    // console.log(response.data.data);
 
     const newProjectData = projects.map((item: { id: number }) => item.id);
     const selprojects = response.data.data.projectList;
@@ -130,7 +133,7 @@ function PortfolioDetails() {
     const techStackJoin = techStack.join(',');
 
     // console.log('projectList  : ', projectIdList);
-    console.log(projects);
+    // console.log(projects);
 
     const portfolioRequestDto = {
       portfolioTitle,
@@ -153,13 +156,11 @@ function PortfolioDetails() {
     });
     const portfolioImageBlob = portfolioImage
       ? new Blob([portfolioImage], { type: 'multipart/form-data' })
-      : null;
+      : new Blob([], { type: 'multipart/form-data' });
 
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
-    if (portfolioImageBlob) {
-      updatedData.append('portfolioImage', portfolioImageBlob);
-    }
+    updatedData.append('portfolioImage', portfolioImageBlob);
 
     try {
       const response = await axios.patch(
@@ -283,6 +284,10 @@ function PortfolioDetails() {
     }
   };
 
+  const onImageError = () => {
+    setImageLoadError(true);
+  };
+
   return (
     <>
       <div>
@@ -385,8 +390,14 @@ function PortfolioDetails() {
                 </div>
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
-                    {item.projectImageList.length !== 0 && (
-                      <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 && !imageLoadError ? (
+                      <StProjectImg
+                        src={item.projectImageList[0].imageUrl}
+                        alt="프로젝트 이미지"
+                        onError={onImageError}
+                      />
+                    ) : (
+                      <NoImage height="70%" borderTopRadius="10px" />
                     )}
                     <StProjectTitle>{item.title}</StProjectTitle>
                   </StProjectBox>
@@ -430,7 +441,11 @@ function PortfolioDetails() {
                     </div>
                   </StProfileText>
                 </StProfileContainer>
-                {getPortfolioImage && <StRepresentativeImage src={getPortfolioImage} alt="" />}
+                {getPortfolioImage && !imageLoadError ? (
+                  <StRepresentativeImage src={getPortfolioImage} alt="" onError={onImageError} />
+                ) : (
+                  <NoImage height="250px" />
+                )}
               </StFirstSection>
 
               <StSecondSection>
