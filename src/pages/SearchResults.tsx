@@ -4,8 +4,8 @@ import { styled } from 'styled-components';
 import { searchPage } from '@src/apis/search';
 import { searchTermState } from '@src/states/SearchResultsState';
 import { PortfolioDataType } from '@src/types/portfolioType';
-import TestReDesignPortfolioItem from '@src/components/common/TestReDesignPortfolioItem';
-import * as S from '@src/style/common/mainPagePortfolioStyle';
+import PortfolioItem from '@src/components/common/PortfolioItem';
+import * as S from '@src/style/common/commonStyles';
 
 interface PortfolioData {
   content: PortfolioDataType[];
@@ -49,7 +49,7 @@ const SearchResults = () => {
           <StLayout>
             <S.PortfolioListContainer>
               {portfolioData.content.map(portfolio => (
-                <TestReDesignPortfolioItem key={portfolio.id} item={portfolio} />
+                <PortfolioItem key={portfolio.id} item={portfolio} />
               ))}
             </S.PortfolioListContainer>
           </StLayout>
