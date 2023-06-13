@@ -15,6 +15,11 @@ export const Mobile = ({ children }: { children: JSX.Element }): JSX.Element | n
   return isMobile ? children : null;
 };
 
+export const DesktopAndTablet = ({ children }: { children: JSX.Element }): JSX.Element | null => {
+  const isTabletAndMobile = useMediaQuery({ minWidth: 768 });
+  return isTabletAndMobile ? children : null;
+};
+
 export const TabletAndMobile = ({ children }: { children: JSX.Element }): JSX.Element | null => {
   const isTabletAndMobile = useMediaQuery({ maxWidth: 1023 });
   return isTabletAndMobile ? children : null;
