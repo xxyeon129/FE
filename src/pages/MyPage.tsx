@@ -9,8 +9,12 @@ import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
 import user from 'src/assets/nav/nav-default-user-image-icon.svg';
 import { useSetRecoilState } from 'recoil';
 import { myPageEditState } from '@src/states/myPageEditState';
-import { ReactComponent as Close } from 'src/assets/Group 198.svg';
-import { ReactComponent as Upload } from 'src/assets/Subtract.svg';
+import { ReactComponent as Close } from 'src/assets/mypage-close.svg';
+import { ReactComponent as Upload } from 'src/assets/mypage-upload.svg';
+import WithdrawalModal from '@src/components/myPage/WithdrawalModal';
+import UpdatePasswordModal from '@src/components/myPage/UpdatePasswordModal';
+import UpdateProfileModal from '@src/components/myPage/UpdateProfileModal';
+
 interface UserData {
   nickname: string;
   email: string;
@@ -29,6 +33,8 @@ const MyPage = () => {
   const [profileImage, setProfileImage] = useState<File | null | string>(null);
   const [previewImage, setPreviewImage] = useState<File | string>('');
   const [showModal, setShowModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [nicknameError, setNicknameError] = useState('');
   const [oldpassword, setOldPassword] = useState('');
   const [newpassword, setNewPassword] = useState('');
@@ -36,6 +42,7 @@ const MyPage = () => {
   const [oldpasswordError, setOldPasswordError] = useState('');
   const [newpasswordError, setNewPasswordError] = useState('');
   const [checknewpasswordError, setCheckNewPasswordError] = useState('');
+
   const [apiError, setApiError] = useState('');
   const setMyPageEdit = useSetRecoilState(myPageEditState);
   const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () =>
@@ -52,7 +59,7 @@ const MyPage = () => {
 
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {
-      alert('회원 정보가 수정되었습니다.');
+      setShowUpdateModal(true);
       refetch();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
@@ -66,7 +73,7 @@ const MyPage = () => {
   });
   const updatePasswordMutation = useMutation(updatePassword, {
     onSuccess: () => {
-      alert('비밀번호가 변경되었습니다.');
+      setShowPasswordModal(true);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       setApiError(error.response?.data.errorMessage as string);
@@ -207,7 +214,6 @@ const MyPage = () => {
                 onChange={handleProfileImageChange}
                 placeholder="프로필 이미지"
               />
-              {/* <StTextBox> */}
               <StTextWrapper>
                 <StTitle>닉네임</StTitle>
                 <StInput
@@ -293,23 +299,10 @@ const MyPage = () => {
           </StBottom>
         </StMyPageBox>
       )}
-      {showModal && (
-        <ModalWrapper>
-          <ModalContent>
-            <h2>회원탈퇴</h2>
-            <StLayout>
-              <p>지금까지 폴 서비스를 이용해주셔서 감사합니다</p>
-              <br />
-              <p>회원 탈퇴시 폴 서비스 내 계정 정보가</p> <p>삭제되고 복구할 수 없습니다.</p>
-            </StLayout>
-            <StDelUser>
-              <StBadButton onClick={handleWithdrawal}>탈퇴하기</StBadButton>
-              <StGoodButton onClick={handleCloseModal}>취소</StGoodButton>
-            </StDelUser>
-          </ModalContent>
-        </ModalWrapper>
-      )}
-      <Sttest></Sttest>
+      {showModal && <WithdrawalModal onWithdrawal={handleWithdrawal} onClose={handleCloseModal} />}
+      {showUpdateModal && <UpdateProfileModal onClose={() => setShowUpdateModal(false)} />}
+      {showPasswordModal && <UpdatePasswordModal onClose={() => setShowPasswordModal(false)} />}
+      <Stbottom></Stbottom>
     </Stdiv>
   );
 };
@@ -320,35 +313,9 @@ const Stdiv = styled.div`
   position: relative;
 `;
 
-const Sttest = styled.div`
+const Stbottom = styled.div`
   background: #6bf65f;
   height: 60%;
-`;
-
-const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ModalContent = styled.div`
-  background-color: white;
-  border-radius: 15px;
-  padding: 60px 0px;
-  background: #fefefe;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  width: 500px;
-  height: 600px;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 `;
 
 const StMyPageBox = styled.div`
@@ -421,22 +388,6 @@ const StBottom = styled.div`
   }
 `;
 
-const StEditButton = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-  margin-left: 300px;
-  width: 24px;
-  height: 24px;
-
-  @media (max-width: 768px) {
-    margin-left: 0;
-    margin-top: 20px;
-    align-items: center;
-  }
-`;
-
 //-------------------------------------------------------------
 
 const StMyPageEditBox = styled.div`
@@ -467,15 +418,6 @@ const StLayout = styled.div`
 const StTitle = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
-`;
-
-const StTextBox = styled.div`
-  width: 100%;
-  white-space: normal;
-  word-break: break-all;
-  div {
-    padding-bottom: 15px;
-  }
 `;
 
 const StTextWrapper = styled.div`
@@ -542,19 +484,6 @@ const StGoodButton = styled.button`
   }
 `;
 
-const StBadButton = styled.button`
-  padding: 10px 20px;
-  width: 100%;
-  margin: 0px 20px 0px;
-  border: 1px solid lightgray;
-  border-radius: 10px;
-  font-weight: bold;
-  color: gray;
-  &:hover {
-    background-color: #d3d3d3;
-  }
-`;
-
 const StEditIcon = styled(EditIcon)`
   width: 24px;
   height: 24px;
@@ -597,11 +526,6 @@ const StPwContent = styled.div`
   }
 `;
 
-const StDelUser = styled.div`
-  display: flex;
-  width: 300px;
-`;
-
 const StClose = styled.div`
   display: flex;
   flex-direction: column;
@@ -616,9 +540,6 @@ const StCameraIcon = styled(Upload)`
   width: 30px;
   height: 30px;
   cursor: pointer;
-`;
-const StLabel = styled.label`
-  display: none;
 `;
 
 const StMid = styled.div`
