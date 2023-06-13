@@ -9,7 +9,6 @@ import {
 } from '@src/states';
 import { categoryListWithIcon } from '@src/constants/portfolioFilteringData';
 import { PATH_URL } from '@src/constants/constants';
-import { ReactComponent as HomeIcon } from '@src/assets/nav/nav-home-icon.svg';
 
 const Category = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
@@ -45,13 +44,8 @@ const Category = () => {
 
   return (
     <StCategory>
-      <StHome onClick={onClickHome}>
-        <HomeIcon />
-        <StLabel bold={`${selectedCategory === 'Home'}`}>Home</StLabel>
-      </StHome>
       {categoryListWithIcon.map((categoryItem, categoryItemIndex: number) => (
         <StCategoryItem key={categoryItemIndex} onClick={() => onClickCategory(categoryItem.value)}>
-          <categoryItem.icon />
           <StLabel key={categoryItemIndex} bold={`${selectedCategory === categoryItem.value}`}>
             {categoryItem.value}
           </StLabel>

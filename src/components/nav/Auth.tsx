@@ -42,7 +42,9 @@ const Auth = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: AuthProps) => {
   );
 };
 
-const StAuth = styled.div``;
+const StAuth = styled.div`
+  margin-bottom: 50px;
+`;
 
 const StAuthClickContainer = styled.span`
   display: flex;

@@ -25,8 +25,8 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <StLayout>
-      <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
       <Header onClickMobileMenu={onClickMobileMenu} />
+      <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
       <StContent>{children}</StContent>
       {isLoginModalOpen && (
         <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />
@@ -51,9 +51,9 @@ const StLayout = styled.div`
 `;
 
 const StContent = styled.div`
-  margin-left: 250px;
+  margin-left: 270px;
   padding-top: 52px;
-  width: calc(100% - 250px);
+  width: calc(100% - 270px);
   min-height: 100vh;
 `;
 

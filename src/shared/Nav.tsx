@@ -28,7 +28,8 @@ const Nav = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: NavProps) => {
           setIsLoginModalOpen={setIsLoginModalOpen}
           setIsSignUpModalOpen={setIsSignUpModalOpen}
         />
-        <LightAndDarkMode />
+        {/* TODO: 다크모드 2차 scope */}
+        {/* <LightAndDarkMode /> */}
       </StBottomContainer>
     </StNav>
   );
@@ -38,16 +39,18 @@ const StNav = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-right: 1px solid ${({ theme }) => theme.color.lightGray};
+  box-shadow: 3px -3px 8px rgba(0, 0, 0, 0.13);
+  border-top-right-radius: 20px;
 
   position: fixed;
-  height: 100vh;
-  width: 250px;
-  padding: 30px 25px;
-  box-shadow: inset -30px 4px 50px rgba(0, 0, 0, 0.06);
+  top: 70px;
+  height: calc(100vh - 70px);
+  width: 270px;
+  padding: 45px 41px;
 
   background-color: white;
   font-family: 'Open Sans', sans-serif;
+  z-index: 1000;
 `;
 
 const StAutoSearchContainer = styled.div`

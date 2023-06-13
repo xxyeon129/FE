@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { DesktopAndTablet, Mobile } from '@src/style/mediaQuery';
 import HeaderListItem from '@src/components/header/HeaderListItem';
+import { ReactComponent as Logo } from '@src/assets/logo.svg';
 
 interface HeaderProps {
   onClickMobileMenu: () => void;
@@ -9,6 +10,7 @@ interface HeaderProps {
 const Header = ({ onClickMobileMenu }: HeaderProps) => {
   return (
     <StHeader>
+      <StLogo />
       <DesktopAndTablet>
         <StUnorderedList>
           <HeaderListItem liWidth="130px" />
@@ -26,19 +28,24 @@ const Header = ({ onClickMobileMenu }: HeaderProps) => {
 
 const StHeader = styled.header`
   position: fixed;
-  margin-left: 250px;
-  padding-right: 41px;
+  padding: 0 41px;
   width: 100%;
-  height: 52px;
-  background-color: white;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-family: 'Open Sans', sans-serif;
+  background-color: white;
   z-index: 998;
 `;
 
+const StLogo = styled(Logo)`
+  width: 63px;
+  height: 20px;
+`;
+
 const StUnorderedList = styled.ul`
-  margin-right: 250px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   height: 100%;
 
@@ -46,7 +53,6 @@ const StUnorderedList = styled.ul`
 `;
 
 const StMobileMenuContainer = styled.span`
-  margin-right: 250px;
   display: flex;
   justify-content: flex-end;
   align-items: center;

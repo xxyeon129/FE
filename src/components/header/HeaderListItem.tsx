@@ -22,7 +22,7 @@ const HeaderListItem = ({ liWidth, setIsMobileDropdownOpen }: HeaderListItemProp
   const navigate = useNavigate();
 
   const headerList = [
-    { value: 'Services', underLineWidth: '38%', path: '' },
+    { value: 'Home', underLineWidth: '28%', path: '' },
     { value: 'My Portfolios', underLineWidth: '63%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
     { value: 'My Page', underLineWidth: '40%', path: `${PATH_URL.MY_PAGE}/${userId}` },
     { value: 'Notification', underLineWidth: '57%', path: '' },
@@ -89,7 +89,7 @@ const StText = styled.span<{ underlinewidth: string; headerclicked: string }>`
 
   display: flex;
   justify-content: center;
-  padding-bottom: 7px;
+  padding-bottom: 4px;
 
   &::before {
     content: '';
