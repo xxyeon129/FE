@@ -49,7 +49,6 @@ const StNav = styled.div`
   padding: 45px 41px;
 
   background-color: white;
-  font-family: 'Open Sans', sans-serif;
   z-index: 1000;
 `;
 

@@ -34,7 +34,6 @@ const StHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: 'Open Sans', sans-serif;
   background-color: white;
   z-index: 998;
 `;
