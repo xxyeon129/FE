@@ -26,15 +26,14 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
         {isportfolioImageExist && !imageLoadError ? (
           <StPortfolioImg src={item.portfolioImage} onError={onImageError} />
         ) : (
-          <NoImage height="350px" borderRadius="10px" />
+          <NoImage height="270px" borderRadius="10px" />
         )}
-        <StShadow />
         <StDescriptionContainer>
-          <StTitle>{item.portfolioTitle}</StTitle>
           <StUserContainer>
-            <UserProfileImage imgSrc={item.userProfileImage} size="22px" />
+            <UserProfileImage imgSrc={item.userProfileImage} size="25px" />
             <StUserNameText>{item.userName}</StUserNameText>
           </StUserContainer>
+          <StTitle>{item.portfolioTitle}</StTitle>
         </StDescriptionContainer>
       </StImgContainer>
     </StItemContainer>
@@ -55,52 +54,35 @@ const StItemContainer = styled.div`
 const StImgContainer = styled.div`
   width: 250px;
   height: 310px;
-  position: relative;
 `;
 
 const StPortfolioImg = styled.img`
   width: 100%;
-  height: 350px;
+  height: 270px;
   object-fit: cover;
   border-radius: 10px;
-  z-index: -1;
 `;
 
 const StDescriptionContainer = styled.div`
-  position: absolute;
-  bottom: -7%;
-  left: 5%;
-  z-index: 10;
+  margin-top: 15px;
 `;
 
 const StUserContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 `;
 
 const StUserNameText = styled.div`
-  color: white;
   font-size: 15px;
   padding-left: 6px;
 `;
 
 const StTitle = styled.div`
-  color: white;
   font-weight: bold;
   font-size: 19px;
-`;
-
-const StShadow = styled.div`
-  position: relative;
-  padding: 50px;
-  bottom: 33%;
-  width: 100%;
-  z-index: 1;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-
-  box-shadow: rgba(0, 0, 0, 0.35) 0px -100px 36px -38px inset;
+  line-height: 110%;
 `;
 
 export default PortfolioItem;
