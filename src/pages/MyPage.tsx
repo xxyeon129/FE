@@ -6,13 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 import { useQuery, useMutation } from 'react-query';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
-import { ReactComponent as UploadIcon } from 'src/assets/mypageimg-upload.svg';
-import { ReactComponent as DeleteIcon } from 'src/assets/mypageimage-del.svg';
-import DefaultIcon from '@src/assets/images/defaultimg.jpg';
 import user from 'src/assets/nav/nav-default-user-image-icon.svg';
 import { useSetRecoilState } from 'recoil';
 import { myPageEditState } from '@src/states/myPageEditState';
-
+import { ReactComponent as Close } from 'src/assets/Group 198.svg';
+import { ReactComponent as Upload } from 'src/assets/Subtract.svg';
 interface UserData {
   nickname: string;
   email: string;
@@ -122,9 +120,7 @@ const MyPage = () => {
     const nicknameBlob = new Blob([text], { type: 'application/json' });
     formData.append('nickname', nicknameBlob);
     console.log(profileImage);
-    // if (profileImage) {
     formData.append('profileImage', profileImage as Blob);
-    // }
 
     try {
       await updateUserMutation.mutateAsync([formData, Number(id)]);
@@ -166,11 +162,6 @@ const MyPage = () => {
     setCheckNewPasswordError('');
   };
 
-  // const removeProfileImage = () => {
-  //   setProfileImage(null);
-  //   setPreviewImage(user);
-  // };
-
   const handleCloseClick = () => {
     setIsEditing(false);
   };
@@ -193,18 +184,22 @@ const MyPage = () => {
   };
 
   return (
-    <div>
+    <Stdiv>
       <StHeader></StHeader>
       {isEditing ? (
         <StMyPageEditBox>
+          <StClose>
+            <Close onClick={handleCloseClick}>닫기</Close>
+          </StClose>
           <StLayout>
-            <StImageEditBox>
-              {typeof previewImage === 'string' && <StImage src={previewImage} />}
-            </StImageEditBox>
-            <StImageUploadWrap>
-              <StLabel htmlFor="file">
-                <StUploadIcon /> 프로필 사진 업로드
-              </StLabel>
+            <StContent>
+              <h4>프로필 수정</h4>
+              <StImageEditBox>
+                {typeof previewImage === 'string' && <StImage src={previewImage} />}
+              </StImageEditBox>
+              <label htmlFor="file">
+                <StCameraIcon />
+              </label>
               <StFileUpload
                 type="file"
                 name="profileImage"
@@ -212,10 +207,8 @@ const MyPage = () => {
                 onChange={handleProfileImageChange}
                 placeholder="프로필 이미지"
               />
-              {/* <DeleteIcon onClick={removeProfileImage} /> */}
-            </StImageUploadWrap>
-            <StTextBox>
-              <div>
+              {/* <StTextBox> */}
+              <StTextWrapper>
                 <StTitle>닉네임</StTitle>
                 <StInput
                   type="text"
@@ -224,9 +217,9 @@ const MyPage = () => {
                   onChange={handleNicknameChange}
                   placeholder="닉네임을 적어주세요"
                 />
-              </div>
-              {nicknameError && <StError>{nicknameError}</StError>}
-              <div>
+                {nicknameError && <StError>{nicknameError}</StError>}
+              </StTextWrapper>
+              <StTextWrapper>
                 <StTitle>이메일</StTitle>
                 <StInput
                   type="email"
@@ -235,14 +228,15 @@ const MyPage = () => {
                   onChange={handleEmailChange}
                   disabled
                 />
-              </div>
+              </StTextWrapper>
               <div>
-                <StGoodButton onClick={handleSubmit}>저장</StGoodButton>
+                <StGoodButton onClick={handleSubmit}>변경하기</StGoodButton>
               </div>
-            </StTextBox>
-
-            <StTextBox>
-              <div>
+            </StContent>
+            <StMid></StMid>
+            <StPwContent>
+              <h4>비밀번호</h4>
+              <StTextWrapper>
                 <StTitle>현재 비밀번호</StTitle>
                 <StInput
                   type="password"
@@ -252,8 +246,8 @@ const MyPage = () => {
                   placeholder="현재 비밀번호"
                 />
                 {oldpasswordError && <StError>{oldpasswordError}</StError>}
-              </div>
-              <div>
+              </StTextWrapper>
+              <StTextWrapper>
                 <StTitle>비밀번호</StTitle>
                 <StInput
                   type="password"
@@ -263,8 +257,8 @@ const MyPage = () => {
                   placeholder="비밀번호"
                 />
                 {newpasswordError && <StError>{newpasswordError}</StError>}
-              </div>
-              <div>
+              </StTextWrapper>
+              <StTextWrapper>
                 <StTitle>비밀번호 확인</StTitle>
                 <StInput
                   type="password"
@@ -275,21 +269,15 @@ const MyPage = () => {
                 />
                 {checknewpasswordError && <StError>{checknewpasswordError}</StError>}
                 {apiError && <StError>{apiError}</StError>}
-              </div>
+              </StTextWrapper>
               <div>
-                <StGoodButton onClick={handleSavePassword}>비밀번호 저장</StGoodButton>
+                <StGoodButton onClick={handleSavePassword}>변경하기</StGoodButton>
               </div>
-            </StTextBox>
-            <StBadButton type="submit" onClick={handleCloseClick}>
-              닫기
-            </StBadButton>
+            </StPwContent>
           </StLayout>
         </StMyPageEditBox>
       ) : (
         <StMyPageBox>
-          <StEditButton>
-            <StEditIcon onClick={handleEditClick} />
-          </StEditButton>
           <StImageBox>
             {data?.profileImage ? (
               <StImage src={data.profileImage} alt="Profile" />
@@ -300,6 +288,7 @@ const MyPage = () => {
           <StBottom>
             <h1>{data?.nickname}</h1>
             <p>{data?.email}</p>
+            <StEditIcon onClick={handleEditClick} />
             <button onClick={handleWithdrawalClick}>회원탈퇴</button>
           </StBottom>
         </StMyPageBox>
@@ -320,11 +309,21 @@ const MyPage = () => {
           </ModalContent>
         </ModalWrapper>
       )}
-    </div>
+      <Sttest></Sttest>
+    </Stdiv>
   );
 };
-
 export default MyPage;
+
+const Stdiv = styled.div`
+  height: 100%;
+  position: relative;
+`;
+
+const Sttest = styled.div`
+  background: #6bf65f;
+  height: 60%;
+`;
 
 const ModalWrapper = styled.div`
   position: fixed;
@@ -343,33 +342,30 @@ const ModalContent = styled.div`
   border-radius: 15px;
   padding: 60px 0px;
   background: #fefefe;
-  /* border: 3px solid rgba(0, 0, 0, 0.2); */
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
   width: 500px;
   height: 600px;
-  /* overflow-y: auto;
-  max-height: 100%; */
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 `;
 
 const StMyPageBox = styled.div`
-  position: relative;
+  position: absolute;
   width: 916px;
-  height: 550px;
+  height: 470px;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -35%);
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: white;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
-    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
   border-radius: 15px;
 
   @media (max-width: 768px) {
@@ -378,32 +374,33 @@ const StMyPageBox = styled.div`
 `;
 
 const StHeader = styled.div`
-  /* position: relative; */
   width: 100%;
-  height: 311px;
-  /* background: #a9a9a9; */
+  height: 40%;
+  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const StImageBox = styled.div`
-  border: 1px solid #d3d3d3;
-  width: 168px;
-  height: 168px;
-  margin: 20px;
-  /* background-image: url(${DefaultIcon}); */
-  background-size: 168px;
+  border: 5px solid #ffffff;
+  width: 138.42px;
+  height: 138.42px;
+  left: 815.29px;
+  top: 381.29px;
+  box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.15);
   border-radius: 100%;
   display: flex;
+  background: #ffffff;
+  box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.15);
   justify-content: center;
   align-items: center;
+  margin-bottom: 30px;
 `;
 
 const StImage = styled.img`
   width: 100%;
   height: 100%;
-  /* background-image: url(${DefaultIcon}); */
   background-size: 100%;
   border-radius: 100%;
 `;
@@ -414,7 +411,13 @@ const StBottom = styled.div`
   justify-content: center;
   align-items: center;
   button {
-    margin-top: 100px;
+    margin-top: 30px;
+  }
+  h1 {
+    margin-bottom: 10px;
+  }
+  p {
+    margin-bottom: 20px;
   }
 `;
 
@@ -424,6 +427,8 @@ const StEditButton = styled.div`
   justify-content: center;
   align-items: flex-end;
   margin-left: 300px;
+  width: 24px;
+  height: 24px;
 
   @media (max-width: 768px) {
     margin-left: 0;
@@ -435,20 +440,15 @@ const StEditButton = styled.div`
 //-------------------------------------------------------------
 
 const StMyPageEditBox = styled.div`
-  position: fixed;
+  position: absolute;
   top: 50%;
-  left: 55%;
-  transform: translate(-50%, -47%);
-  width: 458px;
-  height: 860px;
-  background: white;
-  /* border: 1px solid rgba(0, 0, 0, 0.02); */
-  /* box-shadow: 2px 6px 8px rgba(255, 245, 190, 0.25); 
-  */
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
-    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
-  border-radius: 15px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 889px;
+  height: 542px;
+  background: #ffffff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
 
   @media (max-width: 768px) {
     width: 90%;
@@ -458,14 +458,15 @@ const StMyPageEditBox = styled.div`
 
 const StLayout = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  padding: 0px 75px;
+  padding: 0px 68px;
+  gap: 60px;
 `;
 
 const StTitle = styled.div`
   font-weight: bold;
+  margin-bottom: 5px;
 `;
 
 const StTextBox = styled.div`
@@ -476,19 +477,20 @@ const StTextBox = styled.div`
     padding-bottom: 15px;
   }
 `;
+
+const StTextWrapper = styled.div`
+  margin-bottom: 25px;
+`;
 const StInput = styled.input`
-  width: 100%;
-  height: 30px;
-  padding: 20px;
-  background: #fafafa;
-  border: 0.6px solid black;
+  padding: 10px;
   width: 308px;
-  height: 39px;
-  left: 684px;
-  top: 509px;
+  left: 7.76%;
+  right: 55.12%;
+  top: 49.26%;
+  bottom: 43.54%;
   background: #ffffff;
-  border: 2px solid rgba(203, 203, 203, 0.7);
-  border-radius: 40px;
+  border: 1px solid rgba(203, 203, 203, 0.7);
+  border-radius: 6px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -497,34 +499,41 @@ const StInput = styled.input`
 
 const StError = styled.div`
   font-size: 14px;
-  padding: 4px;
   color: #767676;
+  padding: 0px 10px;
 `;
 
 const StFileUpload = styled.input`
   width: 0;
-  height: 42px;
+  height: 5px;
   opacity: 0;
 `;
 
 const StImageEditBox = styled.div`
-  border: 1px solid #d3d3d3;
-  width: 120px;
-  height: 120px;
-  left: 786px;
-  top: 236px;
-  margin: 20px;
+  border: 3px solid #ffffff;
+  left: 20.75%;
+  right: 68.22%;
+  top: 22.96%;
+  bottom: 58.94%;
+  box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.15);
+  width: 107px;
+  height: 107.15px;
   border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const StGoodButton = styled.button`
-  width: 100%;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: bold;
+  width: 126px;
+  height: 36px;
+  left: 592px;
+  top: 428px;
+  font-family: 'SUIT';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 35px;
+  border-radius: 8px;
+
+  text-align: center;
 
   background-color: #6bf65f;
   &:hover {
@@ -547,8 +556,8 @@ const StBadButton = styled.button`
 `;
 
 const StEditIcon = styled(EditIcon)`
-  width: 60px;
-  height: 60px;
+  width: 24px;
+  height: 24px;
   border-radius: 100%;
 
   &:hover {
@@ -556,11 +565,36 @@ const StEditIcon = styled(EditIcon)`
   }
 `;
 
-const StImageUploadWrap = styled.div`
+const StContent = styled.div`
   display: flex;
-  justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
+
+  h4 {
+    font-family: 'SUIT';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+`;
+
+const StPwContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h4 {
+    font-family: 'SUIT';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+    margin-bottom: 77px;
+  }
 `;
 
 const StDelUser = styled.div`
@@ -568,15 +602,25 @@ const StDelUser = styled.div`
   width: 300px;
 `;
 
-const StLabel = styled.label`
+const StClose = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-right: 20px;
-  font-size: 16px;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 25px;
 `;
 
-const StUploadIcon = styled(UploadIcon)`
-  margin-right: 12px;
+const StCameraIcon = styled(Upload)`
+  top: 50%;
+  left: 50%;
+  transform: translate(100%, -90%);
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+`;
+const StLabel = styled.label`
+  display: none;
+`;
+
+const StMid = styled.div`
+  border: 1px solid #d3d3d3;
 `;
