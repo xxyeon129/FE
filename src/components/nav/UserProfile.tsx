@@ -65,8 +65,8 @@ const StProfileContainer = styled.div`
 `;
 
 const StProfileImg = styled.img`
-  width: 53px;
-  height: 53px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   object-fit: cover;
 `;
