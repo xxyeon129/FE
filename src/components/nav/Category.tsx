@@ -7,7 +7,7 @@ import {
   selectedCategoryState,
   selectedHeaderState,
 } from '@src/states';
-import { categoryListWithIcon } from '@src/constants/portfolioFilteringData';
+import { categoryListForDisplay } from '@src/constants/portfolioFilteringData';
 import { PATH_URL } from '@src/constants/constants';
 
 const Category = () => {
@@ -44,10 +44,14 @@ const Category = () => {
 
   return (
     <StCategory>
-      {categoryListWithIcon.map((categoryItem, categoryItemIndex: number) => (
+      {categoryListForDisplay.map((categoryItem, categoryItemIndex: number) => (
         <StCategoryItem key={categoryItemIndex} onClick={() => onClickCategory(categoryItem.value)}>
-          <StLabel key={categoryItemIndex} bold={`${selectedCategory === categoryItem.value}`}>
-            {categoryItem.value}
+          <StLabel
+            key={categoryItemIndex}
+            isclicked={`${selectedCategory === categoryItem.value}`}
+            color={categoryItem.color}
+          >
+            {categoryItem.display}
           </StLabel>
         </StCategoryItem>
       ))}
@@ -61,24 +65,28 @@ const StCategory = styled.div`
   gap: 40px;
 `;
 
-const alignText = `
+const StCategoryItem = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
 `;
 
-const StHome = styled.div`
-  ${alignText}
-  margin-top: 10px;
-`;
-
-const StCategoryItem = styled.div`
-  ${alignText}
-`;
-
-const StLabel = styled.div<{ bold: string }>`
+const StLabel = styled.div<{ isclicked: string; color: string }>`
   margin-left: 10px;
-  font-weight: ${({ bold }) => (bold === 'true' ? 'bold' : 'normal')};
+  font-weight: ${({ isclicked }) => (isclicked === 'true' ? 'bold' : 'normal')};
+  display: flex;
+  align-items: center;
+
+  &::after {
+    content: '';
+    display: ${({ isclicked }) => (isclicked === 'true' ? 'block' : 'none')};
+    background-color: ${({ color }) => color};
+    width: 8px;
+    height: 8px;
+    border-radius: 50px;
+    margin-top: 2px;
+    margin-left: 5px;
+  }
 `;
 
 export default Category;

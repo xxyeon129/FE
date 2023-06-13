@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { filterState } from '@src/states';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { filterState, selectedCategoryState } from '@src/states';
+import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
+import theme from '@src/style/theme';
 
 interface FilterPropsType {
   filterList: string[];
@@ -9,11 +12,29 @@ interface FilterPropsType {
 
 const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
   const [filter, setFilter] = useRecoilState<string>(filterState);
+  const [backgroundColor, setBackgroundColor] = useState('');
+  const selectedCategory = useRecoilValue(selectedCategoryState);
 
   const onClickFilter = (filterKeyword: string) => {
     setFilter(filterKeyword);
     onClickFilterButton(filterKeyword);
   };
+
+  useEffect(() => {
+    switch (selectedCategory) {
+      case CATEGORY_KEYWORD.DEVELOP:
+        setBackgroundColor(theme.color.neonGreen);
+        break;
+      case CATEGORY_KEYWORD.DESIGN:
+        setBackgroundColor(theme.color.blueGreen);
+        break;
+      case CATEGORY_KEYWORD.PHOTOGRAPHER:
+        setBackgroundColor(theme.color.skyBlue);
+        break;
+      default:
+        break;
+    }
+  }, [selectedCategory]);
 
   return (
     <StFilterListContainer>
@@ -22,6 +43,7 @@ const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
           key={filterItemIndex}
           onClick={() => onClickFilter(filterKeyword)}
           isselected={`${filterKeyword === filter}`}
+          color={backgroundColor}
         >
           {filterKeyword}
         </StFilterButton>
@@ -40,15 +62,14 @@ const StFilterListContainer = styled.div`
   width: 100%;
 `;
 
-const StFilterButton = styled.button<{ isselected: string }>`
+const StFilterButton = styled.button<{ isselected: string; color: string }>`
   font-size: 16px;
   width: 140px;
   height: 37px;
   border-radius: 50px;
-  background-color: ${({ theme, isselected }) =>
-    isselected === 'true' ? theme.color.neonGreen : theme.color.lightGray};
-  font-weight: ${({ isselected }) => isselected === 'true' && 'bold'};
-  font-family: 'Open Sans', sans-serif;
+  background-color: ${({ theme, isselected, color }) =>
+    isselected === 'true' ? color : theme.color.lightGray};
+  font-weight: ${({ isselected }) => isselected === 'true' && '800'};
 `;
 
 export default Filter;

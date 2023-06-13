@@ -3,7 +3,9 @@ const theme = {
     neonGreen: '#6BF65F',
     oliveGreen: '#2C4001',
     lightGreen: '#45BE59',
+    blueGreen: '#5FF6D2',
     lightGray: '#F3F3F3;',
+    skyBlue: '#99E7FF',
     fontColor: '#3B3B3B',
   },
   size: {
