@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { projectDataAtom } from '@src/states/createProjectState';
 import { useRecoilState } from 'recoil';
 import { createProject } from '@src/apis/projectapi';
-import { ReactComponent as Pol } from 'src/assets/Group 224.svg';
+import { ReactComponent as Pol } from 'src/assets/pol-icon.svg';
 import { InputField } from './InputField';
 import { TextAreaField } from './TextAreaField';
 import { ImageField } from './ImageField';
