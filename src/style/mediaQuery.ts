@@ -14,3 +14,8 @@ export const Mobile = ({ children }: { children: JSX.Element }): JSX.Element | n
   const isMobile = useMediaQuery({ maxWidth: 767 });
   return isMobile ? children : null;
 };
+
+export const TabletAndMobile = ({ children }: { children: JSX.Element }): JSX.Element | null => {
+  const isTabletAndMobile = useMediaQuery({ maxWidth: 1023 });
+  return isTabletAndMobile ? children : null;
+};
