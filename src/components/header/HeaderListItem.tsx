@@ -35,6 +35,10 @@ const HeaderListItem = ({ liWidth, setIsMobileDropdownOpen }: HeaderListItemProp
     if (path.length !== 0) {
       navigate(path);
     }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   useEffect(() => {
