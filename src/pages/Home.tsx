@@ -3,14 +3,44 @@ import { ReactComponent as Logo } from '@src/assets/logo.svg';
 import { ReactComponent as BackgroundIcon } from '@src/assets/home-background-icon.svg';
 import { PATH_URL } from '@src/constants/constants';
 import theme from '@src/style/theme';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  categoryState,
+  filterState,
+  selectedCategoryState,
+  selectedHeaderState,
+} from '@src/states';
+import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
 
 const Home = () => {
+  // const category = useRecoilValue(categoryState);
+  // const filter = useRecoilValue(filterState);
+  const setCategory = useSetRecoilState<string>(categoryState);
+  const setFilter = useSetRecoilState<string>(filterState);
+  const setSelectedCategory = useSetRecoilState<string>(selectedCategoryState);
+  const setSelectedHeader = useSetRecoilState<boolean>(selectedHeaderState);
+
+  const navigate = useNavigate();
+
   const buttonList = [
-    { value: '개발자', color: theme.color.neonGreen },
-    { value: '디자이너', color: theme.color.skyBlue },
-    { value: '포토그래퍼', color: theme.color.blueGreen },
+    { display: '개발자', value: CATEGORY_KEYWORD.DEVELOP, color: theme.color.neonGreen },
+    { display: '디자이너', value: CATEGORY_KEYWORD.DESIGN, color: theme.color.skyBlue },
+    { display: '포토그래퍼', value: CATEGORY_KEYWORD.PHOTOGRAPHER, color: theme.color.blueGreen },
   ];
+
+  const onClickButton = (selectedCategory: string) => {
+    setCategory(selectedCategory);
+    setSelectedCategory(selectedCategory);
+    setFilter('All');
+    setSelectedHeader(false);
+
+    navigate(PATH_URL.MAIN);
+  };
+
+  // useEffect(() => {
+  //   console.log('category => ', category, 'filter => ', filter);
+  // }, []);
 
   return (
     <StHome>
@@ -22,9 +52,9 @@ const Home = () => {
         <StLogo />
         <StButtonContainer>
           {buttonList.map((button, index) => (
-            <Link to={PATH_URL.MAIN}>
-              <StButton color={button.color}>{button.value} 포트폴리오 둘러보기</StButton>
-            </Link>
+            <StButton key={index} color={button.color} onClick={() => onClickButton(button.value)}>
+              {button.display} 포트폴리오 둘러보기
+            </StButton>
           ))}
         </StButtonContainer>
         <StShadow />
