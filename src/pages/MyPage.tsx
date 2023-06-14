@@ -14,6 +14,7 @@ import { ReactComponent as Upload } from 'src/assets/mypage-upload.svg';
 import WithdrawalModal from '@src/components/myPage/WithdrawalModal';
 import UpdatePasswordModal from '@src/components/myPage/UpdatePasswordModal';
 import UpdateProfileModal from '@src/components/myPage/UpdateProfileModal';
+import { ReactComponent as Banner } from 'src/assets/mypage-banner.svg';
 
 interface UserData {
   nickname: string;
@@ -192,7 +193,7 @@ const MyPage = () => {
 
   return (
     <Stdiv>
-      <StHeader></StHeader>
+      <StHeader isEditing={isEditing}></StHeader>
       {isEditing ? (
         <StMyPageEditBox>
           <StClose>
@@ -302,7 +303,7 @@ const MyPage = () => {
       {showModal && <WithdrawalModal onWithdrawal={handleWithdrawal} onClose={handleCloseModal} />}
       {showUpdateModal && <UpdateProfileModal onClose={() => setShowUpdateModal(false)} />}
       {showPasswordModal && <UpdatePasswordModal onClose={() => setShowPasswordModal(false)} />}
-      <Stbottom></Stbottom>
+      <Stbottom isEditing={isEditing} />
     </Stdiv>
   );
 };
@@ -313,9 +314,10 @@ const Stdiv = styled.div`
   position: relative;
 `;
 
-const Stbottom = styled.div`
+const Stbottom = styled.div<{ isEditing: Boolean }>`
   background: #6bf65f;
   height: 60%;
+  background-color: ${props => (props.isEditing ? '#D3D3D3' : '#6BF65F')};
 `;
 
 const StMyPageBox = styled.div`
@@ -340,14 +342,19 @@ const StMyPageBox = styled.div`
   }
 `;
 
-const StHeader = styled.div`
+const StHeader = styled.div<{ isEditing: Boolean }>`
   width: 100%;
   height: 40%;
-  background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${props => (props.isEditing ? '#D3D3D3' : 'white')};
 `;
+
+// const StBanner = styled(Banner)`
+//   width: 100%;
+//   height: 100%;
+// `;
 
 const StImageBox = styled.div`
   border: 5px solid #ffffff;
