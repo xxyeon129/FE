@@ -185,7 +185,7 @@ const StModalWrapper = styled.div`
   display: flex;
   background-color: rgba(0, 0, 0, 0.3);
   align-items: center;
-  z-index: 999;
+  z-index: 1001;
 `;
 
 const StModalContent = styled.div`

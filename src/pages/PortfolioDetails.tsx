@@ -474,8 +474,12 @@ function PortfolioDetails() {
                 {/* 프로젝트 리스트 출력 */}
                 {projects.map((item, index) => (
                   <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
-                    {item.projectImageList.length !== 0 ? (
-                      <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
+                    {item.projectImageList.length !== 0 && !imageLoadError ? (
+                      <StProjectImg
+                        src={item.projectImageList[0].imageUrl}
+                        alt="프로젝트 이미지"
+                        onError={onImageError}
+                      />
                     ) : (
                       <NoImage height="70%" borderTopRadius="10px" />
                     )}

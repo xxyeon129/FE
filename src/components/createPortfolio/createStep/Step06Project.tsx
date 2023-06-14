@@ -42,8 +42,12 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   useEffect(() => {
     if (projectData) {
       setIsProjectExist(true);
-      setProjectList(prevProject => [...prevProject, projectData]);
-      setProjectIdList(prevProjectIds => [...prevProjectIds, projectData.id]);
+
+      const isSameData = projectList.some(prevProject => prevProject.id === projectData.id);
+      if (!isSameData) {
+        setProjectList(prevProject => [...prevProject, projectData]);
+        setProjectIdList(prevProjectIds => [...prevProjectIds, projectData.id]);
+      }
     }
   }, [projectData]);
 
@@ -134,7 +138,6 @@ const StNoProjectText = styled.div`
 `;
 
 const StBackground = styled.div`
-  position: fixed;
   left: 0;
   right: 0;
   top: 0;

@@ -15,6 +15,11 @@ interface ProjectItemProps {
 
 const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) => {
   const [userData, setUserData] = useState({ nickname: '', profileImage: null });
+  const [imageLoadError, setImageLoadError] = useState(false);
+
+  const onImageError = () => {
+    setImageLoadError(true);
+  };
 
   useEffect(() => {
     let userId = useDecodeJWT().userId;
@@ -34,9 +39,10 @@ const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) =
             <StDeleteIcon />
           </StIconContainer>
         )}
-        {project.projectImageList.length !== 0 ? (
+        {project.projectImageList.length !== 0 && !imageLoadError ? (
           <StProjectImg
             src={project.projectImageList[0].imageUrl}
+            onError={onImageError}
             alt="project representative image"
           />
         ) : (
