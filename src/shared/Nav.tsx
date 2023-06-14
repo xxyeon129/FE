@@ -24,10 +24,7 @@ const Nav = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: NavProps) => {
       </StCategoryContainer>
 
       <StBottomContainer>
-        <Auth
-          setIsLoginModalOpen={setIsLoginModalOpen}
-          setIsSignUpModalOpen={setIsSignUpModalOpen}
-        />
+        <Auth setIsLoginModalOpen={setIsLoginModalOpen} />
         {/* TODO: 다크모드 2차 scope */}
         {/* <LightAndDarkMode /> */}
       </StBottomContainer>

@@ -22,7 +22,7 @@ const HeaderListItem = ({ liWidth, setIsMobileDropdownOpen }: HeaderListItemProp
   const navigate = useNavigate();
 
   const headerList = [
-    { value: 'Home', underLineWidth: '28%', path: '' },
+    { value: 'Home', underLineWidth: '28%', path: PATH_URL.HOME },
     { value: 'My Portfolios', underLineWidth: '63%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
     { value: 'My Page', underLineWidth: '40%', path: `${PATH_URL.MY_PAGE}/${userId}` },
     { value: 'Notification', underLineWidth: '57%', path: '' },
