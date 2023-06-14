@@ -3,13 +3,6 @@ import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { styled } from 'styled-components';
 import ProjectModal from '@src/components/myProject/ProjectDetail';
-import { ReactComponent as EditIconSvg } from '@src/assets/portfolioDetail/port-edit-icon.svg';
-import { ReactComponent as Trash } from '@src/assets/portfolioDetail/port-trash-icon.svg';
-import { ReactComponent as Mail } from '@src/assets/portfolioDetail/port-mail-icon.svg';
-import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
-import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
-import { ReactComponent as Blog } from '@src/assets/portfolioDetail/port-blogger-icon.svg';
-import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/port-youtube-icon.svg';
 import User from '@src/assets/nav/nav-default-user-image-icon.svg';
 import DeletePortfolioModal from '@src/components/myPortfolio/DeletePortfolioModal';
 import TechStackTag from '@src/components/createPortfolio/TechStackTag';
@@ -19,7 +12,14 @@ import { projectDataAtom } from '@src/states/createProjectState';
 import jwtDecode from 'jwt-decode';
 import { SERVER_URL } from '@src/constants/constants';
 import { getAccessToken } from '@src/apis/token';
-import NoImage from '@src/components/common/NoImage';
+import ImageTextSection from '@src/components/portfolio/detail/ImageTextSection';
+import LinkSection from '@src/components/portfolio/detail/LinkSection';
+import ProjectList from '@src/components/portfolio/detail/ProjectList';
+import Information from '@src/components/portfolio/edit/Information';
+import ImageChange from '@src/components/portfolio/edit/ImageChange';
+import EditLinkSection from '@src/components/portfolio/edit/EditLinkSection';
+import ProjectEditSection from '@src/components/portfolio/edit/ProjectEditSection';
+import DetailTechStack from '@src/components/portfolio/detail/DetailTechStack';
 
 function PortfolioDetails() {
   interface Project {
@@ -34,7 +34,7 @@ function PortfolioDetails() {
   const [hostid, setHostid] = useState<number>();
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
-  const [proFileImage, setProFileImage] = useState(null);
+  const [proFileImage, setProFileImage] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [residence, setResidence] = useState<string>('');
@@ -53,11 +53,9 @@ function PortfolioDetails() {
   const [createProjectModalOpen, setCreateProjectModalOpen] = useState<boolean>(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [imageLoadError, setImageLoadError] = useState(false);
+  const [imageLoadError, setImageLoadError] = useState<boolean>(false);
 
   const projectData = useRecoilValue(projectDataAtom);
-
-  console.log(getPortfolioImage);
 
   useEffect(() => {
     if (projectData !== null) {
@@ -114,6 +112,7 @@ function PortfolioDetails() {
     setProjects(selprojects);
     setIntro(response.data.data.intro);
     setProFileImage(response.data.data.profileImage || (User as string));
+    setPortfolioImagePreview(response.data.data.portfolioImage);
 
     if (techStack) {
       setTechStack(response.data.data.techStack.split(','));
@@ -166,10 +165,9 @@ function PortfolioDetails() {
       alert('수정완료');
     } catch (error: unknown) {
       if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
-        alert('토큰이 일치하지 않습니다.');
+        alert('토큰이 만료되었습니다 다시 로그인 해주세요!');
       }
     }
-    console.log(portfolioImageBlob);
   };
 
   const onPortfolioEdit = () => {
@@ -208,6 +206,10 @@ function PortfolioDetails() {
 
   const onTelephoneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTelephone(e.target.value);
+  };
+
+  const onIntroHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIntro(e.target.value);
   };
 
   const onYoutubeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -268,6 +270,7 @@ function PortfolioDetails() {
             Authorization: accessToken,
           },
         });
+        setProjects([...projects]);
       } catch (error) {
         console.error(error);
       }
@@ -282,117 +285,54 @@ function PortfolioDetails() {
     <>
       <div>
         <div>
+          {/* 수정페이지 */}
           {portEdit ? (
             <StEditWrapper>
-              <button onClick={onPortfolioUpdate}>수정완료</button>
-              <button onClick={onPortfolioEditClear}>수정취소</button>
+              <Information
+                proFileImage={proFileImage}
+                portfolioTitle={portfolioTitle}
+                residence={residence}
+                location={location}
+                email={email}
+                telephone={telephone}
+                intro={intro}
+                onIntroHandler={onIntroHandler}
+                onTitleHandler={onTitleHandler}
+                onResidenceHandler={onResidenceHandler}
+                onLocationHandler={onLocationHandler}
+                onEmailHandler={onEmailHandler}
+                onTelephoneHandler={onTelephoneHandler}
+                onPortfolioUpdate={onPortfolioUpdate}
+                onPortfolioEditClear={onPortfolioEditClear}
+              />
 
-              <StFirstEditWrapper>
-                <div>
-                  <StLabel htmlFor="portfolioTitle">제목</StLabel>
-                  <StInput
-                    type="text"
-                    id="portfolioTitle"
-                    value={portfolioTitle}
-                    onChange={onTitleHandler}
-                  />
-                </div>
-                <div>
-                  <StLabel htmlFor="residence">거주지</StLabel>
-                  <StInput
-                    type="text"
-                    id="residence"
-                    value={residence}
-                    onChange={onResidenceHandler}
-                  />
-                </div>
-                <div>
-                  <StLabel htmlFor="location">희망</StLabel>
-                  <StInput
-                    type="text"
-                    id="location"
-                    value={location}
-                    onChange={onLocationHandler}
-                  />
-                </div>
-
-                <div>
-                  <StLabel htmlFor="email">이메일</StLabel>
-                  <StInput type="text" id="email" value={email} onChange={onEmailHandler} />
-                </div>
-                <div>
-                  <StLabel htmlFor="telephone">번호</StLabel>
-                  <StInput
-                    type="text"
-                    id="telephone"
-                    value={telephone}
-                    onChange={onTelephoneHandler}
-                  />
-                </div>
-              </StFirstEditWrapper>
-
-              <StImagePreviewer onClick={onImageClick}>
-                {portfolioImagePreview ? (
-                  <StRepresentativeImageEdit src={portfolioImagePreview} alt="" />
-                ) : (
-                  <StPreviewerComment>선택된 이미지가 없습니다.</StPreviewerComment>
-                )}
-                <StFileUpload
-                  type="file"
-                  id="image"
-                  ref={fileInputRef}
-                  onChange={onhandlePortfolioImageChange}
-                />
-              </StImagePreviewer>
+              <ImageChange
+                onImageClick={onImageClick}
+                portfolioImagePreview={portfolioImagePreview}
+                fileInputRef={fileInputRef}
+                onhandlePortfolioImageChange={onhandlePortfolioImageChange}
+              />
 
               <div>
                 <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="100%" />
               </div>
 
-              <StRinkWrapper>
-                <div>
-                  <StLabel htmlFor="youtube">유튜브:</StLabel>
-                  <StRinkInput
-                    type="text"
-                    id="youtube"
-                    value={youtube}
-                    onChange={onYoutubeHandler}
-                  />
-                </div>
-                <div>
-                  <StLabel htmlFor="blog">블로그:</StLabel>
-                  <StRinkInput type="text" id="blog" value={blog} onChange={onBlogHandler} />
-                </div>
-                <div>
-                  <StLabel htmlFor="github">GitHub:</StLabel>
-                  <StRinkInput
-                    type="text"
-                    id="github"
-                    value={githubId}
-                    onChange={onGithubHandler}
-                  />
-                </div>
-              </StRinkWrapper>
+              <EditLinkSection
+                youtube={youtube}
+                blog={blog}
+                githubId={githubId}
+                onYoutubeHandler={onYoutubeHandler}
+                onBlogHandler={onBlogHandler}
+                onGithubHandler={onGithubHandler}
+              />
 
-              <StProjectEditBox>
-                <div>
-                  <StButton onClick={onProjectCreate}>+</StButton>
-                </div>
-                {projects.map((item, index) => (
-                  <StProjectBox key={index} onClick={() => onProjectDelete(item.id)}>
-                    {item.projectImageList.length !== 0 && !imageLoadError ? (
-                      <StProjectImg
-                        src={item.projectImageList[0].imageUrl}
-                        alt="프로젝트 이미지"
-                        onError={onImageError}
-                      />
-                    ) : (
-                      <NoImage height="70%" borderTopRadius="10px" />
-                    )}
-                    <StProjectTitle>{item.title}</StProjectTitle>
-                  </StProjectBox>
-                ))}
-              </StProjectEditBox>
+              <ProjectEditSection
+                onProjectCreate={onProjectCreate}
+                onProjectDelete={onProjectDelete}
+                projects={projects}
+                // imageLoadError={imageLoadError}
+                // onImageError={onImageError}
+              />
 
               {createProjectModalOpen && (
                 <CreateProject
@@ -402,87 +342,38 @@ function PortfolioDetails() {
               )}
             </StEditWrapper>
           ) : (
+            // 디테일 페이지
             <div>
-              <StFirstSection>
-                <h1>{portfolioTitle}</h1>
-                <StHorizontalLine />
+              <ImageTextSection
+                proFileImage={proFileImage}
+                email={email}
+                telephone={telephone}
+                residence={residence}
+                location={location}
+                getPortfolioImage={getPortfolioImage}
+                imageLoadError={imageLoadError}
+                getPortfolioImg={getPortfolioImage}
+                intro={intro}
+                hostid={hostid}
+                userid={userid}
+                onPortfolioEdit={onPortfolioEdit}
+                onPortfolioDelete={onPortfolioDelete}
+                onImageError={onImageError}
+                portfolioTitle={portfolioTitle}
+              />
 
-                <StButtonSection>
-                  {hostid === userid ? (
-                    <>
-                      <StEditIcon onClick={onPortfolioEdit} />
-                      <StTrashIcon onClick={onPortfolioDelete} />
-                    </>
-                  ) : null}
-                </StButtonSection>
+              <DetailTechStack techStack={techStack} />
 
-                <StProfileContainer>
-                  <div>{proFileImage && <StProFileImage src={proFileImage} alt="" />}</div>
+              <LinkSection
+                blog={blog}
+                youtube={youtube}
+                githubId={githubId}
+                onMyBlog={onMyBlog}
+                onMyYoutube={onMyYoutube}
+                onMyGit={onMyGit}
+              />
 
-                  <StProfileText>
-                    <div>
-                      <Mail /> {email}
-                    </div>
-                    <div>
-                      <Telephone /> {telephone}
-                    </div>
-                    <div>
-                      <Home /> {residence} | {location} 근무 희망
-                    </div>
-                  </StProfileText>
-                </StProfileContainer>
-                {getPortfolioImage && !imageLoadError ? (
-                  <StRepresentativeImage src={getPortfolioImage} alt="" onError={onImageError} />
-                ) : (
-                  <NoImage height="250px" />
-                )}
-              </StFirstSection>
-
-              <StSecondSection>
-                <StIntro>{intro}</StIntro>
-                <StTechStackSection>
-                  {techStack?.map((item, index) => (
-                    <StTechStack key={index}>{item}</StTechStack>
-                  ))}
-                </StTechStackSection>
-              </StSecondSection>
-
-              {blog && (
-                <StBlog onClick={onMyBlog}>
-                  <StyledBlog />
-                  <span>{blog}</span>
-                </StBlog>
-              )}
-
-              {youtube && (
-                <StYoutube onClick={onMyYoutube}>
-                  <StyledYouTube />
-                  <span>{youtube}</span>
-                </StYoutube>
-              )}
-
-              {githubId && (
-                <StGithub onClick={onMyGit}>
-                  <StGitgrass
-                    src={`https://ghchart.rshah.org/${githubId}`}
-                    alt="GitHub Contributions"
-                  />
-                </StGithub>
-              )}
-
-              <StProjectList>
-                {/* 프로젝트 리스트 출력 */}
-                {projects.map((item, index) => (
-                  <StProjectBox key={index} onClick={() => onProjectDetail(item.id)}>
-                    {item.projectImageList.length !== 0 ? (
-                      <StProjectImg src={item.projectImageList[0].imageUrl} alt="프로젝트 이미지" />
-                    ) : (
-                      <NoImage height="70%" borderTopRadius="10px" />
-                    )}
-                    <StProjectTitle>{item.title}</StProjectTitle>
-                  </StProjectBox>
-                ))}
-              </StProjectList>
+              <ProjectList projects={projects} onProjectDetail={onProjectDetail} />
 
               {isProjectModalOpen && (
                 <ProjectModal
@@ -508,292 +399,7 @@ function PortfolioDetails() {
 
 export default PortfolioDetails;
 
-const input = `
-flex: 1;
-padding: 8px;
-margin-right: 8px;
-border: 1px solid #ccc;
-border-radius: 4px;
-height: 40px;
-width: 60%;
-margin-top: 10px;
-`;
-
-const StButton = styled.button`
-  background-color: #6bf65f;
-  color: black;
-  padding: 8px 16px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  margin-right: 8px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  position: absolute;
-  top: -20px;
-  left: 100%;
-  transform: translateX(-50%);
-
-  &:not([notallowed='true']):hover {
-    transition: 0.5s;
-    background-color: ${({ theme }) => theme.color.lightGreen};
-    color: white;
-  }
-`;
-
 const StEditWrapper = styled.div`
-  padding: 120px;
+  padding: 100px;
   height: 100vh;
-`;
-
-const StFirstEditWrapper = styled.div`
-  background-color: #f8f8f8;
-  padding: 30px;
-  margin: 30px 0;
-`;
-
-const StLabel = styled.label`
-  display: inline-block;
-  width: 60px;
-`;
-
-const StRinkInput = styled.input`
-  ${input}
-  width: 88%;
-`;
-
-const StInput = styled.input`
-  ${input}
-`;
-
-const StFirstSection = styled.div`
-  margin-left: 6%;
-  margin-right: 6%;
-`;
-
-const StImagePreviewer = styled.div`
-  border: 2px dotted black;
-  height: 250px;
-  margin-bottom: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  cursor: pointer;
-`;
-
-const StFileUpload = styled.input`
-  display: none;
-`;
-
-const StPreviewerComment = styled.div`
-  /* text-align: center; */
-  font-size: 25px;
-`;
-
-const StRepresentativeImageEdit = styled.img`
-  width: 100%;
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  object-fit: cover;
-`;
-
-const StProjectEditBox = styled.div`
-  display: flex;
-  border: 1px solid black;
-  border-radius: 20px;
-  padding: 20px;
-  gap: 30px;
-  width: 100%;
-  position: relative; // 부모 컨테이너에 position을 추가합니다.
-`;
-
-const StRinkWrapper = styled.div`
-  background-color: #f8f8f8;
-  padding: 30px;
-  margin: 30px 0;
-`;
-
-const StHorizontalLine = styled.div`
-  border-bottom: 1px solid #000000;
-  margin: 10px 0;
-`;
-
-const StButtonSection = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-`;
-
-const StEditIcon = styled(EditIconSvg)`
-  cursor: pointer;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-`;
-
-const StTrashIcon = styled(Trash)`
-  cursor: pointer;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-`;
-
-const StProfileContainer = styled.div`
-  display: flex;
-  position: relative;
-  align-items: center;
-  margin: 20px 0;
-  padding: 20px 20px;
-`;
-
-const StProFileImage = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  /* border: 1px solid black; */
-`;
-
-const StProfileText = styled.div`
-  margin-left: 10px;
-`;
-
-const StSecondSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 5%;
-`;
-
-const StIntro = styled.div`
-  width: 50%;
-`;
-
-const StTechStackSection = styled.div`
-  width: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  /* border: 1px solid black; */
-`;
-
-const StTechStack = styled.div`
-  width: calc(33.33% - 20px);
-  height: 37px;
-  border-radius: 20px;
-  margin: 10px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f3f3f3;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const StRepresentativeImage = styled.img`
-  width: 100%;
-  height: 300px;
-  top: 0;
-  left: 0;
-  object-fit: cover;
-`;
-
-const StBlog = styled.div`
-  display: flex;
-  align-items: center;
-  width: 90%;
-  height: 120px;
-  margin: 5%;
-  border-radius: 8px;
-  padding: 8px;
-  background-color: #f2f2f2;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #ddd;
-  }
-`;
-
-const StYoutube = styled.div`
-  display: flex;
-  align-items: center;
-  width: 90%;
-  height: 120px;
-  margin: 5%;
-  border-radius: 8px;
-  padding: 8px;
-  background-color: #f2f2f2;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #ddd;
-  }
-`;
-
-const StyledBlog = styled(Blog)`
-  margin-right: 8px;
-`;
-
-const StyledYouTube = styled(YouTube)`
-  margin-right: 8px;
-`;
-
-const StGithub = styled.div`
-  display: flex;
-  justify-content: center;
-  border: 1px solid black;
-  padding: 20px;
-  margin: 5%;
-  border-radius: 20px;
-  cursor: pointer;
-`;
-
-const StGitgrass = styled.img`
-  width: 100%;
-  height: auto;
-`;
-
-const StProjectList = styled.div`
-  justify-content: center;
-  margin: 5%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-`;
-
-const StProjectBox = styled.div`
-  background-color: #f2f2f2;
-  border-radius: 10px;
-  margin-top: 20px;
-  width: 20%;
-  cursor: pointer;
-  text-align: center;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-`;
-
-const StProjectImg = styled.img`
-  width: 100%;
-  height: 70%;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  margin-bottom: 20px;
-`;
-
-const StProjectTitle = styled.div`
-  margin-bottom: 15px;
-  font-weight: bold;
 `;

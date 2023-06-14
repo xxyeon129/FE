@@ -11,7 +11,7 @@ export const PATH_URL = {
   MYPAGE: `/mypage/:id`,
   MY_PAGE: '/mypage',
   SEARCHRESULTS: `/searchresults`,
-  HYO2: 'hyo2',
+  DETAILTEST: '/testdetail/:149',
   MY_PORTFOLIO: '/myportfolio',
   MY_PORTFOLIO_PATH: '/myportfolio/:id',
   CREATE_PORTFOLIO: '/myportfolio/create',
