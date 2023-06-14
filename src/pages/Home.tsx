@@ -154,6 +154,10 @@ const StShadow = styled.div`
   transform: rotate(-180deg);
   padding: 250px;
   z-index: 0.1;
+
+  @media ${theme.size.mobile} {
+    width: 100%;
+  }
 `;
 
 const StBackgroundIcon = styled(BackgroundIcon)`

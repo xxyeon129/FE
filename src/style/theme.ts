@@ -9,9 +9,11 @@ const theme = {
     fontColor: '#3B3B3B',
   },
   size: {
-    iPad: 'screen and (max-width: 768px)',
-    medium: 'screen and (max-width: 1127px)',
-    large: 'screen and (max-width: 1440px)',
+    mobile: 'screen and (max-width: 767px)',
+    tablet: 'screen and (min-width: 768px, max-width: 1023px)',
+    desktop: 'screen and (min-width: 1024px)',
+    desktopAndTablet: 'screen and (min-width: 768px)',
+    tabletAndMobile: 'screen and (max-width: 1023px)',
   },
 };
 

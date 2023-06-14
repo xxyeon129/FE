@@ -7,7 +7,7 @@ import useLoginModal from '@src/Hook/useLoginModal';
 import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
 import MobileDropdownMenu from '@src/components/header/MobileDropdownMenu';
-import { Mobile } from '@src/style/mediaQuery';
+import { DesktopAndTablet, Mobile } from '@src/style/mediaQuery';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -26,14 +26,20 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <StLayout>
       <Header onClickMobileMenu={onClickMobileMenu} />
-      <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
-      <StContent>{children}</StContent>
-      {isLoginModalOpen && (
-        <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />
-      )}
-      {isSignUpModalOpen && <Signup onClose={onSignUpCloseModal} />}
+
+      <DesktopAndTablet>
+        <>
+          <Nav
+            setIsLoginModalOpen={setIsLoginModalOpen}
+            setIsSignUpModalOpen={setIsSignUpModalOpen}
+          />
+          <StContent>{children}</StContent>
+        </>
+      </DesktopAndTablet>
+
       <Mobile>
         <>
+          <StMobileContent>{children}</StMobileContent>
           {isMobileDropdownOpen && (
             <MobileDropdownMenu
               isMobileDropdownOpen={isMobileDropdownOpen}
@@ -42,6 +48,11 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
           )}
         </>
       </Mobile>
+
+      {isLoginModalOpen && (
+        <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />
+      )}
+      {isSignUpModalOpen && <Signup onClose={onSignUpCloseModal} />}
     </StLayout>
   );
 };
@@ -54,6 +65,12 @@ const StContent = styled.div`
   margin-left: 270px;
   padding-top: 70px;
   width: calc(100% - 270px);
+  min-height: 100vh;
+`;
+
+const StMobileContent = styled.div`
+  padding-top: 70px;
+  width: 100%;
   min-height: 100vh;
 `;
 
