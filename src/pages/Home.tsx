@@ -1,21 +1,26 @@
-import { styled } from 'styled-components';
-import { ReactComponent as Logo } from '@src/assets/logo.svg';
-import { ReactComponent as BackgroundIcon } from '@src/assets/home-background-icon.svg';
-import { PATH_URL } from '@src/constants/constants';
-import theme from '@src/style/theme';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
+import { styled } from 'styled-components';
+import { useSetRecoilState } from 'recoil';
 import {
   categoryState,
   filterState,
   selectedCategoryState,
   selectedHeaderState,
 } from '@src/states';
+import { ReactComponent as Logo } from '@src/assets/logo.svg';
+import { ReactComponent as BackgroundIcon } from '@src/assets/home-background-icon.svg';
+import { PATH_URL } from '@src/constants/constants';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
+import { getAllList, getLastId } from '@src/apis/portfolio';
+import { PortfolioDataType } from '@src/types/portfolioType';
+import * as S from '@src/style/common/commonStyles';
+import theme from '@src/style/theme';
+import PortfolioItem from '@src/components/common/PortfolioItem';
 
 const Home = () => {
-  // const category = useRecoilValue(categoryState);
-  // const filter = useRecoilValue(filterState);
+  const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
   const setSelectedCategory = useSetRecoilState<string>(selectedCategoryState);
@@ -38,9 +43,24 @@ const Home = () => {
     navigate(PATH_URL.MAIN);
   };
 
-  // useEffect(() => {
-  //   console.log('category => ', category, 'filter => ', filter);
-  // }, []);
+  const { data, isLoading } = useQuery('latestPortfolioList', async () => {
+    let lastId = await getLastId({ category: 'All' });
+    let length10List: PortfolioDataType[] = [];
+
+    while (length10List.length < 10) {
+      const latestPortfolioData = await getAllList({ lastId, category: 'All' });
+      length10List = [...length10List, ...latestPortfolioData];
+
+      if (latestPortfolioData.length < 10) {
+        lastId -= 10;
+      }
+    }
+    return length10List.slice(0, 9);
+  });
+
+  useEffect(() => {
+    data && setLatestPortfolioList(data);
+  }, [data]);
 
   return (
     <StHome>
@@ -62,6 +82,11 @@ const Home = () => {
       </StIntroContainer>
       <StListContainer>
         <StTextLabel>지금 뜨는 포트폴리오</StTextLabel>
+        <S.PortfolioListContainer>
+          {latestPortfolioList.map((item: PortfolioDataType) => (
+            <PortfolioItem key={item.id} item={item} />
+          ))}
+        </S.PortfolioListContainer>
       </StListContainer>
     </StHome>
   );
@@ -141,6 +166,7 @@ const StBackgroundIcon = styled(BackgroundIcon)`
 
 const StTextLabel = styled.h2`
   font-weight: 900;
+  margin-bottom: 30px;
 `;
 
 const StListContainer = styled.div`
