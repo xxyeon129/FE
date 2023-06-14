@@ -52,7 +52,7 @@ const StLayout = styled.div`
 
 const StContent = styled.div`
   margin-left: 270px;
-  padding-top: 52px;
+  padding-top: 70px;
   width: calc(100% - 270px);
   min-height: 100vh;
 `;

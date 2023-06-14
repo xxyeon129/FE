@@ -55,6 +55,10 @@ const StAuthClickContainer = styled.span`
 
 const StLabel = styled.span`
   margin-left: 10px;
+  &:hover {
+    transition: 0.5s;
+    font-weight: bold;
+  }
 `;
 
 export default Auth;

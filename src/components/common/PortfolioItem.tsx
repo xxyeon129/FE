@@ -75,13 +75,13 @@ const StUserContainer = styled.div`
 `;
 
 const StUserNameText = styled.div`
-  font-size: 15px;
+  font-size: 14px;
   padding-left: 6px;
 `;
 
 const StTitle = styled.div`
   font-weight: bold;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 110%;
 `;
 

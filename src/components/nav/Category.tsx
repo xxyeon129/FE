@@ -73,7 +73,7 @@ const StCategoryItem = styled.div`
 
 const StLabel = styled.div<{ isclicked: string; color: string }>`
   margin-left: 10px;
-  font-weight: ${({ isclicked }) => (isclicked === 'true' ? 'bold' : 'normal')};
+  font-weight: ${({ isclicked }) => (isclicked === 'true' ? '900' : 'normal')};
   display: flex;
   align-items: center;
 

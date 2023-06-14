@@ -171,7 +171,12 @@ const Main = () => {
 
   return (
     <S.PageContainer>
-      <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
+      {selectedCategory === 'All' ? (
+        <StAllCategoryTitle>ALL</StAllCategoryTitle>
+      ) : (
+        <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
+      )}
+
       {isExistData ? (
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
@@ -193,6 +198,12 @@ const Main = () => {
     </S.PageContainer>
   );
 };
+
+const StAllCategoryTitle = styled.h1`
+  margin: 0;
+  font-weight: 900;
+  margin: 30px 0;
+`;
 
 const StLoadingIndicator = styled.div`
   padding: 1rem;
