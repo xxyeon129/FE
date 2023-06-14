@@ -130,7 +130,7 @@ const StModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 1001;
 `;
 
 const StModalContent = styled.form`

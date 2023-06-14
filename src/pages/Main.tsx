@@ -15,6 +15,7 @@ const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
   const [filterList, setFilterList] = useState<string[]>([]);
   const [lastId, setLastId] = useState<number>(0);
+  const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
 
   const [selectedFilter, setSelectedFilter] = useRecoilState(filterState);
@@ -69,7 +70,7 @@ const Main = () => {
 
   const fetchFirstMountList = async (filterKeyword: string) => {
     setList([]);
-
+    setIsDataLoading(true);
     if (filterKeyword !== 'All') {
       fetchFilteredList(filterKeyword);
       // console.log('FirstMountList if문 걸려서 실행 -> filteredList 함수로 이동');
@@ -92,9 +93,11 @@ const Main = () => {
     }
 
     setList(length10List);
+    setIsDataLoading(false);
   };
 
   const fetchFilteredList = async (filterKeyword: string) => {
+    setIsDataLoading(true);
     if (filterKeyword === 'All') {
       fetchFirstMountList(filterKeyword);
       // console.log('All 선택했을 경우 filteredList 함수에서 조건걸려서 FirstMount로 이동');
@@ -131,6 +134,7 @@ const Main = () => {
 
     setList(filteredData);
     // setList(length10List);
+    setIsDataLoading(false);
   };
 
   // --- 직무 필터링 ---
@@ -167,21 +171,39 @@ const Main = () => {
 
   return (
     <S.PageContainer>
-      <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
+      {selectedCategory === 'All' ? (
+        <StAllCategoryTitle>ALL</StAllCategoryTitle>
+      ) : (
+        <Filter filterList={filterList} onClickFilterButton={onClickFilterButton} />
+      )}
+
       {isExistData ? (
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
-            // TODO: 컴포넌트명 변경 예정
             <PortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       ) : (
-        <StNoDataTextContainer>포트폴리오가 존재하지 않습니다.</StNoDataTextContainer>
+        <>
+          {isDataLoading ? (
+            <StLoadingContainer>
+              <StLoadingSpinner />
+            </StLoadingContainer>
+          ) : (
+            <StNoDataTextContainer>포트폴리오가 존재하지 않습니다.</StNoDataTextContainer>
+          )}
+        </>
       )}
-      {isMoreLoading ? <StLoadingSpinner /> : <StLoadingIndicator ref={lastItemRef} />}
+      {!isMoreLoading && <StLoadingIndicator ref={lastItemRef} />}
     </S.PageContainer>
   );
 };
+
+const StAllCategoryTitle = styled.h1`
+  margin: 0;
+  font-weight: 900;
+  margin: 30px 0;
+`;
 
 const StLoadingIndicator = styled.div`
   padding: 1rem;
@@ -196,6 +218,18 @@ const spinAnimation = keyframes`
   }
 `;
 
+const centerAlignStyle = `
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StLoadingContainer = styled.div`
+  ${centerAlignStyle}
+`;
+
 const StLoadingSpinner = styled(AiOutlineLoading3Quarters)`
   animation: ${spinAnimation} 1s infinite linear;
   font-size: 30px;
@@ -203,11 +237,7 @@ const StLoadingSpinner = styled(AiOutlineLoading3Quarters)`
 `;
 
 const StNoDataTextContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${centerAlignStyle}
 
   font-size: 20px;
   font-weight: 500;

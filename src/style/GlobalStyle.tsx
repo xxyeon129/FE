@@ -3,12 +3,12 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   body {
     height: 100vh;
-    font-family: 'Pretendard';
+    font-family: 'SUIT Variable', sans-serif;
   }
 
   button{
     cursor: pointer;
-    font-family: 'Pretendard';
+    font-family: 'SUIT Variable', sans-serif;
   }
 `;
 

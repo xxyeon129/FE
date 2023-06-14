@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { ReactComponent as ProfileIcon } from '@src/assets/nav/nav-default-user-image-icon.svg';
+import { ReactComponent as ProfileIcon } from '@src/assets/default-user-profile-icon.svg';
 import { useEffect, useState } from 'react';
 import { getUser } from '@src/apis/user';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
@@ -65,8 +65,8 @@ const StProfileContainer = styled.div`
 `;
 
 const StProfileImg = styled.img`
-  width: 53px;
-  height: 53px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   object-fit: cover;
 `;

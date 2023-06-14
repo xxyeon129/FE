@@ -22,6 +22,8 @@ interface ImageTextSectionProps {
   residence: string;
   location: string;
   intro: string;
+  filter: string;
+
   onPortfolioEdit: () => void;
   onPortfolioDelete: () => void;
 }
@@ -53,6 +55,7 @@ function ImageTextSection(props: ImageTextSectionProps) {
         <StContainerMiddle>
           <StProfileContainer>
             {props.proFileImage && <StProFileImage src={props.proFileImage} alt="" />}
+            {props.filter}
           </StProfileContainer>
         </StContainerMiddle>
 

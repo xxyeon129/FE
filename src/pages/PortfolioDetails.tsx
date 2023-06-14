@@ -16,10 +16,16 @@ import ImageTextSection from '@src/components/portfolio/detail/ImageTextSection'
 import LinkSection from '@src/components/portfolio/detail/LinkSection';
 import ProjectList from '@src/components/portfolio/detail/ProjectList';
 import Information from '@src/components/portfolio/edit/Information';
-import ImageChange from '@src/components/portfolio/edit/ImageChange';
 import EditLinkSection from '@src/components/portfolio/edit/EditLinkSection';
 import ProjectEditSection from '@src/components/portfolio/edit/ProjectEditSection';
 import DetailTechStack from '@src/components/portfolio/detail/DetailTechStack';
+import {
+  Desktop,
+  Tablet,
+  Mobile,
+  DesktopAndTablet,
+  TabletAndMobile,
+} from '@src/style/mediaQuery.ts';
 
 function PortfolioDetails() {
   interface Project {
@@ -35,6 +41,7 @@ function PortfolioDetails() {
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
   const [proFileImage, setProFileImage] = useState<string>('');
+  const [filter, setFilter] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [residence, setResidence] = useState<string>('');
@@ -54,6 +61,7 @@ function PortfolioDetails() {
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [imageLoadError, setImageLoadError] = useState<boolean>(false);
+  const [updateComplete, setUpdateComplete] = useState(false);
 
   const projectData = useRecoilValue(projectDataAtom);
 
@@ -97,6 +105,8 @@ function PortfolioDetails() {
     const selprojects = response.data.data.projectList;
     const projectIdList = selprojects.map((project: { id: string }) => parseInt(project.id));
 
+    console.log(response.data.data);
+
     setPortId(response.data.data.id);
     setHostid(response.data.data.userId);
     setPortfolioTitle(response.data.data.portfolioTitle);
@@ -113,6 +123,7 @@ function PortfolioDetails() {
     setIntro(response.data.data.intro);
     setProFileImage(response.data.data.profileImage || (User as string));
     setPortfolioImagePreview(response.data.data.portfolioImage);
+    setFilter(response.data.data.filter);
 
     if (techStack) {
       setTechStack(response.data.data.techStack.split(','));
@@ -162,7 +173,6 @@ function PortfolioDetails() {
           },
         }
       );
-      alert('수정완료');
     } catch (error: unknown) {
       if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
         alert('토큰이 만료되었습니다 다시 로그인 해주세요!');
@@ -180,9 +190,17 @@ function PortfolioDetails() {
 
   const onPortfolioUpdate = async () => {
     setPortEdit(false);
+    setUpdateComplete(true);
     await PortfolioEdit();
     await getMyPortfolio();
   };
+
+  useEffect(() => {
+    if (updateComplete) {
+      alert('수정완료');
+      setUpdateComplete(false);
+    }
+  }, [updateComplete]);
 
   const onPortfolioEditClear = () => {
     setPortEdit(false);
@@ -231,6 +249,9 @@ function PortfolioDetails() {
       setPortfolioImagePreview(URL.createObjectURL(file));
     }
   };
+
+  console.log('이미지 프리뷰 데이터 : ', portfolioImagePreview);
+  console.log('포트폴리오 이미지 데이터 : ', portfolioImage);
 
   const onProjectDetail = (projectId: number) => {
     setSelectedProjectId(projectId);
@@ -283,116 +304,118 @@ function PortfolioDetails() {
 
   return (
     <>
-      <div>
-        <div>
-          {/* 수정페이지 */}
-          {portEdit ? (
-            <StEditWrapper>
-              <Information
-                proFileImage={proFileImage}
-                portfolioTitle={portfolioTitle}
-                residence={residence}
-                location={location}
-                email={email}
-                telephone={telephone}
-                intro={intro}
-                onIntroHandler={onIntroHandler}
-                onTitleHandler={onTitleHandler}
-                onResidenceHandler={onResidenceHandler}
-                onLocationHandler={onLocationHandler}
-                onEmailHandler={onEmailHandler}
-                onTelephoneHandler={onTelephoneHandler}
-                onPortfolioUpdate={onPortfolioUpdate}
-                onPortfolioEditClear={onPortfolioEditClear}
-              />
-
-              <ImageChange
-                onImageClick={onImageClick}
-                portfolioImagePreview={portfolioImagePreview}
-                fileInputRef={fileInputRef}
-                onhandlePortfolioImageChange={onhandlePortfolioImageChange}
-              />
-
-              <div>
-                <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="100%" />
-              </div>
-
-              <EditLinkSection
-                youtube={youtube}
-                blog={blog}
-                githubId={githubId}
-                onYoutubeHandler={onYoutubeHandler}
-                onBlogHandler={onBlogHandler}
-                onGithubHandler={onGithubHandler}
-              />
-
-              <ProjectEditSection
-                onProjectCreate={onProjectCreate}
-                onProjectDelete={onProjectDelete}
-                projects={projects}
-                // imageLoadError={imageLoadError}
-                // onImageError={onImageError}
-              />
-
-              {createProjectModalOpen && (
-                <CreateProject
-                  showModal1={createProjectModalOpen}
-                  setShowModal1={setCreateProjectModalOpen}
-                />
-              )}
-            </StEditWrapper>
-          ) : (
-            // 디테일 페이지
+      <Desktop>
+        {
+          <div>
             <div>
-              <ImageTextSection
-                proFileImage={proFileImage}
-                email={email}
-                telephone={telephone}
-                residence={residence}
-                location={location}
-                getPortfolioImage={getPortfolioImage}
-                imageLoadError={imageLoadError}
-                getPortfolioImg={getPortfolioImage}
-                intro={intro}
-                hostid={hostid}
-                userid={userid}
-                onPortfolioEdit={onPortfolioEdit}
-                onPortfolioDelete={onPortfolioDelete}
-                onImageError={onImageError}
-                portfolioTitle={portfolioTitle}
-              />
+              {portEdit ? (
+                <StEditWrapper>
+                  <Information
+                    portfolioTitle={portfolioTitle}
+                    residence={residence}
+                    location={location}
+                    email={email}
+                    telephone={telephone}
+                    intro={intro}
+                    filter={filter}
+                    onIntroHandler={onIntroHandler}
+                    onTitleHandler={onTitleHandler}
+                    onResidenceHandler={onResidenceHandler}
+                    onLocationHandler={onLocationHandler}
+                    onEmailHandler={onEmailHandler}
+                    onTelephoneHandler={onTelephoneHandler}
+                    onPortfolioUpdate={onPortfolioUpdate}
+                    onPortfolioEditClear={onPortfolioEditClear}
+                    onImageClick={onImageClick}
+                    portfolioImagePreview={portfolioImagePreview}
+                    fileInputRef={fileInputRef}
+                    onhandlePortfolioImageChange={onhandlePortfolioImageChange}
+                  />
 
-              <DetailTechStack techStack={techStack} />
+                  <div>
+                    <TechStackTag
+                      techStack={techStack}
+                      setTechStack={setTechStack}
+                      StWidth="100%"
+                    />
+                  </div>
 
-              <LinkSection
-                blog={blog}
-                youtube={youtube}
-                githubId={githubId}
-                onMyBlog={onMyBlog}
-                onMyYoutube={onMyYoutube}
-                onMyGit={onMyGit}
-              />
+                  <EditLinkSection
+                    youtube={youtube}
+                    blog={blog}
+                    githubId={githubId}
+                    onYoutubeHandler={onYoutubeHandler}
+                    onBlogHandler={onBlogHandler}
+                    onGithubHandler={onGithubHandler}
+                  />
 
-              <ProjectList projects={projects} onProjectDetail={onProjectDetail} />
+                  <ProjectEditSection
+                    onProjectCreate={onProjectCreate}
+                    onProjectDelete={onProjectDelete}
+                    projects={projects}
+                  />
 
-              {isProjectModalOpen && (
-                <ProjectModal
-                  showModal={isProjectModalOpen}
-                  projectId={selectedProjectId}
-                  setShowModal={setIsProjectModalOpen}
-                />
-              )}
+                  {createProjectModalOpen && (
+                    <CreateProject
+                      showModal1={createProjectModalOpen}
+                      setShowModal1={setCreateProjectModalOpen}
+                    />
+                  )}
+                </StEditWrapper>
+              ) : (
+                // 디테일 페이지
+                <div>
+                  <ImageTextSection
+                    email={email}
+                    telephone={telephone}
+                    residence={residence}
+                    location={location}
+                    getPortfolioImage={getPortfolioImage}
+                    imageLoadError={imageLoadError}
+                    getPortfolioImg={getPortfolioImage}
+                    intro={intro}
+                    filter={filter}
+                    hostid={hostid}
+                    userid={userid}
+                    onPortfolioEdit={onPortfolioEdit}
+                    onPortfolioDelete={onPortfolioDelete}
+                    onImageError={onImageError}
+                    portfolioTitle={portfolioTitle}
+                  />
 
-              {isDeleteModalOpen && (
-                <DeletePortfolioModal
-                  portId={portid}
-                  onCloseModal={() => setIsDeleteModalOpen(false)}
-                />
+                  <DetailTechStack techStack={techStack} />
+
+                  <LinkSection
+                    blog={blog}
+                    youtube={youtube}
+                    githubId={githubId}
+                    onMyBlog={onMyBlog}
+                    onMyYoutube={onMyYoutube}
+                    onMyGit={onMyGit}
+                  />
+
+                  <ProjectList projects={projects} onProjectDetail={onProjectDetail} />
+
+                  {isProjectModalOpen && (
+                    <ProjectModal
+                      showModal={isProjectModalOpen}
+                      projectId={selectedProjectId}
+                      setShowModal={setIsProjectModalOpen}
+                    />
+                  )}
+
+                  {isDeleteModalOpen && (
+                    <DeletePortfolioModal
+                      portId={portid}
+                      onCloseModal={() => setIsDeleteModalOpen(false)}
+                    />
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        }
+      </Desktop>
     </>
   );
 }

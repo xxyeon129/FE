@@ -1,12 +1,16 @@
-import { ReactComponent as AllIcon } from '@src/assets/nav/category/nav-category-all-icon.svg';
-import { ReactComponent as DevelopIcon } from '@src/assets/nav/category/nav-category-develop-icon.svg';
-import { ReactComponent as DesignIcon } from '@src/assets/nav/category/nav-category-design-icon.svg';
-import { ReactComponent as PhotographIcon } from '@src/assets/nav/category/nav-category-photographer-icon.svg';
+import theme from '@src/style/theme';
 
 export const CATEGORY_KEYWORD = {
   ALL: 'All',
   DEVELOP: 'Develop',
   DESIGN: 'Design',
+  PHOTOGRAPHER: 'Photographer',
+};
+
+export const CATEGORY_KEYWORD_DISPLAY = {
+  ALL: 'All',
+  DEVELOPER: 'Developer',
+  DESIGNER: 'Designer',
   PHOTOGRAPHER: 'Photographer',
 };
 
@@ -47,11 +51,23 @@ export const categoryList = [
   CATEGORY_KEYWORD.PHOTOGRAPHER,
 ];
 
-export const categoryListWithIcon: { value: string; icon: React.ComponentType }[] = [
-  { value: CATEGORY_KEYWORD.ALL, icon: AllIcon },
-  { value: CATEGORY_KEYWORD.DEVELOP, icon: DevelopIcon },
-  { value: CATEGORY_KEYWORD.DESIGN, icon: DesignIcon },
-  { value: CATEGORY_KEYWORD.PHOTOGRAPHER, icon: PhotographIcon },
+export const categoryListForDisplay: { value: string; display: string; color: string }[] = [
+  { value: CATEGORY_KEYWORD.ALL, display: CATEGORY_KEYWORD_DISPLAY.ALL, color: 'white' },
+  {
+    value: CATEGORY_KEYWORD.DEVELOP,
+    display: CATEGORY_KEYWORD_DISPLAY.DEVELOPER,
+    color: theme.color.neonGreen,
+  },
+  {
+    value: CATEGORY_KEYWORD.DESIGN,
+    display: CATEGORY_KEYWORD_DISPLAY.DESIGNER,
+    color: theme.color.blueGreen,
+  },
+  {
+    value: CATEGORY_KEYWORD.PHOTOGRAPHER,
+    display: CATEGORY_KEYWORD_DISPLAY.PHOTOGRAPHER,
+    color: theme.color.skyBlue,
+  },
 ];
 
 export const filterListObject = {
