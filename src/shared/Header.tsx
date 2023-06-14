@@ -1,7 +1,9 @@
 import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { PATH_URL } from '@src/constants/constants';
 import { DesktopAndTablet, Mobile } from '@src/style/mediaQuery';
-import HeaderListItem from '@src/components/header/HeaderListItem';
 import { ReactComponent as Logo } from '@src/assets/logo.svg';
+import HeaderListItem from '@src/components/header/HeaderListItem';
 
 interface HeaderProps {
   onClickMobileMenu: () => void;
@@ -10,7 +12,9 @@ interface HeaderProps {
 const Header = ({ onClickMobileMenu }: HeaderProps) => {
   return (
     <StHeader>
-      <StLogo />
+      <Link to={PATH_URL.HOME}>
+        <StLogo />
+      </Link>
       <DesktopAndTablet>
         <StUnorderedList>
           <HeaderListItem liWidth="130px" />
