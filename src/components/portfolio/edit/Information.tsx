@@ -3,14 +3,6 @@ import { styled } from 'styled-components';
 import { ReactComponent as MailIcon } from '@src/assets/portfolioDetail/port-mail-icon.svg';
 import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
 import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
-import {
-  Desktop,
-  Tablet,
-  Mobile,
-  DesktopAndTablet,
-  TabletAndMobile,
-} from '@src/style/mediaQuery.ts';
-import { prop } from 'cheerio/lib/api/attributes';
 
 interface InformationProps {
   portfolioTitle: string;
@@ -46,9 +38,12 @@ const Information: React.FC<InformationProps> = props => {
   console.log('dasd', props.portfolioImagePreview);
   return (
     <div>
-      <button onClick={props.onPortfolioUpdate}>수정완료</button>
-      <button onClick={props.onPortfolioEditClear}>수정취소</button>
-
+      <StButtonContainer>
+        <StButton color="gray" onClick={props.onPortfolioEditClear}>
+          수정취소
+        </StButton>
+        <StButton onClick={props.onPortfolioUpdate}>수정완료</StButton>
+      </StButtonContainer>
       <StFirstEditWrapper>
         <StLeftContainer>
           <StImagePreviewer onClick={props.onImageClick}>
@@ -144,10 +139,16 @@ export default Information;
 const StFirstEditWrapper = styled.div`
   background-color: #f1f1f1;
   display: flex;
-  align-items: flex-start;
   padding: 10px;
   gap: 20px;
   margin-bottom: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const StLeftContainer = styled.div`
@@ -157,20 +158,29 @@ const StLeftContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const StFilter = styled.div`
   margin-top: 10px;
   font-size: 16px;
+  font-weight: bold;
   border-radius: 20px;
-  background-color: red;
+  background: linear-gradient(to right, #18302d, #00312b);
   padding: 5px;
+  color: white;
 `;
 
 const StRightContainer = styled.div`
   width: 50%;
   display: flex;
   flex-wrap: wrap;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const StImagePreviewer = styled.div`
@@ -240,7 +250,6 @@ const StInput = styled.input<StInputProps>`
 `;
 
 const StMailIcon = styled(MailIcon)`
-  /* margin-right: 10px; */
   padding: 5px;
 `;
 
@@ -252,6 +261,32 @@ const StTelephoneIcon = styled(Telephone)`
 const StHomeIcon = styled(Home)`
   margin-right: 10px;
   padding: 5px;
+`;
+
+const StButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const StButton = styled.button`
+  background-color: ${({ color }) => color || '#6bf65f'};
+  color: black;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 8px;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+
+  &:not([notallowed='true']):hover {
+    transition: 0.5s;
+    background-color: ${({ theme, color }) => (color ? color : theme.color.lightGreen)};
+    color: white;
+  }
 `;
 
 const StLine = styled.hr`

@@ -76,15 +76,20 @@ function ImageTextSection(props: ImageTextSectionProps) {
             <StContactButton onClick={toggleContact}>{button}</StContactButton>
             {contactToggle && (
               <StContact>
-                <Stpart>
-                  <Mail /> {props.email}
-                </Stpart>
-                <Stpart>
-                  <Telephone /> {props.telephone}
-                </Stpart>
-                <Stpart>
-                  <Home /> {props.residence} | {props.location} 근무 희망
-                </Stpart>
+                <StContactItem>
+                  <StMailIcon />
+                  <span>{props.email}</span>
+                </StContactItem>
+                <StContactItem>
+                  <StTelephoneIcon />
+                  <span>{props.telephone}</span>
+                </StContactItem>
+                <StContactItem>
+                  <StHomeIcon />
+                  <span>
+                    {props.residence} | {props.location} 근무 희망
+                  </span>
+                </StContactItem>
               </StContact>
             )}
           </StLowerContent>
@@ -106,7 +111,7 @@ const StContainerTop = styled.div``;
 const StContainerLower = styled.div`
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align items to the top */
+  align-items: flex-start;
 `;
 
 const StContainerMiddle = styled.div`
@@ -145,6 +150,26 @@ const StContact = styled.div`
   border-radius: 20px;
   padding: 30px;
   margin-bottom: 30px;
+`;
+
+const StContactItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const StMailIcon = styled(Mail)`
+  margin-right: 5px;
+`;
+
+const StTelephoneIcon = styled(Telephone)`
+  margin-right: 17px;
+  margin-top: 10px;
+`;
+
+const StHomeIcon = styled(Home)`
+  margin-right: 15px;
+  margin-top: 10px;
 `;
 
 const StTitle = styled.div`

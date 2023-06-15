@@ -22,11 +22,15 @@ function ProjectEditSection(props: ProjectEditSectionProps) {
   return (
     <div>
       <StProjectList>
-        <StContentTitle>
-          프로젝트
-          <StProjectNumber>{props.projects.length}</StProjectNumber>
-          <StProjectCreateButton onClick={props.onProjectCreate}>생성</StProjectCreateButton>
-        </StContentTitle>
+        <StContentTitleContainer>
+          <StContentTitle>
+            프로젝트
+            <StProjectNumber>{props.projects.length}</StProjectNumber>
+          </StContentTitle>
+          <StProjectCreateButton onClick={props.onProjectCreate}>
+            + 프로젝트 추가
+          </StProjectCreateButton>
+        </StContentTitleContainer>
         <StProjectBoxContainer>
           {props.projects.map((item: Project, index: number) => (
             <StProjectBox key={index}>
@@ -46,6 +50,11 @@ function ProjectEditSection(props: ProjectEditSectionProps) {
 
 export default ProjectEditSection;
 
+const StContentTitleContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
 const StContentTitle = styled.div`
   display: flex;
   margin-bottom: 10px;
@@ -53,6 +62,22 @@ const StContentTitle = styled.div`
   font-size: 30px;
   gap: 10px;
   justify-content: space-between;
+  align-items: center;
+`;
+
+const StProjectCreateButton = styled.button`
+  margin-left: auto;
+  border-radius: 20px;
+  width: 100px;
+  border: 1px solid green;
+  color: green;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: green;
+    color: white;
+  }
 `;
 
 const StProjectNumber = styled.span`
@@ -69,8 +94,6 @@ const StProjectList = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 `;
-
-const StProjectCreateButton = styled.button``;
 
 const StProjectBoxContainer = styled.div`
   display: flex;
