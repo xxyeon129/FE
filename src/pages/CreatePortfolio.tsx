@@ -46,7 +46,7 @@ const CreatePortfolio = () => {
 };
 
 const StCreatePortfolio = styled.div`
-  height: 93vh;
+  height: 100%;
 `;
 
 export default CreatePortfolio;
