@@ -7,7 +7,7 @@ import useLoginModal from '@src/Hook/useLoginModal';
 import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
 import MobileDropdownMenu from '@src/components/header/MobileDropdownMenu';
-import { DesktopAndTablet, Mobile } from '@src/style/mediaQuery';
+import { Mobile } from '@src/style/mediaQuery';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -28,13 +28,10 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
       <Header onClickMobileMenu={onClickMobileMenu} />
 
       <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
-      <DesktopAndTablet>
-        <StContent>{children}</StContent>
-      </DesktopAndTablet>
+      <StContent>{children}</StContent>
 
       <Mobile>
         <>
-          <StMobileContent>{children}</StMobileContent>
           {isMobileDropdownOpen && (
             <MobileDropdownMenu
               isMobileDropdownOpen={isMobileDropdownOpen}
@@ -61,13 +58,11 @@ const StContent = styled.div`
   padding-top: 70px;
   width: calc(100% - 270px);
   min-height: 100vh;
-`;
 
-const StMobileContent = styled.div`
-  margin-left: 55px;
-  padding-top: 70px;
-  width: 100%;
-  min-height: 100vh;
+  @media ${props => props.theme.size.mobile} {
+    margin-left: 85px;
+    width: 100%;
+  }
 `;
 
 export default Layout;
