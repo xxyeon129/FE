@@ -5,6 +5,7 @@ interface NextStepButtonProps {
   onClick: (() => void) | ((e: React.FormEvent<HTMLButtonElement>) => void);
   text?: string;
   notAllowed?: string;
+  width?: string;
 }
 
 const NextStepButton = ({
@@ -12,19 +13,21 @@ const NextStepButton = ({
   onClick,
   text = '다음',
   notAllowed = 'false',
+  width = '90px',
 }: NextStepButtonProps) => {
   return (
-    <StButton marginright={marginRight} onClick={onClick} notallowed={notAllowed}>
+    <StButton width={width} marginright={marginRight} onClick={onClick} notallowed={notAllowed}>
       {text}
     </StButton>
   );
 };
 
-const StButton = styled.button<{ marginright: string; notallowed: string }>`
-  max-width: 120px;
+const StButton = styled.button<{ width: string; marginright: string; notallowed: string }>`
+  width: ${({ width }) => width};
   padding: 15px 25px;
-  border-radius: 10px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-weight: 900;
+  font-size: 18px;
   margin-right: ${({ marginright }) => marginright};
 
   background-color: ${({ theme }) => theme.color.neonGreen};
