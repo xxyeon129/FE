@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as Icon } from '@src/assets/portfolioDetail/port-delete-icon.svg';
 
 interface DeletePortfoliosModalProps {
   portId: number | undefined;
@@ -31,11 +32,14 @@ function DeletePortfolioModal({ portId, onCloseModal }: DeletePortfoliosModalPro
   return (
     <StModalContainer>
       <StModalContent>
-        <h2>포트폴리오를 삭제하시겠습니까?</h2>
-        <h3></h3>
+        <StIcon />
+        <StTitle>포트폴리오를 정말 삭제할까요?</StTitle>
+        <StSubtitle>삭제하고 나면 복구할 수 없어요.</StSubtitle>
         <StButtonContainer>
-          <StButton onClick={onHandleDelete}>삭제</StButton>
-          <StButton onClick={onCloseModal}>닫기</StButton>
+          <StButton color="gray" onClick={onHandleDelete}>
+            삭제하기
+          </StButton>
+          <StButton onClick={onCloseModal}>취소</StButton>
         </StButtonContainer>
       </StModalContent>
     </StModalContainer>
@@ -61,11 +65,11 @@ const StModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40%;
-  height: 20%;
+  width: 30%;
+  height: 400px;
   background-color: #fff;
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 20px;
 `;
 
 const StButtonContainer = styled.div`
@@ -76,7 +80,7 @@ const StButtonContainer = styled.div`
 `;
 
 const StButton = styled.button`
-  background-color: #6bf65f;
+  background-color: ${({ color }) => color || '#6bf65f'};
   color: black;
   padding: 8px 16px;
   font-size: 16px;
@@ -89,7 +93,20 @@ const StButton = styled.button`
 
   &:not([notallowed='true']):hover {
     transition: 0.5s;
-    background-color: ${({ theme }) => theme.color.lightGreen};
+    background-color: ${({ theme, color }) => (color ? color : theme.color.lightGreen)};
     color: white;
   }
+`;
+
+const StIcon = styled(Icon)`
+  margin-bottom: 20px;
+  margin-left: 40px;
+`;
+
+const StTitle = styled.h2`
+  margin-bottom: 10px;
+`;
+
+const StSubtitle = styled.h3`
+  margin-bottom: 20px;
 `;
