@@ -6,6 +6,7 @@ interface NoImageProps {
   height: string;
   borderRadius?: string;
   borderTopRadius?: string;
+  boxShadow?: string;
 }
 
 const NoImage = ({
@@ -13,6 +14,7 @@ const NoImage = ({
   height,
   borderRadius = '0px',
   borderTopRadius = '0px',
+  boxShadow = 'none',
 }: NoImageProps) => {
   return (
     <StNoImage
@@ -21,6 +23,7 @@ const NoImage = ({
       height={height}
       borderradius={borderRadius}
       bordertopradius={borderTopRadius}
+      boxshadow={boxShadow}
       alt="no image representative image"
     />
   );
@@ -31,14 +34,16 @@ const StNoImage = styled.img<{
   height: string;
   borderradius: string;
   bordertopradius: string;
+  boxshadow: string;
 }>`
   width: ${({ width }) => width};
-  height: ${({ height }) => height}; //350px;
+  height: ${({ height }) => height};
   object-fit: cover;
-  border-radius: ${({ borderradius }) => borderradius}; // 10px;
+  border-radius: ${({ borderradius }) => borderradius};
   z-index: -1;
-  border-top-right-radius: ${({ bordertopradius }) => bordertopradius};
-  border-top-left-radius: ${({ bordertopradius }) => bordertopradius};
+  border-top-right-radius: ${({ bordertopradius }) => bordertopradius !== '0px' && bordertopradius};
+  border-top-left-radius: ${({ bordertopradius }) => bordertopradius !== '0px' && bordertopradius};
+  box-shadow: ${({ boxshadow }) => boxshadow};
 `;
 
 export default NoImage;

@@ -9,11 +9,12 @@ const PrevStepButton = ({ onClick }: PrevStepButtonProps) => {
 };
 
 const StButton = styled.button`
-  max-width: 120px;
+  width: 90px;
   padding: 15px 25px;
   border: 1px solid lightgray;
-  border-radius: 10px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 18px;
   color: gray;
 
   &:hover {

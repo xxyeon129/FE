@@ -22,20 +22,18 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
 
   return (
     <StItemContainer onClick={onClickPortfolioItem}>
-      <StImgContainer>
-        {isportfolioImageExist && !imageLoadError ? (
-          <StPortfolioImg src={item.portfolioImage} onError={onImageError} />
-        ) : (
-          <NoImage height="270px" borderRadius="10px" />
-        )}
-        <StDescriptionContainer>
-          <StUserContainer>
-            <UserProfileImage imgSrc={item.userProfileImage} size="25px" />
-            <StUserNameText>{item.userName}</StUserNameText>
-          </StUserContainer>
-          <StTitle>{item.portfolioTitle}</StTitle>
-        </StDescriptionContainer>
-      </StImgContainer>
+      {isportfolioImageExist && !imageLoadError ? (
+        <StPortfolioImg src={item.portfolioImage} onError={onImageError} />
+      ) : (
+        <NoImage height="270px" borderRadius="10px" boxShadow="0px 0px 4px rgba(0, 0, 0, 0.2)" />
+      )}
+      <StDescriptionContainer>
+        <StUserContainer>
+          <UserProfileImage imgSrc={item.userProfileImage} size="25px" />
+          <StUserNameText>{item.userName}</StUserNameText>
+        </StUserContainer>
+        <StTitle>{item.portfolioTitle}</StTitle>
+      </StDescriptionContainer>
     </StItemContainer>
   );
 };
@@ -51,16 +49,12 @@ const StItemContainer = styled.div`
   }
 `;
 
-const StImgContainer = styled.div`
-  width: 250px;
-  height: 310px;
-`;
-
 const StPortfolioImg = styled.img`
   width: 100%;
   height: 270px;
   object-fit: cover;
   border-radius: 10px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
 `;
 
 const StDescriptionContainer = styled.div`

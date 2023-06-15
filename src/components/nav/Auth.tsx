@@ -5,14 +5,17 @@ import { useRecoilState } from 'recoil';
 import { loginState } from '@src/states';
 import { PATH_URL } from '@src/constants/constants';
 import { ReactComponent as AuthIcon } from '@src/assets/nav/nav-logout-icon.svg';
+import useResetCreatePortfolioRecoilValues from '@src/Hook/useResetCreatePortfolioRecoilValues';
+import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
 
 interface AuthProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Auth = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: AuthProps) => {
+const Auth = ({ setIsLoginModalOpen }: AuthProps) => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const resetRecoilValues = useResetCreatePortfolioRecoilValues();
+  const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
 
   const navigate = useNavigate();
 
@@ -20,7 +23,9 @@ const Auth = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: AuthProps) => {
     if (isLogin) {
       window.localStorage.clear();
       setIsLogin(false);
-      navigate(PATH_URL.MAIN);
+      resetRecoilValues();
+      resetSelectedRecoilValue();
+      navigate(PATH_URL.HOME);
     } else {
       setIsLoginModalOpen(true);
     }
@@ -28,8 +33,7 @@ const Auth = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: AuthProps) => {
 
   useEffect(() => {
     const isExistToken = localStorage.getItem('accesstoken');
-    if (isExistToken !== null) setIsLogin(true);
-    if (isExistToken === null) setIsLogin(false);
+    isExistToken === null ? setIsLogin(false) : setIsLogin(true);
   }, [isLogin]);
 
   return (

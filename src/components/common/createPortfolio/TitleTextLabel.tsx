@@ -23,12 +23,14 @@ const StTextContainer = styled.div<{ width: string }>`
 
 const StTitle = styled.h1`
   margin-bottom: 15px;
+  font-weight: 800;
 `;
 
 const StDescription = styled.div`
   color: gray;
   white-space: pre-wrap;
   line-height: 150%;
+  font-size: 20px;
 `;
 
 export default TitleTextLabel;

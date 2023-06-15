@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
@@ -28,6 +28,26 @@ const CategorySelectDropdown = ({
     setIsDropdownOpen(false);
   };
 
+  const dropdownRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const onClickOutside = (e: MouseEvent) => {
+      if (
+        isDropdownOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside);
+    };
+  }, [isDropdownOpen, dropdownRef.current]);
+
   return (
     <StDropdownContainer>
       <StSelectBar onClick={onClickSelectBar} isclicked={`${isDropdownOpen}`}>
@@ -40,7 +60,7 @@ const CategorySelectDropdown = ({
 
       {isDropdownOpen && (
         <StDropdownListContainer>
-          <StDropdownUnorderedList>
+          <StDropdownUnorderedList ref={dropdownRef}>
             {dropdownOptions.map((option: string, index: number) => (
               <StDropdownList key={index} onClick={() => onClickOption(option)}>
                 {option}
@@ -56,12 +76,12 @@ const CategorySelectDropdown = ({
 const StDropdownContainer = styled.div``;
 
 const StSelectBar = styled.div<{ isclicked: string }>`
-  outline: ${({ isclicked }) => (isclicked === 'true' ? '2px solid' : '1px solid gray')};
-  border-radius: 10px;
+  outline: ${({ isclicked }) => (isclicked === 'true' ? '2px solid' : '1px solid')};
+  border-radius: 7px;
   width: 750px;
   height: 50px;
   display: flex;
-  padding: 30px 20px;
+  padding: 35px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -77,11 +97,14 @@ const StTextContainer = styled.div`
   gap: 5px;
 `;
 
-const StSelectValue = styled.div``;
+const StSelectValue = styled.div`
+  padding-top: 2px;
+  font-weight: 800;
+`;
 
 const StDropdownListContainer = styled.div`
   border: 1px solid gray;
-  border-radius: 10px;
+  border-radius: 7px;
   width: 750px;
   margin-top: 5px;
   background-color: white;
@@ -96,17 +119,17 @@ const StDropdownList = styled.li`
   padding: 9px 20px;
 
   &:hover {
-    background-color: lightgray;
+    background-color: ${({ theme }) => theme.color.lightGray};
   }
 
   &:first-child {
-    padding-top: 15px;
-    border-radius: 10px 10px 0 0;
+    padding-top: 17px;
+    border-radius: 7px 7px 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 10px 10px;
-    padding-bottom: 15px;
+    border-radius: 0 0 7px 7px;
+    padding-bottom: 17px;
   }
 `;
 

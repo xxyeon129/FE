@@ -1,16 +1,31 @@
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { PATH_URL } from '@src/constants/constants';
 import { DesktopAndTablet, Mobile } from '@src/style/mediaQuery';
-import HeaderListItem from '@src/components/header/HeaderListItem';
 import { ReactComponent as Logo } from '@src/assets/logo.svg';
+import HeaderListItem from '@src/components/header/HeaderListItem';
+import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
 
 interface HeaderProps {
   onClickMobileMenu: () => void;
 }
 
 const Header = ({ onClickMobileMenu }: HeaderProps) => {
+  const navigate = useNavigate();
+  const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
+
+  const onClickLogo = () => {
+    resetSelectedRecoilValue();
+    navigate(PATH_URL.HOME);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <StHeader>
-      <StLogo />
+      <StLogo onClick={onClickLogo} />
       <DesktopAndTablet>
         <StUnorderedList>
           <HeaderListItem liWidth="130px" />
@@ -41,6 +56,7 @@ const StHeader = styled.header`
 const StLogo = styled(Logo)`
   width: 63px;
   height: 20px;
+  cursor: pointer;
 `;
 
 const StUnorderedList = styled.ul`
