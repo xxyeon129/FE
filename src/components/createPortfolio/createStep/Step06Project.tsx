@@ -103,17 +103,33 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   );
 };
 
-const StAddProjectContainer = styled.div``;
+const StAddProjectContainer = styled.div`
+  width: 900px;
+
+  @media screen and (max-width: 1220px) {
+    padding: 10px 20px;
+    width: 100%;
+  }
+`;
 
 const StAddProjectButton = styled.button`
   font-size: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   font-weight: bold;
+  padding: 9px 20px;
+  border-radius: 30px;
+  border: 1px solid ${({ theme }) => theme.color.lightGreen};
   color: ${({ theme }) => theme.color.lightGreen};
+
+  &:hover {
+    transition: 0.5s;
+    color: white;
+    background-color: ${({ theme }) => theme.color.lightGreen};
+  }
 `;
 
 const StProjectsList = styled.div<{ isprojectexist: string }>`
-  width: 900px;
+  width: 100%;
   min-height: 250px;
 
   padding: 1rem;
@@ -122,11 +138,13 @@ const StProjectsList = styled.div<{ isprojectexist: string }>`
   gap: 20px;
   flex-flow: wrap;
 
+  border: 1px dashed ${({ theme }) => theme.color.paleGray};
+  border-radius: 15px;
+  margin-bottom: 20px;
+
   ${({ isprojectexist }) =>
     isprojectexist === 'false' &&
     css`
-      border: 1px dashed gray;
-      border-radius: 20px;
       align-items: center;
       justify-content: center;
       text-align: center;
@@ -136,7 +154,7 @@ const StProjectsList = styled.div<{ isprojectexist: string }>`
 `;
 
 const StNoProjectText = styled.div`
-  color: #9d9d9d;
+  color: ${({ theme }) => theme.color.paleGray};
 `;
 
 const StBackground = styled.div`

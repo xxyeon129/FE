@@ -21,7 +21,7 @@ const Step05TechStack = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
     <S.Container>
       <S.ContentContainer>
         <TitleTextLabel title={title} description={description} />
-        <TechStackTag setTechStack={setTechStack} techStack={techStack} StWidth="600px" />
+        <TechStackTag setTechStack={setTechStack} techStack={techStack} StWidth="750px" />
       </S.ContentContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.FOUR)} />

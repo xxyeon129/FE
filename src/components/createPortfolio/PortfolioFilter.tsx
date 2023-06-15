@@ -74,6 +74,10 @@ const StFilterListContainer = styled.div`
   gap: 1rem;
   padding: 20px 0;
   flex-wrap: wrap;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    justify-content: flex-start;
+  }
 `;
 
 const StFilterButton = styled.button<{ isselected: string }>`

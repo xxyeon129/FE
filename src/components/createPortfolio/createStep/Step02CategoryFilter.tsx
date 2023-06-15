@@ -68,8 +68,9 @@ const StSelectContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 750px;
 
-  @media ${props => props.theme.size.tablet} {
+  @media ${({ theme }) => theme.size.tablet} {
     width: 100%;
   }
 `;

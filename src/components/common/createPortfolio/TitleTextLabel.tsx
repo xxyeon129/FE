@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 
 interface TitleTextLabelProps {
   title: string;
@@ -21,7 +21,17 @@ const StTextContainer = styled.div<{ width: string }>`
   padding-bottom: 50px;
   line-height: 250%;
 
-  @media ${props => props.theme.size.tablet} {
+  ${({ width }) =>
+    width === '900px' &&
+    css`
+      padding-bottom: 30px;
+      @media screen and (max-width: 1220px) {
+        width: 100%;
+        padding: 50px 20px;
+      }
+    `}
+
+  @media ${({ theme }) => theme.size.tablet} {
     width: 100%;
   }
 `;

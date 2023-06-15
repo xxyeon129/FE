@@ -51,6 +51,7 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
           <AdditionalPersonalInfo sharedStyle={sharedStyle} />
         </StInputContainer>
       </S.ContentContainer>
+
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.THREE)} />
         <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidEmail}`} />
@@ -63,12 +64,19 @@ const StInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  width: 750px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
-const StEmailContainer = styled.div``;
+const StEmailContainer = styled.div`
+  width: 100%;
+`;
 
 const sharedStyle = `
-  width: 600px;
+  width: 100%;
   height: 65px;
   display: flex;
   flex-direction: column;

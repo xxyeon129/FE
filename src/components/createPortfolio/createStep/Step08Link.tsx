@@ -72,14 +72,18 @@ const Step08Link = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSte
 };
 
 const StOutLineDiv = styled.div<{ isgithubexist: string }>`
-  width: 600px;
+  width: 750px;
   height: ${({ isgithubexist }) => (isgithubexist === 'true' ? '195px' : '130px')};
   border: 1px solid gray;
   border-radius: 10px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StUrlItem = styled.div`
-  width: 600px;
+  width: 750px;
   height: 65px;
   display: flex;
   flex-direction: column;
@@ -91,6 +95,10 @@ const StUrlItem = styled.div`
 
   &:last-child {
     border: none;
+  }
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
   }
 `;
 

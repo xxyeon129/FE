@@ -38,7 +38,7 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
           <StTextarea
             value={experience}
             onChange={onChangeInput}
-            placeholder="포트폴리오에 표시될 소개 내용을 요약하여 10자 이상 작성해주세요."
+            placeholder="포트폴리오에 표시될 소개 내용을 10자 이상 작성해주세요."
           />
           {isInvalid && <ErrorMessage errorMessage={errorMessage} />}
         </StTextareaContainer>
@@ -52,7 +52,11 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
 };
 
 const StTextareaContainer = styled.div`
-  width: 600px;
+  width: 750px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StTextarea = styled.textarea`

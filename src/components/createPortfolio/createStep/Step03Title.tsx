@@ -80,7 +80,7 @@ const StInput = styled.input`
     border: 3px solid;
   }
 
-  @media ${props => props.theme.size.tablet} {
+  @media ${({ theme }) => theme.size.tablet} {
     width: 100%;
   }
 `;

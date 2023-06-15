@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { ReactComponent as UploadIcon } from '@src/assets/upload-icon-test.svg';
+import { ReactComponent as UploadIcon } from '@src/assets/upload-image-icon.svg';
 
 import { createPortfolio } from '@src/apis/portfolio';
 import { PATH_URL } from '@src/constants/constants';
@@ -136,7 +136,7 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
           {!isImageExist && (
             <StNoImgContainer>
               <StLabel htmlFor="portfolioImage">
-                <StUploadIcon size="30px" />
+                <StUploadIcon size="35px" />
                 <StUploadText>
                   이미지 파일을 선택해 포트폴리오 대표 이미지를 설정해주세요.
                 </StUploadText>
@@ -155,7 +155,11 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
 };
 
 const StImageContainer = styled.div`
-  width: 600px;
+  width: 750px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StPreviewImg = styled.img`
@@ -168,14 +172,16 @@ const StLabelContainer = styled.div`
   width: 100%;
   margin-top: 20px;
   display: flex;
-  justify-content: right;
+  justify-content: center;
 `;
 
 const StPreviewImgLabel = styled.label`
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 50px;
-  padding: 10px 15px;
+  padding: 10px 20px;
+  font-weight: 800;
   cursor: pointer;
+  white-space: nowrap;
 `;
 
 const StPreviewContainer = styled.div`
@@ -192,6 +198,7 @@ const StLabel = styled.label`
 
 const StInput = styled.input`
   opacity: 0;
+  width: 0%;
 `;
 
 const StNoImgContainer = styled.div`
@@ -200,10 +207,14 @@ const StNoImgContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 600px;
+  width: 750px;
   height: 250px;
   border: 1px dashed gray;
   border-radius: 30px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StUploadIcon = styled(UploadIcon)<{ size: string }>`
@@ -213,7 +224,6 @@ const StUploadIcon = styled(UploadIcon)<{ size: string }>`
 
 const StUploadText = styled.div`
   color: #949494;
-  font-weight: bold;
   padding-top: 20px;
 `;
 

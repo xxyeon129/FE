@@ -29,7 +29,7 @@ const StErrorIcon = styled.div`
   justify-content: center;
   border-radius: 50%;
   background-color: ${props => props.theme.color.errorRed};
-  margin-right: 3px;
+  margin-right: 5px;
 `;
 
 const StErrorText = styled.div`
