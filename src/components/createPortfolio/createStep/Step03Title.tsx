@@ -71,10 +71,10 @@ const StInput = styled.input`
   border: 2px solid gray;
   border-radius: 10px;
   width: 750px;
-  height: 50px;
+  height: 70px;
   padding-left: 10px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
 
   &:focus {
     border: 3px solid;
