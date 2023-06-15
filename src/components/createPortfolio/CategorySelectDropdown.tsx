@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
 import { StInputLabel } from '../../style/common/createStepStyles';
+import useCloseDropdown from '@src/Hook/useCloseDropdown';
 
 interface CategorySelectDropdownProps {
   dropdownOptions: string[];
@@ -19,6 +20,8 @@ const CategorySelectDropdown = ({
 }: CategorySelectDropdownProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
+  const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
+
   const onClickSelectBar = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -28,19 +31,7 @@ const CategorySelectDropdown = ({
     setIsDropdownOpen(false);
   };
 
-  const dropdownRef = useRef<HTMLUListElement>(null);
-
   useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (
-        isDropdownOpen &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
     document.addEventListener('mousedown', onClickOutside);
 
     return () => {

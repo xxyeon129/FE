@@ -1,12 +1,12 @@
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '@src/states';
 
-interface useLoginModal {
+interface useLoginModalProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const useLoginModal = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: useLoginModal) => {
+const useLoginModal = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: useLoginModalProps) => {
   const setIsLogin = useSetRecoilState(loginState);
 
   const onLoginCloseModal = () => {
