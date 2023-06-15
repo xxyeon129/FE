@@ -329,9 +329,9 @@ function PortfolioDetails() {
                 fileInputRef={fileInputRef}
                 onhandlePortfolioImageChange={onhandlePortfolioImageChange}
               />
-              <div>
+              <Desktop>
                 <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="100%" />
-              </div>
+              </Desktop>
 
               <EditLinkSection
                 youtube={youtube}
