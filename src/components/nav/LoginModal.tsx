@@ -133,7 +133,7 @@ const StModalWrapper = styled.div`
   z-index: 1001;
 `;
 
-const StModalContent = styled.div`
+const StModalContent = styled.form`
   margin-top: 105px;
   background-color: white;
   padding: 20px;

@@ -26,11 +26,9 @@ const MainRouter = () => {
           <Route path={PATH_URL.MAIN} element={<Main />} />
           <Route path={PATH_URL.DETAIL_PATH} element={<Detail />} />
           <Route path={PATH_URL.TEST} element={<Test />} />
-          <Route path={PATH_URL.HYO} element={<HyoHwan />} />
           <Route path={PATH_URL.PORTFOLIODETAIL} element={<PortfolioDetails />} />
           <Route path={PATH_URL.MYPAGE} element={<MyPage />} />
           <Route path={PATH_URL.SEARCHRESULTS} element={<SearchResults />} />
-          <Route path={PATH_URL.HYO2} element={<LinkPreview />} />
           <Route path={PATH_URL.MY_PORTFOLIO_PATH} element={<MyPortfolio />} />
           <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
           <Route path="*" element={<Login />} />
