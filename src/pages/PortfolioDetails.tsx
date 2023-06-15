@@ -37,7 +37,7 @@ function PortfolioDetails() {
     position: string;
   }
   const [portid, setPortId] = useState<number>();
-  const [hostid, setHostid] = useState<number>();
+  const [hostid, setHostid] = useState<number>(0);
   const [portfolioTitle, setPortfolioTitle] = useState<string>('');
   const [intro, setIntro] = useState<string>('');
   const [proFileImage, setProFileImage] = useState<string>('');
@@ -65,6 +65,8 @@ function PortfolioDetails() {
 
   const projectData = useRecoilValue(projectDataAtom);
 
+  console.log('겟이미지', getPortfolioImage);
+
   useEffect(() => {
     if (projectData !== null) {
       const projectId = projectData.id;
@@ -80,7 +82,7 @@ function PortfolioDetails() {
     iat: number;
   }
 
-  const [userid, setUserId] = useState<number>();
+  const [userid, setUserId] = useState<number>(0);
   const { id } = useParams();
   const portfolioId = id;
 
@@ -250,8 +252,8 @@ function PortfolioDetails() {
     }
   };
 
-  console.log('이미지 프리뷰 데이터 : ', portfolioImagePreview);
-  console.log('포트폴리오 이미지 데이터 : ', portfolioImage);
+  // console.log('이미지 프리뷰 데이터 : ', portfolioImagePreview);
+  // console.log('포트폴리오 이미지 데이터 : ', portfolioImage);
 
   const onProjectDetail = (projectId: number) => {
     setSelectedProjectId(projectId);
@@ -328,6 +330,7 @@ function PortfolioDetails() {
                 portfolioImagePreview={portfolioImagePreview}
                 fileInputRef={fileInputRef}
                 onhandlePortfolioImageChange={onhandlePortfolioImageChange}
+                getPortfolioImage={getPortfolioImage}
               />
               <Desktop>
                 <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="100%" />
@@ -365,7 +368,7 @@ function PortfolioDetails() {
                 location={location}
                 getPortfolioImage={getPortfolioImage}
                 imageLoadError={imageLoadError}
-                getPortfolioImg={getPortfolioImage}
+                proFileImage={proFileImage}
                 intro={intro}
                 filter={filter}
                 hostid={hostid}

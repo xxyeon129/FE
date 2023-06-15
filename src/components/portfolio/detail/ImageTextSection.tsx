@@ -32,6 +32,8 @@ function ImageTextSection(props: ImageTextSectionProps) {
   const [contactToggle, setConTactToggle] = useState<boolean>(false);
   const [button, setButton] = useState(<ClickOn />);
 
+  console.log('이미지 데이터', props.getPortfolioImage);
+
   const toggleContact = () => {
     setConTactToggle(prevState => !prevState);
     setButton(contactToggle ? <ClickOn /> : <ClickDown />);
@@ -41,7 +43,7 @@ function ImageTextSection(props: ImageTextSectionProps) {
     <div>
       <StContainer>
         <StContainerTop>
-          {props.getPortfolioImage && !props.imageLoadError ? (
+          {/* {props.getPortfolioImage && !props.imageLoadError ? (
             <StRepresentativeImage
               src={props.getPortfolioImage}
               alt=""
@@ -49,7 +51,13 @@ function ImageTextSection(props: ImageTextSectionProps) {
             />
           ) : (
             <NoImage height="250px" />
-          )}
+          )} */}
+
+          <StRepresentativeImage
+            src={props.getPortfolioImage || ''}
+            alt="포트폴리오 이미지"
+            onError={props.onImageError}
+          />
         </StContainerTop>
 
         <StContainerMiddle>
