@@ -80,16 +80,12 @@ export default SearchResults;
 const StContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  margin-bottom: 50px; /* Add a margin-bottom to create space for the fixed button container */
+  margin-bottom: 50px;
   overflow-y: auto;
-  height: calc(
-    100vh - 80px - 50px
-  ); /* Subtract the top padding and bottom margin from the full viewport height */
+  height: calc(100vh - 80px - 50px);
 
   @media (max-width: 768px) {
-    margin-bottom: 30px;
-    height: calc(100vh - 60px - 30px);
+    height: calc(100vh - 80px);
   }
 `;
 
@@ -99,12 +95,16 @@ const StLayout = styled.div`
   margin-top: 10px;
 
   @media (max-width: 768px) {
-    margin-top: 5px;
+    padding: 0;
   }
 `;
 
 const StHeader = styled.div`
   padding: 10px 45px;
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+  }
 `;
 
 const StbuttonContainer = styled.div`
@@ -124,18 +124,18 @@ const StbuttonContainer = styled.div`
   padding: 0px 0;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  margin-left: 250px; /* Add margin-left of 250px */
+  margin-left: 250px;
 
   @media (max-width: 768px) {
     width: 100%;
-    margin-left: 0px;
+    margin-left: 0;
   }
 `;
 
 const StButtonList = styled.div`
   display: flex;
-  align-items: center; /* Add align-items: center */
-  justify-content: center; /* Add justify-content: center */
+  align-items: center;
+  justify-content: center;
   padding: 16px;
   white-space: nowrap;
   font-size: 0;
@@ -158,7 +158,6 @@ const StButton = styled.button<StButtonProps>`
   color: var(--color-body);
   text-align: center;
 
-  /* Add styles for selected button */
   ${({ selected }) =>
     selected &&
     `
