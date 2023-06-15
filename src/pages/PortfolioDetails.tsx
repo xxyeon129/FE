@@ -329,14 +329,9 @@ function PortfolioDetails() {
                 fileInputRef={fileInputRef}
                 onhandlePortfolioImageChange={onhandlePortfolioImageChange}
               />
-
-              <Desktop>
+              <div>
                 <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="100%" />
-              </Desktop>
-
-              <Tablet>
-                <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="500px" />
-              </Tablet>
+              </div>
 
               <EditLinkSection
                 youtube={youtube}
@@ -368,6 +363,7 @@ function PortfolioDetails() {
                 telephone={telephone}
                 residence={residence}
                 location={location}
+                getPortfolioImage={getPortfolioImage}
                 imageLoadError={imageLoadError}
                 getPortfolioImg={getPortfolioImage}
                 intro={intro}
