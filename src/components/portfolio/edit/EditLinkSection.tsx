@@ -13,6 +13,7 @@ interface EditLinkSectionProps {
 function EditLinkSection(props: EditLinkSectionProps) {
   return (
     <div>
+      <h1>링크 추가</h1>
       <StRinkWrapper>
         <div>
           <StLabel htmlFor="youtube">유튜브:</StLabel>
@@ -55,8 +56,6 @@ const input = `
 `;
 
 const StRinkWrapper = styled.div`
-  background-color: #f8f8f8;
-  padding: 30px;
   margin: 30px 0;
 `;
 

@@ -62,7 +62,7 @@ const Information: React.FC<InformationProps> = props => {
           {props.filter && <StFilter>{props.filter}</StFilter>}
         </StLeftContainer>
         <StRightContainer>
-          <StInputContainer width="90%">
+          <StInputContainer width="100%">
             <StInput
               type="text"
               id="portfolioTitle"
@@ -72,7 +72,7 @@ const Information: React.FC<InformationProps> = props => {
               height="70px"
             />
           </StInputContainer>
-          <StInputContainer width="90%">
+          <StInputContainer width="100%">
             <StMailIcon />
             <StInput
               type="text"
@@ -83,7 +83,7 @@ const Information: React.FC<InformationProps> = props => {
               height="40px"
             />
           </StInputContainer>
-          <StInputContainer width="90%">
+          <StInputContainer width="100%">
             <StTelephoneIcon />
             <StInput
               type="text"
@@ -94,7 +94,7 @@ const Information: React.FC<InformationProps> = props => {
               height="40px"
             />
           </StInputContainer>
-          <StInputContainer width="42%">
+          <StInputContainer width="100%">
             <StHomeIcon />
             <StInput
               type="text"
@@ -105,8 +105,8 @@ const Information: React.FC<InformationProps> = props => {
               height="40px"
             />
           </StInputContainer>
-          <StText>희망근무지</StText>
-          <StInputContainer width="30%">
+          <StInputContainer width="100%">
+            <StText>희망 근무지</StText>
             <StInput
               type="text"
               id="location"
@@ -152,7 +152,7 @@ const StFirstEditWrapper = styled.div`
 `;
 
 const StLeftContainer = styled.div`
-  width: 50%;
+  width: 40%;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -175,7 +175,7 @@ const StFilter = styled.div`
 `;
 
 const StRightContainer = styled.div`
-  width: 50%;
+  width: 60%;
   display: flex;
   flex-wrap: wrap;
   @media (max-width: 768px) {
@@ -219,10 +219,12 @@ const StProfileImage = styled.img`
 `;
 
 const StText = styled.div`
-  margin: 0 20px;
+  /* margin: 0 20px; */
+  width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 16px;
 `;
 
 const StIntro = styled.div`
