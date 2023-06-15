@@ -1,40 +1,23 @@
 import { styled } from 'styled-components';
-import UserProfile from '@src/components/nav/UserProfile';
-import AutoSearch from '../components/AutoSearch';
-import Category from '@src/components/nav/Category';
-import Auth from '@src/components/nav/Auth';
-import LightAndDarkMode from '@src/components/nav/LightAndDarkMode';
-import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
+import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
+import NavContent from '@src/components/nav/NavContent';
 
-interface NavProps {
+export interface NavProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Nav = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: NavProps) => {
+const Nav = ({ setIsLoginModalOpen }: NavProps) => {
   return (
     <>
       <DesktopAndTablet>
         <StNav>
-          <UserProfile />
-
-          <StAutoSearchContainer>
-            <AutoSearch />
-          </StAutoSearchContainer>
-
-          <StCategoryContainer>
-            <Category />
-          </StCategoryContainer>
-
-          <StBottomContainer>
-            <Auth setIsLoginModalOpen={setIsLoginModalOpen} />
-            {/* TODO: 다크모드 2차 scope */}
-            {/* <LightAndDarkMode /> */}
-          </StBottomContainer>
+          <NavContent setIsLoginModalOpen={setIsLoginModalOpen} />
         </StNav>
       </DesktopAndTablet>
       <MobileRow>
-        <StMobileNav></StMobileNav>
+        <StMobileNav>
+          <NavContent setIsLoginModalOpen={setIsLoginModalOpen} />
+        </StMobileNav>
       </MobileRow>
     </>
   );
@@ -55,27 +38,15 @@ const commonNavStyle = `
 
 const StNav = styled.div`
   ${commonNavStyle}
-  width: 270px;
   padding: 45px 41px;
+  width: 270px;
 `;
 
 const StMobileNav = styled.div`
   ${commonNavStyle}
+  padding: 45px 0;
   width: 85px;
-`;
-
-const StAutoSearchContainer = styled.div`
-  padding: 33px 0;
-`;
-
-const StCategoryContainer = styled.div`
-  height: 100%;
-`;
-
-const StBottomContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
 `;
 
 export default Nav;

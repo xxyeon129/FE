@@ -27,7 +27,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
     <StLayout>
       <Header onClickMobileMenu={onClickMobileMenu} />
 
-      <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
+      <Nav setIsLoginModalOpen={setIsLoginModalOpen} />
       <StContent>{children}</StContent>
 
       <MobileRow>

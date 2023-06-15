@@ -6,6 +6,7 @@ import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '@src/states';
 import { myPageEditState } from '@src/states/myPageEditState';
+import { DesktopAndTablet } from '@src/style/mediaQuery';
 
 const UserProfile = () => {
   const isLogin = useRecoilValue<boolean>(loginState);
@@ -50,10 +51,12 @@ const UserProfile = () => {
       ) : (
         !isLoading && <StProfileIcon />
       )}
-      <StProfileTextContainer>
-        {!isLoading && <StUserName>{userData.nickname}</StUserName>}
-        <StUserEmail>{userData.email}</StUserEmail>
-      </StProfileTextContainer>
+      <DesktopAndTablet>
+        <StProfileTextContainer>
+          {!isLoading && <StUserName>{userData.nickname}</StUserName>}
+          <StUserEmail>{userData.email}</StUserEmail>
+        </StProfileTextContainer>
+      </DesktopAndTablet>
     </StProfileContainer>
   );
 };
@@ -62,6 +65,10 @@ const StProfileContainer = styled.div`
   display: flex;
   align-items: center;
   height: 80px;
+
+  @media ${({ theme }) => theme.size.mobileRow} {
+    justify-content: center;
+  }
 `;
 
 const StProfileImg = styled.img`

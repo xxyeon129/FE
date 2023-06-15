@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
@@ -7,6 +7,7 @@ import { PATH_URL } from '@src/constants/constants';
 import { ReactComponent as AuthIcon } from '@src/assets/nav/nav-logout-icon.svg';
 import useResetCreatePortfolioRecoilValues from '@src/Hook/useResetCreatePortfolioRecoilValues';
 import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
+import { DesktopAndTablet } from '@src/style/mediaQuery';
 
 interface AuthProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,7 +41,9 @@ const Auth = ({ setIsLoginModalOpen }: AuthProps) => {
     <StAuth>
       <StAuthClickContainer onClick={onClickAuth}>
         <AuthIcon />
-        <StLabel>{isLogin ? 'Logout' : 'Login'}</StLabel>
+        <DesktopAndTablet>
+          <StLabel>{isLogin ? 'Logout' : 'Login'}</StLabel>
+        </DesktopAndTablet>
       </StAuthClickContainer>
     </StAuth>
   );
