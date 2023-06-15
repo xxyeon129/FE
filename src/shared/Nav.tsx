@@ -40,38 +40,28 @@ const Nav = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: NavProps) => {
   );
 };
 
-const StNav = styled.div`
+const commonNavStyle = `
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 3px -3px 8px rgba(0, 0, 0, 0.13);
   border-top-right-radius: 20px;
-
   position: fixed;
   top: 70px;
   height: calc(100vh - 70px);
-  width: 270px;
-  padding: 45px 41px;
-
   background-color: white;
   z-index: 1000;
 `;
 
-const StMobileNav = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 3px -3px 8px rgba(0, 0, 0, 0.13);
-  border-top-right-radius: 20px;
-
-  position: fixed;
-  top: 70px;
-  height: calc(100vh - 70px);
-  width: 55px;
+const StNav = styled.div`
+  ${commonNavStyle}
+  width: 270px;
   padding: 45px 41px;
+`;
 
-  background-color: white;
-  z-index: 1000;
+const StMobileNav = styled.div`
+  ${commonNavStyle}
+  width: 85px;
 `;
 
 const StAutoSearchContainer = styled.div`

@@ -52,6 +52,9 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
 
 const StInputContainer = styled.div`
   height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 const StInput = styled.input`
@@ -65,6 +68,10 @@ const StInput = styled.input`
 
   &:focus {
     border: 3px solid;
+  }
+
+  @media ${props => props.theme.size.tablet} {
+    width: 100%;
   }
 `;
 

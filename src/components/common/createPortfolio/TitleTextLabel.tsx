@@ -19,6 +19,11 @@ const StTextContainer = styled.div<{ width: string }>`
   position: relative;
   width: ${({ width }) => width};
   padding-bottom: 50px;
+  line-height: 250%;
+
+  @media ${props => props.theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StTitle = styled.h1`

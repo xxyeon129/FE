@@ -65,7 +65,7 @@ const StPortfolioFilter = styled.div`
   border: 1px solid lightgray;
   border-radius: 10px;
   padding: 25px 20px;
-  width: 750px;
+  width: 100%;
 `;
 
 const StFilterListContainer = styled.div`

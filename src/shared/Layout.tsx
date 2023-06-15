@@ -59,9 +59,9 @@ const StContent = styled.div`
   width: calc(100% - 270px);
   min-height: 100vh;
 
-  @media ${props => props.theme.size.mobile} {
+  @media ${props => props.theme.size.mobileRow} {
     margin-left: 85px;
-    width: 100%;
+    width: calc(100% - 85px);
   }
 `;
 

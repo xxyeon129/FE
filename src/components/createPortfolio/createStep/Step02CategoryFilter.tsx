@@ -66,6 +66,10 @@ const StSelectContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  @media ${props => props.theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StDropdownContainer = styled.div``;
