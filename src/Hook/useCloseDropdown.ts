@@ -1,5 +1,20 @@
-const useCloseDropdown = () => {
-  return; // TODO: 작성 예정 - Nav바 반응형 PR이 더 급한 부분이라 PR 이후 작성하겠습니다
+import { useRef } from 'react';
+
+interface useCloseDropdownProps {
+  isDropdownOpen: boolean;
+  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const useCloseDropdown = ({ isDropdownOpen, setIsDropdownOpen }: useCloseDropdownProps) => {
+  const dropdownRef = useRef<HTMLUListElement>(null);
+
+  const onClickOutside = (e: MouseEvent) => {
+    if (isDropdownOpen && dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  return { dropdownRef, onClickOutside };
 };
 
 export default useCloseDropdown;

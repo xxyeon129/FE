@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 import HeaderListItem from './HeaderListItem';
+import useCloseDropdown from '@src/Hook/useCloseDropdown';
 
 interface MobileDropdownMenuProps {
   isMobileDropdownOpen: boolean;
@@ -11,19 +12,12 @@ const MobileDropdownMenu = ({
   isMobileDropdownOpen,
   setIsMobileDropdownOpen,
 }: MobileDropdownMenuProps) => {
-  const dropdownRef = useRef<HTMLUListElement>(null);
+  const { dropdownRef, onClickOutside } = useCloseDropdown({
+    isDropdownOpen: isMobileDropdownOpen,
+    setIsDropdownOpen: setIsMobileDropdownOpen,
+  });
 
   useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (
-        isMobileDropdownOpen &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setIsMobileDropdownOpen(false);
-      }
-    };
-
     document.addEventListener('mousedown', onClickOutside);
 
     return () => {
