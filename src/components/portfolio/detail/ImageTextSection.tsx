@@ -10,10 +10,10 @@ import { ReactComponent as ClickOn } from '@src/assets/portfolioDetail/port-clic
 import { ReactComponent as ClickDown } from '@src/assets/portfolioDetail/port-clickdown-icon.svg';
 
 interface ImageTextSectionProps {
-  getPortfolioImage: string | null;
+  // getPortfolioImage: string | null;
   imageLoadError: boolean;
   onImageError: () => void;
-  proFileImage: string;
+  proFileImage: string | null;
   portfolioTitle: string;
   hostid: number;
   userid: number;
@@ -41,12 +41,8 @@ function ImageTextSection(props: ImageTextSectionProps) {
     <div>
       <StContainer>
         <StContainerTop>
-          {props.getPortfolioImage && !props.imageLoadError ? (
-            <StRepresentativeImage
-              src={props.getPortfolioImage}
-              alt=""
-              onError={props.onImageError}
-            />
+          {props.proFileImage && !props.imageLoadError ? (
+            <StRepresentativeImage src={props.proFileImage} alt="" onError={props.onImageError} />
           ) : (
             <NoImage height="250px" />
           )}
@@ -175,6 +171,15 @@ const StHomeIcon = styled(Home)`
 const StTitle = styled.div`
   display: flex;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 10px;
+    margin-left: 50px;
+  }
 `;
 
 const Stpart = styled.div`
@@ -184,6 +189,14 @@ const Stpart = styled.div`
 const StIconButton = styled.div`
   display: flex;
   justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 479px) {
+    align-items: center;
+  }
 `;
 
 const StProFileImage = styled.img`

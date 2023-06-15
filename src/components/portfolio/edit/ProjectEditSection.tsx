@@ -19,6 +19,7 @@ interface ProjectImage {
 }
 
 function ProjectEditSection(props: ProjectEditSectionProps) {
+  console.log(props.projects);
   return (
     <div>
       <StProjectList>
@@ -53,6 +54,20 @@ export default ProjectEditSection;
 const StContentTitleContainer = styled.div`
   width: 100%;
   display: flex;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    width: 100%;
+  }
+
+  @media (min-width: 480px) and (max-width: 540px) {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  @media (max-width: 479px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
 const StContentTitle = styled.div`
@@ -63,6 +78,14 @@ const StContentTitle = styled.div`
   gap: 10px;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StProjectCreateButton = styled.button`
@@ -83,6 +106,14 @@ const StProjectCreateButton = styled.button`
 const StProjectNumber = styled.span`
   color: green;
   font-size: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StProjectList = styled.div`
@@ -105,6 +136,22 @@ const StProjectBoxContainer = styled.div`
 
   & > div {
     flex-basis: calc(33.33% - 20px);
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    width: 100%;
+    flex-direction: row;
+    & > div {
+      flex-basis: calc(50% - 20px);
+    }
+  }
+
+  @media (max-width: 479px) {
+    width: 100%;
+    flex-direction: column;
+    & > div {
+      flex-basis: calc(100%);
+    }
   }
 `;
 

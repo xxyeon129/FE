@@ -1,5 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
+import { ReactComponent as Git } from '@src/assets/portfolioDetail/portedit-git-icon.svg';
+import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/portedit-youtube-icon.svg';
+import { ReactComponent as Blog } from '@src/assets/portfolioDetail/portedit-blog-icon.svg';
 
 interface EditLinkSectionProps {
   youtube: string;
@@ -13,31 +16,42 @@ interface EditLinkSectionProps {
 function EditLinkSection(props: EditLinkSectionProps) {
   return (
     <div>
-      <h1>링크 추가</h1>
       <StRinkWrapper>
-        <div>
-          <StLabel htmlFor="youtube">유튜브:</StLabel>
+        <StRinkWrapperTitle>링크 추가</StRinkWrapperTitle>
+        <StRinkInputWithIcon>
+          <YouTubeIcon />
           <StRinkInput
             type="text"
             id="youtube"
             value={props.youtube}
             onChange={props.onYoutubeHandler}
+            placeholder="운영하는 YouTube가 있다면 링크를 입력해주세요."
           />
-        </div>
-        <div>
-          <StLabel htmlFor="blog">블로그:</StLabel>
-          <StRinkInput type="text" id="blog" value={props.blog} onChange={props.onBlogHandler} />
-        </div>
-        <div>
-          <StLabel htmlFor="github">GitHub:</StLabel>
+        </StRinkInputWithIcon>
+        <StRinkInputWithIcon>
+          <BlogIcon />
           <StRinkInput
             type="text"
-            id="github"
-            value={props.githubId}
-            onChange={props.onGithubHandler}
+            id="blog"
+            value={props.blog}
+            onChange={props.onBlogHandler}
+            placeholder="운영하는 Blog가 있다면 링크를 입력해주세요."
           />
+        </StRinkInputWithIcon>
+        <div>
+          <StRinkInputWithIcon>
+            <GitIcon />
+            <StRinkInput
+              type="text"
+              id="github"
+              value={props.githubId}
+              onChange={props.onGithubHandler}
+              placeholder="운영하는 Github가 있다면 ID를 입력해주세요."
+            />
+          </StRinkInputWithIcon>
         </div>
       </StRinkWrapper>
+      <StLine />
     </div>
   );
 }
@@ -49,22 +63,71 @@ const input = `
   padding: 8px;
   margin-right: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px;
   height: 40px;
-  width: 60%;
+  width: 70%;
   margin-top: 10px;
 `;
 
 const StRinkWrapper = styled.div`
-  margin: 30px 0;
+  margin: 50px 0;
 `;
 
-const StLabel = styled.label`
-  display: inline-block;
-  width: 60px;
+const StRinkWrapperTitle = styled.h1`
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StRinkInput = styled.input`
   ${input}
-  width: 88%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-top: 0px;
+`;
+
+const StRinkInputWithIcon = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const GitIcon = styled(Git)`
+  width: 30%;
+  height: 40px;
+  background-color: black;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  padding: 10px;
+`;
+
+const YouTubeIcon = styled(YouTube)`
+  width: 30%;
+  height: 40px;
+  background-color: black;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  padding: 10px;
+`;
+
+const BlogIcon = styled(Blog)`
+  width: 30%;
+  height: 40px;
+  background-color: black;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  padding: 10px;
+`;
+
+const StLine = styled.hr`
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 10px auto;
+  width: 100%;
+  margin: 50px 0;
 `;

@@ -368,7 +368,6 @@ function PortfolioDetails() {
                 telephone={telephone}
                 residence={residence}
                 location={location}
-                getPortfolioImage={getPortfolioImage}
                 imageLoadError={imageLoadError}
                 getPortfolioImg={getPortfolioImage}
                 intro={intro}

@@ -1,5 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/portedit-youtube-icon.svg';
+import { ReactComponent as Blog } from '@src/assets/portfolioDetail/portedit-blog-icon.svg';
 
 interface LinkSectionProps {
   blog: string;
@@ -18,12 +20,14 @@ function LinkSection(props: LinkSectionProps) {
       </div>
       {props.blog && (
         <StBlog onClick={props.onMyBlog}>
+          <BlogIcon />
           <span>{props.blog}</span>
         </StBlog>
       )}
 
       {props.youtube && (
         <StYoutube onClick={props.onMyYoutube}>
+          <YouTubeIcon />
           <span>{props.youtube}</span>
         </StYoutube>
       )}
@@ -60,15 +64,15 @@ const StBlog = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 120px;
+  height: 40px;
   margin: 20px 0;
-  border-radius: 8px;
-  padding: 8px;
-  background-color: #f2f2f2;
+  border-radius: 4px;
+  border: 1px solid black;
   cursor: pointer;
 
   &:hover {
-    background-color: #ddd;
+    background-color: black;
+    color: white;
   }
 `;
 
@@ -76,14 +80,15 @@ const StYoutube = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 120px;
-  border-radius: 8px;
-  padding: 8px;
-  background-color: #f2f2f2;
+  height: 40px;
+  margin: 20px 0;
+  border-radius: 4px;
+  border: 1px solid black;
   cursor: pointer;
 
   &:hover {
-    background-color: #ddd;
+    background-color: black;
+    color: white;
   }
 `;
 
@@ -100,6 +105,26 @@ const StGithub = styled.div`
 const StGitgrass = styled.img`
   width: 100%;
   height: auto;
+`;
+
+const YouTubeIcon = styled(YouTube)`
+  width: 30%;
+  height: 40px;
+  background-color: black;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+  padding: 10px;
+  margin-right: 20px;
+`;
+
+const BlogIcon = styled(Blog)`
+  width: 30%;
+  height: 40px;
+  background-color: black;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+  padding: 10px;
+  margin-right: 20px;
 `;
 
 const StLine = styled.hr`

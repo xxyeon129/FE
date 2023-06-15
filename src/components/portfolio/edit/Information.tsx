@@ -145,7 +145,16 @@ const StFirstEditWrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 
-  @media (max-width: 768px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  @media (max-width: 479px) {
     flex-direction: column;
     align-items: stretch;
   }
@@ -159,7 +168,14 @@ const StLeftContainer = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  @media (max-width: 768px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    width: 100%;
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    width: 100%;
+  }
+  @media (max-width: 479px) {
     width: 100%;
   }
 `;
@@ -178,7 +194,15 @@ const StRightContainer = styled.div`
   width: 60%;
   display: flex;
   flex-wrap: wrap;
-  @media (max-width: 768px) {
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    width: 100%;
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    width: 100%;
+  }
+  @media (max-width: 479px) {
     width: 100%;
   }
 `;
@@ -208,23 +232,24 @@ const StRepresentativeImageEdit = styled.img`
   object-fit: cover;
 `;
 
-const StProfileImage = styled.img`
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
-`;
-
 const StText = styled.div`
-  /* margin: 0 20px; */
   width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
+
+  @media (max-width: 1023px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 10px;
+  }
 `;
 
 const StIntro = styled.div`
@@ -233,6 +258,14 @@ const StIntro = styled.div`
 
 const StIntroTitle = styled.h1`
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StInputContainer = styled.div<StInputContainerProps>`
@@ -252,6 +285,7 @@ const StInput = styled.input<StInputProps>`
 `;
 
 const StMailIcon = styled(MailIcon)`
+  margin-right: 10px;
   padding: 5px;
 `;
 
@@ -288,6 +322,17 @@ const StButton = styled.button`
     transition: 0.5s;
     background-color: ${({ theme, color }) => (color ? color : theme.color.lightGreen)};
     color: white;
+  }
+  @media (max-width: 768px) {
+    width: 70px;
+    height: 30px;
+    font-size: 10px;
+  }
+
+  @media (max-width: 479px) {
+    width: 70px;
+    height: 30px;
+    font-size: 10px;
   }
 `;
 

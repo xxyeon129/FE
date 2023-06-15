@@ -38,11 +38,27 @@ const StTechnology = styled.span`
   font-weight: bold;
   font-size: 30px;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StTechnologyNumber = styled.span`
   color: green;
   font-size: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StTechStackContainer = styled.div`
