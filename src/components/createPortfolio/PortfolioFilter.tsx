@@ -80,7 +80,7 @@ const StFilterButton = styled.button<{ isselected: string }>`
   border-radius: 50px;
   padding: 10px 20px;
   outline: ${({ isselected, theme: { color } }) =>
-    isselected === 'true' ? `1px solid ${color.neonGreen}` : '1px solid'};
+    isselected === 'true' ? `1px solid ${color.neonGreen}` : 'none'};
   font-weight: ${({ isselected }) => (isselected === 'true' ? `900` : '600')};
   background-color: ${({ isselected, theme: { color } }) =>
     isselected === 'true' ? color.neonGreen : 'none'};
