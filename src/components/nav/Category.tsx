@@ -30,18 +30,6 @@ const Category = () => {
     });
   };
 
-  const onClickHome = () => {
-    setCategory('All');
-    setFilter('All');
-    setSelectedCategory('Home');
-    setSelectedHeader(false);
-    navigate(PATH_URL.MAIN);
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
   return (
     <StCategory>
       {categoryListForDisplay.map((categoryItem, categoryItemIndex: number) => (

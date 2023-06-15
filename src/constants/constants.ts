@@ -1,5 +1,6 @@
 export const PATH_URL = {
-  MAIN: '/',
+  HOME: '/',
+  MAIN: '/main',
   DETAIL_PATH: '/detail/:id',
   DETAIL: '/detail',
   TEST: '/test',

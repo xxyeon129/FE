@@ -64,8 +64,7 @@ const PortfolioFilter = ({ category, selectedFilter, setSelectedFilter }: Portfo
 const StPortfolioFilter = styled.div`
   border: 1px solid lightgray;
   border-radius: 10px;
-  padding: 20px;
-  padding-top: 15px;
+  padding: 25px 20px;
   width: 750px;
 `;
 
@@ -81,8 +80,8 @@ const StFilterButton = styled.button<{ isselected: string }>`
   border-radius: 50px;
   padding: 10px 20px;
   outline: ${({ isselected, theme: { color } }) =>
-    isselected === 'true' ? `1px solid ${color.neonGreen}` : '1px solid gray'};
-  font-weight: ${({ isselected }) => (isselected === 'true' ? `bold` : 'normal')};
+    isselected === 'true' ? `1px solid ${color.neonGreen}` : '1px solid'};
+  font-weight: ${({ isselected }) => (isselected === 'true' ? `900` : '600')};
   background-color: ${({ isselected, theme: { color } }) =>
     isselected === 'true' ? color.neonGreen : 'none'};
 `;

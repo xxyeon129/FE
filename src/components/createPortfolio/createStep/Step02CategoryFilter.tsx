@@ -65,7 +65,7 @@ const Step02CategoryFilter = ({
 const StSelectContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 `;
 
 const StDropdownContainer = styled.div``;
