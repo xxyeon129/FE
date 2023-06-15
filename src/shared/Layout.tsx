@@ -27,14 +27,9 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
     <StLayout>
       <Header onClickMobileMenu={onClickMobileMenu} />
 
+      <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
       <DesktopAndTablet>
-        <>
-          <Nav
-            setIsLoginModalOpen={setIsLoginModalOpen}
-            setIsSignUpModalOpen={setIsSignUpModalOpen}
-          />
-          <StContent>{children}</StContent>
-        </>
+        <StContent>{children}</StContent>
       </DesktopAndTablet>
 
       <Mobile>
@@ -69,6 +64,7 @@ const StContent = styled.div`
 `;
 
 const StMobileContent = styled.div`
+  margin-left: 55px;
   padding-top: 70px;
   width: 100%;
   min-height: 100vh;
