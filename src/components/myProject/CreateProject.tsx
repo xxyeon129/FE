@@ -68,6 +68,13 @@ const CreateProject: React.FC<{
   );
 
   const handleSubmit = async () => {
+    const refreshToken = localStorage.getItem('refreshtoken');
+
+    if (!refreshToken) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
     if (!title.value) {
       title.setErrorText('제목을 입력하세요');
       return;
