@@ -64,7 +64,6 @@ const ProjectModal: React.FC<{
       setPreviewImages(
         data.projectImageList.map((image: ImageType) => image.imageUrl) || DefaultImg
       );
-      console.log(data);
     }
   }, [data]);
 
@@ -126,6 +125,7 @@ const ProjectModal: React.FC<{
   };
 
   const handleSubmit = async () => {
+    console.log(imageList);
     const formData = new FormData();
     const imageBlob = new Blob(imageList, { type: 'application/json' });
     const text = JSON.stringify({
@@ -138,6 +138,7 @@ const ProjectModal: React.FC<{
     const textBlob = new Blob([text], { type: 'application/json' });
     formData.append('projectRequestDto', textBlob);
     formData.append('images', imageBlob);
+
     await updateProjectMutation.mutateAsync(formData);
   };
 
