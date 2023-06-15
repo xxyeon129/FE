@@ -10,7 +10,7 @@ import { ReactComponent as ClickOn } from '@src/assets/portfolioDetail/port-clic
 import { ReactComponent as ClickDown } from '@src/assets/portfolioDetail/port-clickdown-icon.svg';
 
 interface ImageTextSectionProps {
-  // getPortfolioImage: string | null;
+  getPortfolioImage: string | null;
   imageLoadError: boolean;
   onImageError: () => void;
   proFileImage: string | null;
@@ -41,8 +41,12 @@ function ImageTextSection(props: ImageTextSectionProps) {
     <div>
       <StContainer>
         <StContainerTop>
-          {props.proFileImage && !props.imageLoadError ? (
-            <StRepresentativeImage src={props.proFileImage} alt="" onError={props.onImageError} />
+          {props.getPortfolioImage && !props.imageLoadError ? (
+            <StRepresentativeImage
+              src={props.getPortfolioImage}
+              alt=""
+              onError={props.onImageError}
+            />
           ) : (
             <NoImage height="250px" />
           )}
