@@ -75,6 +75,7 @@ const PassWordEditForm: React.FC<PassWordEditFormProps> = ({
 export default PassWordEditForm;
 
 const StPwContent = styled.div`
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,34 +104,34 @@ const StTitle = styled.div`
 const StInput = styled.input`
   padding: 10px;
   width: 308px;
-  left: 7.76%;
+  /* left: 7.76%;
   right: 55.12%;
   top: 49.26%;
-  bottom: 43.54%;
+  bottom: 43.54%; */
   background: #ffffff;
   border: 1px solid rgba(203, 203, 203, 0.7);
   border-radius: 6px;
 
-  @media (max-width: 768px) {
-    width: 100%;
-    left: initial;
+  /* @media (max-width: 768px) {
+    width: 100%; */
+  /* left: initial;
     right: initial;
     top: initial;
-    bottom: initial;
-  }
+    bottom: initial; */
+  /* } */
 `;
 
 const StError = styled.div`
   font-size: 14px;
-  color: #767676;
+  color: red;
   padding: 0px 10px;
 `;
 
 const StGoodButton = styled.button`
   width: 126px;
   height: 36px;
-  left: 592px;
-  top: 428px;
+  /* left: 592px;
+  top: 428px; */
   font-family: 'SUIT';
   font-style: normal;
   font-weight: 800;
@@ -146,7 +147,7 @@ const StGoodButton = styled.button`
     color: white;
   }
 
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     width: 100%;
-  }
+  } */
 `;

@@ -166,7 +166,6 @@ const MyPage = () => {
   return (
     <Stdiv>
       <StHeader isediting={isEditing}></StHeader>
-
       {isEditing ? (
         <StMyPageEditBox>
           <StClose>
@@ -248,30 +247,31 @@ const StMyPageEditBox = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: 100%;
-    height: auto;
-    padding: 20px 0px;
+    height: 100%;
+    /* padding: 20px 0px; */
+    box-shadow: none;
+    border-radius: 0px;
   }
 `;
 
 const StLayout = styled.div`
   display: flex;
-  max-width: 100%;
   flex-direction: row;
   justify-content: center;
   padding: 0px 68px;
   gap: 60px;
   /*  */
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     padding: 0;
-    gap: 20px;
+    gap: 10px;
   }
 `;
 
@@ -281,7 +281,7 @@ const StClose = styled.div`
   align-items: flex-end;
   padding: 25px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     padding: 10px;
   }
 `;

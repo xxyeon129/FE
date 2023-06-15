@@ -77,41 +77,41 @@ const StTextWrapper = styled.div`
 const StInput = styled.input`
   padding: 10px;
   width: 308px;
-  left: 7.76%;
+  /* left: 7.76%;
   right: 55.12%;
   top: 49.26%;
-  bottom: 43.54%;
+  bottom: 43.54%; */
   background: #ffffff;
   border: 1px solid rgba(203, 203, 203, 0.7);
   border-radius: 6px;
-
+  /* 
   @media (max-width: 768px) {
     width: 100%;
     left: initial;
     right: initial;
     top: initial;
     bottom: initial;
-  }
+  } */
 `;
 
 const StError = styled.div`
   font-size: 14px;
-  color: #767676;
+  color: red;
   padding: 0px 10px;
 `;
 
 const StFileUpload = styled.input`
   width: 0;
-  height: 5px;
+  height: 6px;
   opacity: 0;
 `;
 
 const StImageEditBox = styled.div`
   border: 3px solid #ffffff;
-  left: 20.75%;
+  /* left: 20.75%;
   right: 68.22%;
   top: 22.96%;
-  bottom: 58.94%;
+  bottom: 58.94%; */
   box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.15);
   width: 107px;
   height: 107.15px;
@@ -138,9 +138,9 @@ const StGoodButton = styled.button`
     color: white;
   }
 
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     width: 100%;
-  }
+  } */
 `;
 
 const StContent = styled.div`
