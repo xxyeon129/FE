@@ -40,6 +40,7 @@ export default MyPageInfo;
 const StMyPageBox = styled.div`
   position: absolute;
   width: 916px;
+  max-width: 100%;
   height: 470px;
   top: 50%;
   left: 50%;
@@ -55,7 +56,8 @@ const StMyPageBox = styled.div`
   border-radius: 15px;
 
   @media (max-width: 768px) {
-    width: 90%;
+    width: 100%;
+    height: 100%;
   }
 `;
 

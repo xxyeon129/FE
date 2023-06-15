@@ -73,6 +73,7 @@ const StTitle = styled.div`
 const StTextWrapper = styled.div`
   margin-bottom: 25px;
 `;
+
 const StInput = styled.input`
   padding: 10px;
   width: 308px;
@@ -86,6 +87,10 @@ const StInput = styled.input`
 
   @media (max-width: 768px) {
     width: 100%;
+    left: initial;
+    right: initial;
+    top: initial;
+    bottom: initial;
   }
 `;
 
@@ -153,11 +158,11 @@ const StContent = styled.div`
     margin-bottom: 15px;
   }
 
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     h4 {
       margin-bottom: 10px;
     }
-  }
+  } */
 `;
 
 const StCameraIcon = styled(Upload)`

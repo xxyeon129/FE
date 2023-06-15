@@ -78,6 +78,7 @@ const StPwContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   h4 {
     font-family: 'SUIT';
@@ -112,6 +113,10 @@ const StInput = styled.input`
 
   @media (max-width: 768px) {
     width: 100%;
+    left: initial;
+    right: initial;
+    top: initial;
+    bottom: initial;
   }
 `;
 
