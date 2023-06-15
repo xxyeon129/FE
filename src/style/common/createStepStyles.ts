@@ -5,7 +5,7 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 
   @media ${props => props.theme.size.tablet} {
@@ -14,11 +14,19 @@ export const Container = styled.div`
   }
 `;
 
+export const ContentContainer = styled.div`
+  width: 100%;
+  min-height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const ButtonContainer = styled.div<{ width?: string; margintop?: string }>`
   display: flex;
   justify-content: space-between;
-  width: ${({ width }) => (width ? width : '600px')};
-  margin-top: ${({ margintop }) => (margintop ? margintop : '120px')};
+  width: ${({ width }) => (width ? width : '750px')};
+  /* margin-top: ${({ margintop }) => (margintop ? margintop : '120px')}; */
 
   @media ${props => props.theme.size.tablet} {
     width: 100%;

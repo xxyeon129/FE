@@ -1,12 +1,16 @@
 import { styled } from 'styled-components';
-import { IoMdCloseCircle } from 'react-icons/io';
+import { ReactComponent as ErrorIcon } from '@src/assets/createPortfolio/create-portfolio-error-message-icon.svg';
 
 const ErrorMessage: React.FC<{ errorMessage: string | boolean }> = ({ errorMessage }) => {
   const isErrorMessageExist = typeof errorMessage === 'string' && errorMessage.length !== 0;
 
   return (
     <StErrorMessage>
-      {isErrorMessageExist && <StErrorIcon />}
+      {isErrorMessageExist && (
+        <StErrorIcon>
+          <ErrorIcon />
+        </StErrorIcon>
+      )}
       <StErrorText>{errorMessage}</StErrorText>
     </StErrorMessage>
   );
@@ -14,19 +18,23 @@ const ErrorMessage: React.FC<{ errorMessage: string | boolean }> = ({ errorMessa
 
 const StErrorMessage = styled.div`
   display: flex;
-  align-items: center;
   margin: 8px 0 0 5px;
 `;
 
-const StErrorIcon = styled(IoMdCloseCircle)`
-  font-size: 15px;
-  color: red;
+const StErrorIcon = styled.div`
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: ${props => props.theme.color.errorRed};
   margin-right: 3px;
 `;
 
 const StErrorText = styled.div`
   font-size: 15px;
-  color: red;
+  color: ${props => props.theme.color.errorRed};
 `;
 
 export default ErrorMessage;

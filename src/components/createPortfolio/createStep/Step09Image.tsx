@@ -121,29 +121,31 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} />
-      <StImageContainer>
-        {isImageExist && (
-          <StPreviewContainer>
-            <StPreviewImg src={imagePreview} alt="portfolio representative image" />
-            <StLabelContainer>
-              <StPreviewImgLabel htmlFor="portfolioImage">이미지 변경</StPreviewImgLabel>
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} />
+        <StImageContainer>
+          {isImageExist && (
+            <StPreviewContainer>
+              <StPreviewImg src={imagePreview} alt="portfolio representative image" />
+              <StLabelContainer>
+                <StPreviewImgLabel htmlFor="portfolioImage">이미지 변경</StPreviewImgLabel>
+                {fileTypeInput}
+              </StLabelContainer>
+            </StPreviewContainer>
+          )}
+          {!isImageExist && (
+            <StNoImgContainer>
+              <StLabel htmlFor="portfolioImage">
+                <StUploadIcon size="30px" />
+                <StUploadText>
+                  이미지 파일을 선택해 포트폴리오 대표 이미지를 설정해주세요.
+                </StUploadText>
+              </StLabel>
               {fileTypeInput}
-            </StLabelContainer>
-          </StPreviewContainer>
-        )}
-        {!isImageExist && (
-          <StNoImgContainer>
-            <StLabel htmlFor="portfolioImage">
-              <StUploadIcon size="30px" />
-              <StUploadText>
-                이미지 파일을 선택해 포트폴리오 대표 이미지를 설정해주세요.
-              </StUploadText>
-            </StLabel>
-            {fileTypeInput}
-          </StNoImgContainer>
-        )}
-      </StImageContainer>
+            </StNoImgContainer>
+          )}
+        </StImageContainer>
+      </S.ContentContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.EIGHT)} />
         <NextStepButton onClick={onSubmitFormData} text="완료" notAllowed={`${isNoImageFile}`} />

@@ -33,22 +33,24 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} />
-      <StInputContainer>
-        <StEmailContainer>
-          <StOutLineDiv>
-            <StInputDescription>email</StInputDescription>
-            <StPersonalInfoInput
-              type="email"
-              value={email}
-              onChange={onChangeEmail}
-              placeholder="포트폴리오에 표시될 email을 입력해주세요."
-            />
-          </StOutLineDiv>
-          {isInvalidEmail && <ErrorMessage errorMessage={errorMessage} />}
-        </StEmailContainer>
-        <AdditionalPersonalInfo sharedStyle={sharedStyle} />
-      </StInputContainer>
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} />
+        <StInputContainer>
+          <StEmailContainer>
+            <StOutLineDiv>
+              <StInputDescription>email</StInputDescription>
+              <StPersonalInfoInput
+                type="email"
+                value={email}
+                onChange={onChangeEmail}
+                placeholder="포트폴리오에 표시될 email을 입력해주세요."
+              />
+            </StOutLineDiv>
+            {isInvalidEmail && <ErrorMessage errorMessage={errorMessage} />}
+          </StEmailContainer>
+          <AdditionalPersonalInfo sharedStyle={sharedStyle} />
+        </StInputContainer>
+      </S.ContentContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.THREE)} />
         <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidEmail}`} />

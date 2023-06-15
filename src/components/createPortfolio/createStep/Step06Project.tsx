@@ -64,28 +64,30 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} containerWidth="900px" />
-      <StAddProjectContainer>
-        <StAddProjectButton onClick={handleModal}>+ 프로젝트 추가</StAddProjectButton>
-        <StProjectsList isprojectexist={`${isProjectExist}`}>
-          {isProjectListExist &&
-            projectList.map(project => (
-              <ProjectItem
-                key={project.id}
-                project={project}
-                deleteProject={onClickdeleteProject}
-                isEditMode={true}
-              />
-            ))}
-          {!isProjectExist && (
-            <StNoProjectText>
-              작성하신 프로젝트가 없습니다.
-              <br />
-              상단 프로젝트 추가 버튼을 눌러 프로젝트를 추가해주세요!
-            </StNoProjectText>
-          )}
-        </StProjectsList>
-      </StAddProjectContainer>
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} containerWidth="900px" />
+        <StAddProjectContainer>
+          <StAddProjectButton onClick={handleModal}>+ 프로젝트 추가</StAddProjectButton>
+          <StProjectsList isprojectexist={`${isProjectExist}`}>
+            {isProjectListExist &&
+              projectList.map(project => (
+                <ProjectItem
+                  key={project.id}
+                  project={project}
+                  deleteProject={onClickdeleteProject}
+                  isEditMode={true}
+                />
+              ))}
+            {!isProjectExist && (
+              <StNoProjectText>
+                작성하신 프로젝트가 없습니다.
+                <br />
+                상단 프로젝트 추가 버튼을 눌러 프로젝트를 추가해주세요!
+              </StNoProjectText>
+            )}
+          </StProjectsList>
+        </StAddProjectContainer>
+      </S.ContentContainer>
 
       <S.ButtonContainer width="900px">
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.FIVE)} />

@@ -6,7 +6,7 @@ interface TitleTextLabelProps {
   containerWidth?: string;
 }
 
-const TitleTextLabel = ({ title, description, containerWidth = '600px' }: TitleTextLabelProps) => {
+const TitleTextLabel = ({ title, description, containerWidth = '750px' }: TitleTextLabelProps) => {
   return (
     <StTextContainer width={containerWidth}>
       <StTitle>{title}</StTitle>

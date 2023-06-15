@@ -37,11 +37,15 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} />
-      <StInputContainer>
-        <StInput value={portfolioTitle} onChange={onChangeInput} />
-        {isInvalidTitle && <ErrorMessage errorMessage={errorMessage} />}
-      </StInputContainer>
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} />
+        <StInputContainer>
+          <StInputWrapper>
+            <StInput value={portfolioTitle} onChange={onChangeInput} />
+            {isInvalidTitle && <ErrorMessage errorMessage={errorMessage} />}
+          </StInputWrapper>
+        </StInputContainer>
+      </S.ContentContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.TWO)} />
         <NextStepButton onClick={onClickNextButton} notAllowed={`${isInvalidTitle}`} />
@@ -57,10 +61,16 @@ const StInputContainer = styled.div`
   justify-content: center;
 `;
 
+const StInputWrapper = styled.div`
+  @media ${props => props.theme.size.tablet} {
+    width: 100%;
+  }
+`;
+
 const StInput = styled.input`
   border: 2px solid gray;
   border-radius: 10px;
-  width: 600px;
+  width: 750px;
   height: 50px;
   padding-left: 10px;
   font-weight: bold;

@@ -6,6 +6,7 @@ const theme = {
     blueGreen: '#5FF6D2',
     lightGray: '#F3F3F3;',
     skyBlue: '#99E7FF',
+    errorRed: '#F6685F',
     fontColor: '#3B3B3B',
   },
   size: {
