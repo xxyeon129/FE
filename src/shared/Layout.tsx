@@ -7,7 +7,7 @@ import useLoginModal from '@src/Hook/useLoginModal';
 import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
 import MobileDropdownMenu from '@src/components/header/MobileDropdownMenu';
-import { Mobile } from '@src/style/mediaQuery';
+import { MobileRow } from '@src/style/mediaQuery';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -30,7 +30,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
       <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
       <StContent>{children}</StContent>
 
-      <Mobile>
+      <MobileRow>
         <>
           {isMobileDropdownOpen && (
             <MobileDropdownMenu
@@ -39,7 +39,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
             />
           )}
         </>
-      </Mobile>
+      </MobileRow>
 
       {isLoginModalOpen && (
         <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />

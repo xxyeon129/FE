@@ -4,7 +4,7 @@ import AutoSearch from '../components/AutoSearch';
 import Category from '@src/components/nav/Category';
 import Auth from '@src/components/nav/Auth';
 import LightAndDarkMode from '@src/components/nav/LightAndDarkMode';
-import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
+import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
 
 interface NavProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,9 +33,9 @@ const Nav = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: NavProps) => {
           </StBottomContainer>
         </StNav>
       </DesktopAndTablet>
-      <Mobile>
+      <MobileRow>
         <StMobileNav></StMobileNav>
-      </Mobile>
+      </MobileRow>
     </>
   );
 };

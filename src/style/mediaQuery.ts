@@ -10,8 +10,13 @@ export const Tablet = ({ children }: { children: JSX.Element }): JSX.Element | n
   return isTablet ? children : null;
 };
 
-export const Mobile = ({ children }: { children: JSX.Element }): JSX.Element | null => {
+export const MobileRow = ({ children }: { children: JSX.Element }): JSX.Element | null => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  return isMobile ? children : null;
+};
+
+export const MobileColumn = ({ children }: { children: JSX.Element }): JSX.Element | null => {
+  const isMobile = useMediaQuery({ maxWidth: 480 });
   return isMobile ? children : null;
 };
 
