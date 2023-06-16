@@ -49,9 +49,10 @@ export const deleteUser = async (id: number) => {
 
 export const updatePassword = async ([passwordData, id]: [object, number]) => {
   try {
+    const asyncAccessToken = await getAccessToken();
     await axios.put(`${SERVER_URL}/api/users/${id}/password`, passwordData, {
       headers: {
-        Authorization: accessToken,
+        Authorization: asyncAccessToken as AxiosHeaderValue,
       },
     });
     console.log('Password updated successfully');
