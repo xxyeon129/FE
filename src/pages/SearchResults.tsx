@@ -6,7 +6,7 @@ import { searchTermState } from '@src/states/SearchResultsState';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import * as S from '@src/style/common/commonStyles';
-import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
+import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
 
 interface PortfolioData {
   content: PortfolioDataType[];
@@ -78,7 +78,7 @@ const SearchResults = () => {
         </StContainer>
       </DesktopAndTablet>
 
-      <Mobile>
+      <MobileRow>
         <StContainerMobile>
           <StHeader>
             <h1>Search Result</h1>
@@ -119,7 +119,7 @@ const SearchResults = () => {
               ))}
           </StButtonContainer>
         </StContainerMobile>
-      </Mobile>
+      </MobileRow>
     </>
   );
 };

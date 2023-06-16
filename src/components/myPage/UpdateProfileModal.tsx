@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
 import styled from 'styled-components';
-import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
+import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
 interface UpdateProfileModalProps {
   onClose: () => void;
 }
@@ -25,7 +25,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ onClose }) => {
         </ModalWrapper>
       </DesktopAndTablet>
 
-      <Mobile>
+      <MobileRow>
         <ModalWrapper>
           <ModalContent>
             <StModalLayout>
@@ -39,7 +39,7 @@ const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ onClose }) => {
             </StDelUser>
           </ModalContent>
         </ModalWrapper>
-      </Mobile>
+      </MobileRow>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as PasswordUpdate } from 'src/assets/mypage-password.svg';
 import styled from 'styled-components';
-import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
+import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
 interface UpdatePasswordModalProps {
   onClose: () => void;
 }
@@ -24,7 +24,7 @@ const UpdatePasswordModal: React.FC<UpdatePasswordModalProps> = ({ onClose }) =>
           </ModalContent>
         </ModalWrapper>
       </DesktopAndTablet>
-      <Mobile>
+      <MobileRow>
         <ModalWrapper>
           <ModalContent>
             <StModalLayout>
@@ -38,7 +38,7 @@ const UpdatePasswordModal: React.FC<UpdatePasswordModalProps> = ({ onClose }) =>
             </StDelUser>
           </ModalContent>
         </ModalWrapper>
-      </Mobile>
+      </MobileRow>
     </>
   );
 };
