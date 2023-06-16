@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { loginState } from '@src/states';
-import { PATH_URL } from '@src/constants/constants';
 import { ReactComponent as AuthIcon } from '@src/assets/nav/nav-logout-icon.svg';
 import useResetCreatePortfolioRecoilValues from '@src/Hook/useResetCreatePortfolioRecoilValues';
 import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
+import { DesktopAndTablet } from '@src/style/mediaQuery';
+import { NavProps } from '@src/shared/Nav';
 
-interface AuthProps {
-  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Auth = ({ setIsLoginModalOpen }: AuthProps) => {
+const Auth = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const resetRecoilValues = useResetCreatePortfolioRecoilValues();
   const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
@@ -25,7 +22,7 @@ const Auth = ({ setIsLoginModalOpen }: AuthProps) => {
       setIsLogin(false);
       resetRecoilValues();
       resetSelectedRecoilValue();
-      navigate(PATH_URL.HOME);
+      setIsLogoutModalOpen(true);
     } else {
       setIsLoginModalOpen(true);
     }
@@ -40,7 +37,9 @@ const Auth = ({ setIsLoginModalOpen }: AuthProps) => {
     <StAuth>
       <StAuthClickContainer onClick={onClickAuth}>
         <AuthIcon />
-        <StLabel>{isLogin ? 'Logout' : 'Login'}</StLabel>
+        <DesktopAndTablet>
+          <StLabel>{isLogin ? 'Logout' : 'Login'}</StLabel>
+        </DesktopAndTablet>
       </StAuthClickContainer>
     </StAuth>
   );

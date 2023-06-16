@@ -77,6 +77,10 @@ const StStep01Container = styled.div`
 const StContentContainer = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    flex-direction: column;
+  }
 `;
 
 const StDescriptionContainer = styled.h1`
@@ -96,15 +100,74 @@ const StLogoAndTextDescriptionContainer = styled.div`
 const StLogo = styled(Logo)`
   width: 82px;
   height: 30px;
+
+  @media screen and (max-width: 1350px) {
+    transition: 0.5s;
+    width: 80px;
+    height: 28px;
+  }
+  @media screen and (max-width: 1205px) {
+    transition: 0.5s;
+    width: 77px;
+    height: 25px;
+  }
+  @media ${({ theme }) => theme.size.tablet} {
+    transition: 0.5s;
+    width: 82px;
+    height: 30px;
+  }
+  @media screen and (max-width: 580px) {
+    transition: 0.5s;
+    width: 77px;
+    height: 25px;
+  }
+  @media screen and (max-width: 520px) {
+    transition: 0.5s;
+    width: 75px;
+    height: 23px;
+  }
 `;
 
 const StDescriptionText = styled.h3`
   line-height: 160%;
   font-weight: 800;
+
+  @media screen and (max-width: 1350px) {
+    transition: 0.5s;
+    font-size: 30px;
+  }
+
+  @media screen and (max-width: 1205px) {
+    transition: 0.5s;
+    font-size: 25px;
+  }
+
+  @media ${({ theme }) => theme.size.tablet} {
+    font-size: 35px;
+  }
+
+  @media screen and (max-width: 655px) {
+    transition: 0.5s;
+    font-size: 30px;
+  }
+
+  @media screen and (max-width: 580px) {
+    transition: 0.5s;
+    font-size: 25px;
+  }
+  @media screen and (max-width: 520px) {
+    transition: 0.5s;
+    font-size: 20px;
+  }
 `;
 
 const StDetailContainer = styled.div`
   margin-right: 70px;
+
+  @media screen and (max-width: 1340px) {
+    transition: 0.5s;
+    margin: 0;
+  }
 `;
 
 const StDetailItem = styled.div`

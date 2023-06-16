@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
-import useLoginModal from '@src/Hook/useLoginModal';
+import useLoginModal from '@src/Hook/useAuthModal';
 import LoginModal from '@src/components/nav/LoginModal';
 
 const Login = () => {

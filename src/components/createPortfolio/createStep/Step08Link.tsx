@@ -32,35 +32,37 @@ const Step08Link = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSte
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} />
-      <StOutLineDiv isgithubexist={`${isDeveloper}`}>
-        <StUrlItem>
-          <StLabel>Youtube</StLabel>
-          <StInput
-            value={youtubeUrl}
-            onChange={onChangeYoutubeUrl}
-            placeholder="Youtube 활동을 하고 계시다면 관련 링크를 입력해주세요."
-          />
-        </StUrlItem>
-        <StUrlItem>
-          <StLabel>Blog</StLabel>
-          <StInput
-            value={blogUrl}
-            onChange={onChangeBlogUrl}
-            placeholder="작성 중인 blog가 있다면 관련 링크를 입력해주세요."
-          />
-        </StUrlItem>
-        {isDeveloper && (
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} />
+        <StOutLineDiv isgithubexist={`${isDeveloper}`}>
           <StUrlItem>
-            <StLabel>Github ID</StLabel>
+            <StLabel>Youtube</StLabel>
             <StInput
-              value={githubID}
-              onChange={onChangeGithubID}
-              placeholder="작성하신 Github ID의 commit contributions이 포트폴리오에 표시됩니다."
+              value={youtubeUrl}
+              onChange={onChangeYoutubeUrl}
+              placeholder="Youtube 활동을 하고 계시다면 관련 링크를 입력해주세요."
             />
           </StUrlItem>
-        )}
-      </StOutLineDiv>
+          <StUrlItem>
+            <StLabel>Blog</StLabel>
+            <StInput
+              value={blogUrl}
+              onChange={onChangeBlogUrl}
+              placeholder="작성 중인 blog가 있다면 관련 링크를 입력해주세요."
+            />
+          </StUrlItem>
+          {isDeveloper && (
+            <StUrlItem>
+              <StLabel>Github ID</StLabel>
+              <StInput
+                value={githubID}
+                onChange={onChangeGithubID}
+                placeholder="작성하신 Github ID의 commit contributions이 포트폴리오에 표시됩니다."
+              />
+            </StUrlItem>
+          )}
+        </StOutLineDiv>
+      </S.ContentContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.SEVEN)} />
         <NextStepButton onClick={() => onNextButtonClick(STEP.NINE)} />
@@ -70,14 +72,18 @@ const Step08Link = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSte
 };
 
 const StOutLineDiv = styled.div<{ isgithubexist: string }>`
-  width: 600px;
+  width: 750px;
   height: ${({ isgithubexist }) => (isgithubexist === 'true' ? '195px' : '130px')};
   border: 1px solid gray;
   border-radius: 10px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StUrlItem = styled.div`
-  width: 600px;
+  width: 750px;
   height: 65px;
   display: flex;
   flex-direction: column;
@@ -89,6 +95,10 @@ const StUrlItem = styled.div`
 
   &:last-child {
     border: none;
+  }
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
   }
 `;
 

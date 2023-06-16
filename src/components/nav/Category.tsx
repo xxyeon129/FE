@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -7,7 +7,10 @@ import {
   selectedCategoryState,
   selectedHeaderState,
 } from '@src/states';
-import { categoryListForDisplay } from '@src/constants/portfolioFilteringData';
+import {
+  CATEGORY_KEYWORD_DISPLAY,
+  categoryListForDisplay,
+} from '@src/constants/portfolioFilteringData';
 import { PATH_URL } from '@src/constants/constants';
 
 const Category = () => {
@@ -34,10 +37,12 @@ const Category = () => {
     <StCategory>
       {categoryListForDisplay.map((categoryItem, categoryItemIndex: number) => (
         <StCategoryItem key={categoryItemIndex} onClick={() => onClickCategory(categoryItem.value)}>
+          {categoryItem.icon && <categoryItem.icon />}
           <StLabel
             key={categoryItemIndex}
             isclicked={`${selectedCategory === categoryItem.value}`}
             color={categoryItem.color}
+            value={categoryItem.display}
           >
             {categoryItem.display}
           </StLabel>
@@ -59,7 +64,7 @@ const StCategoryItem = styled.div`
   cursor: pointer;
 `;
 
-const StLabel = styled.div<{ isclicked: string; color: string }>`
+const StLabel = styled.div<{ isclicked: string; color: string; value: string }>`
   margin-left: 10px;
   font-weight: ${({ isclicked }) => (isclicked === 'true' ? '900' : 'normal')};
   display: flex;
@@ -74,6 +79,22 @@ const StLabel = styled.div<{ isclicked: string; color: string }>`
     border-radius: 50px;
     margin-top: 2px;
     margin-left: 5px;
+  }
+
+  ${({ value }) =>
+    value === CATEGORY_KEYWORD_DISPLAY.ALL &&
+    css`
+      margin: 0;
+    `}
+
+  @media ${({ theme }) => theme.size.mobileRow} {
+    width: 15px;
+
+    ${({ value }) =>
+      value !== CATEGORY_KEYWORD_DISPLAY.ALL &&
+      css`
+        display: none;
+      `}
   }
 `;
 

@@ -1,4 +1,7 @@
 import theme from '@src/style/theme';
+import { ReactComponent as DeveloperIcon } from '@src/assets/nav/category/nav-developer-icon.svg';
+import { ReactComponent as DesignerIcon } from '@src/assets/nav/category/nav-designer-icon.svg';
+import { ReactComponent as PhotographerIcon } from '@src/assets/nav/category/nav-photographer-icon.svg';
 
 export const CATEGORY_KEYWORD = {
   ALL: 'All',
@@ -51,22 +54,30 @@ export const categoryList = [
   CATEGORY_KEYWORD.PHOTOGRAPHER,
 ];
 
-export const categoryListForDisplay: { value: string; display: string; color: string }[] = [
+export const categoryListForDisplay: {
+  value: string;
+  display: string;
+  color: string;
+  icon?: React.ComponentType;
+}[] = [
   { value: CATEGORY_KEYWORD.ALL, display: CATEGORY_KEYWORD_DISPLAY.ALL, color: 'white' },
   {
     value: CATEGORY_KEYWORD.DEVELOP,
     display: CATEGORY_KEYWORD_DISPLAY.DEVELOPER,
     color: theme.color.neonGreen,
+    icon: DeveloperIcon,
   },
   {
     value: CATEGORY_KEYWORD.DESIGN,
     display: CATEGORY_KEYWORD_DISPLAY.DESIGNER,
     color: theme.color.blueGreen,
+    icon: DesignerIcon,
   },
   {
     value: CATEGORY_KEYWORD.PHOTOGRAPHER,
     display: CATEGORY_KEYWORD_DISPLAY.PHOTOGRAPHER,
     color: theme.color.skyBlue,
+    icon: PhotographerIcon,
   },
 ];
 

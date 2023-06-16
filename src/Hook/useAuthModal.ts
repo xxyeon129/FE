@@ -1,13 +1,21 @@
 import { useSetRecoilState } from 'recoil';
 import { loginState } from '@src/states';
+import { useNavigate } from 'react-router-dom';
+import { PATH_URL } from '@src/constants/constants';
 
 interface useLoginModalProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLogoutModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const useLoginModal = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: useLoginModalProps) => {
+const useAuthModal = ({
+  setIsLoginModalOpen,
+  setIsSignUpModalOpen,
+  setIsLogoutModalOpen,
+}: useLoginModalProps) => {
   const setIsLogin = useSetRecoilState(loginState);
+  const navigate = useNavigate();
 
   const onLoginCloseModal = () => {
     setIsLoginModalOpen(false);
@@ -23,7 +31,12 @@ const useLoginModal = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: useLoginMo
     setIsSignUpModalOpen(false);
   };
 
-  return [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal];
+  const onLogoutCloseModal = () => {
+    setIsLogoutModalOpen(false);
+    navigate(PATH_URL.HOME);
+  };
+
+  return [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal, onLogoutCloseModal];
 };
 
-export default useLoginModal;
+export default useAuthModal;

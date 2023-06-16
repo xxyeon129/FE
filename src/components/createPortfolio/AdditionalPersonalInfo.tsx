@@ -37,7 +37,7 @@ const AdditionalPersonalInfo: React.FC<{ sharedStyle: string }> = ({ sharedStyle
 };
 
 const StAdditionalInfomationOutLineDiv = styled.div`
-  width: 600px;
+  width: 100%;
   height: 195px;
   border: 1px solid gray;
   border-radius: 10px;
