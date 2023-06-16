@@ -32,15 +32,17 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} />
-      <StTextareaContainer>
-        <StTextarea
-          value={experience}
-          onChange={onChangeInput}
-          placeholder="포트폴리오에 표시될 소개 내용을 요약하여 10자 이상 작성해주세요."
-        />
-        {isInvalid && <ErrorMessage errorMessage={errorMessage} />}
-      </StTextareaContainer>
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} />
+        <StTextareaContainer>
+          <StTextarea
+            value={experience}
+            onChange={onChangeInput}
+            placeholder="포트폴리오에 표시될 소개 내용을 10자 이상 작성해주세요."
+          />
+          {isInvalid && <ErrorMessage errorMessage={errorMessage} />}
+        </StTextareaContainer>
+      </S.ContentContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.SIX)} />
         <NextStepButton onClick={onClickNextButton} notAllowed={`${isInvalid}`} />
@@ -50,7 +52,11 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
 };
 
 const StTextareaContainer = styled.div`
-  width: 600px;
+  width: 750px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StTextarea = styled.textarea`

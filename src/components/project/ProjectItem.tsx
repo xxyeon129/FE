@@ -2,8 +2,8 @@ import { styled } from 'styled-components';
 import { useState, useEffect } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { ProjectDataType } from '@src/types/portfolioType';
-import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { getUser } from '@src/apis/user';
+import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import UserProfileImage from '../common/UserProfileImage';
 import NoImage from '../common/NoImage';
 
@@ -81,7 +81,7 @@ const StIconContainer = styled.div`
   cursor: pointer;
   :hover {
     transition: 0.5s;
-    color: red;
+    color: ${({ theme }) => theme.color.errorRed};
   }
 `;
 

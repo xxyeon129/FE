@@ -34,26 +34,28 @@ const Step02CategoryFilter = ({
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} containerWidth="750px" />
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} containerWidth="750px" />
 
-      <StSelectContainer>
-        <StDropdownContainer>
-          <SelectDropdown
-            dropdownOptions={categoryDropdownOptions}
-            selectBarDefaultText="직군 선택"
-            selectedOption={category}
-            setSelectedOption={setCategory}
-          />
-        </StDropdownContainer>
+        <StSelectContainer>
+          <StDropdownContainer>
+            <SelectDropdown
+              dropdownOptions={categoryDropdownOptions}
+              selectBarDefaultText="직군 선택"
+              selectedOption={category}
+              setSelectedOption={setCategory}
+            />
+          </StDropdownContainer>
 
-        <StFilterContainer>
-          <PortfolioFilter
-            category={category}
-            selectedFilter={filter}
-            setSelectedFilter={setFilter}
-          />
-        </StFilterContainer>
-      </StSelectContainer>
+          <StFilterContainer>
+            <PortfolioFilter
+              category={category}
+              selectedFilter={filter}
+              setSelectedFilter={setFilter}
+            />
+          </StFilterContainer>
+        </StSelectContainer>
+      </S.ContentContainer>
       <S.ButtonContainer width="750px">
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.ONE)} />
         <NextStepButton onClick={onClickNextButton} notAllowed={`${!isAllSelected}`} />
@@ -66,6 +68,11 @@ const StSelectContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 750px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StDropdownContainer = styled.div``;

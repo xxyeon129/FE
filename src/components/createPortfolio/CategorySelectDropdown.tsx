@@ -50,26 +50,27 @@ const CategorySelectDropdown = ({
       </StSelectBar>
 
       {isDropdownOpen && (
-        <StDropdownListContainer>
-          <StDropdownUnorderedList ref={dropdownRef}>
-            {dropdownOptions.map((option: string, index: number) => (
-              <StDropdownList key={index} onClick={() => onClickOption(option)}>
-                {option}
-              </StDropdownList>
-            ))}
-          </StDropdownUnorderedList>
-        </StDropdownListContainer>
+        <StDropdownUnorderedList ref={dropdownRef}>
+          {dropdownOptions.map((option: string, index: number) => (
+            <StDropdownList key={index} onClick={() => onClickOption(option)}>
+              {option}
+            </StDropdownList>
+          ))}
+        </StDropdownUnorderedList>
       )}
     </StDropdownContainer>
   );
 };
 
-const StDropdownContainer = styled.div``;
+const StDropdownContainer = styled.div`
+  width: 100%;
+  position: relative;
+`;
 
 const StSelectBar = styled.div<{ isclicked: string }>`
   outline: ${({ isclicked }) => (isclicked === 'true' ? '2px solid' : '1px solid')};
   border-radius: 7px;
-  width: 750px;
+  width: 100%;
   height: 50px;
   display: flex;
   padding: 35px 20px;
@@ -93,17 +94,14 @@ const StSelectValue = styled.div`
   font-weight: 800;
 `;
 
-const StDropdownListContainer = styled.div`
-  border: 1px solid gray;
-  border-radius: 7px;
-  width: 750px;
+const StDropdownUnorderedList = styled.ul`
+  position: absolute;
+  width: 100%;
   margin-top: 5px;
   background-color: white;
-
-  position: absolute;
+  border: 1px solid gray;
+  border-radius: 7px;
 `;
-
-const StDropdownUnorderedList = styled.ul``;
 
 const StDropdownList = styled.li`
   cursor: pointer;

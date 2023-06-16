@@ -108,3 +108,21 @@ export const createPortfolio = async (formData: FormData) => {
     throw new Error('API createPortfolio error');
   }
 };
+
+export const deletePortfolio = async (id: number) => {
+  const asyncAccessToken = await getAccessToken();
+  const asyncRefreshToken = await getRefreshToken();
+
+  try {
+    const response = await apiRequest.delete(`${RESOURCE}/${id}`, {
+      headers: {
+        Authorization: asyncAccessToken as AxiosHeaderValue,
+        RefreshToken: asyncRefreshToken as AxiosHeaderValue,
+      },
+    });
+
+    return response.data.data;
+  } catch (error) {
+    return error;
+  }
+};

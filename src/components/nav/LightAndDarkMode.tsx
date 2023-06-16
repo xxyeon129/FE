@@ -13,7 +13,6 @@ const LightAndDarkMode = () => {
 const StLightAndDarkMode = styled.div`
   display: flex;
   align-items: center;
-  /* background-color: lightpink; */
 `;
 
 const StLabel = styled.span`

@@ -10,6 +10,10 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     font-family: 'SUIT Variable', sans-serif;
   }
+
+  textarea{
+    font-family: 'SUIT Variable', sans-serif;
+  }
 `;
 
 export default GlobalStyle;

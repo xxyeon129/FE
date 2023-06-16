@@ -7,7 +7,7 @@ import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
 import {
   Desktop,
   Tablet,
-  Mobile,
+  MobileRow,
   DesktopAndTablet,
   TabletAndMobile,
 } from '@src/style/mediaQuery.ts';
@@ -171,7 +171,7 @@ function Signup({ onClose }: SignupProps) {
           <DesktopAndTablet>
             <StInput type="email" id="email" value={email} onChange={onEmailChange} />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type="email"
               id="email"
@@ -179,7 +179,7 @@ function Signup({ onClose }: SignupProps) {
               value={email}
               onChange={onEmailChange}
             />
-          </Mobile>
+          </MobileRow>
           <StButton onClick={onEmailCheck} type="button">
             중복검사
           </StButton>
@@ -202,7 +202,7 @@ function Signup({ onClose }: SignupProps) {
               onChange={onPasswordChange}
             />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type={showPassword ? 'text' : 'password'}
               id="password"
@@ -210,7 +210,7 @@ function Signup({ onClose }: SignupProps) {
               value={password}
               onChange={onPasswordChange}
             />
-          </Mobile>
+          </MobileRow>
           <StEyeIcon onClick={onShowPassword} />
         </StInputSection>
         <StErrorSection>
@@ -228,7 +228,7 @@ function Signup({ onClose }: SignupProps) {
               onChange={onConfirmPasswordChange}
             />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
@@ -236,7 +236,7 @@ function Signup({ onClose }: SignupProps) {
               value={confirmPassword}
               onChange={onConfirmPasswordChange}
             />
-          </Mobile>
+          </MobileRow>
           <StEyeIcon onClick={onShowConfirmPassword} />
         </StInputSection>
         <StErrorSection>
@@ -249,7 +249,7 @@ function Signup({ onClose }: SignupProps) {
           <DesktopAndTablet>
             <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type="text"
               id="nickname"
@@ -257,7 +257,7 @@ function Signup({ onClose }: SignupProps) {
               value={nickname}
               onChange={onNicknameChange}
             />
-          </Mobile>
+          </MobileRow>
         </StInputSection>
         <StErrorSection>
           {errors.nickname && <StErrorMessage>{errors.nickname}</StErrorMessage>}

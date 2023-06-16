@@ -65,7 +65,7 @@ const StPortfolioFilter = styled.div`
   border: 1px solid lightgray;
   border-radius: 10px;
   padding: 25px 20px;
-  width: 750px;
+  width: 100%;
 `;
 
 const StFilterListContainer = styled.div`
@@ -74,6 +74,10 @@ const StFilterListContainer = styled.div`
   gap: 1rem;
   padding: 20px 0;
   flex-wrap: wrap;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    justify-content: flex-start;
+  }
 `;
 
 const StFilterButton = styled.button<{ isselected: string }>`

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { css, styled } from 'styled-components';
 import { SetterOrUpdater } from 'recoil';
-import { GrClose } from 'react-icons/gr';
+import { IoCloseOutline } from 'react-icons/io5';
 
 interface TechStackTagProps {
   techStack: string[];
@@ -52,7 +52,9 @@ const TechStackTag = ({ techStack, setTechStack, StWidth }: TechStackTagProps) =
           techStack.map((tag, index) => (
             <StTechStackTagList key={index}>
               <StTechStackTagText>{tag}</StTechStackTagText>
-              <StTagDeleteIcon onClick={() => deleteTag(index)} />
+              <StTagDeleteIconWrapper>
+                <StTagDeleteIcon onClick={() => deleteTag(index)} />
+              </StTagDeleteIconWrapper>
             </StTechStackTagList>
           ))}
       </StTechStackTagUnorderedList>
@@ -78,7 +80,8 @@ const StTechStackTagContainer = styled.div<{ isfocused: string; width: string }>
   outline: 1px solid gray;
   border-radius: 10px;
   width: ${({ width }) => width};
-  flex-flow: wrap;
+  flex-wrap: wrap;
+  /* flex-flow: wrap; */
   gap: 1rem;
 
   ${({ isfocused }) =>
@@ -86,34 +89,49 @@ const StTechStackTagContainer = styled.div<{ isfocused: string; width: string }>
     css`
       outline: 2px solid;
     `}
+
+  @media ${({ theme }) => theme.size.tablet} {
+    width: 100%;
+  }
 `;
 
 const StTechStackTagUnorderedList = styled.ul`
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 `;
 
 const StTechStackTagList = styled.li`
   display: flex;
   align-items: center;
 
-  background-color: #e3e3e3;
+  background-color: ${({ theme }) => theme.color.gray};
   border-radius: 50px;
-  padding: 8px 12px;
+  position: relative;
 `;
 
-const StTechStackTagText = styled.span``;
+const StTechStackTagText = styled.span`
+  font-weight: 700;
+  padding: 10px 35px;
+`;
 
-const StTagDeleteIcon = styled(GrClose)`
-  font-size: 12px;
-  padding: 0;
-  margin-left: 6px;
+const StTagDeleteIconWrapper = styled.div`
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+`;
+
+const StTagDeleteIcon = styled(IoCloseOutline)`
+  font-size: 15px;
+  color: gray;
+
   cursor: pointer;
 `;
 
 const StTechStackTagInput = styled.input`
   border: none;
-  width: 220px;
+  width: 225px;
 `;
 
 export default TechStackTag;

@@ -3,21 +3,25 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import Nav from '@src/shared/Nav';
 import Header from './Header';
-import useLoginModal from '@src/Hook/useLoginModal';
+import useAuthModal from '@src/Hook/useAuthModal';
 import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
 import MobileDropdownMenu from '@src/components/header/MobileDropdownMenu';
-import { Mobile } from '@src/style/mediaQuery';
+import { MobileRow } from '@src/style/mediaQuery';
+import LogoutModal from '@src/components/nav/LogoutModal';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState<boolean>(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState<boolean>(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
 
-  const [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal] = useLoginModal({
-    setIsLoginModalOpen,
-    setIsSignUpModalOpen,
-  });
+  const [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal, onLogoutCloseModal] =
+    useAuthModal({
+      setIsLoginModalOpen,
+      setIsSignUpModalOpen,
+      setIsLogoutModalOpen,
+    });
 
   const onClickMobileMenu = () => {
     setIsMobileDropdownOpen(!isMobileDropdownOpen);
@@ -27,10 +31,10 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
     <StLayout>
       <Header onClickMobileMenu={onClickMobileMenu} />
 
-      <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsSignUpModalOpen={setIsSignUpModalOpen} />
+      <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsLogoutModalOpen={setIsLogoutModalOpen} />
       <StContent>{children}</StContent>
 
-      <Mobile>
+      <MobileRow>
         <>
           {isMobileDropdownOpen && (
             <MobileDropdownMenu
@@ -39,12 +43,13 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
             />
           )}
         </>
-      </Mobile>
+      </MobileRow>
 
       {isLoginModalOpen && (
         <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />
       )}
       {isSignUpModalOpen && <Signup onClose={onSignUpCloseModal} />}
+      {isLogoutModalOpen && <LogoutModal onClose={onLogoutCloseModal} />}
     </StLayout>
   );
 };
@@ -59,9 +64,9 @@ const StContent = styled.div`
   width: calc(100% - 270px);
   min-height: 100vh;
 
-  @media ${props => props.theme.size.mobile} {
+  @media ${props => props.theme.size.mobileRow} {
     margin-left: 85px;
-    width: 100%;
+    width: calc(100% - 85px);
   }
 `;
 
