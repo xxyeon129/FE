@@ -7,7 +7,6 @@ import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
 import { styled } from 'styled-components';
 import { ReactComponent as SearchIcon } from 'src/assets/Icons.svg';
-
 const AutoSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('');
@@ -22,13 +21,13 @@ const AutoSearch: React.FC = () => {
       const suggestions = await search(term);
       setSuggestions(suggestions);
     }, 500);
-
     debounceSearch(searchTerm);
   }, [searchTerm]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
     setSearchTerm(term);
+    setSelectedSuggestion(term);
   };
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
@@ -39,13 +38,14 @@ const AutoSearch: React.FC = () => {
       setPortfolioData(portData);
       setSearchWords(searchQuery);
       navigate('/searchresults');
-
       setSelectedSuggestion('');
+      setSearchTerm('');
     }
   };
 
   const handleClickSuggestion = (suggestion: string) => {
     setSelectedSuggestion(suggestion);
+    setSearchTerm(suggestion);
     inputRef.current?.focus();
   };
 
@@ -56,8 +56,14 @@ const AutoSearch: React.FC = () => {
   const handleArrowNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      const newIndex = Math.max(0, suggestions.indexOf(selectedSuggestion) - 1);
-      setSelectedSuggestion(suggestions[newIndex]);
+      const currentIndex = suggestions.indexOf(selectedSuggestion);
+      if (currentIndex === 0) {
+        inputRef.current?.focus();
+        setSelectedSuggestion('');
+      } else {
+        const newIndex = Math.max(0, currentIndex - 1);
+        setSelectedSuggestion(suggestions[newIndex]);
+      }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       const newIndex = Math.min(
@@ -76,7 +82,7 @@ const AutoSearch: React.FC = () => {
           <input
             id="fileinput"
             type="text"
-            placeholder="Search..."
+            placeholder="검색어를 입력하세요"
             value={searchTerm}
             onChange={handleChange}
             onKeyDown={e => {
@@ -104,7 +110,6 @@ const AutoSearch: React.FC = () => {
     </div>
   );
 };
-
 export default AutoSearch;
 
 const StSearch = styled.div`
@@ -112,16 +117,20 @@ const StSearch = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  padding: 0px 0px 0px 30px;
-  border: none;
+  padding: 16px;
+  gap: 10px;
+  border: 1px solid #c7c7c7;
+  border-radius: 10px;
   width: 200px;
   height: 56px;
-  background: #f0efef;
   border-radius: 16px;
   font-size: 16px;
 
   input {
-    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
     border: none;
     background: none;
     font-size: 16px;

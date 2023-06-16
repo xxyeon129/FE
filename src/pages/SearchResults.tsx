@@ -6,6 +6,7 @@ import { searchTermState } from '@src/states/SearchResultsState';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import * as S from '@src/style/common/commonStyles';
+import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
 
 interface PortfolioData {
   content: PortfolioDataType[];
@@ -33,46 +34,93 @@ const SearchResults = () => {
   }, [searchTermData]);
 
   return (
-    <StContainer>
-      <StHeader>
-        <h1>Search Result</h1>
-      </StHeader>
-      {portfolioData && portfolioData.content.length > 0 ? (
-        <>
+    <>
+      <DesktopAndTablet>
+        <StContainer>
           <StHeader>
-            {searchTermData ? (
-              <h2>'{searchTermData}' 기술 보유 포트폴리오 입니다.</h2>
-            ) : (
-              <h2>모든 포트폴리오입니다.</h2>
-            )}
+            <h1>Search Result</h1>
           </StHeader>
-          <StLayout>
-            <S.PortfolioListContainer>
-              {portfolioData.content.map(portfolio => (
-                <PortfolioItem key={portfolio.id} item={portfolio} />
+          {portfolioData && portfolioData.content.length > 0 ? (
+            <>
+              <StHeader>
+                {searchTermData ? (
+                  <h2>'{searchTermData}' 기술 보유 포트폴리오 입니다.</h2>
+                ) : (
+                  <h2>모든 포트폴리오입니다.</h2>
+                )}
+              </StHeader>
+              <StLayout>
+                <S.PortfolioListContainer>
+                  {portfolioData.content.map(portfolio => (
+                    <PortfolioItem key={portfolio.id} item={portfolio} />
+                  ))}
+                </S.PortfolioListContainer>
+              </StLayout>
+            </>
+          ) : (
+            <StHeader>
+              <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
+            </StHeader>
+          )}
+          <StButtonContainer>
+            {portfolioData &&
+              Array.from({ length: portfolioData.totalPages }, (_, index) => (
+                <StButtonList key={index + 1}>
+                  <StButton
+                    onClick={() => handlePageButtonClick(index + 1)}
+                    selected={index + 1 === selectedPage}
+                  >
+                    {index + 1}
+                  </StButton>
+                </StButtonList>
               ))}
-            </S.PortfolioListContainer>
-          </StLayout>
-        </>
-      ) : (
-        <StHeader>
-          <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
-        </StHeader>
-      )}
-      <StbuttonContainer>
-        {portfolioData &&
-          Array.from({ length: portfolioData.totalPages }, (_, index) => (
-            <StButtonList key={index + 1}>
-              <StButton
-                onClick={() => handlePageButtonClick(index + 1)}
-                selected={index + 1 === selectedPage}
-              >
-                {index + 1}
-              </StButton>
-            </StButtonList>
-          ))}
-      </StbuttonContainer>
-    </StContainer>
+          </StButtonContainer>
+        </StContainer>
+      </DesktopAndTablet>
+
+      <MobileRow>
+        <StContainerMobile>
+          <StHeader>
+            <h1>Search Result</h1>
+          </StHeader>
+          {portfolioData && portfolioData.content.length > 0 ? (
+            <>
+              <StHeader>
+                {searchTermData ? (
+                  <h2>'{searchTermData}' 기술 보유 포트폴리오입니다.</h2>
+                ) : (
+                  <h2>모든 포트폴리오입니다.</h2>
+                )}
+              </StHeader>
+              <StLayout>
+                <S.PortfolioListContainer>
+                  {portfolioData.content.map(portfolio => (
+                    <PortfolioItem key={portfolio.id} item={portfolio} />
+                  ))}
+                </S.PortfolioListContainer>
+              </StLayout>
+            </>
+          ) : (
+            <StHeader>
+              <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
+            </StHeader>
+          )}
+          <StButtonContainer>
+            {portfolioData &&
+              Array.from({ length: portfolioData.totalPages }, (_, index) => (
+                <StButtonList key={index + 1}>
+                  <StButton
+                    onClick={() => handlePageButtonClick(index + 1)}
+                    selected={index + 1 === selectedPage}
+                  >
+                    {index + 1}
+                  </StButton>
+                </StButtonList>
+              ))}
+          </StButtonContainer>
+        </StContainerMobile>
+      </MobileRow>
+    </>
   );
 };
 export default SearchResults;
@@ -80,16 +128,26 @@ export default SearchResults;
 const StContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  margin-bottom: 50px; /* Add a margin-bottom to create space for the fixed button container */
+  margin-bottom: 50px;
   overflow-y: auto;
-  height: calc(
-    100vh - 80px - 50px
-  ); /* Subtract the top padding and bottom margin from the full viewport height */
+  height: calc(100vh - 80px - 50px);
 
   @media (max-width: 768px) {
-    margin-bottom: 30px;
-    height: calc(100vh - 60px - 30px);
+    height: calc(100vh - 80px);
+  }
+`;
+
+const StContainerMobile = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 80px - 50px);
+  overflow-y: auto;
+
+  @media (max-width: 768px) {
+    display: flex;
+    /* padding-left: 30px; */
+    align-items: center;
   }
 `;
 
@@ -99,15 +157,19 @@ const StLayout = styled.div`
   margin-top: 10px;
 
   @media (max-width: 768px) {
-    margin-top: 5px;
+    padding: 0;
   }
 `;
 
 const StHeader = styled.div`
   padding: 10px 45px;
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+  }
 `;
 
-const StbuttonContainer = styled.div`
+const StButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -124,18 +186,19 @@ const StbuttonContainer = styled.div`
   padding: 0px 0;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  margin-left: 250px; /* Add margin-left of 250px */
+  margin-left: 250px;
 
   @media (max-width: 768px) {
-    width: 100%;
-    margin-left: 0px;
+    width: calc(100% - 82px); /* Adjust the width based on the width of your sidebar */
+    margin-left: 82px; /* Adjust the left margin based on the width of your sidebar */
+    display: flex;
   }
 `;
 
 const StButtonList = styled.div`
   display: flex;
-  align-items: center; /* Add align-items: center */
-  justify-content: center; /* Add justify-content: center */
+  align-items: center;
+  justify-content: center;
   padding: 16px;
   white-space: nowrap;
   font-size: 0;
@@ -158,7 +221,6 @@ const StButton = styled.button<StButtonProps>`
   color: var(--color-body);
   text-align: center;
 
-  /* Add styles for selected button */
   ${({ selected }) =>
     selected &&
     `
