@@ -22,7 +22,7 @@ import DetailTechStack from '@src/components/portfolio/detail/DetailTechStack';
 import {
   Desktop,
   Tablet,
-  Mobile,
+  MobileRow,
   DesktopAndTablet,
   TabletAndMobile,
 } from '@src/style/mediaQuery.ts';

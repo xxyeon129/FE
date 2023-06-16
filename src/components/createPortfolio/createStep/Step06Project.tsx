@@ -55,37 +55,36 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
     isProjectListExist ? setIsProjectExist(true) : setIsProjectExist(false);
   }, [projectList]);
 
-  console.log('projectData => ', projectData);
-  console.log('projectList => ', projectList);
-
   const title = '프로젝트를 추가하세요';
   const description =
     '진행하신 프로젝트를 추가하고 설명을 작성해보세요.\n추가된 프로젝트의 오른쪽 상단 X 아이콘을 눌러 삭제하실 수 있습니다.\n작성하신 프로젝트는 포트폴리오 작성 후 언제든 수정하실 수 있으니 편하게 작성해주세요!';
 
   return (
     <S.Container>
-      <TitleTextLabel title={title} description={description} containerWidth="900px" />
-      <StAddProjectContainer>
-        <StAddProjectButton onClick={handleModal}>+ 프로젝트 추가</StAddProjectButton>
-        <StProjectsList isprojectexist={`${isProjectExist}`}>
-          {isProjectListExist &&
-            projectList.map(project => (
-              <ProjectItem
-                key={project.id}
-                project={project}
-                deleteProject={onClickdeleteProject}
-                isEditMode={true}
-              />
-            ))}
-          {!isProjectExist && (
-            <StNoProjectText>
-              작성하신 프로젝트가 없습니다.
-              <br />
-              상단 프로젝트 추가 버튼을 눌러 프로젝트를 추가해주세요!
-            </StNoProjectText>
-          )}
-        </StProjectsList>
-      </StAddProjectContainer>
+      <S.ContentContainer>
+        <TitleTextLabel title={title} description={description} containerWidth="900px" />
+        <StAddProjectContainer>
+          <StAddProjectButton onClick={handleModal}>+ 프로젝트 추가</StAddProjectButton>
+          <StProjectsList isprojectexist={`${isProjectExist}`}>
+            {isProjectListExist &&
+              projectList.map(project => (
+                <ProjectItem
+                  key={project.id}
+                  project={project}
+                  deleteProject={onClickdeleteProject}
+                  isEditMode={true}
+                />
+              ))}
+            {!isProjectExist && (
+              <StNoProjectText>
+                작성하신 프로젝트가 없습니다.
+                <br />
+                상단 프로젝트 추가 버튼을 눌러 프로젝트를 추가해주세요!
+              </StNoProjectText>
+            )}
+          </StProjectsList>
+        </StAddProjectContainer>
+      </S.ContentContainer>
 
       <S.ButtonContainer width="900px">
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.FIVE)} />
@@ -101,17 +100,33 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   );
 };
 
-const StAddProjectContainer = styled.div``;
+const StAddProjectContainer = styled.div`
+  width: 900px;
+
+  @media screen and (max-width: 1220px) {
+    padding: 10px 20px;
+    width: 100%;
+  }
+`;
 
 const StAddProjectButton = styled.button`
   font-size: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   font-weight: bold;
+  padding: 9px 20px;
+  border-radius: 30px;
+  border: 1px solid ${({ theme }) => theme.color.lightGreen};
   color: ${({ theme }) => theme.color.lightGreen};
+
+  &:hover {
+    transition: 0.5s;
+    color: white;
+    background-color: ${({ theme }) => theme.color.lightGreen};
+  }
 `;
 
 const StProjectsList = styled.div<{ isprojectexist: string }>`
-  width: 900px;
+  width: 100%;
   min-height: 250px;
 
   padding: 1rem;
@@ -120,11 +135,13 @@ const StProjectsList = styled.div<{ isprojectexist: string }>`
   gap: 20px;
   flex-flow: wrap;
 
+  border: 1px dashed ${({ theme }) => theme.color.paleGray};
+  border-radius: 15px;
+  margin-bottom: 20px;
+
   ${({ isprojectexist }) =>
     isprojectexist === 'false' &&
     css`
-      border: 1px dashed gray;
-      border-radius: 20px;
       align-items: center;
       justify-content: center;
       text-align: center;
@@ -134,7 +151,7 @@ const StProjectsList = styled.div<{ isprojectexist: string }>`
 `;
 
 const StNoProjectText = styled.div`
-  color: #9d9d9d;
+  color: ${({ theme }) => theme.color.paleGray};
 `;
 
 const StBackground = styled.div`

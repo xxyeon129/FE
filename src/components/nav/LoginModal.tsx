@@ -6,13 +6,7 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { SERVER_URL } from '@src/constants/constants';
-import {
-  Desktop,
-  Tablet,
-  Mobile,
-  DesktopAndTablet,
-  TabletAndMobile,
-} from '@src/style/mediaQuery.ts';
+import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
 
 type LoginProps = {
   onClose: () => void;
@@ -107,7 +101,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
           <DesktopAndTablet>
             <StInput type="text" id="email" value={email} onChange={onEmailChange} />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type="text"
               id="email"
@@ -115,7 +109,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
               value={email}
               onChange={onEmailChange}
             />
-          </Mobile>
+          </MobileRow>
         </StInputSection>
 
         <StInputSection>
@@ -125,7 +119,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
           <DesktopAndTablet>
             <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type="password"
               id="password"
@@ -133,7 +127,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
               value={password}
               onChange={onPasswordChange}
             />
-          </Mobile>
+          </MobileRow>
         </StInputSection>
         {errorMessage && <StErrorMessage>{errorMessage}</StErrorMessage>}
 

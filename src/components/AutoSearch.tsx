@@ -125,12 +125,21 @@ const StSearch = styled.div`
     border: none;
     background: none;
     font-size: 16px;
+
+    @media ${({ theme }) => theme.size.mobileRow} {
+      display: none;
+    }
   }
 
   svg {
     width: 24px;
     height: 24px;
     fill: none;
+  }
+
+  @media ${({ theme }) => theme.size.mobileRow} {
+    width: 50px;
+    padding: 0;
   }
 `;
 

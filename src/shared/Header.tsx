@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
-import { DesktopAndTablet, Mobile } from '@src/style/mediaQuery';
+import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
 import { ReactComponent as Logo } from '@src/assets/logo.svg';
 import HeaderListItem from '@src/components/header/HeaderListItem';
 import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
@@ -32,11 +32,11 @@ const Header = ({ onClickMobileMenu }: HeaderProps) => {
         </StUnorderedList>
       </DesktopAndTablet>
 
-      <Mobile>
+      <MobileRow>
         <StMobileMenuContainer>
           <StMobileMenu onClick={onClickMobileMenu}>Menu</StMobileMenu>
         </StMobileMenuContainer>
-      </Mobile>
+      </MobileRow>
     </StHeader>
   );
 };

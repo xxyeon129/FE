@@ -6,7 +6,7 @@ import { loginState, selectedCategoryState, selectedHeaderState } from '@src/sta
 import { getAccessToken } from '@src/apis/token';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { PATH_URL } from '@src/constants/constants';
-import { DesktopAndTablet, Mobile } from '@src/style/mediaQuery';
+import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
 
 interface HeaderListItemProps {
   liWidth: string;
@@ -71,9 +71,9 @@ const HeaderListItem = ({ liWidth, setIsMobileDropdownOpen }: HeaderListItemProp
                 </StText>
               </>
             </DesktopAndTablet>
-            <Mobile>
+            <MobileRow>
               <StMobileText onClick={() => onClickText(list.path)}>{list.value}</StMobileText>
-            </Mobile>
+            </MobileRow>
           </StLabel>
         </StList>
       ))}
