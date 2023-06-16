@@ -9,7 +9,7 @@ import { SERVER_URL } from '@src/constants/constants';
 import {
   Desktop,
   Tablet,
-  Mobile,
+  MobileRow,
   DesktopAndTablet,
   TabletAndMobile,
 } from '@src/style/mediaQuery.ts';
@@ -107,7 +107,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
           <DesktopAndTablet>
             <StInput type="text" id="email" value={email} onChange={onEmailChange} />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type="text"
               id="email"
@@ -115,7 +115,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
               value={email}
               onChange={onEmailChange}
             />
-          </Mobile>
+          </MobileRow>
         </StInputSection>
 
         <StInputSection>
@@ -125,7 +125,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
           <DesktopAndTablet>
             <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
           </DesktopAndTablet>
-          <Mobile>
+          <MobileRow>
             <StInput
               type="password"
               id="password"
@@ -133,7 +133,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
               value={password}
               onChange={onPasswordChange}
             />
-          </Mobile>
+          </MobileRow>
         </StInputSection>
         {errorMessage && <StErrorMessage>{errorMessage}</StErrorMessage>}
 
