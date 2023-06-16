@@ -103,6 +103,11 @@ const StMyPortfolioTopNav = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 610px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
 `;
 
 const StMyPortfolioPageTitle = styled.h1`
