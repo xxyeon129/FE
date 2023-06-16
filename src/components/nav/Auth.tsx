@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { loginState } from '@src/states';
-import { PATH_URL } from '@src/constants/constants';
 import { ReactComponent as AuthIcon } from '@src/assets/nav/nav-logout-icon.svg';
 import useResetCreatePortfolioRecoilValues from '@src/Hook/useResetCreatePortfolioRecoilValues';
 import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
@@ -24,7 +23,6 @@ const Auth = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
       resetRecoilValues();
       resetSelectedRecoilValue();
       setIsLogoutModalOpen(true);
-      // navigate(PATH_URL.HOME);
     } else {
       setIsLoginModalOpen(true);
     }

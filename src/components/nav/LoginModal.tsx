@@ -6,13 +6,7 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { SERVER_URL } from '@src/constants/constants';
-import {
-  Desktop,
-  Tablet,
-  MobileRow,
-  DesktopAndTablet,
-  TabletAndMobile,
-} from '@src/style/mediaQuery.ts';
+import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
 
 type LoginProps = {
   onClose: () => void;

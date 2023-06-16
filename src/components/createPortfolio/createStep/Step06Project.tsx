@@ -55,9 +55,6 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
     isProjectListExist ? setIsProjectExist(true) : setIsProjectExist(false);
   }, [projectList]);
 
-  console.log('projectData => ', projectData);
-  console.log('projectList => ', projectList);
-
   const title = '프로젝트를 추가하세요';
   const description =
     '진행하신 프로젝트를 추가하고 설명을 작성해보세요.\n추가된 프로젝트의 오른쪽 상단 X 아이콘을 눌러 삭제하실 수 있습니다.\n작성하신 프로젝트는 포트폴리오 작성 후 언제든 수정하실 수 있으니 편하게 작성해주세요!';
