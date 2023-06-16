@@ -86,6 +86,7 @@ const ProjectModal: React.FC<{
         position.setErrorText('담당 포지션을 입력하세요');
         throw new Error();
       }
+
       if (!description.value) {
         description.setErrorText('설명을 입력하세요');
         throw new Error();
@@ -96,6 +97,10 @@ const ProjectModal: React.FC<{
       }
       if (description.value.length < 3 || description.value.length > 1500) {
         description.setErrorText('설명은 3자 이상 1500자 이하여야 합니다.');
+        throw new Error();
+      }
+      if (position.value.length < 3 || position.value.length > 20) {
+        position.setErrorText('20자 이내로 입력하세요');
         throw new Error();
       }
 
@@ -155,43 +160,45 @@ const ProjectModal: React.FC<{
       {showModal && (
         <ModalWrapper>
           <ModalContent>
-            <StLayout>
-              <StHeader>
-                <Pol />
-                <Close onClick={handleCloseModal}></Close>
-              </StHeader>
-              {isEditable ? (
-                <>
-                  <ImageField
-                    previewImages={previewImages}
-                    imageHandler={imageHandler}
-                    removeImage={removeImageHandler}
-                  />
-                  <StTextBox>
-                    <FormFields
-                      title={title}
-                      term={term}
-                      people={people}
-                      position={position}
-                      description={description}
+            <ScrollableContent>
+              <StLayout>
+                <StHeader>
+                  <Pol />
+                  <Close onClick={handleCloseModal}></Close>
+                </StHeader>
+                {isEditable ? (
+                  <>
+                    <ImageField
+                      previewImages={previewImages}
+                      imageHandler={imageHandler}
+                      removeImage={removeImageHandler}
                     />
-                  </StTextBox>
-                </>
-              ) : (
-                <GetProject
-                  projectData={data}
-                  handleEdit={handleEdit}
-                  accessToken={accessToken}
-                  userId={userId}
-                />
-              )}
-              {isEditable && (
-                <StBottom>
-                  <StGoodButton onClick={handleSubmit}>수정완료</StGoodButton>
-                  <StBadButton onClick={handleEdit}>취소</StBadButton>
-                </StBottom>
-              )}
-            </StLayout>
+                    <StTextBox>
+                      <FormFields
+                        title={title}
+                        term={term}
+                        people={people}
+                        position={position}
+                        description={description}
+                      />
+                    </StTextBox>
+                  </>
+                ) : (
+                  <GetProject
+                    projectData={data}
+                    handleEdit={handleEdit}
+                    accessToken={accessToken}
+                    userId={userId}
+                  />
+                )}
+                {isEditable && (
+                  <StBottom>
+                    <StGoodButton onClick={handleSubmit}>수정완료</StGoodButton>
+                    <StBadButton onClick={handleEdit}>취소</StBadButton>
+                  </StBottom>
+                )}
+              </StLayout>
+            </ScrollableContent>
           </ModalContent>
         </ModalWrapper>
       )}
@@ -230,6 +237,11 @@ const ModalContent = styled.div`
     height: 100%;
     border-radius: 0;
   }
+`;
+
+const ScrollableContent = styled.div`
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const StLayout = styled.div`

@@ -17,6 +17,7 @@ import ProfileEditForm from '@src/components/myPage/ProfileEditForm';
 import PassWordEditForm from '@src/components/myPage/PassWordEditForm';
 import { useInput } from 'src/Hook/useInput';
 import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
+import { refreshToken } from '@src/apis/token';
 export interface UserData {
   nickname: string;
   email: string;
@@ -78,12 +79,20 @@ const MyPage = () => {
   });
 
   const handleWithdrawal = async () => {
+    if (!refreshToken) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
     await deleteUserMutation.mutateAsync(Number(id));
     navigate('/');
     setShowModal(false);
   };
 
   const handleSavePassword = async () => {
+    if (!refreshToken) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
     if (oldpassword.value.trim() === '') {
       oldpassword.setErrorText('현재 비밀번호를 입력해주세요.');
       return;
