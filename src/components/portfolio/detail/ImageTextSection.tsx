@@ -10,7 +10,7 @@ import { ReactComponent as ClickOn } from '@src/assets/portfolioDetail/port-clic
 import { ReactComponent as ClickDown } from '@src/assets/portfolioDetail/port-clickdown-icon.svg';
 
 interface ImageTextSectionProps {
-  // getPortfolioImage: string | null;
+  getPortfolioImage: string | null;
   imageLoadError: boolean;
   onImageError: () => void;
   proFileImage: string | null;
@@ -32,6 +32,8 @@ function ImageTextSection(props: ImageTextSectionProps) {
   const [contactToggle, setConTactToggle] = useState<boolean>(false);
   const [button, setButton] = useState(<ClickOn />);
 
+  console.log('이미지 데이터', props.getPortfolioImage);
+
   const toggleContact = () => {
     setConTactToggle(prevState => !prevState);
     setButton(contactToggle ? <ClickOn /> : <ClickDown />);
@@ -41,11 +43,21 @@ function ImageTextSection(props: ImageTextSectionProps) {
     <div>
       <StContainer>
         <StContainerTop>
-          {props.proFileImage && !props.imageLoadError ? (
-            <StRepresentativeImage src={props.proFileImage} alt="" onError={props.onImageError} />
+          {/* {props.getPortfolioImage && !props.imageLoadError ? (
+            <StRepresentativeImage
+              src={props.getPortfolioImage}
+              alt=""
+              onError={props.onImageError}
+            />
           ) : (
             <NoImage height="250px" />
-          )}
+          )} */}
+
+          <StRepresentativeImage
+            src={props.getPortfolioImage || ''}
+            alt="포트폴리오 이미지"
+            onError={props.onImageError}
+          />
         </StContainerTop>
 
         <StContainerMiddle>

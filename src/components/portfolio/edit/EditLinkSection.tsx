@@ -19,7 +19,10 @@ function EditLinkSection(props: EditLinkSectionProps) {
       <StRinkWrapper>
         <StRinkWrapperTitle>링크 추가</StRinkWrapperTitle>
         <StRinkInputWithIcon>
-          <YouTubeIcon />
+          <YouTubeIcon>
+            <YouTube />
+            <LinkTitle>YouTube</LinkTitle>
+          </YouTubeIcon>
           <StRinkInput
             type="text"
             id="youtube"
@@ -29,7 +32,10 @@ function EditLinkSection(props: EditLinkSectionProps) {
           />
         </StRinkInputWithIcon>
         <StRinkInputWithIcon>
-          <BlogIcon />
+          <BlogIcon>
+            <Blog />
+            <LinkTitle>Blog</LinkTitle>
+          </BlogIcon>
           <StRinkInput
             type="text"
             id="blog"
@@ -40,7 +46,10 @@ function EditLinkSection(props: EditLinkSectionProps) {
         </StRinkInputWithIcon>
         <div>
           <StRinkInputWithIcon>
-            <GitIcon />
+            <GitIcon>
+              <Git />
+              <LinkTitle>Git</LinkTitle>
+            </GitIcon>
             <StRinkInput
               type="text"
               id="github"
@@ -97,31 +106,46 @@ const StRinkInputWithIcon = styled.div`
   margin-bottom: 20px;
 `;
 
-const GitIcon = styled(Git)`
+const GitIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30%;
   height: 40px;
   background-color: black;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
   padding: 10px;
 `;
 
-const YouTubeIcon = styled(YouTube)`
+const YouTubeIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30%;
   height: 40px;
   background-color: black;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
   padding: 10px;
 `;
 
-const BlogIcon = styled(Blog)`
+const BlogIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30%;
   height: 40px;
   background-color: black;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
   padding: 10px;
+`;
+
+const LinkTitle = styled.span`
+  margin-left: 10px;
+  font-weight: bold;
+  color: white;
 `;
 
 const StLine = styled.hr`
