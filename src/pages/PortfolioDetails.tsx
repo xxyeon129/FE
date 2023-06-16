@@ -19,13 +19,7 @@ import Information from '@src/components/portfolio/edit/Information';
 import EditLinkSection from '@src/components/portfolio/edit/EditLinkSection';
 import ProjectEditSection from '@src/components/portfolio/edit/ProjectEditSection';
 import DetailTechStack from '@src/components/portfolio/detail/DetailTechStack';
-import {
-  Desktop,
-  Tablet,
-  MobileRow,
-  DesktopAndTablet,
-  TabletAndMobile,
-} from '@src/style/mediaQuery.ts';
+import { Desktop } from '@src/style/mediaQuery.ts';
 
 function PortfolioDetails() {
   interface Project {

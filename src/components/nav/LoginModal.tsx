@@ -184,36 +184,36 @@ const StButtonSection = styled.div`
 `;
 
 const StModalContent = styled.form`
-  margin-top: 105px;
   background-color: white;
-  padding: 20px;
-  height: 80%;
-  width: 800px;
-  justify-content: center;
   padding: 100px;
+  border-radius: 20px;
+  margin-top: 100px;
+  height: 700px;
+  width: 600px;
+  align-items: center;
 
   @media (max-width: 1023px) {
-    width: 50%;
-    height: 100%;
+    height: 600px;
+    width: 500px;
     padding: 20px;
   }
 
   @media (max-width: 767px) {
-    width: 100%;
-    height: 100%;
+    height: 500px;
+    width: 400px;
     padding: 20px;
   }
 
   @media (max-width: 479px) {
-    width: 100%;
-    height: 100%;
+    height: 500px;
+    width: 400px;
     padding: 20px;
   }
 `;
 
 const StModalTitle = styled.h1`
   @media (max-width: 1023px) {
-    font-size: 20px;
+    font-size: 25px;
   }
 
   @media (max-width: 767px) {
