@@ -72,11 +72,12 @@ const StTitle = styled.div`
 
 const StTextWrapper = styled.div`
   margin-bottom: 25px;
+  width: 100%;
 `;
 
 const StInput = styled.input`
   padding: 10px;
-  width: 308px;
+  width: 100%;
   /* left: 7.76%;
   right: 55.12%;
   top: 49.26%;
@@ -147,6 +148,7 @@ const StContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 
   h4 {
     font-family: 'SUIT';
