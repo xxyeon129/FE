@@ -7,10 +7,9 @@ import { projectDataAtom } from '@src/states/createProjectState';
 import { useRecoilState } from 'recoil';
 import { createProject } from '@src/apis/projectapi';
 import { ReactComponent as Pol } from 'src/assets/pol-icon.svg';
-import { InputField } from './InputField';
-import { TextAreaField } from './TextAreaField';
 import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
+import { FormFields } from './FormFields';
 
 const CreateProject: React.FC<{
   showModal1: boolean;
@@ -130,40 +129,12 @@ const CreateProject: React.FC<{
                 removeImage={removeImage}
               />
               <StTextBox>
-                <InputField
-                  title="프로젝트 제목"
-                  value={title.value}
-                  onChange={title.onChange}
-                  placeholder="프로젝트 제목을 입력하세요"
-                  error={title.error}
-                />
-                <InputField
-                  title="프로젝트 기간"
-                  value={term.value}
-                  onChange={term.onChange}
-                  placeholder="프로젝트 기간을 입력하세요"
-                  error={term.error}
-                />
-                <InputField
-                  title="프로젝트 인원"
-                  value={people.value}
-                  onChange={people.onChange}
-                  placeholder="프로젝트 인원을 입력하세요"
-                  error={people.error}
-                />
-                <InputField
-                  title="해당 포지션"
-                  value={position.value}
-                  onChange={position.onChange}
-                  placeholder="포지션을 입력하세요. ex) UX/UI 디자이너"
-                  error={position.error}
-                />
-                <TextAreaField
-                  title="프로젝트 설명"
-                  value={description.value}
-                  onChange={description.onChange}
-                  placeholder="프로젝트 설명을 입력하세요"
-                  error={description.error}
+                <FormFields
+                  title={title}
+                  term={term}
+                  people={people}
+                  position={position}
+                  description={description}
                 />
               </StTextBox>
               <StBottom>
@@ -177,7 +148,6 @@ const CreateProject: React.FC<{
     </>
   );
 };
-
 export default CreateProject;
 
 const ModalWrapper = styled.div`
