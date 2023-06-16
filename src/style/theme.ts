@@ -12,6 +12,7 @@ const theme = {
     fontColor: '#3B3B3B',
   },
   size: {
+    smallMobile: 'screen and (max-width: 380px)',
     mobileColumn: 'screen and (max-width: 480px)',
     mobileRow: 'screen and (max-width: 767px)',
     tablet: 'screen and (max-width: 1023px)',
