@@ -2,20 +2,42 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { FaPlus } from 'react-icons/fa';
-import { getMyPortfolio } from '@src/apis/portfolio';
+import { deletePortfolio, getMyPortfolio } from '@src/apis/portfolio';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { PATH_URL } from '@src/constants/constants';
 import * as S from '@src/style/common/commonStyles';
 import NoPortfolio from '@src/components/myPortfolio/NoPortfolio';
 import MyPortfolioItem from '@src/components/myPortfolio/myPortfolioItem';
+import Modal from '@src/components/common/Modal';
+import { ReactComponent as DeleteModalIcon } from '@src/assets/delete-post-modal-icon.svg';
 
 const MyPortfolio = () => {
   const [myPortfolioList, setMyPortfolioList] = useState<PortfolioDataType[]>([]);
   const [isMyPortfolioExist, setIsMyPortfolioExist] = useState(false);
+  const [selectedId, setSelectedId] = useState<null | number>(null);
+  const [isPortfolioDeleted, setIsPortfolioDeleted] = useState<boolean>(false);
+  const [isDeletePortfolioModalOpen, setIsDeletePortfolioModalOpen] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const onClickCreatePortfolio = () => {
     navigate(PATH_URL.CREATE_PORTFOLIO);
+  };
+
+  const onClickDeletePortfolio = async (id: number) => {
+    await deletePortfolio(id);
+    setIsDeletePortfolioModalOpen(false);
+    setIsPortfolioDeleted(!isPortfolioDeleted);
+  };
+
+  const onClickDeleteIcon = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
+    e.stopPropagation();
+    setIsDeletePortfolioModalOpen(true);
+    setSelectedId(id);
+  };
+
+  const OnCloseDeleteModal = () => {
+    setIsDeletePortfolioModalOpen(false);
   };
 
   useEffect(() => {
@@ -28,7 +50,8 @@ const MyPortfolio = () => {
       setMyPortfolioList(myPortfolioData);
     };
     fetchMyPortfolioData();
-  }, []);
+    console.log('render test');
+  }, [isPortfolioDeleted]);
 
   return (
     <S.PageContainer>
@@ -48,12 +71,28 @@ const MyPortfolio = () => {
         <StMyPortfolioContainer>
           <S.PortfolioListContainer ismyportfolio="true">
             {myPortfolioList?.map(portfolio => (
-              <MyPortfolioItem key={portfolio.id} item={portfolio} />
+              <MyPortfolioItem
+                key={portfolio.id}
+                item={portfolio}
+                onClickDeleteIcon={onClickDeleteIcon}
+              />
             ))}
           </S.PortfolioListContainer>
         </StMyPortfolioContainer>
       ) : (
         <NoPortfolio />
+      )}
+      {isDeletePortfolioModalOpen && (
+        <Modal
+          Icon={DeleteModalIcon}
+          onClose={OnCloseDeleteModal}
+          deletePost={onClickDeletePortfolio}
+          mainText="포트폴리오를 정말 삭제할까요?"
+          subText="삭제하고 나면 복구할 수 없어요."
+          mainButtonText="취소"
+          subButtonText="삭제하기"
+          selectedId={selectedId}
+        />
       )}
     </S.PageContainer>
   );

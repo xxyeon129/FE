@@ -7,13 +7,19 @@ import { PATH_URL } from '@src/constants/constants';
 import NoImage from '../common/NoImage';
 import { CgClose } from 'react-icons/cg';
 
-const MyPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
-  const [imageLoadError, setImageLoadError] = useState(false);
+interface MyPortfolioItemProps {
+  item: PortfolioDataType;
+  onClickDeleteIcon: (e: React.MouseEvent<HTMLDivElement>, id: number) => void;
+}
+
+const MyPortfolioItem = ({ item, onClickDeleteIcon }: MyPortfolioItemProps) => {
+  const [imageLoadError, setImageLoadError] = useState<boolean>(false);
 
   const isportfolioImageExist = item.portfolioImage !== null;
   const navigate = useNavigate();
 
-  const onClickPortfolioItem = () => {
+  const onClickPortfolioItem = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     navigate(`${PATH_URL.PORTFOLIO_DETAIL}/${item.id}`);
   };
 
@@ -26,7 +32,9 @@ const MyPortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
       <StImgWrapper>
         {isportfolioImageExist && !imageLoadError ? (
           <>
-            <StIconWrapper>
+            <StIconWrapper
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => onClickDeleteIcon(e, item.id)}
+            >
               <StDeleteIcon />
             </StIconWrapper>
             <S.PortfolioImg

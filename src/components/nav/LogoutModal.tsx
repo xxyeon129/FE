@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { Button, ModalBackground as StModalBackground } from '@src/style/common/commonStyles';
+import * as S from '@src/style/common/commonStyles';
 import { AuthModalProps } from '@src/types/modalType';
 import { ReactComponent as LogoutIcon } from '@src/assets/nav/logout-modal-icon.svg';
 
@@ -9,17 +9,17 @@ const LogoutModal = ({ onClose }: AuthModalProps) => {
   };
 
   return (
-    <StModalBackground onClick={onClose}>
+    <S.ModalStyle.Background onClick={onClose}>
       <StLogoutModal onClick={keepModalOpen}>
         <StModalContentContainer>
           <LogoutIcon />
           <StLogoutText>로그아웃 되었습니다.</StLogoutText>
         </StModalContentContainer>
-        <Button onClick={onClose} width="140px" fontsize="20px" padding="12px 0">
+        <S.Button onClick={onClose} width="140px" fontsize="20px" padding="12px 0">
           확인
-        </Button>
+        </S.Button>
       </StLogoutModal>
-    </StModalBackground>
+    </S.ModalStyle.Background>
   );
 };
 
