@@ -2,6 +2,13 @@ import React, { useRef, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
+import {
+  Desktop,
+  Tablet,
+  Mobile,
+  DesktopAndTablet,
+  TabletAndMobile,
+} from '@src/style/mediaQuery.ts';
 
 type SignupProps = {
   onClose: () => void;
@@ -59,8 +66,10 @@ function Signup({ onClose }: SignupProps) {
   };
 
   const onBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (modalRef.current === e.target) {
-      onClose();
+    if (!window.matchMedia('(max-width: 1023px)').matches) {
+      if (modalRef.current === e.target) {
+        onClose();
+      }
     }
   };
 
@@ -124,13 +133,40 @@ function Signup({ onClose }: SignupProps) {
     }
   };
 
+  const onButtonClick = () => {
+    onClose();
+  };
+
   return (
     <StModalWrapper ref={modalRef} onClick={onBackgroundClick}>
       <StModalContent onSubmit={onSubmit}>
-        <StTitleComment>이메일로 가입하기</StTitleComment>
-        <label htmlFor="email">이메일</label>
+        <StTitleAndButtonSection>
+          <StTitleComment>이메일로 가입하기</StTitleComment>
+
+          <StButtonSection>
+            <TabletAndMobile>
+              <CloseButton onClick={onButtonClick}>닫기</CloseButton>
+            </TabletAndMobile>
+          </StButtonSection>
+        </StTitleAndButtonSection>
+
+        <DesktopAndTablet>
+          <label htmlFor="email">이메일</label>
+        </DesktopAndTablet>
+
         <StInputSection>
-          <StInput type="email" id="email" value={email} onChange={onEmailChange} />
+          <DesktopAndTablet>
+            <StInput type="email" id="email" value={email} onChange={onEmailChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="email"
+              id="email"
+              placeholder="이메일"
+              value={email}
+              onChange={onEmailChange}
+            />
+          </Mobile>
           <StButton onClick={onEmailCheck} type="button">
             중복검사
           </StButton>
@@ -141,30 +177,67 @@ function Signup({ onClose }: SignupProps) {
           {emailSuccessCheck && <StSuccessMessage>{emailSuccessCheck}</StSuccessMessage>}
         </StErrorSection>
 
-        <label htmlFor="password">비밀번호</label>
+        <DesktopAndTablet>
+          <label htmlFor="password">비밀번호</label>
+        </DesktopAndTablet>
         <StInputSection>
-          <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+          <DesktopAndTablet>
+            <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="password"
+              id="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={onPasswordChange}
+            />
+          </Mobile>
         </StInputSection>
         <StErrorSection>
           {errors.password && <StErrorMessage>{errors.password}</StErrorMessage>}
         </StErrorSection>
-
-        <label htmlFor="confirmPassword">비밀번호 확인</label>
+        <DesktopAndTablet>
+          <label htmlFor="confirmPassword">비밀번호 확인</label>
+        </DesktopAndTablet>
         <StInputSection>
-          <StInput
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={onConfirmPasswordChange}
-          />
+          <DesktopAndTablet>
+            <StInput
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={onConfirmPasswordChange}
+            />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="password"
+              id="confirmPassword"
+              placeholder="비밀번호 확인"
+              value={confirmPassword}
+              onChange={onConfirmPasswordChange}
+            />
+          </Mobile>
         </StInputSection>
         <StErrorSection>
           {errors.confirmPassword && <StErrorMessage>{errors.confirmPassword}</StErrorMessage>}
         </StErrorSection>
-
-        <label htmlFor="nickname">닉네임</label>
+        <DesktopAndTablet>
+          <label htmlFor="nickname">닉네임</label>
+        </DesktopAndTablet>
         <StInputSection>
-          <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
+          <DesktopAndTablet>
+            <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="text"
+              id="nickname"
+              placeholder="닉네임"
+              value={nickname}
+              onChange={onNicknameChange}
+            />
+          </Mobile>
         </StInputSection>
         <StErrorSection>
           {errors.nickname && <StErrorMessage>{errors.nickname}</StErrorMessage>}
@@ -213,6 +286,35 @@ const StModalContent = styled.form`
   height: 100%;
   width: 800px;
   align-items: center;
+
+  @media (max-width: 1023px) {
+    width: 50%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  @media (max-width: 479px) {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+`;
+
+const StTitleAndButtonSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StButtonSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const StInputSection = styled.div`
@@ -224,10 +326,33 @@ const StInputSection = styled.div`
 const StErrorSection = styled.div`
   margin-bottom: 30px;
   margin-top: -15px;
+
+  @media (max-width: 1023px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 10px;
+  }
 `;
 
-const StTitleComment = styled.h2`
-  margin-bottom: 80px;
+const StTitleComment = styled.h1`
+  margin-bottom: 30px;
+  @media (max-width: 1023px) {
+    font-size: 23px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 23px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StErrorMessage = styled.label`
@@ -255,4 +380,11 @@ const StSubmitButton = styled.button`
   ${buttonStyle}
   width: 150px;
   margin-top: 50px;
+`;
+
+const CloseButton = styled.button`
+  ${buttonStyle}
+  width: 80px;
+  height: 30px;
+  margin: 20px 0;
 `;
