@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
+import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
+
 import {
   Desktop,
   Tablet,
@@ -21,6 +23,9 @@ function Signup({ onClose }: SignupProps) {
   const [nickname, setNickname] = useState<string>('');
   const [emailErrorCheck, setEmailErrorCheck] = useState<string>('');
   const [emailSuccessCheck, setEmailSuccessCheck] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+
   const modalRef = useRef(null);
   const [errors, setErrors] = useState({
     email: '',
@@ -71,6 +76,14 @@ function Signup({ onClose }: SignupProps) {
         onClose();
       }
     }
+  };
+
+  const onShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const onShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -182,17 +195,23 @@ function Signup({ onClose }: SignupProps) {
         </DesktopAndTablet>
         <StInputSection>
           <DesktopAndTablet>
-            <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+            <StInput
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              value={password}
+              onChange={onPasswordChange}
+            />
           </DesktopAndTablet>
           <Mobile>
             <StInput
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               placeholder="비밀번호"
               value={password}
               onChange={onPasswordChange}
             />
           </Mobile>
+          <StEyeIcon onClick={onShowPassword} />
         </StInputSection>
         <StErrorSection>
           {errors.password && <StErrorMessage>{errors.password}</StErrorMessage>}
@@ -203,7 +222,7 @@ function Signup({ onClose }: SignupProps) {
         <StInputSection>
           <DesktopAndTablet>
             <StInput
-              type="password"
+              type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
               value={confirmPassword}
               onChange={onConfirmPasswordChange}
@@ -211,13 +230,14 @@ function Signup({ onClose }: SignupProps) {
           </DesktopAndTablet>
           <Mobile>
             <StInput
-              type="password"
+              type={showConfirmPassword ? 'text' : 'password'}
               id="confirmPassword"
               placeholder="비밀번호 확인"
               value={confirmPassword}
               onChange={onConfirmPasswordChange}
             />
           </Mobile>
+          <StEyeIcon onClick={onShowConfirmPassword} />
         </StInputSection>
         <StErrorSection>
           {errors.confirmPassword && <StErrorMessage>{errors.confirmPassword}</StErrorMessage>}
@@ -243,7 +263,9 @@ function Signup({ onClose }: SignupProps) {
           {errors.nickname && <StErrorMessage>{errors.nickname}</StErrorMessage>}
         </StErrorSection>
 
-        <StSubmitButton>가입하기</StSubmitButton>
+        <StButtonContainer>
+          <StSubmitButton>가입하기</StSubmitButton>
+        </StButtonContainer>
       </StModalContent>
     </StModalWrapper>
   );
@@ -281,28 +303,28 @@ const StModalWrapper = styled.div`
 const StModalContent = styled.form`
   background-color: white;
   padding: 100px;
-  border-radius: 4px;
+  border-radius: 20px;
   margin-top: 100px;
-  height: 100%;
-  width: 800px;
+  height: 700px;
+  width: 600px;
   align-items: center;
 
   @media (max-width: 1023px) {
-    width: 50%;
-    height: 100%;
-    padding: 20px;
+    width: 400px;
+    height: 550px;
+    padding: 50px;
   }
 
   @media (max-width: 767px) {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
+    width: 400px;
+    height: 500px;
+    padding: 50px;
   }
 
   @media (max-width: 479px) {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
+    width: 400px;
+    height: 500px;
+    padding: 50px;
   }
 `;
 
@@ -321,6 +343,32 @@ const StInputSection = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
+`;
+
+const StInput = styled.input`
+  flex: 1;
+  padding: 8px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 40px;
+  margin-top: 10px;
+`;
+
+const StEyeIcon = styled(Eye)`
+  position: absolute;
+  top: 55%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  fill: #ccc;
+  cursor: pointer;
+
+  /* &:hover {
+    background-color: #bcbcbc;
+  } */
 `;
 
 const StErrorSection = styled.div`
@@ -342,6 +390,7 @@ const StErrorSection = styled.div`
 
 const StTitleComment = styled.h1`
   margin-bottom: 30px;
+
   @media (max-width: 1023px) {
     font-size: 23px;
   }
@@ -351,7 +400,7 @@ const StTitleComment = styled.h1`
   }
 
   @media (max-width: 479px) {
-    font-size: 15px;
+    font-size: 18px;
   }
 `;
 
@@ -362,16 +411,6 @@ const StSuccessMessage = styled.label`
   color: green;
 `;
 
-const StInput = styled.input`
-  flex: 1;
-  padding: 8px;
-  margin-right: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: 40px;
-  margin-top: 10px;
-`;
-
 const StButton = styled.button`
   ${buttonStyle}
 `;
@@ -379,7 +418,38 @@ const StButton = styled.button`
 const StSubmitButton = styled.button`
   ${buttonStyle}
   width: 150px;
-  margin-top: 50px;
+  height: 40px;
+  margin-top: 20px;
+
+  @media (max-width: 1023px) {
+    width: 100px;
+  }
+
+  @media (max-width: 767px) {
+    width: 100px;
+  }
+
+  @media (max-width: 479px) {
+    width: 100px;
+  }
+`;
+
+const StButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  /* margin-top: 50px; */
+
+  @media (max-width: 1023px) {
+    /* margin-top: 30px; */
+  }
+
+  @media (max-width: 767px) {
+    /* margin-top: 20px; */
+  }
+
+  @media (max-width: 479px) {
+    /* margin-top: 10px; */
+  }
 `;
 
 const CloseButton = styled.button`

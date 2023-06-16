@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Icon } from '@src/assets/portfolioDetail/port-delete-icon.svg';
+import { SERVER_URL } from '@src/constants/constants';
 
 interface DeletePortfoliosModalProps {
   portId: number | undefined;
@@ -17,7 +18,7 @@ function DeletePortfolioModal({ portId, onCloseModal }: DeletePortfoliosModalPro
     const refreshToken = localStorage.getItem('refreshtoken');
 
     try {
-      const response = await axios.delete(`http://3.34.102.60:8080/api/portfolios/${portId}`, {
+      const response = await axios.delete(`${SERVER_URL}/api/portfolios/${portId}`, {
         headers: {
           Authorization: accessToken,
           RefreshToken: refreshToken,
