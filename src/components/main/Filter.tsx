@@ -62,6 +62,11 @@ const StFilterListContainer = styled.div`
 
   padding: 50px 0;
 
+  @media screen and (min-width: 1580px) {
+    display: flex;
+    justify-content: space-between;
+  }
+
   @media ${({ theme }) => theme.size.mobileRow} {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   }

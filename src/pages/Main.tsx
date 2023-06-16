@@ -105,6 +105,7 @@ const Main = () => {
     }
 
     const serverDataLastId = await fetchLastId(filterKeyword);
+    // TO DO: 직무 필터 적용한 게시글이 10개 미만일 경우 10개 이상이 될 때까지 계속 호출해서 불러오기
     // let length10List: PortfolioDataType[] = []
 
     // console.log('필터데이터 최대id', serverDataLastId);
