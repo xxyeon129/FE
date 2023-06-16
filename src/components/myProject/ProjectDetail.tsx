@@ -6,12 +6,11 @@ import jwtDecode from 'jwt-decode';
 import DefaultImg from '@src/assets/images/no-img.jpg';
 import { ReactComponent as Pol } from 'src/assets/pol-icon.svg';
 import { ReactComponent as Close } from 'src/assets/mypage-close.svg';
-import { ReactComponent as Edit } from 'src/assets/project-edit.svg';
-import { InputField } from './InputField';
-import { TextAreaField } from './TextAreaField';
 import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
-interface ProjectDetailData {
+import { FormFields } from './FormFields';
+import { GetProject } from './GetProject';
+export interface ProjectDetailData {
   title: string;
   term: string;
   people: string;
@@ -20,7 +19,7 @@ interface ProjectDetailData {
   projectImageList: [];
   userId: string;
 }
-interface ImageType {
+export interface ImageType {
   id: number;
   imageUrl: string;
 }
@@ -44,8 +43,10 @@ const ProjectModal: React.FC<{
       setIsEditable(!isEditable);
     }
   };
-
-  const { userId } = jwtDecode<{ userId: string }>(accessToken);
+  let userId;
+  if (accessToken) {
+    userId = jwtDecode<{ userId: string }>(accessToken).userId;
+  }
 
   const { data, refetch } = useQuery<ProjectDetailData>('project', async () => {
     const project = await getProject(projectId);
@@ -147,6 +148,8 @@ const ProjectModal: React.FC<{
     setIsEditable(false);
   };
 
+  console.log(userId, data?.userId);
+
   return (
     <>
       {showModal && (
@@ -165,72 +168,22 @@ const ProjectModal: React.FC<{
                     removeImage={removeImageHandler}
                   />
                   <StTextBox>
-                    <InputField
-                      title="프로젝트 제목"
-                      value={title.value}
-                      onChange={title.onChange}
-                      placeholder="프로젝트 제목을 입력하세요"
-                      error={title.error}
-                    />
-                    <InputField
-                      title="프로젝트 기간"
-                      value={term.value}
-                      onChange={term.onChange}
-                      placeholder="프로젝트 기간을 입력하세요"
-                      error={term.error}
-                    />
-                    <InputField
-                      title="프로젝트 인원"
-                      value={people.value}
-                      onChange={people.onChange}
-                      placeholder="프로젝트 인원을 입력하세요"
-                      error={people.error}
-                    />
-                    <InputField
-                      title="해당 포지션"
-                      value={position.value}
-                      onChange={position.onChange}
-                      placeholder="해당 포지션을 입력하세요"
-                      error={position.error}
-                    />
-                    <TextAreaField
-                      title="프로젝트 설명"
-                      value={description.value}
-                      onChange={description.onChange}
-                      placeholder="프로젝트 설명을 입력하세요"
-                      error={description.error}
+                    <FormFields
+                      title={title}
+                      term={term}
+                      people={people}
+                      position={position}
+                      description={description}
                     />
                   </StTextBox>
                 </>
               ) : (
-                <div>
-                  <StGetImageContainer>
-                    <StGetImageBox>
-                      {data?.projectImageList.map((image: ImageType, index: number) => (
-                        <StImage key={index} src={image.imageUrl} alt="Preview" />
-                      ))}
-                    </StGetImageBox>
-                    <StGetHeader>
-                      {accessToken && userId === data?.userId && <Edit onClick={handleEdit}></Edit>}
-                      <h1>{data?.title}</h1>
-                      <p>{data?.term}</p>
-                    </StGetHeader>
-                  </StGetImageContainer>
-                  <div>
-                    <StGetTextWrap>
-                      <div>프로젝트 인원</div>
-                      <p>{data?.people}</p>
-                    </StGetTextWrap>
-                    <StGetTextWrap>
-                      <div>해당 포지션</div>
-                      <p>{data?.position}</p>
-                    </StGetTextWrap>
-                  </div>
-                  <StTextWrap>
-                    <StTitle>프로젝트 설명</StTitle>
-                    <StText>{data?.description}</StText>
-                  </StTextWrap>
-                </div>
+                <GetProject
+                  projectData={data}
+                  handleEdit={handleEdit}
+                  accessToken={accessToken}
+                  userId={userId}
+                />
               )}
               {isEditable && (
                 <StBottom>
@@ -257,6 +210,7 @@ const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 `;
 
 const ModalContent = styled.div`
@@ -290,52 +244,6 @@ const StHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-`;
-
-const StTextWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StTitle = styled.div`
-  font-weight: bold;
-  font-size: 15px;
-  width: 100%;
-  margin-bottom: 1px;
-`;
-
-const StImage = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-
-  @media (max-width: 768px) {
-    height: auto;
-  }
-`;
-
-const StText = styled.div`
-  width: 100%;
-  padding: 5px 0px;
-  /* margin-bottom: 20px; */
-  overflow-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
-  width: 595px;
-  height: 230px;
-  left: 50px;
-  top: 530px;
-  font-family: 'SUIT';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 150%;
-
-  @media (max-width: 600px) {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 5px;
-  }
 `;
 
 const StTextBox = styled.div`
@@ -404,78 +312,5 @@ const StBadButton = styled.button`
   @media (max-width: 768px) {
     width: 100%;
     margin: 0;
-  }
-`;
-
-const StGetImageContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 40px;
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const StGetImageBox = styled.div`
-  width: 300px;
-  height: 300px;
-  border: 1px solid #000000;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-  }
-`;
-
-const StGetHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-
-  h1 {
-    font-family: 'SUIT';
-    font-style: normal;
-    font-weight: 800;
-    font-size: 36px;
-    line-height: 40px;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-  }
-
-  p {
-    font-family: 'SUIT';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 100%;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    hyphens: auto;
-  }
-`;
-
-const StGetTextWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
-
-  div {
-    font-family: 'SUIT';
-    font-style: normal;
-    font-weight: 800;
-    font-size: 15px;
-    margin-right: 20px;
-  }
-  p {
-    font-family: 'SUIT';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
   }
 `;
