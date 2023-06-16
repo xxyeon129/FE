@@ -21,6 +21,8 @@ export interface UserData {
   nickname: string;
   email: string;
   profileImage: string;
+  naverId: number;
+  kakaoId: number;
 }
 interface ErrorResponse {
   errorMessage: string;
@@ -192,19 +194,21 @@ const MyPage = () => {
               handleSubmit={handleSubmit}
             />
             <StMid></StMid>
-            <PassWordEditForm
-              handleCurrentPasswordChange={oldpassword.onChange}
-              handlePasswordChange={newpassword.onChange}
-              handlePasswordCheckChange={checknewpassword.onChange}
-              handleSavePassword={handleSavePassword}
-              oldpassword={oldpassword.value}
-              newpassword={newpassword.value}
-              checknewpassword={checknewpassword.value}
-              oldpasswordError={oldpassword.error}
-              newpasswordError={newpassword.error}
-              checknewpasswordError={checknewpassword.error}
-              apiError={apiError}
-            />
+            {data?.kakaoId === null && data?.naverId === null && (
+              <PassWordEditForm
+                handleCurrentPasswordChange={oldpassword.onChange}
+                handlePasswordChange={newpassword.onChange}
+                handlePasswordCheckChange={checknewpassword.onChange}
+                handleSavePassword={handleSavePassword}
+                oldpassword={oldpassword.value}
+                newpassword={newpassword.value}
+                checknewpassword={checknewpassword.value}
+                oldpasswordError={oldpassword.error}
+                newpasswordError={newpassword.error}
+                checknewpasswordError={checknewpassword.error}
+                apiError={apiError}
+              />
+            )}
           </StLayout>
         </StMyPageEditBox>
       ) : (
