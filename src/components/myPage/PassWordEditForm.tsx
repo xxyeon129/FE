@@ -75,7 +75,7 @@ const PassWordEditForm: React.FC<PassWordEditFormProps> = ({
 export default PassWordEditForm;
 
 const StPwContent = styled.div`
-  max-width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,6 +94,7 @@ const StPwContent = styled.div`
 
 const StTextWrapper = styled.div`
   margin-bottom: 25px;
+  width: 100%;
 `;
 
 const StTitle = styled.div`
@@ -103,7 +104,7 @@ const StTitle = styled.div`
 
 const StInput = styled.input`
   padding: 10px;
-  width: 308px;
+  width: 100%;
   /* left: 7.76%;
   right: 55.12%;
   top: 49.26%;
