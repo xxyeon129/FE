@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, ChangeEvent, KeyboardEvent } from 'react';
-import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
 import { useNavigate } from 'react-router-dom';
@@ -18,8 +17,10 @@ const AutoSearch: React.FC = () => {
 
   useEffect(() => {
     const debounceSearch = debounce(async (term: string) => {
-      const suggestions = await search(term);
-      setSuggestions(suggestions);
+      if (term !== '') {
+        const suggestions = await search(term);
+        setSuggestions(suggestions);
+      }
     }, 500);
     debounceSearch(searchTerm);
   }, [searchTerm]);
@@ -50,7 +51,7 @@ const AutoSearch: React.FC = () => {
   };
 
   useEffect(() => {
-    inputRef.current?.focus();
+    // inputRef.current?.focus();
   }, []);
 
   const handleArrowNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
