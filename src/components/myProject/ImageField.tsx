@@ -21,7 +21,7 @@ export const ImageField: React.FC<{
       <StImageTextdiv>
         <StLabel htmlFor="file">파일 선택</StLabel>
         <StFileUpload type="file" id="file" onChange={imageHandler}></StFileUpload>
-        <StImgDel onClick={removeImage}>이미지 삭제</StImgDel>
+        {/* <StImgDel onClick={removeImage}>이미지 삭제</StImgDel> */}
       </StImageTextdiv>
     </StImageText>
   </StImageHeader>
@@ -95,6 +95,8 @@ const StImageText = styled.div`
 
 const StImageTextdiv = styled.div`
   display: flex;
+  justify-content: center;
+  flex-direction: column;
   align-items: center;
 `;
 
