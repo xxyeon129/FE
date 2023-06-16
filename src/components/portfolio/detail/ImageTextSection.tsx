@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 import { ReactComponent as Mail } from '@src/assets/portfolioDetail/port-mail-icon.svg';
 import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
 import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
-import NoImage from '@src/components/common/NoImage';
 import { ReactComponent as EditIconSvg } from '@src/assets/portfolioDetail/port-edit-icon.svg';
 import { ReactComponent as Trash } from '@src/assets/portfolioDetail/port-trash-icon.svg';
 import { ReactComponent as ClickOn } from '@src/assets/portfolioDetail/port-clickon-icon.svg';
@@ -164,10 +163,18 @@ const StContactItem = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 10px;
+  }
 `;
 
 const StMailIcon = styled(Mail)`
-  margin-right: 5px;
+  margin-right: 15px;
 `;
 
 const StTelephoneIcon = styled(Telephone)`

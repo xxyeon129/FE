@@ -65,11 +65,26 @@ const StModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 30%;
-  height: 400px;
+  width: 360px;
+  height: 450px;
   background-color: #fff;
   padding: 20px;
   border-radius: 20px;
+
+  @media (max-width: 1023px) {
+    width: 280px;
+    height: 380px;
+  }
+
+  @media (max-width: 767px) {
+    width: 240px;
+    height: 350px;
+  }
+
+  @media (max-width: 479px) {
+    width: 220px;
+    height: 300px;
+  }
 `;
 
 const StButtonContainer = styled.div`
@@ -87,26 +102,65 @@ const StButton = styled.button`
   border: none;
   border-radius: 4px;
   margin-right: 8px;
+  margin-bottom: 20px;
   width: 100px;
   height: 40px;
   cursor: pointer;
+  font-weight: bold;
 
   &:not([notallowed='true']):hover {
     transition: 0.5s;
     background-color: ${({ theme, color }) => (color ? color : theme.color.lightGreen)};
     color: white;
   }
+  @media (max-width: 1023px) {
+    margin-top: 10px;
+    font-size: 10px;
+    width: 70px;
+    height: 30px;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 10px;
+    font-size: 10px;
+    width: 70px;
+    height: 30px;
+  }
+
+  @media (max-width: 479px) {
+    margin-top: 10px;
+    font-size: 10px;
+    width: 70px;
+    height: 30px;
+  }
 `;
 
 const StIcon = styled(Icon)`
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 25px;
   margin-left: 40px;
+
+  @media (max-width: 479px) {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 30px;
+  }
 `;
 
 const StTitle = styled.h2`
   margin-bottom: 10px;
+
+  @media (max-width: 479px) {
+    margin-top: 10px;
+    font-size: 13px;
+  }
 `;
 
-const StSubtitle = styled.h3`
-  margin-bottom: 20px;
+const StSubtitle = styled.p`
+  margin-top: 15px;
+  font-weight: bold;
+
+  @media (max-width: 479px) {
+    font-size: 10px;
+  }
 `;
