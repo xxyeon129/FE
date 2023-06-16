@@ -1,26 +1,46 @@
 import React from 'react';
 import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
 import styled from 'styled-components';
-
+import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
 interface UpdateProfileModalProps {
   onClose: () => void;
 }
 
 const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({ onClose }) => {
   return (
-    <ModalWrapper>
-      <ModalContent>
-        <StModalLayout>
-          <ProFileUpdate />
-          <div>
-            <div>프로필이 성공적으로 변경되었습니다.</div>
-          </div>
-        </StModalLayout>
-        <StDelUser>
-          <StDeleteButton onClick={onClose}>확인</StDeleteButton>
-        </StDelUser>
-      </ModalContent>
-    </ModalWrapper>
+    <>
+      <DesktopAndTablet>
+        <ModalWrapper>
+          <ModalContent>
+            <StModalLayout>
+              <ProFileUpdate />
+              <div>
+                <div>프로필이 성공적으로 변경되었습니다.</div>
+              </div>
+            </StModalLayout>
+            <StDelUser>
+              <StDeleteButton onClick={onClose}>확인</StDeleteButton>
+            </StDelUser>
+          </ModalContent>
+        </ModalWrapper>
+      </DesktopAndTablet>
+
+      <Mobile>
+        <ModalWrapper>
+          <ModalContent>
+            <StModalLayout>
+              <ProFileUpdate />
+              <div>
+                <div>프로필이 성공적으로 변경되었습니다.</div>
+              </div>
+            </StModalLayout>
+            <StDelUser>
+              <StDeleteButton onClick={onClose}>확인</StDeleteButton>
+            </StDelUser>
+          </ModalContent>
+        </ModalWrapper>
+      </Mobile>
+    </>
   );
 };
 
@@ -36,6 +56,7 @@ const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 `;
 
 const ModalContent = styled.div`

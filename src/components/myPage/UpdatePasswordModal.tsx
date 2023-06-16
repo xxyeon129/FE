@@ -1,26 +1,45 @@
 import React from 'react';
 import { ReactComponent as PasswordUpdate } from 'src/assets/mypage-password.svg';
 import styled from 'styled-components';
-
+import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
 interface UpdatePasswordModalProps {
   onClose: () => void;
 }
 
 const UpdatePasswordModal: React.FC<UpdatePasswordModalProps> = ({ onClose }) => {
   return (
-    <ModalWrapper>
-      <ModalContent>
-        <StModalLayout>
-          <PasswordUpdate />
-          <div>
-            <div>비밀번호가 변경되었습니다.</div>
-          </div>
-        </StModalLayout>
-        <StDelUser>
-          <StDeleteButton onClick={onClose}>확인</StDeleteButton>
-        </StDelUser>
-      </ModalContent>
-    </ModalWrapper>
+    <>
+      <DesktopAndTablet>
+        <ModalWrapper>
+          <ModalContent>
+            <StModalLayout>
+              <PasswordUpdate />
+              <div>
+                <div>비밀번호가 변경되었습니다.</div>
+              </div>
+            </StModalLayout>
+            <StDelUser>
+              <StDeleteButton onClick={onClose}>확인</StDeleteButton>
+            </StDelUser>
+          </ModalContent>
+        </ModalWrapper>
+      </DesktopAndTablet>
+      <Mobile>
+        <ModalWrapper>
+          <ModalContent>
+            <StModalLayout>
+              <PasswordUpdate />
+              <div>
+                <div>비밀번호가 변경되었습니다.</div>
+              </div>
+            </StModalLayout>
+            <StDelUser>
+              <StDeleteButton onClick={onClose}>확인</StDeleteButton>
+            </StDelUser>
+          </ModalContent>
+        </ModalWrapper>
+      </Mobile>
+    </>
   );
 };
 
@@ -36,6 +55,7 @@ const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 `;
 
 const ModalContent = styled.div`

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ReactComponent as Delete } from 'src/assets/mypage-delete.svg';
 import styled from 'styled-components';
+import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
 
 interface WithdrawalModalProps {
   onWithdrawal: () => void;
@@ -13,20 +14,40 @@ const WithdrawalModal: React.FC<WithdrawalModalProps> = ({ onWithdrawal, onClose
   };
 
   return (
-    <ModalWrapper>
-      <ModalContent>
-        <StModalLayout>
-          <Delete />
-          <div>정말 탈퇴할까요?</div>
-          <p>회원 탈퇴시 폴 서비스 내 계정 정보가</p>
-          <p>삭제되고 복구할 수 없습니다.</p>
-        </StModalLayout>
-        <StDelUser>
-          <StDeleteButton onClick={handleConfirm}>탈퇴하기</StDeleteButton>
-          <StDeleteButton onClick={onClose}>취소</StDeleteButton>
-        </StDelUser>
-      </ModalContent>
-    </ModalWrapper>
+    <>
+      <DesktopAndTablet>
+        <ModalWrapper>
+          <ModalContent>
+            <StModalLayout>
+              <Delete />
+              <div>정말 탈퇴할까요?</div>
+              <p>회원 탈퇴시 폴 서비스 내 계정 정보가</p>
+              <p>삭제되고 복구할 수 없습니다.</p>
+            </StModalLayout>
+            <StDelUser>
+              <StDeleteButton onClick={handleConfirm}>탈퇴하기</StDeleteButton>
+              <StDeleteButton onClick={onClose}>취소</StDeleteButton>
+            </StDelUser>
+          </ModalContent>
+        </ModalWrapper>
+      </DesktopAndTablet>
+      <Mobile>
+        <ModalWrapper>
+          <ModalContent>
+            <StModalLayout>
+              <Delete />
+              <div>정말 탈퇴할까요?</div>
+              <p>회원 탈퇴시 폴 서비스 내 계정 정보가</p>
+              <p>삭제되고 복구할 수 없습니다.</p>
+            </StModalLayout>
+            <StDelUser>
+              <StDeleteButton onClick={handleConfirm}>탈퇴하기</StDeleteButton>
+              <StDeleteButton onClick={onClose}>취소</StDeleteButton>
+            </StDelUser>
+          </ModalContent>
+        </ModalWrapper>
+      </Mobile>
+    </>
   );
 };
 
@@ -41,6 +62,7 @@ const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 `;
 
 const ModalContent = styled.div`
