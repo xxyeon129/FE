@@ -18,18 +18,25 @@ function LinkSection(props: LinkSectionProps) {
       <div>
         <StContentTitle>링크</StContentTitle>
       </div>
-      {props.blog && (
-        <StBlog onClick={props.onMyBlog}>
-          <BlogIcon />
-          <span>{props.blog}</span>
-        </StBlog>
-      )}
 
       {props.youtube && (
         <StYoutube onClick={props.onMyYoutube}>
-          <YouTubeIcon />
+          <YouTubeIcon>
+            <YouTube />
+            <LinkTitle>YouTube</LinkTitle>
+          </YouTubeIcon>
           <span>{props.youtube}</span>
         </StYoutube>
+      )}
+
+      {props.blog && (
+        <StBlog onClick={props.onMyBlog}>
+          <BlogIcon>
+            <Blog />
+            <LinkTitle>Blog</LinkTitle>
+          </BlogIcon>
+          <span>{props.blog}</span>
+        </StBlog>
       )}
 
       {props.githubId && (
@@ -60,6 +67,12 @@ const StContentTitle = styled.div`
   gap: 10px;
 `;
 
+const LinkTitle = styled.span`
+  margin-left: 10px;
+  font-weight: bold;
+  color: white;
+`;
+
 const StBlog = styled.div`
   display: flex;
   align-items: center;
@@ -68,6 +81,7 @@ const StBlog = styled.div`
   margin: 20px 0;
   border-radius: 4px;
   border: 1px solid black;
+  color: black;
   cursor: pointer;
 
   &:hover {
@@ -84,6 +98,7 @@ const StYoutube = styled.div`
   margin: 20px 0;
   border-radius: 4px;
   border: 1px solid black;
+  color: black;
   cursor: pointer;
 
   &:hover {
@@ -107,7 +122,10 @@ const StGitgrass = styled.img`
   height: auto;
 `;
 
-const YouTubeIcon = styled(YouTube)`
+const YouTubeIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30%;
   height: 40px;
   background-color: black;
@@ -117,7 +135,10 @@ const YouTubeIcon = styled(YouTube)`
   margin-right: 20px;
 `;
 
-const BlogIcon = styled(Blog)`
+const BlogIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30%;
   height: 40px;
   background-color: black;

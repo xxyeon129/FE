@@ -158,7 +158,6 @@ const StProjectBoxContainer = styled.div`
 const StProjectBox = styled.div`
   position: relative;
   background-color: #f2f2f2;
-  border: 1px solid black;
   border-radius: 10px;
   text-align: center;
   transition: transform 0.3s ease;

@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { ReactComponent as MailIcon } from '@src/assets/portfolioDetail/port-mail-icon.svg';
 import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
 import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
+import { ReactComponent as Photo } from '@src/assets/portfolioDetail/portedit-photo-icon.svg';
 
 interface InformationProps {
   portfolioTitle: string;
@@ -24,6 +25,7 @@ interface InformationProps {
   portfolioImagePreview: string | null;
   fileInputRef: RefObject<HTMLInputElement>;
   onhandlePortfolioImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  getPortfolioImage: string | null;
 }
 
 interface StInputContainerProps {
@@ -39,8 +41,8 @@ const Information: React.FC<InformationProps> = props => {
   return (
     <div>
       <StButtonContainer>
-        <StButton color="gray" onClick={props.onPortfolioEditClear}>
-          수정취소
+        <StButton color="#ccc" onClick={props.onPortfolioEditClear}>
+          취소
         </StButton>
         <StButton onClick={props.onPortfolioUpdate}>수정완료</StButton>
       </StButtonContainer>
@@ -58,6 +60,9 @@ const Information: React.FC<InformationProps> = props => {
               ref={props.fileInputRef}
               onChange={props.onhandlePortfolioImageChange}
             />
+            <StIconWrapper>
+              <Photo />
+            </StIconWrapper>
           </StImagePreviewer>
           {props.filter && <StFilter>{props.filter}</StFilter>}
         </StLeftContainer>
@@ -70,6 +75,7 @@ const Information: React.FC<InformationProps> = props => {
               onChange={props.onTitleHandler}
               width="100%"
               height="70px"
+              style={{ fontSize: '23px', fontWeight: 'bold' }}
             />
           </StInputContainer>
           <StInputContainer width="100%">
@@ -126,7 +132,8 @@ const Information: React.FC<InformationProps> = props => {
           value={props.intro}
           onChange={props.onIntroHandler}
           width="100%"
-          height="200px"
+          height="150px"
+          style={{ border: '1px solid #ccc' }}
         />
       </StIntro>
       <StLine />
@@ -144,6 +151,7 @@ const StFirstEditWrapper = styled.div`
   margin-bottom: 20px;
   align-items: flex-start;
   justify-content: space-between;
+  border-radius: 10px;
 
   @media (min-width: 768px) and (max-width: 1023px) {
     flex-direction: column;
@@ -208,14 +216,22 @@ const StRightContainer = styled.div`
 `;
 
 const StImagePreviewer = styled.div`
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-end;
   width: 100%;
   height: 300px;
-  border: 2px dashed #ccc;
+  /* border: 2px dashed #ccc; */
   border-radius: 5px;
   cursor: pointer;
+`;
+
+const StIconWrapper = styled.div`
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 5px;
 `;
 
 const StFileUpload = styled.input`
@@ -230,6 +246,7 @@ const StRepresentativeImageEdit = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 10px;
 `;
 
 const StText = styled.div`
@@ -280,8 +297,9 @@ const StInput = styled.input<StInputProps>`
   height: ${props => props.height || 'auto'};
   padding: 8px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   outline: none;
+  border: none;
 `;
 
 const StMailIcon = styled(MailIcon)`
@@ -316,6 +334,7 @@ const StButton = styled.button`
   margin-right: 8px;
   width: 100px;
   height: 40px;
+  font-weight: bold;
   cursor: pointer;
 
   &:not([notallowed='true']):hover {
