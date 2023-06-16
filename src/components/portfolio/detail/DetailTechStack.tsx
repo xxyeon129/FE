@@ -1,5 +1,4 @@
 import React from 'react';
-import TechStack from '@src/components/portfolio/detail/TechStack';
 import { styled } from 'styled-components';
 
 interface DetailTechStackProps {
@@ -68,7 +67,7 @@ const StTechStackContainer = styled.div`
 `;
 
 const StTechStack = styled.div`
-  width: calc(20%);
+  width: calc(20% - 5px);
   height: 37px;
   border-radius: 20px;
   margin-top: 20px;
@@ -77,13 +76,23 @@ const StTechStack = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f2fff1;
-  /* gap: 50px; */
   margin-right: 15px;
   transition: transform 0.3s ease, background-color 0.3s ease;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px;
 
   &:hover {
     transform: scale(1.1);
     background-color: #eaeaea;
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    font-size: 10px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 8px;
   }
 `;
 

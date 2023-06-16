@@ -65,12 +65,28 @@ const StContentTitle = styled.div`
   font-weight: bold;
   font-size: 30px;
   gap: 10px;
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    font-size: 15px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 18px;
+  }
 `;
 
 const LinkTitle = styled.span`
   margin-left: 10px;
   font-weight: bold;
   color: white;
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    font-size: 8px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 8px;
+  }
 `;
 
 const StBlog = styled.div`
@@ -88,6 +104,14 @@ const StBlog = styled.div`
     background-color: black;
     color: white;
   }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    font-size: 8px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 8px;
+  }
 `;
 
 const StYoutube = styled.div`
@@ -104,6 +128,14 @@ const StYoutube = styled.div`
   &:hover {
     background-color: black;
     color: white;
+  }
+
+  @media (min-width: 480px) and (max-width: 767px) {
+    font-size: 8px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 8px;
   }
 `;
 

@@ -37,7 +37,6 @@ interface StInputProps {
   height?: string;
 }
 const Information: React.FC<InformationProps> = props => {
-  console.log('dasd', props.portfolioImagePreview);
   return (
     <div>
       <StButtonContainer>

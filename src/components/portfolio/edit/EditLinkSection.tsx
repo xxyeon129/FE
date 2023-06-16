@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { ReactComponent as Git } from '@src/assets/portfolioDetail/portedit-git-icon.svg';
 import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/portedit-youtube-icon.svg';
 import { ReactComponent as Blog } from '@src/assets/portfolioDetail/portedit-blog-icon.svg';
+import { DesktopAndTablet } from '@src/style/mediaQuery.ts';
 
 interface EditLinkSectionProps {
   youtube: string;
@@ -21,7 +22,9 @@ function EditLinkSection(props: EditLinkSectionProps) {
         <StRinkInputWithIcon>
           <YouTubeIcon>
             <YouTube />
-            <LinkTitle>YouTube</LinkTitle>
+            <DesktopAndTablet>
+              <LinkTitle>YouTube</LinkTitle>
+            </DesktopAndTablet>
           </YouTubeIcon>
           <StRinkInput
             type="text"
@@ -34,7 +37,9 @@ function EditLinkSection(props: EditLinkSectionProps) {
         <StRinkInputWithIcon>
           <BlogIcon>
             <Blog />
-            <LinkTitle>Blog</LinkTitle>
+            <DesktopAndTablet>
+              <LinkTitle>Blog</LinkTitle>
+            </DesktopAndTablet>
           </BlogIcon>
           <StRinkInput
             type="text"
@@ -48,7 +53,9 @@ function EditLinkSection(props: EditLinkSectionProps) {
           <StRinkInputWithIcon>
             <GitIcon>
               <Git />
-              <LinkTitle>Git</LinkTitle>
+              <DesktopAndTablet>
+                <LinkTitle>Git</LinkTitle>
+              </DesktopAndTablet>
             </GitIcon>
             <StRinkInput
               type="text"
