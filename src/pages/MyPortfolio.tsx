@@ -7,7 +7,7 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import { PATH_URL } from '@src/constants/constants';
 import * as S from '@src/style/common/commonStyles';
 import NoPortfolio from '@src/components/myPortfolio/NoPortfolio';
-import PortfolioItem from '@src/components/common/PortfolioItem';
+import MyPortfolioItem from '@src/components/myPortfolio/myPortfolioItem';
 
 const MyPortfolio = () => {
   const [myPortfolioList, setMyPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -32,18 +32,23 @@ const MyPortfolio = () => {
 
   return (
     <S.PageContainer>
-      <StMyPortfolioPageTitle>My Portfolios</StMyPortfolioPageTitle>
+      <StMyPortfolioTopNav>
+        <StMyPortfolioPageTitle>My Portfolios</StMyPortfolioPageTitle>
+        <S.Button
+          onClick={onClickCreatePortfolio}
+          width="180px"
+          fontsize="16px"
+          padding="12px 10px"
+          fontweight="900"
+        >
+          새 포트폴리오 만들기
+        </S.Button>
+      </StMyPortfolioTopNav>
       {isMyPortfolioExist ? (
         <StMyPortfolioContainer>
-          <S.PortfolioListContainer>
-            <StCreatePortfolio onClick={onClickCreatePortfolio}>
-              <StCreateIconContainer>
-                <StCreateIcon />
-              </StCreateIconContainer>
-              <StCreateText>새 포트폴리오 작성</StCreateText>
-            </StCreatePortfolio>
+          <S.PortfolioListContainer ismyportfolio="true">
             {myPortfolioList?.map(portfolio => (
-              <PortfolioItem key={portfolio.id} item={portfolio} />
+              <MyPortfolioItem key={portfolio.id} item={portfolio} />
             ))}
           </S.PortfolioListContainer>
         </StMyPortfolioContainer>
@@ -54,9 +59,15 @@ const MyPortfolio = () => {
   );
 };
 
-const StMyPortfolioPageTitle = styled.h1`
-  margin: 0;
+const StMyPortfolioTopNav = styled.div`
   margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StMyPortfolioPageTitle = styled.h1`
+  font-weight: 800;
 `;
 
 const StCreatePortfolio = styled.div`

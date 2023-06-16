@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 
 export const PageContainer = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ export const PageContainer = styled.div`
   height: 100%;
 `;
 
-export const PortfolioListContainer = styled.div`
+export const PortfolioListContainer = styled.div<{ ismyportfolio?: string }>`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   grid-auto-rows: min-content;
@@ -16,16 +16,27 @@ export const PortfolioListContainer = styled.div`
   column-gap: 50px;
   width: 100%;
   margin-top: 10px;
+
+  ${({ ismyportfolio }) =>
+    ismyportfolio &&
+    css`
+      row-gap: 30px;
+    `}
 `;
 
-export const Button = styled.button<{ width: string; fontsize: string; padding: string }>`
+export const Button = styled.button<{
+  width: string;
+  fontsize: string;
+  padding: string;
+  fontweight?: string;
+}>`
   display: flex;
   justify-content: center;
-  font-weight: 800;
   border-radius: 8px;
 
   width: ${({ width }) => width};
   background-color: ${({ theme }) => theme.color.neonGreen};
+  font-weight: ${({ fontweight }) => (fontweight ? fontweight : '800')};
   font-size: ${({ fontsize }) => fontsize};
   padding: ${({ padding }) => padding};
 
