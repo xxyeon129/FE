@@ -4,13 +4,7 @@ import styled from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
 import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
 
-import {
-  Desktop,
-  Tablet,
-  MobileRow,
-  DesktopAndTablet,
-  TabletAndMobile,
-} from '@src/style/mediaQuery.ts';
+import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
 
 type SignupProps = {
   onClose: () => void;

@@ -3,13 +3,7 @@ import { styled } from 'styled-components';
 import { ReactComponent as Git } from '@src/assets/portfolioDetail/portedit-git-icon.svg';
 import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/portedit-youtube-icon.svg';
 import { ReactComponent as Blog } from '@src/assets/portfolioDetail/portedit-blog-icon.svg';
-import {
-  Desktop,
-  Tablet,
-  Mobile,
-  DesktopAndTablet,
-  TabletAndMobile,
-} from '@src/style/mediaQuery.ts';
+import { DesktopAndTablet } from '@src/style/mediaQuery.ts';
 
 interface EditLinkSectionProps {
   youtube: string;
