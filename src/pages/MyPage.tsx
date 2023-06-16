@@ -231,8 +231,15 @@ const StHeader = styled.div<{ isediting: Boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => (props.isediting ? '#D3D3D3' : 'white')};
+  background: ${props =>
+    props.isediting
+      ? '#D3D3D3'
+      : 'linear-gradient(135deg, #8FE7A1, #9BC7BF, #CBD0E1, #5CC3BA, #0DC49C, #6E9EB2)'};
+  background-size: cover;
+  background-position: center;
 `;
+
+// ...
 
 //-------------------------------------------------------------
 
@@ -251,7 +258,7 @@ const StMyPageEditBox = styled.div`
   /* justify-content: center; */
   /* align-items: center; */
 
-  @media (max-width: 1024px) {
+  @media (max-width: 768px) {
     width: 100%;
     height: 100%;
     /* padding: 20px 0px; */
@@ -262,16 +269,17 @@ const StMyPageEditBox = styled.div`
 
 const StLayout = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: row;
   justify-content: center;
   padding: 0px 68px;
   gap: 60px;
   /*  */
 
-  @media (max-width: 1024px) {
+  @media (max-width: 768px) {
     flex-direction: column;
-    padding: 0;
-    gap: 10px;
+    padding: 20px;
+    /* gap: 10px; */
   }
 `;
 
@@ -281,9 +289,9 @@ const StClose = styled.div`
   align-items: flex-end;
   padding: 25px;
 
-  @media (max-width: 1024px) {
+  /* @media (max-width: 1024px) {
     padding: 10px;
-  }
+  } */
 `;
 
 const StMid = styled.div`
