@@ -10,6 +10,7 @@ import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import { GetProject } from './GetProject';
+import { refreshToken } from '@src/apis/token';
 export interface ProjectDetailData {
   title: string;
   term: string;
@@ -131,7 +132,10 @@ const ProjectModal: React.FC<{
   };
 
   const handleSubmit = async () => {
-    console.log(imageList);
+    if (!refreshToken) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
     const formData = new FormData();
     const imageBlob = new Blob(imageList, { type: 'application/json' });
     const text = JSON.stringify({
