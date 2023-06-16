@@ -45,4 +45,5 @@ const StTextArea = styled.textarea`
 const StError = styled.div`
   font-size: 14px;
   color: red;
+  padding: 0px 10px;
 `;

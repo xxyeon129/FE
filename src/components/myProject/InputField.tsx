@@ -46,5 +46,6 @@ const StInput = styled.input`
 
 const StError = styled.div`
   font-size: 14px;
+  padding: 0px 10px;
   color: red;
 `;
