@@ -5,7 +5,7 @@ import Category from './Category';
 import UserProfile from './UserProfile';
 import { NavProps } from '@src/shared/Nav';
 
-const NavContent = ({ setIsLoginModalOpen }: NavProps) => {
+const NavContent = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   return (
     <>
       <UserProfile />
@@ -16,7 +16,10 @@ const NavContent = ({ setIsLoginModalOpen }: NavProps) => {
         <Category />
       </StCategoryContainer>
       <StBottomContainer>
-        <Auth setIsLoginModalOpen={setIsLoginModalOpen} />
+        <Auth
+          setIsLoginModalOpen={setIsLoginModalOpen}
+          setIsLogoutModalOpen={setIsLogoutModalOpen}
+        />
         {/* TODO: 다크모드 2차 scope */}
         {/* <LightAndDarkMode /> */}
       </StBottomContainer>

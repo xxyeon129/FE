@@ -4,19 +4,26 @@ import NavContent from '@src/components/nav/NavContent';
 
 export interface NavProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLogoutModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Nav = ({ setIsLoginModalOpen }: NavProps) => {
+const Nav = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   return (
     <>
       <DesktopAndTablet>
         <StNav>
-          <NavContent setIsLoginModalOpen={setIsLoginModalOpen} />
+          <NavContent
+            setIsLoginModalOpen={setIsLoginModalOpen}
+            setIsLogoutModalOpen={setIsLogoutModalOpen}
+          />
         </StNav>
       </DesktopAndTablet>
       <MobileRow>
         <StMobileNav>
-          <NavContent setIsLoginModalOpen={setIsLoginModalOpen} />
+          <NavContent
+            setIsLoginModalOpen={setIsLoginModalOpen}
+            setIsLogoutModalOpen={setIsLogoutModalOpen}
+          />
         </StMobileNav>
       </MobileRow>
     </>

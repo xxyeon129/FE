@@ -17,3 +17,34 @@ export const PortfolioListContainer = styled.div`
   width: 100%;
   margin-top: 10px;
 `;
+
+export const Button = styled.button<{ width: string; fontsize: string; padding: string }>`
+  display: flex;
+  justify-content: center;
+  font-weight: 800;
+  border-radius: 8px;
+
+  width: ${({ width }) => width};
+  background-color: ${({ theme }) => theme.color.neonGreen};
+  font-size: ${({ fontsize }) => fontsize};
+  padding: ${({ padding }) => padding};
+
+  &:hover {
+    transition: 0.5s;
+    background-color: ${({ theme }) => theme.color.lightGreen};
+    color: white;
+  }
+`;
+
+export const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+`;

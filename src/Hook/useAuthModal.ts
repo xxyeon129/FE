@@ -4,9 +4,14 @@ import { loginState } from '@src/states';
 interface useLoginModalProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLogoutModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const useLoginModal = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: useLoginModalProps) => {
+const useAuthModal = ({
+  setIsLoginModalOpen,
+  setIsSignUpModalOpen,
+  setIsLogoutModalOpen,
+}: useLoginModalProps) => {
   const setIsLogin = useSetRecoilState(loginState);
 
   const onLoginCloseModal = () => {
@@ -23,7 +28,11 @@ const useLoginModal = ({ setIsLoginModalOpen, setIsSignUpModalOpen }: useLoginMo
     setIsSignUpModalOpen(false);
   };
 
-  return [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal];
+  const onLogoutCloseModal = () => {
+    setIsLogoutModalOpen(false);
+  };
+
+  return [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal, onLogoutCloseModal];
 };
 
-export default useLoginModal;
+export default useAuthModal;
