@@ -13,6 +13,7 @@ import * as S from '@src/style/common/createStepStyles';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
+import useImageCompress from '@src/Hook/useImageCompress';
 
 const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
   onPrevButtonClick,
@@ -52,7 +53,7 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
     }
   };
 
-  const handleFormData = () => {
+  const handleFormData = async () => {
     const formData = new FormData();
     const inputData = {
       portfolioTitle,
@@ -75,14 +76,17 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
       new Blob([JSON.stringify(inputData)], { type: 'application/json' })
     );
 
-    imageFile && formData.append('portfolioImage', imageFile);
+    let compressedImageFile;
+    imageFile && (compressedImageFile = await useImageCompress(imageFile));
+
+    compressedImageFile && formData.append('portfolioImage', compressedImageFile);
 
     return formData;
   };
 
   const onSubmitFormData = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const formData = handleFormData();
+    const formData = await handleFormData();
 
     try {
       await createPortfolio(formData);
