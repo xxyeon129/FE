@@ -6,6 +6,13 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { SERVER_URL } from '@src/constants/constants';
+import {
+  Desktop,
+  Tablet,
+  Mobile,
+  DesktopAndTablet,
+  TabletAndMobile,
+} from '@src/style/mediaQuery.ts';
 
 type LoginProps = {
   onClose: () => void;
@@ -61,9 +68,15 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
   };
 
   const onBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (modalRef.current === e.target) {
-      onClose();
+    if (!window.matchMedia('(max-width: 1023px)').matches) {
+      if (modalRef.current === e.target) {
+        onClose();
+      }
     }
+  };
+
+  const onButtonClick = () => {
+    onClose();
   };
 
   const onSignUp = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -74,21 +87,53 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
   return (
     <StModalWrapper ref={modalRef} onClick={onBackgroundClick}>
       <StModalContent>
-        <div>
-          <h1>
+        <StTitleAndButtonSection>
+          <StModalTitle>
             간편하게 로그인하고 다양한
             <br /> 포트폴리오를 만나보세요.
-          </h1>
-        </div>
+          </StModalTitle>
+
+          <StButtonSection>
+            <TabletAndMobile>
+              <CloseButton onClick={onButtonClick}>닫기</CloseButton>
+            </TabletAndMobile>
+          </StButtonSection>
+        </StTitleAndButtonSection>
 
         <StInputSection>
-          <label htmlFor="">이메일</label>
-          <StInput type="text" id="email" value={email} onChange={onEmailChange} />
+          <DesktopAndTablet>
+            <label htmlFor="">이메일</label>
+          </DesktopAndTablet>
+          <DesktopAndTablet>
+            <StInput type="text" id="email" value={email} onChange={onEmailChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="text"
+              id="email"
+              placeholder="이메일"
+              value={email}
+              onChange={onEmailChange}
+            />
+          </Mobile>
         </StInputSection>
 
         <StInputSection>
-          <label htmlFor="password">비밀번호</label>
-          <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+          <DesktopAndTablet>
+            <label htmlFor="password">비밀번호</label>
+          </DesktopAndTablet>
+          <DesktopAndTablet>
+            <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="password"
+              id="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={onPasswordChange}
+            />
+          </Mobile>
         </StInputSection>
         {errorMessage && <StErrorMessage>{errorMessage}</StErrorMessage>}
 
@@ -133,7 +178,18 @@ const StModalWrapper = styled.div`
   z-index: 1001;
 `;
 
-const StModalContent = styled.div`
+const StTitleAndButtonSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StButtonSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const StModalContent = styled.form`
   margin-top: 105px;
   background-color: white;
   padding: 20px;
@@ -141,6 +197,38 @@ const StModalContent = styled.div`
   width: 800px;
   justify-content: center;
   padding: 100px;
+
+  @media (max-width: 1023px) {
+    width: 50%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  @media (max-width: 479px) {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+`;
+
+const StModalTitle = styled.h1`
+  @media (max-width: 1023px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StInputSection = styled.div`
@@ -156,11 +244,24 @@ const StInput = styled.input`
   height: 50px;
   margin: 15px 0;
   width: 100%;
+
+  @media (max-width: 1023px) {
+  }
+
+  @media (max-width: 479px) {
+  }
 `;
 
 const LoginButton = styled.button`
   ${buttonStyle}
   width: 100%;
+  height: 40px;
+  margin: 20px 0;
+`;
+
+const CloseButton = styled.button`
+  ${buttonStyle}
+  width: 100px;
   height: 40px;
   margin: 20px 0;
 `;

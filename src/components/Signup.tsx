@@ -2,6 +2,13 @@ import React, { useRef, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
+import {
+  Desktop,
+  Tablet,
+  Mobile,
+  DesktopAndTablet,
+  TabletAndMobile,
+} from '@src/style/mediaQuery.ts';
 
 type SignupProps = {
   onClose: () => void;
@@ -12,12 +19,15 @@ function Signup({ onClose }: SignupProps) {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
-  const [emailError, setEmailError] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string>('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
-  const [nicknameError, setNicknameError] = useState<string>('');
-  const [emailCheck, setEmailCheck] = useState<string>('');
+  const [emailErrorCheck, setEmailErrorCheck] = useState<string>('');
+  const [emailSuccessCheck, setEmailSuccessCheck] = useState<string>('');
   const modalRef = useRef(null);
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    nickname: '',
+  });
 
   const addUsers = async () => {
     try {
@@ -30,130 +40,210 @@ function Signup({ onClose }: SignupProps) {
       onClose();
       return response;
     } catch (error) {
-      alert('회원가입 실패');
-      alert(error);
+      alert('회원가입 실패 ');
       throw error;
     }
   };
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    setEmailError('');
+    setErrors(prevState => ({ ...prevState, email: '' }));
   };
 
   const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    setPasswordError('');
+    setErrors(prevState => ({ ...prevState, password: '' }));
   };
 
   const onConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
-    setConfirmPasswordError('');
+    setErrors(prevState => ({ ...prevState, confirmPassword: '' }));
   };
 
   const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
-    setNicknameError('');
+    setErrors(prevState => ({ ...prevState, nickname: '' }));
   };
 
   const onBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (modalRef.current === e.target) {
-      onClose();
-    }
-  };
-
-  const onSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const nicknameRegex = /^[가-힣a-zA-Z]{2,10}$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-
-    // 이메일 유효성 검사
-    if (!emailRegex.test(email) || null) {
-      setEmailError('유효한 이메일 주소를 입력해주세요.');
-      return;
-    }
-
-    // 닉네임 유효성 검사
-    if (!nicknameRegex.test(nickname) || null) {
-      setNicknameError('유효한 닉네임을 입력해주세요.');
-      return;
-    }
-
-    // 비밀번호 유효성 검사
-    if (!passwordRegex.test(password) || null) {
-      setPasswordError(
-        '유효한 비밀번호를 입력해주세요.\n비밀번호는 최소 6자리 이상이어야 하며, 영문과 숫자가 포함되어야 합니다.'
-      );
-      return;
-    }
-
-    // 비밀번호 확인
-    if (password !== confirmPassword) {
-      setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-    addUsers();
-  };
-
-  const onEmailCheck = async () => {
-    try {
-      const response = await axios.get(`${SERVER_URL}/api/users/email-check?email=${email}`);
-      console.log(email);
-      setEmailCheck('사용가능한 아이디입니다.');
-    } catch (error: unknown) {
-      if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
-        setEmailCheck('중복된 아이디입니다.');
-      } else if ((error as AxiosError).response && (error as AxiosError).response?.status === 400) {
-        setEmailCheck('이메일 형식이 올바르지 않습니다.');
+    if (!window.matchMedia('(max-width: 1023px)').matches) {
+      if (modalRef.current === e.target) {
+        onClose();
       }
     }
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const nicknameRegex = /^[가-힣a-zA-Z]{2,10}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    let Error = false;
+
+    // 이메일 유효성 검사
+    if (!emailRegex.test(email)) {
+      setErrors(email => ({ ...email, email: '유효한 이메일 주소를 입력해주세요.' }));
+      Error = true;
+    }
+
+    // 닉네임 유효성 검사
+    if (!nicknameRegex.test(nickname)) {
+      setErrors(nickname => ({ ...nickname, nickname: '유효한 닉네임을 입력해주세요.' }));
+      Error = true;
+    }
+
+    // 비밀번호 유효성 검사
+    if (!passwordRegex.test(password)) {
+      setErrors(password => ({
+        ...password,
+        password: '비밀번호는 최소 6자리 이상이어야 하며, 영문과 숫자가 포함되어야 합니다.',
+      }));
+      Error = true;
+    }
+
+    // 비밀번호 확인
+    if (password !== confirmPassword) {
+      setErrors(confirmPassword => ({
+        ...confirmPassword,
+        confirmPassword: '비밀번호가 일치하지 않습니다.',
+      }));
+      Error = true;
+    }
+
+    if (!Error) {
+      addUsers();
+    }
+  };
+
+  const onEmailCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    // e.preventDefault();
+    try {
+      const response = await axios.get(`${SERVER_URL}/api/users/email-check?email=${email}`);
+      console.log(email);
+      setEmailSuccessCheck('사용가능한 아이디입니다.');
+      setEmailErrorCheck('');
+    } catch (error: unknown) {
+      if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
+        setEmailErrorCheck('중복된 아이디입니다.');
+        setEmailSuccessCheck('');
+      } else if ((error as AxiosError).response && (error as AxiosError).response?.status === 400) {
+        setEmailErrorCheck('이메일 형식이 올바르지 않습니다.');
+        setEmailSuccessCheck('');
+      }
+    }
+  };
+
+  const onButtonClick = () => {
+    onClose();
+  };
+
   return (
     <StModalWrapper ref={modalRef} onClick={onBackgroundClick}>
-      <StModalContent>
-        <StTitleComment>이메일로 가입하기</StTitleComment>
-        <label htmlFor="email">이메일</label>
+      <StModalContent onSubmit={onSubmit}>
+        <StTitleAndButtonSection>
+          <StTitleComment>이메일로 가입하기</StTitleComment>
+
+          <StButtonSection>
+            <TabletAndMobile>
+              <CloseButton onClick={onButtonClick}>닫기</CloseButton>
+            </TabletAndMobile>
+          </StButtonSection>
+        </StTitleAndButtonSection>
+
+        <DesktopAndTablet>
+          <label htmlFor="email">이메일</label>
+        </DesktopAndTablet>
+
         <StInputSection>
-          <StInput type="email" id="email" value={email} onChange={onEmailChange} />
-          <StButton onClick={onEmailCheck}>중복검사</StButton>
+          <DesktopAndTablet>
+            <StInput type="email" id="email" value={email} onChange={onEmailChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="email"
+              id="email"
+              placeholder="이메일"
+              value={email}
+              onChange={onEmailChange}
+            />
+          </Mobile>
+          <StButton onClick={onEmailCheck} type="button">
+            중복검사
+          </StButton>
         </StInputSection>
         <StErrorSection>
-          {emailError && <StErrorMessage>{emailError}</StErrorMessage>}
-          {emailCheck && <StErrorMessage>{emailCheck}</StErrorMessage>}
+          {errors.email && <StErrorMessage>{errors.email}</StErrorMessage>}
+          {emailErrorCheck && <StErrorMessage>{emailErrorCheck}</StErrorMessage>}
+          {emailSuccessCheck && <StSuccessMessage>{emailSuccessCheck}</StSuccessMessage>}
         </StErrorSection>
 
-        <label htmlFor="password">비밀번호</label>
+        <DesktopAndTablet>
+          <label htmlFor="password">비밀번호</label>
+        </DesktopAndTablet>
         <StInputSection>
-          <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+          <DesktopAndTablet>
+            <StInput type="password" id="password" value={password} onChange={onPasswordChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="password"
+              id="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={onPasswordChange}
+            />
+          </Mobile>
         </StInputSection>
         <StErrorSection>
-          {passwordError && <StErrorMessage>{passwordError}</StErrorMessage>}
+          {errors.password && <StErrorMessage>{errors.password}</StErrorMessage>}
         </StErrorSection>
-
-        <label htmlFor="confirmPassword">비밀번호 확인</label>
+        <DesktopAndTablet>
+          <label htmlFor="confirmPassword">비밀번호 확인</label>
+        </DesktopAndTablet>
         <StInputSection>
-          <StInput
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={onConfirmPasswordChange}
-          />
+          <DesktopAndTablet>
+            <StInput
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={onConfirmPasswordChange}
+            />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="password"
+              id="confirmPassword"
+              placeholder="비밀번호 확인"
+              value={confirmPassword}
+              onChange={onConfirmPasswordChange}
+            />
+          </Mobile>
         </StInputSection>
         <StErrorSection>
-          {confirmPasswordError && <StErrorMessage>{confirmPasswordError}</StErrorMessage>}
+          {errors.confirmPassword && <StErrorMessage>{errors.confirmPassword}</StErrorMessage>}
         </StErrorSection>
-
-        <label htmlFor="nickname">닉네임</label>
+        <DesktopAndTablet>
+          <label htmlFor="nickname">닉네임</label>
+        </DesktopAndTablet>
         <StInputSection>
-          <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
+          <DesktopAndTablet>
+            <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
+          </DesktopAndTablet>
+          <Mobile>
+            <StInput
+              type="text"
+              id="nickname"
+              placeholder="닉네임"
+              value={nickname}
+              onChange={onNicknameChange}
+            />
+          </Mobile>
         </StInputSection>
         <StErrorSection>
-          {nicknameError && <StErrorMessage>{nicknameError}</StErrorMessage>}
+          {errors.nickname && <StErrorMessage>{errors.nickname}</StErrorMessage>}
         </StErrorSection>
 
-        <StSubmitButton onClick={onSubmit}>가입하기</StSubmitButton>
+        <StSubmitButton>가입하기</StSubmitButton>
       </StModalContent>
     </StModalWrapper>
   );
@@ -188,7 +278,7 @@ const StModalWrapper = styled.div`
   z-index: 1001;
 `;
 
-const StModalContent = styled.div`
+const StModalContent = styled.form`
   background-color: white;
   padding: 100px;
   border-radius: 4px;
@@ -196,6 +286,35 @@ const StModalContent = styled.div`
   height: 100%;
   width: 800px;
   align-items: center;
+
+  @media (max-width: 1023px) {
+    width: 50%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  @media (max-width: 479px) {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+`;
+
+const StTitleAndButtonSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StButtonSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const StInputSection = styled.div`
@@ -207,14 +326,40 @@ const StInputSection = styled.div`
 const StErrorSection = styled.div`
   margin-bottom: 30px;
   margin-top: -15px;
+
+  @media (max-width: 1023px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 10px;
+  }
 `;
 
-const StTitleComment = styled.h2`
-  margin-bottom: 80px;
+const StTitleComment = styled.h1`
+  margin-bottom: 30px;
+  @media (max-width: 1023px) {
+    font-size: 23px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 23px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+  }
 `;
 
 const StErrorMessage = styled.label`
   color: red;
+`;
+const StSuccessMessage = styled.label`
+  color: green;
 `;
 
 const StInput = styled.input`
@@ -235,4 +380,11 @@ const StSubmitButton = styled.button`
   ${buttonStyle}
   width: 150px;
   margin-top: 50px;
+`;
+
+const CloseButton = styled.button`
+  ${buttonStyle}
+  width: 80px;
+  height: 30px;
+  margin: 20px 0;
 `;
