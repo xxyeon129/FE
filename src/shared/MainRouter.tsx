@@ -15,7 +15,7 @@ import CreatePortfolio from '@src/pages/CreatePortfolio';
 import Login from '@src/pages/Login';
 import KakaoAuth from '@src/components/auth/KakaoAuth';
 import TestKakaoLogin from '@src/components/auth/TestKakaoLogin';
-import RedirectionNaver from '@src/components/RedirectionNaver';
+import RedirectionNaver from '@src/components/socialLogin/RedirectionNaver';
 
 const MainRouter = () => {
   return (
