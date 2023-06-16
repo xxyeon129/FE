@@ -134,6 +134,7 @@ const StSearch = styled.div`
     border: none;
     background: none;
     font-size: 16px;
+    max-width: 140px;
 
     @media ${({ theme }) => theme.size.mobileRow} {
       display: none;
