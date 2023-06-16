@@ -54,6 +54,7 @@ const StMobileNav = styled.div`
   padding: 45px 0;
   width: 85px;
   align-items: center;
+  border-bottom-right-radius: 20px;
 `;
 
 export default Nav;
