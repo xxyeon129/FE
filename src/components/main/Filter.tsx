@@ -53,13 +53,18 @@ const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
 };
 
 const StFilterListContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-rows: min-content;
+  row-gap: 10px;
+  column-gap: 10px;
 
   padding: 50px 0;
-  width: 100%;
+
+  @media ${({ theme }) => theme.size.mobileRow} {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
 `;
 
 const StFilterButton = styled.button<{ isselected: string; color: string }>`
@@ -70,6 +75,11 @@ const StFilterButton = styled.button<{ isselected: string; color: string }>`
   background-color: ${({ theme, isselected, color }) =>
     isselected === 'true' ? color : theme.color.lightGray};
   font-weight: ${({ isselected }) => isselected === 'true' && '800'};
+
+  @media ${({ theme }) => theme.size.mobileRow} {
+    font-size: 13px;
+    width: 100px;
+  }
 `;
 
 export default Filter;
