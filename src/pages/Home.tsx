@@ -156,7 +156,7 @@ const StShadow = styled.div`
   z-index: 0.1;
 
   @media ${theme.size.mobileRow} {
-    width: 100%;
+    width: 290%;
   }
 `;
 
