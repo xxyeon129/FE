@@ -16,7 +16,7 @@ import MyPageInfo from '@src/components/myPage/MypageInfo';
 import ProfileEditForm from '@src/components/myPage/ProfileEditForm';
 import PassWordEditForm from '@src/components/myPage/PassWordEditForm';
 import { useInput } from 'src/Hook/useInput';
-import { Desktop, DesktopAndTablet, Mobile, TabletAndMobile } from '@src/style/mediaQuery';
+import { Desktop, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery';
 import { refreshToken } from '@src/apis/token';
 export interface UserData {
   nickname: string;
