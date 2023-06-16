@@ -10,8 +10,8 @@ function RedirectionNaver() {
     try {
       const response = await axios.get(`https://ppol.pro/api/users/naver?code=${code}&state=state`);
       console.log(response);
-      const authorization = response.headers['authorization'];
-      localStorage.setItem('authorization', authorization);
+      const accesstoken = response.headers['accesstoken'];
+      localStorage.setItem('accesstoken', accesstoken);
       return response;
     } catch (error) {
       console.log(error);
