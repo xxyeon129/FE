@@ -146,7 +146,7 @@ const StContainerMobile = styled.div`
 
   @media (max-width: 768px) {
     display: flex;
-    padding-left: 30px;
+    /* padding-left: 30px; */
     align-items: center;
   }
 `;

@@ -74,7 +74,7 @@ const StImage = styled.img`
 const StText = styled.div`
   width: 100%;
   padding: 5px 0px;
-  /* margin-bottom: 20px; */
+  margin-top: 10px;
   overflow-wrap: break-word;
   word-break: break-word;
   hyphens: auto;

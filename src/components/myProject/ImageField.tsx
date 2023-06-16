@@ -56,7 +56,7 @@ const StImageHeader = styled.div`
   display: flex;
   margin-bottom: 30px;
   width: 100%;
-
+  gap: 60px;
   h3 {
     margin-bottom: 10px;
     font-family: 'SUIT';
@@ -82,22 +82,29 @@ const StImageHeader = styled.div`
 `;
 
 const StImageText = styled.div`
-  margin-left: 50px;
+  /* margin-left: 50px; */
+
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* align-items: center; */
 
   @media (max-width: 768px) {
     margin-left: 0;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 const StImageTextdiv = styled.div`
   display: flex;
-  justify-content: center;
-  flex-direction: column;
   align-items: center;
+  // 이미지 삭제 추가 전 로직
+  /* justify-content: center; */
+  /* flex-direction: column; */
 `;
 
 const StFileUpload = styled.input`
@@ -109,9 +116,9 @@ const StFileUpload = styled.input`
 const StLabel = styled.label`
   width: 160px;
   height: 44px;
-  left: 260px;
-  top: 218px;
-  margin-right: 20px;
+  /* left: 260px;
+  top: 218px; */
+  /* margin-right: 20px; */
   background: #ebebeb;
   border-radius: 5px;
   display: flex;
