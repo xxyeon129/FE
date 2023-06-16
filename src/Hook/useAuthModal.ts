@@ -6,7 +6,7 @@ import { PATH_URL } from '@src/constants/constants';
 interface useLoginModalProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsSignUpModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsLogoutModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLogoutModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const useAuthModal = ({
@@ -32,7 +32,7 @@ const useAuthModal = ({
   };
 
   const onLogoutCloseModal = () => {
-    setIsLogoutModalOpen(false);
+    setIsLogoutModalOpen && setIsLogoutModalOpen(false);
     navigate(PATH_URL.HOME);
   };
 
