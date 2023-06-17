@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ProjectModal from '@src/components/myProject/ProjectDetail';
 import AutoSearch from '@src/components/AutoSearch';
 import Project from '@src/components/myProject/CreateProject';
-import NaverLogin from '@src/components/NaverLogin';
+import NaverLogin from '@src/components/socialLogin/NaverLogin';
 const Test: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
