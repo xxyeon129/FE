@@ -193,21 +193,24 @@ const MyPage = () => {
               handleNicknameChange={nickname.onChange}
               handleSubmit={handleSubmit}
             />
-            <StMid></StMid>
+            {/* <StMid></StMid> */}
             {data?.kakaoId === null && data?.naverId === null && (
-              <PassWordEditForm
-                handleCurrentPasswordChange={oldpassword.onChange}
-                handlePasswordChange={newpassword.onChange}
-                handlePasswordCheckChange={checknewpassword.onChange}
-                handleSavePassword={handleSavePassword}
-                oldpassword={oldpassword.value}
-                newpassword={newpassword.value}
-                checknewpassword={checknewpassword.value}
-                oldpasswordError={oldpassword.error}
-                newpasswordError={newpassword.error}
-                checknewpasswordError={checknewpassword.error}
-                apiError={apiError}
-              />
+              <>
+                <StMid></StMid>
+                <PassWordEditForm
+                  handleCurrentPasswordChange={oldpassword.onChange}
+                  handlePasswordChange={newpassword.onChange}
+                  handlePasswordCheckChange={checknewpassword.onChange}
+                  handleSavePassword={handleSavePassword}
+                  oldpassword={oldpassword.value}
+                  newpassword={newpassword.value}
+                  checknewpassword={checknewpassword.value}
+                  oldpasswordError={oldpassword.error}
+                  newpasswordError={newpassword.error}
+                  checknewpasswordError={checknewpassword.error}
+                  apiError={apiError}
+                />
+              </>
             )}
           </StLayout>
         </StMyPageEditBox>
