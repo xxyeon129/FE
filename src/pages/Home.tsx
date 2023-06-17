@@ -97,6 +97,7 @@ const StHome = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
+  margin-bottom: 100px;
 `;
 
 const StIntroContainer = styled.div`
