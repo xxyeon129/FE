@@ -50,7 +50,6 @@ const MyPortfolio = () => {
       setMyPortfolioList(myPortfolioData);
     };
     fetchMyPortfolioData();
-    console.log('render test');
   }, [isPortfolioDeleted]);
 
   return (
