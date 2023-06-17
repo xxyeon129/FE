@@ -7,7 +7,7 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import * as S from '@src/style/common/commonStyles';
 import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
-
+import { PageContainer } from '@src/style/common/commonStyles';
 interface PortfolioData {
   content: PortfolioDataType[];
   totalPages: number;
@@ -92,13 +92,15 @@ const SearchResults = () => {
                   <h2>모든 포트폴리오입니다.</h2>
                 )}
               </StHeader>
-              <StLayout>
-                <S.PortfolioListContainer>
-                  {portfolioData.content.map(portfolio => (
-                    <PortfolioItem key={portfolio.id} item={portfolio} />
-                  ))}
-                </S.PortfolioListContainer>
-              </StLayout>
+              <PageContainer>
+                <StLayout>
+                  <S.PortfolioListContainer>
+                    {portfolioData.content.map(portfolio => (
+                      <PortfolioItem key={portfolio.id} item={portfolio} />
+                    ))}
+                  </S.PortfolioListContainer>
+                </StLayout>
+              </PageContainer>
             </>
           ) : (
             <StHeader>

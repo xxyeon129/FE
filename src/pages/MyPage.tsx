@@ -55,9 +55,6 @@ const MyPage = () => {
       setPreviewImage(data.profileImage || user);
     }
   }, [data]);
-
-  console.log(data);
-
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {
       setShowUpdateModal(true);
@@ -137,15 +134,14 @@ const MyPage = () => {
     formData.append('nickname', nicknameBlob);
     console.log(profileImage);
     formData.append('profileImage', profileImage as Blob);
-
-    try {
-      await updateUserMutation.mutateAsync([formData, Number(id)]);
-      refetch();
-      setIsEditing(false);
-      setMyPageEdit(true);
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    await updateUserMutation.mutateAsync([formData, Number(id)]);
+    refetch();
+    setIsEditing(false);
+    setMyPageEdit(true);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   const handleEditClick = () => {
