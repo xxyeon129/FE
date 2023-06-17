@@ -1,4 +1,4 @@
-import { PATH_URL } from '@src/constants/constants';
+import { PATH_URL, SERVER_URL } from '@src/constants/constants';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,21 +11,23 @@ const KakaoAuth = () => {
 
   const navigate = useNavigate();
 
-  const KAKAO_TOKEN_URL = `https://kauth.kakao.com/oauth/token?grant_type=${GRANT_TYPE}&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&code=${CODE}`;
-  axios
-    .post(
-      KAKAO_TOKEN_URL,
-      {},
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        },
-      }
-    )
-    .then(res => {
-      console.log(res.data);
-      navigate(PATH_URL.MAIN);
-    });
+  // const KAKAO_TOKEN_URL = `https://kauth.kakao.com/oauth/token?grant_type=${GRANT_TYPE}&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&code=${CODE}`;
+  // axios
+  //   .post(
+  //     KAKAO_TOKEN_URL,
+  //     {},
+  //     {
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+  //       },
+  //     }
+  //   )
+  //   .then(res => {
+  //     console.log(res.data);
+  //     navigate(PATH_URL.MAIN);
+  //   });
+
+  axios.get(`https://portfol.pro/api/users/kakao?code=${CODE}`).then(res => console.log(res));
 
   return <></>;
 };
