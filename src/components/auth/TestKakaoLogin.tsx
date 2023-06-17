@@ -7,7 +7,7 @@ const TestKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  return <button onClick={onClickKakaoLogin}>KAKAO LOGIN</button>;
+  return <button onClick={onClickKakaoLogin}>@@KAKAO LOGIN@@</button>;
 };
 
 export default TestKakaoLogin;
