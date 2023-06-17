@@ -4,13 +4,15 @@ import Auth from './Auth';
 import Category from './Category';
 import UserProfile from './UserProfile';
 import { NavProps } from '@src/shared/Nav';
-
+import { DesktopAndTablet } from '@src/style/mediaQuery';
 const NavContent = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   return (
     <>
       <UserProfile />
       <StAutoSearchContainer>
-        <AutoSearch />
+        <DesktopAndTablet>
+          <AutoSearch />
+        </DesktopAndTablet>
       </StAutoSearchContainer>
       <StCategoryContainer>
         <Category />
