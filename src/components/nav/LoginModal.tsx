@@ -8,6 +8,8 @@ import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { SERVER_URL } from '@src/constants/constants';
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
 import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
+import KakaoLogin from '../socialLogin/KakaoLogin';
+import NaverLogin from '../socialLogin/NaverLogin';
 
 type LoginProps = {
   onClose: () => void;
@@ -141,6 +143,10 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
           <span>아직 폴 회원이 아니세요?</span>
           <button onClick={onSignUp}>회원가입</button>
         </div>
+        <StSocialLogin>
+          <KakaoLogin />
+          <NaverLogin />
+        </StSocialLogin>
       </StModalContent>
     </StModalWrapper>
   );
@@ -277,4 +283,12 @@ const LoginButton = styled.button`
 
 const StErrorMessage = styled.label`
   color: red;
+`;
+
+const StSocialLogin = styled.div`
+  margin-top: 20px;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

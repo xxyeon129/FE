@@ -24,8 +24,10 @@ function DeletePortfolioModal({ portId, onCloseModal }: DeletePortfoliosModalPro
           RefreshToken: refreshToken,
         },
       });
+      alert('삭제 완료');
       navigate('/');
     } catch (error) {
+      alert('삭제 실패');
       console.log(error);
     }
   };
