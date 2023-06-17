@@ -246,9 +246,6 @@ function PortfolioDetails() {
     }
   };
 
-  // console.log('이미지 프리뷰 데이터 : ', portfolioImagePreview);
-  // console.log('포트폴리오 이미지 데이터 : ', portfolioImage);
-
   const onProjectDetail = (projectId: number) => {
     setSelectedProjectId(projectId);
     setIsProjectModalOpen(true);

@@ -62,14 +62,14 @@ function ImageTextSection(props: ImageTextSectionProps) {
         <StContainerMiddle>
           <StProfileContainer>
             {props.proFileImage && <StProFileImage src={props.proFileImage} alt="" />}
-            {props.filter}
           </StProfileContainer>
         </StContainerMiddle>
 
         <StContainerLower>
           <StLowerContent>
+            <Stfilter>{props.filter}</Stfilter>
             <StTitle>
-              <h1>{props.portfolioTitle}</h1>
+              <StTitleh1>{props.portfolioTitle}</StTitleh1>
               <StIconButton>
                 {props.hostid === props.userid ? (
                   <StButtonSection>
@@ -139,6 +139,22 @@ const StProfileContainer = styled.div`
 
 const StLowerContent = styled.div`
   margin-top: -40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Stfilter = styled.div`
+  margin-left: 10px;
+  border-radius: 20px;
+  padding: 10px;
+  width: 100px;
+  text-align: center;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #45be59, #18302d);
+  font-weight: bold;
+  color: white;
+  margin-top: -20px;
 `;
 
 const StContactButton = styled.div`
@@ -153,10 +169,20 @@ const StContactButton = styled.div`
 `;
 
 const StContact = styled.div`
+  position: relative;
   background-color: #f5f5f5;
   border-radius: 20px;
   padding: 30px;
-  margin-bottom: 30px;
+  width: 400px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    width: 400px;
+  }
+
+  @media (max-width: 479px) {
+    width: 250px;
+  }
 `;
 
 const StContactItem = styled.div`
@@ -189,6 +215,8 @@ const StHomeIcon = styled(Home)`
 
 const StTitle = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
 
   @media (max-width: 768px) {
@@ -201,8 +229,18 @@ const StTitle = styled.div`
   }
 `;
 
+const StTitleh1 = styled.h1`
+  /* font-size: 20px; */
+  font-weight: bold;
+  color: #333;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Stpart = styled.div`
   margin: 20px 0;
+  padding: 0 100px;
+  line-height: 1.5;
 `;
 
 const StIconButton = styled.div`

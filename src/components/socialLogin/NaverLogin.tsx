@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactComponent as Naverlogin } from '@src/assets/socailLogin/naverlogin.svg';
 
 // 함수 컴포넌트 정의
 const NaverLogin: React.FC = () => {
@@ -13,7 +14,7 @@ const NaverLogin: React.FC = () => {
 
   return (
     <div>
-      <button onClick={Naver}>네이버 로그인</button>
+      <Naverlogin onClick={Naver} />
     </div>
   );
 };
