@@ -55,30 +55,32 @@ const MyPortfolio = () => {
 
   return (
     <S.PageContainer>
-      <StMyPortfolioTopNav>
-        <StMyPortfolioPageTitle>My Portfolios</StMyPortfolioPageTitle>
-        <S.Button
-          onClick={onClickCreatePortfolio}
-          width="180px"
-          fontsize="16px"
-          padding="12px 10px"
-          fontweight="900"
-        >
-          새 포트폴리오 만들기
-        </S.Button>
-      </StMyPortfolioTopNav>
       {isMyPortfolioExist ? (
-        <StMyPortfolioContainer>
-          <S.PortfolioListContainer ismyportfolio="true">
-            {myPortfolioList?.map(portfolio => (
-              <MyPortfolioItem
-                key={portfolio.id}
-                item={portfolio}
-                onClickDeleteIcon={onClickDeleteIcon}
-              />
-            ))}
-          </S.PortfolioListContainer>
-        </StMyPortfolioContainer>
+        <>
+          <StMyPortfolioTopNav>
+            <StMyPortfolioPageTitle>My Portfolios</StMyPortfolioPageTitle>
+            <S.Button
+              onClick={onClickCreatePortfolio}
+              width="180px"
+              fontsize="16px"
+              padding="12px 10px"
+              fontweight="900"
+            >
+              새 포트폴리오 만들기
+            </S.Button>
+          </StMyPortfolioTopNav>
+          <StMyPortfolioContainer>
+            <S.PortfolioListContainer ismyportfolio="true">
+              {myPortfolioList?.map(portfolio => (
+                <MyPortfolioItem
+                  key={portfolio.id}
+                  item={portfolio}
+                  onClickDeleteIcon={onClickDeleteIcon}
+                />
+              ))}
+            </S.PortfolioListContainer>
+          </StMyPortfolioContainer>
+        </>
       ) : (
         <NoPortfolio />
       )}
