@@ -29,6 +29,7 @@ const Main = () => {
   const loadMoreData = useCallback(async () => {
     if (lastId - 10 > 0) {
       setIsMoreLoading(true);
+      // console.log('무한스크롤 함수 실행 라스트 id: ', lastId); // 66 -> 56
 
       let newData: PortfolioDataType[];
 
@@ -65,6 +66,8 @@ const Main = () => {
   const fetchLastId = async (filterKeyword?: string) => {
     const lastId = await getLastId({ category: selectedCategory, filter: filterKeyword });
     setLastId(lastId);
+    // console.log('lastId 체크 => ', lastId);
+
     return lastId;
   };
 
@@ -78,21 +81,11 @@ const Main = () => {
       return;
     }
 
-    let serverDataLastId = await fetchLastId();
-    let length10List: PortfolioDataType[] = [];
+    const serverDataLastId = await fetchLastId();
+    const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
+    setList(serverData);
 
-    while (length10List.length < 10) {
-      const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
-      length10List = [...length10List, ...serverData];
-      // console.log('firstMount while render test');
-
-      if (serverData.length < 10) {
-        serverDataLastId -= 10;
-        setLastId(serverDataLastId);
-      }
-    }
-
-    setList(length10List);
+    // console.log('fetchFirstMount 함수의 라스트 id => ', serverDataLastId);
     setIsDataLoading(false);
   };
 
