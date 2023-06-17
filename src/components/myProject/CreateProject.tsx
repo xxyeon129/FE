@@ -10,6 +10,7 @@ import { ReactComponent as Pol } from 'src/assets/pol-icon.svg';
 import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
+import imageCompression from 'browser-image-compression';
 
 const CreateProject: React.FC<{
   showModal1: boolean;
@@ -24,11 +25,19 @@ const CreateProject: React.FC<{
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [projectData, setProjectData] = useRecoilState(projectDataAtom);
 
-  const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
-      setImageList(fileList);
-      const previewURLs = fileList.map(file => URL.createObjectURL(file));
+      // 이미지 리사이징 처리
+      const options = {
+        maxSizeMB: 1,
+        // maxWidthOrHeight: 800,
+      };
+      const compressedImages = await Promise.all(
+        fileList.map(file => imageCompression(file, options))
+      );
+      setImageList(compressedImages);
+      const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
   };
