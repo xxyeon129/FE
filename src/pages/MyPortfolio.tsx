@@ -92,6 +92,7 @@ const MyPortfolio = () => {
           mainButtonText="취소"
           subButtonText="삭제하기"
           selectedId={selectedId}
+          type="multiline"
         />
       )}
     </S.PageContainer>

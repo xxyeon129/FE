@@ -9,6 +9,8 @@ import Signup from '@src/components/Signup';
 import MobileDropdownMenu from '@src/components/header/MobileDropdownMenu';
 import { MobileRow } from '@src/style/mediaQuery';
 import LogoutModal from '@src/components/nav/LogoutModal';
+import { ReactComponent as LogoutModalIcon } from '@src/assets/nav/logout-modal-icon.svg';
+import Modal from '@src/components/common/Modal';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
@@ -49,7 +51,16 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
         <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />
       )}
       {isSignUpModalOpen && <Signup onClose={onSignUpCloseModal} />}
-      {isLogoutModalOpen && <LogoutModal onClose={onLogoutCloseModal} />}
+      {/* TODO: BE 서버 문제 해결되면 모달 닫기 테스트, LogoutModal 삭제 */}
+      {/* {isLogoutModalOpen && <LogoutModal onClose={onLogoutCloseModal} />} */}
+      {isLogoutModalOpen && (
+        <Modal
+          Icon={LogoutModalIcon}
+          mainText="로그아웃 되었습니다."
+          mainButtonText="확인"
+          onClose={onLogoutCloseModal}
+        />
+      )}
     </StLayout>
   );
 };
