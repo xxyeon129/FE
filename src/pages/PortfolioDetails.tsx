@@ -56,6 +56,7 @@ function PortfolioDetails() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [imageLoadError, setImageLoadError] = useState<boolean>(false);
   const [updateComplete, setUpdateComplete] = useState(false);
+  const [category, setCategory] = useState(false);
 
   const projectData = useRecoilValue(projectDataAtom);
 
@@ -101,7 +102,7 @@ function PortfolioDetails() {
     const selprojects = response.data.data.projectList;
     const projectIdList = selprojects.map((project: { id: string }) => parseInt(project.id));
 
-    console.log(response.data.data);
+    console.log('get :', response.data.data);
 
     setPortId(response.data.data.id);
     setHostid(response.data.data.userId);
@@ -120,6 +121,7 @@ function PortfolioDetails() {
     setProFileImage(response.data.data.profileImage || (User as string));
     setPortfolioImagePreview(response.data.data.portfolioImage);
     setFilter(response.data.data.filter);
+    setCategory(response.data.data.category);
 
     if (techStack) {
       setTechStack(response.data.data.techStack.split(','));
@@ -144,6 +146,8 @@ function PortfolioDetails() {
       youtubeUrl: youtube,
       blogUrl: blog,
       projectIdList,
+      filter,
+      category,
     };
 
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
