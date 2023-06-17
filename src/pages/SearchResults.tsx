@@ -7,7 +7,7 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import * as S from '@src/style/common/commonStyles';
 import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
-
+import { PageContainer } from '@src/style/common/commonStyles';
 interface PortfolioData {
   content: PortfolioDataType[];
   totalPages: number;
@@ -26,9 +26,7 @@ const SearchResults = () => {
     console.log(pageData);
     console.log(searchTermData);
   };
-
   // 초기 상태일 때는 검색어 x -> handlePageButtonClick => searchTermData 빈값이어서 전체 데이타 불러와지고 ->검색어 입력 searchTermState 변화 -> [searchTermData] 의존성 배열때문에  handlePageButtonClick(1); 실행됨
-
   useEffect(() => {
     handlePageButtonClick(1);
   }, [searchTermData]);
@@ -77,7 +75,6 @@ const SearchResults = () => {
           </StButtonContainer>
         </StContainer>
       </DesktopAndTablet>
-
       <MobileRow>
         <StContainerMobile>
           <StHeader>
@@ -92,13 +89,15 @@ const SearchResults = () => {
                   <h2>모든 포트폴리오입니다.</h2>
                 )}
               </StHeader>
-              <StLayout>
-                <S.PortfolioListContainer>
-                  {portfolioData.content.map(portfolio => (
-                    <PortfolioItem key={portfolio.id} item={portfolio} />
-                  ))}
-                </S.PortfolioListContainer>
-              </StLayout>
+              <PageContainer>
+                <StLayout>
+                  <S.PortfolioListContainer>
+                    {portfolioData.content.map(portfolio => (
+                      <PortfolioItem key={portfolio.id} item={portfolio} />
+                    ))}
+                  </S.PortfolioListContainer>
+                </StLayout>
+              </PageContainer>
             </>
           ) : (
             <StHeader>
