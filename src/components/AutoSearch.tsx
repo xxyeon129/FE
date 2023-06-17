@@ -136,10 +136,6 @@ const StSearch = styled.div`
     background: none;
     font-size: 16px;
     max-width: 140px;
-
-    @media ${({ theme }) => theme.size.mobileRow} {
-      display: none;
-    }
   }
 
   svg {
@@ -147,10 +143,8 @@ const StSearch = styled.div`
     height: 24px;
     fill: none;
   }
-
-  @media ${({ theme }) => theme.size.mobileRow} {
-    width: 50px;
-    padding: 0;
+  @media (max-width: 768px) {
+    height: 20px;
   }
 `;
 
