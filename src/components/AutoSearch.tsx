@@ -136,6 +136,11 @@ const StSearch = styled.div`
     background: none;
     font-size: 16px;
     max-width: 140px;
+
+    &:focus::placeholder {
+      font-size: 0.8em;
+      transition: font-size 0.4s;
+    }
   }
 
   svg {
