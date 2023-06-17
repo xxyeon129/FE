@@ -137,8 +137,9 @@ const StSearch = styled.div`
     font-size: 16px;
     max-width: 140px;
 
-    @media ${({ theme }) => theme.size.mobileRow} {
-      display: none;
+    &:focus::placeholder {
+      font-size: 0.8em;
+      transition: font-size 0.4s;
     }
   }
 
@@ -147,10 +148,8 @@ const StSearch = styled.div`
     height: 24px;
     fill: none;
   }
-
-  @media ${({ theme }) => theme.size.mobileRow} {
-    width: 50px;
-    padding: 0;
+  @media (max-width: 768px) {
+    height: 20px;
   }
 `;
 

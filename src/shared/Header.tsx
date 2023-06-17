@@ -5,6 +5,7 @@ import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
 import { ReactComponent as Logo } from '@src/assets/logo.svg';
 import HeaderListItem from '@src/components/header/HeaderListItem';
 import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
+import AutoSearch from '@src/components/AutoSearch';
 
 interface HeaderProps {
   onClickMobileMenu: () => void;
@@ -31,11 +32,13 @@ const Header = ({ onClickMobileMenu }: HeaderProps) => {
           <HeaderListItem liWidth="130px" />
         </StUnorderedList>
       </DesktopAndTablet>
-
       <MobileRow>
-        <StMobileMenuContainer>
-          <StMobileMenu onClick={onClickMobileMenu}>Menu</StMobileMenu>
-        </StMobileMenuContainer>
+        <>
+          <AutoSearch />
+          <StMobileMenuContainer>
+            <StMobileMenu onClick={onClickMobileMenu}>Menu</StMobileMenu>
+          </StMobileMenuContainer>
+        </>
       </MobileRow>
     </StHeader>
   );

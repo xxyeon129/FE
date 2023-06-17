@@ -21,6 +21,8 @@ export interface UserData {
   nickname: string;
   email: string;
   profileImage: string;
+  naverId: number;
+  kakaoId: number;
 }
 interface ErrorResponse {
   errorMessage: string;
@@ -53,9 +55,6 @@ const MyPage = () => {
       setPreviewImage(data.profileImage || user);
     }
   }, [data]);
-
-  console.log(data);
-
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {
       setShowUpdateModal(true);
@@ -135,15 +134,10 @@ const MyPage = () => {
     formData.append('nickname', nicknameBlob);
     console.log(profileImage);
     formData.append('profileImage', profileImage as Blob);
-
-    try {
-      await updateUserMutation.mutateAsync([formData, Number(id)]);
-      refetch();
-      setIsEditing(false);
-      setMyPageEdit(true);
-    } catch (err) {
-      console.log(err);
-    }
+    await updateUserMutation.mutateAsync([formData, Number(id)]);
+    refetch();
+    setIsEditing(false);
+    setMyPageEdit(true);
   };
 
   const handleEditClick = () => {
@@ -191,20 +185,25 @@ const MyPage = () => {
               handleNicknameChange={nickname.onChange}
               handleSubmit={handleSubmit}
             />
-            <StMid></StMid>
-            <PassWordEditForm
-              handleCurrentPasswordChange={oldpassword.onChange}
-              handlePasswordChange={newpassword.onChange}
-              handlePasswordCheckChange={checknewpassword.onChange}
-              handleSavePassword={handleSavePassword}
-              oldpassword={oldpassword.value}
-              newpassword={newpassword.value}
-              checknewpassword={checknewpassword.value}
-              oldpasswordError={oldpassword.error}
-              newpasswordError={newpassword.error}
-              checknewpasswordError={checknewpassword.error}
-              apiError={apiError}
-            />
+            {/* <StMid></StMid> */}
+            {data?.kakaoId === null && data?.naverId === null && (
+              <>
+                <StMid></StMid>
+                <PassWordEditForm
+                  handleCurrentPasswordChange={oldpassword.onChange}
+                  handlePasswordChange={newpassword.onChange}
+                  handlePasswordCheckChange={checknewpassword.onChange}
+                  handleSavePassword={handleSavePassword}
+                  oldpassword={oldpassword.value}
+                  newpassword={newpassword.value}
+                  checknewpassword={checknewpassword.value}
+                  oldpasswordError={oldpassword.error}
+                  newpasswordError={newpassword.error}
+                  checknewpasswordError={checknewpassword.error}
+                  apiError={apiError}
+                />
+              </>
+            )}
           </StLayout>
         </StMyPageEditBox>
       ) : (
