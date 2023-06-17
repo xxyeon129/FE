@@ -1,15 +1,13 @@
-import axios from 'axios';
-import React from 'react';
 import { useEffect } from 'react';
+import { kakaoLogin } from '@src/apis/user';
 
 function RedirectionKakao() {
-  const code = new URL(window.location.href).searchParams.get('code');
-  console.log(code);
+  const params = new URL(document.location.toString()).searchParams;
+  const CODE = params.get('code');
 
   const authKakaoLogin = async (code: string) => {
     try {
-      const response = await axios.get(`https://ppol.pro/api/users/kakao&response_type=${code}`);
-      console.log(response);
+      const response = await kakaoLogin(code);
       const accesstoken = response.headers['accesstoken'];
       localStorage.setItem('accesstoken', accesstoken);
       return response;
@@ -19,12 +17,10 @@ function RedirectionKakao() {
   };
 
   useEffect(() => {
-    if (code) {
-      authKakaoLogin(code);
-    }
-  }, [code]);
+    CODE && authKakaoLogin(CODE);
+  }, []);
 
-  return <div></div>;
+  return <></>;
 }
 
 export default RedirectionKakao;

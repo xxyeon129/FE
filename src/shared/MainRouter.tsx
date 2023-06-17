@@ -13,7 +13,7 @@ import PortfolioDetails from '@src/pages/PortfolioDetails';
 import MyPortfolio from '@src/pages/MyPortfolio';
 import CreatePortfolio from '@src/pages/CreatePortfolio';
 import Login from '@src/pages/Login';
-import KakaoAuth from '@src/components/auth/KakaoAuth';
+import TestKaKaoLoginRedirect from '@src/components/auth/TestKaKaoLoginRedirect';
 import TestKakaoLogin from '@src/components/auth/TestKakaoLogin';
 import RedirectionNaver from '@src/components/socialLogin/RedirectionNaver';
 
@@ -33,8 +33,7 @@ const MainRouter = () => {
             <Route path={PATH_URL.MY_PORTFOLIO_PATH} element={<MyPortfolio />} />
             <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
             <Route path="*" element={<Login />} />
-            <Route path={PATH_URL.KAKAO_AUTH} element={<KakaoAuth />} />
-            <Route path="/test/kakao" element={<TestKakaoLogin />} />
+            <Route path={PATH_URL.KAKAO_AUTH} element={<TestKaKaoLoginRedirect />} />
             <Route path="/api/users/naver" element={<RedirectionNaver />}></Route>
           </Routes>
         </Layout>
