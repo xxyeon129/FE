@@ -16,7 +16,6 @@ import MyPageInfo from '@src/components/myPage/MypageInfo';
 import ProfileEditForm from '@src/components/myPage/ProfileEditForm';
 import PassWordEditForm from '@src/components/myPage/PassWordEditForm';
 import { useInput } from 'src/Hook/useInput';
-import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
 import { refreshToken } from '@src/apis/token';
 export interface UserData {
   nickname: string;
@@ -54,6 +53,8 @@ const MyPage = () => {
       setPreviewImage(data.profileImage || user);
     }
   }, [data]);
+
+  console.log(data);
 
   const updateUserMutation = useMutation(updateUser, {
     onSuccess: () => {

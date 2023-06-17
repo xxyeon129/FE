@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { SERVER_URL } from '@src/constants/constants';
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
+import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
 
 type LoginProps = {
   onClose: () => void;
@@ -89,7 +90,8 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
 
           <StButtonSection>
             <TabletAndMobile>
-              <CloseButton onClick={onButtonClick}>닫기</CloseButton>
+              {/* <CloseButton onClick={onButtonClick}>닫기</CloseButton> */}
+              <StDotIcon onClick={onButtonClick} />
             </TabletAndMobile>
           </StButtonSection>
         </StTitleAndButtonSection>
@@ -181,6 +183,24 @@ const StTitleAndButtonSection = styled.div`
 const StButtonSection = styled.div`
   display: flex;
   justify-content: flex-end;
+  position: relative;
+`;
+
+const StDotIcon = styled(Dot)`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(10%, -100%);
+  width: 20px;
+  height: 20px;
+  fill: #ccc;
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translate(10%, -90%);
+  }
 `;
 
 const StModalContent = styled.form`
@@ -195,19 +215,19 @@ const StModalContent = styled.form`
   @media (max-width: 1023px) {
     height: 600px;
     width: 500px;
-    padding: 20px;
+    padding: 50px;
   }
 
   @media (max-width: 767px) {
     height: 500px;
     width: 400px;
-    padding: 20px;
+    padding: 50px;
   }
 
   @media (max-width: 479px) {
     height: 500px;
     width: 400px;
-    padding: 20px;
+    padding: 50px;
   }
 `;
 
@@ -221,7 +241,7 @@ const StModalTitle = styled.h1`
   }
 
   @media (max-width: 479px) {
-    font-size: 15px;
+    font-size: 18px;
   }
 `;
 
@@ -240,22 +260,17 @@ const StInput = styled.input`
   width: 100%;
 
   @media (max-width: 1023px) {
+    margin-bottom: -10px;
   }
 
   @media (max-width: 479px) {
+    margin-bottom: -10px;
   }
 `;
 
 const LoginButton = styled.button`
   ${buttonStyle}
   width: 100%;
-  height: 40px;
-  margin: 20px 0;
-`;
-
-const CloseButton = styled.button`
-  ${buttonStyle}
-  width: 100px;
   height: 40px;
   margin: 20px 0;
 `;

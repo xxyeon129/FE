@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
 import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
+import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
 
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
 
@@ -152,7 +153,8 @@ function Signup({ onClose }: SignupProps) {
 
           <StButtonSection>
             <TabletAndMobile>
-              <CloseButton onClick={onButtonClick}>닫기</CloseButton>
+              <StDotIcon onClick={onButtonClick} />
+              {/* <CloseButton onClick={onButtonClick}>닫기</CloseButton> */}
             </TabletAndMobile>
           </StButtonSection>
         </StTitleAndButtonSection>
@@ -331,6 +333,24 @@ const StTitleAndButtonSection = styled.div`
 const StButtonSection = styled.div`
   display: flex;
   justify-content: flex-end;
+  position: relative;
+`;
+
+const StDotIcon = styled(Dot)`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -200%);
+  width: 20px;
+  height: 20px;
+  fill: #ccc;
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translate(50%, -190%);
+  }
 `;
 
 const StInputSection = styled.div`
@@ -431,24 +451,11 @@ const StSubmitButton = styled.button`
 const StButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  /* margin-top: 50px; */
-
-  @media (max-width: 1023px) {
-    /* margin-top: 30px; */
-  }
-
-  @media (max-width: 767px) {
-    /* margin-top: 20px; */
-  }
-
-  @media (max-width: 479px) {
-    /* margin-top: 10px; */
-  }
 `;
 
-const CloseButton = styled.button`
-  ${buttonStyle}
-  width: 80px;
-  height: 30px;
-  margin: 20px 0;
-`;
+// const CloseButton = styled.button`
+//   ${buttonStyle}
+//   width: 80px;
+//   height: 30px;
+//   margin: 20px 0;
+// `;
