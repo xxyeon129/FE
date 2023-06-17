@@ -29,7 +29,7 @@ const ProjectModal: React.FC<{
   showModal: boolean;
   projectId: number | null;
   setShowModal: (showModal: boolean) => void;
-}> = ({ showModal, setShowModal, projectId }) => {
+}> = React.memo(({ showModal, setShowModal, projectId }) => {
   const [isEditable, setIsEditable] = useState(false);
   const title = useInput('');
   const term = useInput('');
@@ -39,7 +39,6 @@ const ProjectModal: React.FC<{
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const accessToken = localStorage.getItem('accesstoken') || '';
-
   const handleEdit = () => {
     if (accessToken) {
       setIsEditable(!isEditable);
@@ -121,13 +120,14 @@ const ProjectModal: React.FC<{
       const fileList = Array.from(e.target.files);
       // 이미지 리사이징 처리
       const options = {
-        maxSizeMB: 1,
+        maxSizeMB: 0.5,
         // maxWidthOrHeight: 800,
       };
       const compressedImages = await Promise.all(
         fileList.map(file => imageCompression(file, options))
       );
       setImageList(compressedImages);
+      console.log(fileList);
       const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
@@ -139,6 +139,7 @@ const ProjectModal: React.FC<{
   };
 
   const handleSubmit = async () => {
+    const refreshToken = localStorage.getItem('refreshtoken');
     if (!refreshToken) {
       alert('로그인이 필요합니다.');
       return;
@@ -204,8 +205,8 @@ const ProjectModal: React.FC<{
                 )}
                 {isEditable && (
                   <StBottom>
-                    <StGoodButton onClick={handleSubmit}>수정완료</StGoodButton>
                     <StBadButton onClick={handleEdit}>취소</StBadButton>
+                    <StGoodButton onClick={handleSubmit}>수정완료</StGoodButton>
                   </StBottom>
                 )}
               </StLayout>
@@ -215,7 +216,7 @@ const ProjectModal: React.FC<{
       )}
     </>
   );
-};
+});
 export default ProjectModal;
 
 const ModalWrapper = styled.div`
@@ -326,10 +327,11 @@ const StBadButton = styled.button`
   font-style: normal;
   font-weight: 800;
   font-size: 20px;
-  color: gray;
+  background-color: #c7c7c7;
 
   &:hover {
     background-color: #d3d3d3;
+    color: white;
   }
 
   @media (max-width: 768px) {

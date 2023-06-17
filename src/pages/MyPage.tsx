@@ -134,14 +134,10 @@ const MyPage = () => {
     formData.append('nickname', nicknameBlob);
     console.log(profileImage);
     formData.append('profileImage', profileImage as Blob);
-    // try {
     await updateUserMutation.mutateAsync([formData, Number(id)]);
     refetch();
     setIsEditing(false);
     setMyPageEdit(true);
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
   const handleEditClick = () => {
