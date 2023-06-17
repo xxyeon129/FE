@@ -47,7 +47,7 @@ const Home = () => {
     let lastId = await getLastId({ category: 'All' });
     let length10List: PortfolioDataType[] = [];
 
-    while (length10List.length < 10) {
+    while (length10List.length < 10 && lastId >= 0) {
       const latestPortfolioData = await getAllList({ lastId, category: 'All' });
       length10List = [...length10List, ...latestPortfolioData];
 
