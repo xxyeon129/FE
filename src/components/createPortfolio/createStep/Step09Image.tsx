@@ -37,6 +37,7 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [isImageExist, setIsImageExist] = useState(false);
+  const [isLoadingCompressedImage, setIsLoadingCompressedImage] = useState(false);
   const navigate = useNavigate();
   const resetRecoilValues = useResetCreatePortfolioRecoilValues();
 
@@ -76,16 +77,19 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
       new Blob([JSON.stringify(inputData)], { type: 'application/json' })
     );
 
+    setIsLoadingCompressedImage(true);
     let compressedImageFile;
     imageFile && (compressedImageFile = await useImageCompress(imageFile));
-
     compressedImageFile && formData.append('portfolioImage', compressedImageFile);
+    setIsLoadingCompressedImage(false);
 
     return formData;
   };
 
   const onSubmitFormData = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (isLoadingCompressedImage) return;
+
     const formData = await handleFormData();
 
     try {
@@ -152,7 +156,12 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
       </S.ContentContainer>
       <S.ButtonContainer>
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.EIGHT)} />
-        <NextStepButton onClick={onSubmitFormData} text="완료" notAllowed={`${isNoImageFile}`} />
+        <NextStepButton
+          onClick={onSubmitFormData}
+          text="완료"
+          notAllowed={`${isNoImageFile || isLoadingCompressedImage}`}
+          isLoading={isLoadingCompressedImage}
+        />
       </S.ButtonContainer>
     </S.Container>
   );
