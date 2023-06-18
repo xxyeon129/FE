@@ -263,6 +263,7 @@ const StProFileImage = styled.img`
   border: 2px solid white;
   background-color: white;
   margin-top: -150px;
+  object-fit: cover;
 `;
 
 const StButtonSection = styled.div`
