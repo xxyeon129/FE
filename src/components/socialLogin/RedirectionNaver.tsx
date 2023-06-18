@@ -14,8 +14,8 @@ function RedirectionNaver() {
       console.log(response);
       const accesstoken = response.headers['accesstoken'];
       localStorage.setItem('accesstoken', accesstoken);
-      const refreshToken = response.headers['refreshToken'];
-      localStorage.setItem('refreshToken', refreshToken);
+      const refreshtoken = response.headers['refreshtoken'];
+      localStorage.setItem('refreshtoken', refreshtoken);
       return response;
     } catch (error) {
       console.log(error);
