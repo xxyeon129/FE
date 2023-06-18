@@ -158,6 +158,7 @@ const ProjectModal: React.FC<{
     formData.append('images', imageBlob);
 
     await updateProjectMutation.mutateAsync(formData);
+    // setShowModal(false);
   };
 
   const handleCloseModal = () => {
