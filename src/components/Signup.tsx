@@ -6,6 +6,8 @@ import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
 import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
 
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
+import LoginNowModal from './LoginNowModal';
+import { useNavigate } from 'react-router-dom';
 
 type SignupProps = {
   onClose: () => void;
@@ -20,6 +22,8 @@ function Signup({ onClose }: SignupProps) {
   const [emailSuccessCheck, setEmailSuccessCheck] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [loginNow, setLoginNow] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const modalRef = useRef(null);
   const [errors, setErrors] = useState({
@@ -37,7 +41,8 @@ function Signup({ onClose }: SignupProps) {
         nickname,
       });
       alert('회원가입 성공');
-      onClose();
+      setLoginNow(true);
+      // onClose();
       return response;
     } catch (error) {
       alert('회원가입 실패 ');
@@ -264,6 +269,14 @@ function Signup({ onClose }: SignupProps) {
           <StSubmitButton>가입하기</StSubmitButton>
         </StButtonContainer>
       </StModalContent>
+      {loginNow && (
+        <LoginNowModal
+          email={email}
+          password={password}
+          onCloseModal={() => setLoginNow(false)}
+          onSiginupClose={onClose}
+        />
+      )}
     </StModalWrapper>
   );
 }
@@ -305,6 +318,7 @@ const StModalContent = styled.form`
   height: 700px;
   width: 600px;
   align-items: center;
+  overflow: hidden;
 
   @media (max-width: 1023px) {
     width: 500px;
