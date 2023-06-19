@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { ProjectDetailData } from './ProjectDetail';
 import { ImageType } from './ProjectDetail';
 import { ReactComponent as Edit } from 'src/assets/project-edit.svg';
-
+import { ReactComponent as NickNameIcon } from 'src/assets/getproject-nickname.svg';
 interface ProjectDetailProps {
   projectData: ProjectDetailData | undefined;
   handleEdit: () => void;
@@ -29,6 +29,10 @@ export const GetProject: React.FC<ProjectDetailProps> = ({
           {accessToken && userId === projectData?.userId && <Edit onClick={handleEdit}></Edit>}
           <h1>{projectData?.title}</h1>
           <p>{projectData?.term}</p>
+          <StNickName>
+            <NickNameIcon />
+            <p>{projectData?.nickname}</p>
+          </StNickName>
         </StGetHeader>
       </StGetImageContainer>
       <div>
@@ -166,4 +170,11 @@ const StGetTextWrap = styled.div`
     font-weight: 400;
     font-size: 15px;
   }
+`;
+
+const StNickName = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 `;
