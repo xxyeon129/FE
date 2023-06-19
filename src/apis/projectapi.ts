@@ -10,7 +10,6 @@ export const createProject = async (formData: FormData) => {
         Authorization: asyncAccessToken as AxiosHeaderValue,
       },
     });
-    // console.log(response.data);
     return response.data;
   } catch (error: unknown) {
     return error;

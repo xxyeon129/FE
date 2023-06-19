@@ -17,7 +17,8 @@ const CreateProject: React.FC<{
   setShowModal1: (showModal1: boolean) => void;
 }> = React.memo(({ showModal1, setShowModal1 }) => {
   const title = useInput('');
-  const term = useInput('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const people = useInput('');
   const position = useInput('');
   const description = useInput('');
@@ -28,10 +29,8 @@ const CreateProject: React.FC<{
   const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
-      // 이미지 리사이징 처리
       const options = {
         maxSizeMB: 0.5,
-        // maxWidthOrHeight: 800,
       };
       const compressedImages = await Promise.all(
         fileList.map(file => imageCompression(file, options))
@@ -53,7 +52,7 @@ const CreateProject: React.FC<{
       const imageBlob = new Blob(imageList);
       const text = JSON.stringify({
         title: title.value,
-        term: term.value,
+        term: `${startDate?.toLocaleDateString()} - ${endDate?.toLocaleDateString()}`,
         people: people.value,
         position: position.value,
         description: description.value,
@@ -87,8 +86,8 @@ const CreateProject: React.FC<{
       title.setErrorText('제목을 입력하세요');
       return;
     }
-    if (!term.value) {
-      term.setErrorText('기간을 입력하세요');
+    if (!startDate || !endDate) {
+      alert('시작일과 마감일을 선택하세요');
       return;
     }
     if (!people.value) {
@@ -126,7 +125,7 @@ const CreateProject: React.FC<{
   return (
     <>
       {showModal1 && (
-        <ModalWrapper>
+        <ModalWrapper onClick={keepModalWindow}>
           <ModalContent onClick={keepModalWindow}>
             <StLayout>
               <StHeader>
@@ -140,7 +139,11 @@ const CreateProject: React.FC<{
               <StTextBox>
                 <FormFields
                   title={title}
-                  term={term}
+                  // term={term}
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                  endDate={endDate}
+                  setEndDate={setEndDate}
                   people={people}
                   position={position}
                   description={description}
