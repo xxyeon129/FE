@@ -79,6 +79,7 @@ const ProjectModal: React.FC<{
       }
       if (!startDate || !endDate) {
         alert('시작일과 마감일을 선택하세요');
+        throw new Error();
         return;
       }
       if (!people.value) {
