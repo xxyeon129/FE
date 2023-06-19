@@ -39,7 +39,9 @@ const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) =
             <StDeleteIcon />
           </StIconContainer>
         )}
-        {project.projectImageList.length !== 0 && !imageLoadError ? (
+        {project.projectImageList.length !== 0 &&
+        project.projectImageList !== null &&
+        !imageLoadError ? (
           <StProjectImg
             src={project.projectImageList[0].imageUrl}
             onError={onImageError}
