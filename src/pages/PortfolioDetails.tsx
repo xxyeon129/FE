@@ -60,7 +60,7 @@ function PortfolioDetails() {
 
   const projectData = useRecoilValue(projectDataAtom);
 
-  console.log('겟이미지', getPortfolioImage);
+  // console.log('겟이미지', getPortfolioImage);
 
   useEffect(() => {
     if (projectData !== null) {
@@ -101,8 +101,6 @@ function PortfolioDetails() {
     const newProjectData = projects.map((item: { id: number }) => item.id);
     const selprojects = response.data.data.projectList;
     const projectIdList = selprojects.map((project: { id: string }) => parseInt(project.id));
-
-    console.log('get :', response.data.data);
 
     setPortId(response.data.data.id);
     setHostid(response.data.data.userId);

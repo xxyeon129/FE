@@ -65,6 +65,8 @@ const StTextarea = styled.textarea`
   border-radius: 10px;
   padding: 15px;
   outline: none;
+  font-size: 16px;
+  line-height: 160%;
 
   &:focus {
     outline: 2px solid;

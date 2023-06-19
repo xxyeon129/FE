@@ -1,10 +1,7 @@
 export const PATH_URL = {
   HOME: '/',
   MAIN: '/main',
-  DETAIL_PATH: '/detail/:id',
-  DETAIL: '/detail',
   TEST: '/test',
-  HYO: 'hyo',
   PORTFOLIODETAIL: '/portfolio/detail/:id',
   PORTFOLIO_DETAIL: '/portfolio/detail',
   PORTFOLIODETAILEDIT: '/portedit',
@@ -16,7 +13,8 @@ export const PATH_URL = {
   MY_PORTFOLIO: '/myportfolio',
   MY_PORTFOLIO_PATH: '/myportfolio/:id',
   CREATE_PORTFOLIO: '/myportfolio/create',
-  KAKAO_AUTH: '/auth/kakao',
+  KAKAO_AUTH: '/api/users/kakao',
+  NAVER_AUTH: '/api/users/naver',
 };
 
 export const SERVER_URL = import.meta.env.VITE_API_URL;

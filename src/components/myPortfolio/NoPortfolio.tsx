@@ -1,6 +1,8 @@
 import { PATH_URL } from '@src/constants/constants';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { ReactComponent as NotFoundIcon } from '@src/assets/not-found-icon.svg';
+import { Button } from '@src/style/common/commonStyles';
 
 const NoPortfolio = () => {
   const navigate = useNavigate();
@@ -10,22 +12,30 @@ const NoPortfolio = () => {
   };
 
   return (
-    <StNoPortfolioContainer>
+    <StNoPortfolio>
+      <NotFoundIcon />
       <StNoPortfolioText>
         작성하신 포트폴리오가 없습니다.
         <br />
         폴과 함께 작성해보세요!
       </StNoPortfolioText>
-      <StCreatePortfolioButton onClick={onClickCreatePortfolioButton}>
+      <Button
+        onClick={onClickCreatePortfolioButton}
+        width="250px"
+        fontsize="20px"
+        padding="15px 0"
+        responsivewidth="200px"
+        responsivefontsize="18px"
+      >
         포트폴리오 작성하기
-      </StCreatePortfolioButton>
-    </StNoPortfolioContainer>
+      </Button>
+    </StNoPortfolio>
   );
 };
 
-const StNoPortfolioContainer = styled.div`
+const StNoPortfolio = styled.div`
   width: 100%;
-  height: 80vh;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -33,23 +43,27 @@ const StNoPortfolioContainer = styled.div`
   align-items: center;
 `;
 
-const StNoPortfolioText = styled.h3`
+const StNoPortfolioText = styled.h2`
   text-align: center;
-  line-height: 30px;
-`;
+  font-weight: 800;
+  line-height: 160%;
+  margin-bottom: 35px;
 
-const StCreatePortfolioButton = styled.button`
-  font-size: 18px;
-  margin-top: 15px;
-  font-weight: bold;
-  background-color: ${({ theme }) => theme.color.neonGreen};
-  border-radius: 50px;
-  padding: 15px 25px;
-
-  &:hover {
+  @media ${({ theme }) => theme.size.mobileColumn} {
     transition: 0.5s;
-    color: white;
-    background-color: ${({ theme }) => theme.color.lightGreen};
+    font-size: 18px;
+  }
+  @media screen and (max-width: 400px) {
+    transition: 0.5s;
+    font-size: 17px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 15px;
+  }
+  @media screen and (max-width: 370px) {
+    transition: 0.5s;
+    font-size: 14px;
   }
 `;
 
