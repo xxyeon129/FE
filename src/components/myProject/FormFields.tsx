@@ -2,6 +2,10 @@ import React from 'react';
 import { InputField } from './InputField';
 import { TextAreaField } from './TextAreaField';
 import { ChangeEvent } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { styled } from 'styled-components';
+// import Calendar from 'src/components/myProject/Calender';
 
 interface FormFieldsProps {
   title: {
@@ -10,12 +14,16 @@ interface FormFieldsProps {
     error: string;
     setErrorText: (text: string) => void;
   };
-  term: {
-    value: string;
-    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    error: string;
-    setErrorText: (text: string) => void;
-  };
+  // term: {
+  //   value: string;
+  //   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  //   error: string;
+  //   setErrorText: (text: string) => void;
+  // };
+  startDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+  endDate: Date | null;
+  setEndDate: (date: Date | null) => void;
   people: {
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -38,7 +46,11 @@ interface FormFieldsProps {
 
 export const FormFields: React.FC<FormFieldsProps> = ({
   title,
-  term,
+  // term,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
   people,
   position,
   description,
@@ -52,13 +64,31 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         placeholder="프로젝트 제목을 입력하세요"
         error={title.error}
       />
-      <InputField
-        title="프로젝트 기간"
-        value={term.value}
-        onChange={term.onChange}
-        placeholder="프로젝트 기간을 입력하세요"
-        error={term.error}
-      />
+      <DatePickerWrapper>
+        <StTitle>프로젝트 기간</StTitle>
+        <StInputWrapper>
+          <DatePicker
+            selected={startDate}
+            onChange={date => setStartDate(date)}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            dateFormat="yyyy/MM/dd"
+            placeholderText="시작일"
+          />
+          <DatePicker
+            selected={endDate}
+            onChange={date => setEndDate(date)}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            minDate={startDate}
+            dateFormat="yyyy/MM/dd"
+            placeholderText="마감일"
+          />
+        </StInputWrapper>
+      </DatePickerWrapper>
+
       <InputField
         title="프로젝트 인원"
         value={people.value}
@@ -83,3 +113,41 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     </>
   );
 };
+const DatePickerWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .react-datepicker__input-container input {
+    width: 100%;
+    height: 40px;
+    left: 55px;
+    top: 326px;
+    background: #ffffff;
+    border: 1px solid rgba(203, 203, 203, 0.7);
+    border-radius: 6px;
+    padding: 10px;
+
+    &:focus::placeholder {
+      font-size: 0.8em;
+      transition: font-size 0.3s;
+    }
+  }
+  .react-datepicker-wrapper,
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+`;
+
+const StTitle = styled.div`
+  font-weight: bold;
+  font-size: 15px;
+  width: 100%;
+  margin-bottom: 1px;
+`;
+
+const StInputWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 100%;
+`;
