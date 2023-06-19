@@ -5,7 +5,7 @@ import { loginState } from '@src/states';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
 
-function RedirectionKakao() {
+const RedirectionKakao = () => {
   const params = new URL(document.location.toString()).searchParams;
   const CODE = params.get('code');
 
@@ -30,6 +30,6 @@ function RedirectionKakao() {
   }, []);
 
   return <></>;
-}
+};
 
 export default RedirectionKakao;
