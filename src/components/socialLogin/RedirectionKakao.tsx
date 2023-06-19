@@ -15,10 +15,15 @@ const RedirectionKakao = () => {
   const authKakaoLogin = async (code: string) => {
     try {
       const response = await kakaoLogin(code);
+
       const accesstoken = response.headers['accesstoken'];
+      const refreshToken = response.headers['refreshtoken'];
       localStorage.setItem('accesstoken', accesstoken);
+      localStorage.setItem('refreshtoken', refreshToken);
+
       setIsLogin(true);
       navigate(PATH_URL.HOME);
+
       return response;
     } catch (error) {
       console.log(error);
