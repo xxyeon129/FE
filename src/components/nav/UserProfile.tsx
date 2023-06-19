@@ -8,7 +8,9 @@ import { loginState } from '@src/states';
 import { myPageEditState } from '@src/states/myPageEditState';
 import { DesktopAndTablet } from '@src/style/mediaQuery';
 
-const UserProfile = () => {
+const UserProfile: React.FC<{
+  setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setIsLoginModalOpen }) => {
   const isLogin = useRecoilValue<boolean>(loginState);
   const [isExistToken, setIsExistToken] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +24,11 @@ const UserProfile = () => {
   const [userData, setUserData] = useState(initialUserProfile);
 
   let userId: null | number = null;
+
+  const onLoginModalOpen = () => {
+    const isNotLogin = !isExistToken;
+    isNotLogin && setIsLoginModalOpen(true);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('accesstoken');
@@ -49,10 +56,10 @@ const UserProfile = () => {
       {isExistToken && userData.profileImage !== null ? (
         <StProfileImg src={userData.profileImage} alt="user profile image" />
       ) : (
-        !isLoading && <StProfileIcon />
+        !isLoading && <StProfileIcon onClick={onLoginModalOpen} />
       )}
       <DesktopAndTablet>
-        <StProfileTextContainer>
+        <StProfileTextContainer onClick={onLoginModalOpen}>
           {!isLoading && <StUserName>{userData.nickname}</StUserName>}
           <StUserEmail>{userData.email}</StUserEmail>
         </StProfileTextContainer>
@@ -80,6 +87,7 @@ const StProfileImg = styled.img`
 
 const StProfileIcon = styled(ProfileIcon)`
   flex-shrink: 0;
+  cursor: pointer;
 `;
 
 const StProfileTextContainer = styled.div`
