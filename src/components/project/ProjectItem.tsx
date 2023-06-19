@@ -119,11 +119,17 @@ const StProjectTitle = styled.div`
   font-weight: bold;
   font-size: 19px;
   color: ${({ theme }) => theme.color.fontColor};
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const StProjectPosition = styled.div`
   color: #adadad;
   font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const StBottomDescription = styled.div`

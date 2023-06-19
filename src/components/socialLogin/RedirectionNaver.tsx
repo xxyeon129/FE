@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useEffect } from 'react';
 
-function RedirectionNaver() {
+const RedirectionNaver = () => {
   const code = new URL(window.location.href).searchParams.get('code');
   console.log(code);
 
@@ -14,8 +14,8 @@ function RedirectionNaver() {
       console.log(response);
       const accesstoken = response.headers['accesstoken'];
       localStorage.setItem('accesstoken', accesstoken);
-      const refreshToken = response.headers['refreshToken'];
-      localStorage.setItem('refreshToken', refreshToken);
+      const refreshtoken = response.headers['refreshtoken'];
+      localStorage.setItem('refreshtoken', refreshtoken);
       return response;
     } catch (error) {
       console.log(error);
@@ -29,6 +29,6 @@ function RedirectionNaver() {
   }, [code]);
 
   return <div></div>;
-}
+};
 
 export default RedirectionNaver;

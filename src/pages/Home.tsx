@@ -47,7 +47,7 @@ const Home = () => {
     let lastId = await getLastId({ category: 'All' });
     let length10List: PortfolioDataType[] = [];
 
-    while (length10List.length < 10) {
+    while (length10List.length < 10 && lastId >= 0) {
       const latestPortfolioData = await getAllList({ lastId, category: 'All' });
       length10List = [...length10List, ...latestPortfolioData];
 
@@ -95,6 +95,9 @@ const Home = () => {
 const StHome = styled.div`
   width: 100%;
   height: 100%;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 100px;
 `;
 
 const StIntroContainer = styled.div`
@@ -104,6 +107,11 @@ const StIntroContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 50px;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    gap: 35px;
+  }
 `;
 
 const StIntroTextContainer = styled.div`
@@ -116,21 +124,76 @@ const StIntroTextContainer = styled.div`
 const StIntroText = styled.p`
   font-size: 25px;
   margin-bottom: 15px;
+
+  @media screen and (max-width: 660px) {
+    transition: 0.5s;
+    font-size: 22px;
+  }
+  @media screen and (max-width: 525px) {
+    transition: 0.5s;
+    font-size: 20px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 12px;
+  }
 `;
 
 const StIntroTitle = styled.h1`
   font-weight: 900;
   font-size: 40px;
+
+  @media screen and (max-width: 660px) {
+    transition: 0.5s;
+    font-size: 37px;
+  }
+  @media screen and (max-width: 525px) {
+    transition: 0.5s;
+    font-size: 35px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 30px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 20px;
+  }
 `;
 
 const StLogo = styled(Logo)`
   width: 223px;
   height: 68px;
   z-index: 1;
+
+  @media screen and (max-width: 660px) {
+    transition: 0.5s;
+    width: 218px;
+    height: 63px;
+  }
+  @media screen and (max-width: 525px) {
+    transition: 0.5s;
+    width: 213px;
+    height: 58px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: 203px;
+    height: 48px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    width: 193px;
+    height: 38px;
+  }
 `;
 
 const StButtonContainer = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -144,28 +207,65 @@ const StButton = styled.button<{ color: string }>`
   font-size: 18px;
   border-radius: 10px;
   padding: 12px 25px;
+
+  @media screen and (max-width: 660px) {
+    transition: 0.5s;
+    width: 270px;
+    font-size: 17px;
+  }
+  @media screen and (max-width: 525px) {
+    transition: 0.5s;
+    width: 260px;
+    font-size: 16px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: 250px;
+    font-size: 15px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    width: 220px;
+    font-size: 12px;
+  }
 `;
 
 const StShadow = styled.div`
   position: absolute;
-  width: calc(100% - 270px);
-  top: 370px;
+  width: 100%;
+  top: 305px;
   background: linear-gradient(180deg, #ffffff -5.06%, rgba(255, 255, 255, 0) 150%);
   transform: rotate(-180deg);
   padding: 250px;
   z-index: 0.1;
-
-  @media ${theme.size.mobileRow} {
-    width: 290%;
-  }
 `;
 
 const StBackgroundIcon = styled(BackgroundIcon)`
   position: absolute;
-  top: 367px;
+  top: 305px;
   margin-left: 570px;
 
   z-index: -1;
+
+  @media screen and (max-width: 830px) {
+    transition: 0.5s;
+    margin-left: 450px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    top: 245px;
+    margin-left: 380px;
+    width: 450px;
+    height: 433px;
+  }
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    top: 240px;
+    margin-left: 300px;
+    width: 389px;
+    height: 372px;
+  }
 `;
 
 const StTextLabel = styled.h2`

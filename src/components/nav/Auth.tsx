@@ -14,8 +14,6 @@ const Auth = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   const resetRecoilValues = useResetCreatePortfolioRecoilValues();
   const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
 
-  const navigate = useNavigate();
-
   const onClickAuth = async () => {
     if (isLogin) {
       window.localStorage.clear();

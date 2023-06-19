@@ -6,9 +6,10 @@ interface ModalProps {
   subText?: string;
   mainButtonText: string;
   subButtonText?: string;
-  deletePost: (id: number) => Promise<void>;
+  deletePost?: (id: number) => Promise<void>;
   onClose: () => void;
-  selectedId: number | null;
+  selectedId?: number | null;
+  type?: string;
 }
 
 const Modal = ({
@@ -20,6 +21,7 @@ const Modal = ({
   deletePost,
   onClose,
   selectedId,
+  type,
 }: ModalProps) => {
   const keepModalOpen = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -31,24 +33,33 @@ const Modal = ({
         <ModalStyle.Content>
           <Icon />
           <ModalStyle.TextWrapper>
-            <ModalStyle.MainText>{mainText}</ModalStyle.MainText>
+            <ModalStyle.MainText type={type}>{mainText}</ModalStyle.MainText>
             {subText && <ModalStyle.SubText>{subText}</ModalStyle.SubText>}
           </ModalStyle.TextWrapper>
         </ModalStyle.Content>
         <ModalStyle.ButtonWrapper>
           {subButtonText && (
             <Button
-              onClick={() => selectedId !== null && deletePost(selectedId)}
+              onClick={() => deletePost && selectedId && deletePost(selectedId)}
               width="140px"
               fontsize="20px"
               padding="12px 0"
               color="lightgray"
               hovercolor="none"
+              responsivewidth="100px"
+              responsivefontsize="16px"
             >
               {subButtonText}
             </Button>
           )}
-          <Button onClick={onClose} width="140px" fontsize="20px" padding="12px 0">
+          <Button
+            onClick={onClose}
+            width="140px"
+            fontsize="20px"
+            padding="12px 0"
+            responsivewidth="100px"
+            responsivefontsize="16px"
+          >
             {mainButtonText}
           </Button>
         </ModalStyle.ButtonWrapper>

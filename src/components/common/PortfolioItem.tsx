@@ -76,7 +76,7 @@ const StUserNameText = styled.div`
 const StTitle = styled.div`
   font-weight: bold;
   font-size: 18px;
-  line-height: 110%;
+  line-height: 130%;
 `;
 
 export default PortfolioItem;

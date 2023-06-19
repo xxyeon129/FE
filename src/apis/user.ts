@@ -11,3 +11,12 @@ export const getUser = async ({ id }: { id: number }) => {
     throw new Error('API getUser error');
   }
 };
+
+export const kakaoLogin = async (code: string) => {
+  try {
+    const response = await apiRequest.get(`${RESOURCE}/kakao?code=${code}`);
+    return response;
+  } catch (error) {
+    throw new Error('API kakaoLogin error');
+  }
+};
