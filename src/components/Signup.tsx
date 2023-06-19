@@ -85,7 +85,7 @@ function Signup({ onClose }: SignupProps) {
     e.preventDefault();
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const nicknameRegex = /^[가-힣a-zA-Z]{2,10}$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
     let Error = false;
 
     // 이메일 유효성 검사
@@ -104,7 +104,8 @@ function Signup({ onClose }: SignupProps) {
     if (!passwordRegex.test(password)) {
       setErrors(password => ({
         ...password,
-        password: '비밀번호는 최소 6자리 이상이어야 하며, 영문과 숫자가 포함되어야 합니다.',
+        password:
+          '비밀번호는 최소 6자리 이상이어야 하며, 영문과 숫자 특수문자 1개이상 포함되어야 합니다.',
       }));
       Error = true;
     }
@@ -306,20 +307,20 @@ const StModalContent = styled.form`
   align-items: center;
 
   @media (max-width: 1023px) {
-    width: 400px;
-    height: 550px;
+    width: 500px;
+    height: 650px;
     padding: 50px;
   }
 
   @media (max-width: 767px) {
-    width: 400px;
-    height: 500px;
+    width: 500px;
+    height: 550px;
     padding: 50px;
   }
 
   @media (max-width: 479px) {
     width: 400px;
-    height: 500px;
+    height: 540px;
     padding: 50px;
   }
 `;
