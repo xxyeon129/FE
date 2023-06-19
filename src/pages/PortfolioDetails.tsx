@@ -60,7 +60,9 @@ function PortfolioDetails() {
 
   const projectData = useRecoilValue(projectDataAtom);
 
-  console.log('겟이미지', getPortfolioImage);
+  // console.log('겟이미지', getPortfolioImage);
+
+  console.log('techStack : ', techStack);
 
   useEffect(() => {
     if (projectData !== null) {
