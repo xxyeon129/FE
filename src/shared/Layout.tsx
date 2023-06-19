@@ -1,14 +1,15 @@
 import { ReactNode } from 'react';
 import { useState } from 'react';
 import { styled } from 'styled-components';
+import { MobileRow } from '@src/style/mediaQuery';
+import { ReactComponent as LogoutModalIcon } from '@src/assets/nav/logout-modal-icon.svg';
 import Nav from '@src/shared/Nav';
 import Header from './Header';
 import useAuthModal from '@src/Hook/useAuthModal';
 import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
 import MobileDropdownMenu from '@src/components/header/MobileDropdownMenu';
-import { MobileRow } from '@src/style/mediaQuery';
-import LogoutModal from '@src/components/nav/LogoutModal';
+import Modal from '@src/components/common/Modal';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
@@ -49,7 +50,14 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
         <LoginModal onClose={onLoginCloseModal} onSignUpClick={onSignUpButtonClick} />
       )}
       {isSignUpModalOpen && <Signup onClose={onSignUpCloseModal} />}
-      {isLogoutModalOpen && <LogoutModal onClose={onLogoutCloseModal} />}
+      {isLogoutModalOpen && (
+        <Modal
+          Icon={LogoutModalIcon}
+          mainText="로그아웃 되었습니다."
+          mainButtonText="확인"
+          onClose={onLogoutCloseModal}
+        />
+      )}
     </StLayout>
   );
 };

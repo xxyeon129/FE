@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useEffect } from 'react';
 
-function RedirectionNaver() {
+const RedirectionNaver = () => {
   const code = new URL(window.location.href).searchParams.get('code');
   console.log(code);
 
@@ -29,6 +29,6 @@ function RedirectionNaver() {
   }, [code]);
 
   return <div></div>;
-}
+};
 
 export default RedirectionNaver;

@@ -1,17 +1,29 @@
-import axios from 'axios';
-import React from 'react';
 import { useEffect } from 'react';
+import { kakaoLogin } from '@src/apis/user';
+import { useSetRecoilState } from 'recoil';
+import { loginState } from '@src/states';
+import { useNavigate } from 'react-router-dom';
+import { PATH_URL } from '@src/constants/constants';
 
-function RedirectionKakao() {
-  const code = new URL(window.location.href).searchParams.get('code');
-  console.log(code);
+const RedirectionKakao = () => {
+  const params = new URL(document.location.toString()).searchParams;
+  const CODE = params.get('code');
+
+  const setIsLogin = useSetRecoilState(loginState);
+  const navigate = useNavigate();
 
   const authKakaoLogin = async (code: string) => {
     try {
-      const response = await axios.get(`https://ppol.pro/api/users/kakao&response_type=${code}`);
-      console.log(response);
+      const response = await kakaoLogin(code);
+
       const accesstoken = response.headers['accesstoken'];
+      const refreshToken = response.headers['refreshtoken'];
       localStorage.setItem('accesstoken', accesstoken);
+      localStorage.setItem('refreshtoken', refreshToken);
+
+      setIsLogin(true);
+      navigate(PATH_URL.HOME);
+
       return response;
     } catch (error) {
       console.log(error);
@@ -19,12 +31,10 @@ function RedirectionKakao() {
   };
 
   useEffect(() => {
-    if (code) {
-      authKakaoLogin(code);
-    }
-  }, [code]);
+    CODE && authKakaoLogin(CODE);
+  }, []);
 
-  return <div></div>;
-}
+  return <></>;
+};
 
 export default RedirectionKakao;

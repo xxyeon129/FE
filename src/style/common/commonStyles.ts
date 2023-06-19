@@ -12,7 +12,7 @@ export const PortfolioListContainer = styled.div<{ ismyportfolio?: string }>`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   grid-auto-rows: min-content;
-  row-gap: 80px;
+  row-gap: 60px;
   column-gap: 50px;
   width: 100%;
   margin-top: 10px;
@@ -31,6 +31,8 @@ export const Button = styled.button<{
   fontweight?: string;
   color?: string;
   hovercolor?: string;
+  responsivewidth?: string;
+  responsivefontsize?: string;
 }>`
   display: flex;
   justify-content: center;
@@ -41,6 +43,12 @@ export const Button = styled.button<{
   font-weight: ${({ fontweight }) => (fontweight ? fontweight : '800')};
   font-size: ${({ fontsize }) => fontsize};
   padding: ${({ padding }) => padding};
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: ${({ responsivewidth }) => responsivewidth};
+    font-size: ${({ responsivefontsize }) => responsivefontsize};
+  }
 
   &:hover {
     transition: 0.5s;
@@ -75,18 +83,66 @@ export const ModalStyle = {
     justify-content: space-evenly;
     align-items: center;
     gap: 2rem;
+
+    @media ${({ theme }) => theme.size.mobileRow} {
+      transition: 0.5s;
+      width: 400px;
+      height: 510px;
+    }
+    @media screen and (max-width: 600px) {
+      transition: 0.5s;
+      width: 370px;
+      height: 480px;
+    }
+    @media screen and (max-width: 520px) {
+      transition: 0.5s;
+      width: 330px;
+      height: 440px;
+    }
+
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      transition: 0.5s;
+      width: 280px;
+      height: 390px;
+    }
   `,
   Content: styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 3rem;
+
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      transition: 0.5s;
+      gap: 2rem;
+    }
   `,
-  MainText: styled.h2`
+  MainText: styled.h2<{ type?: string }>`
     font-weight: 800;
+
+    ${({ type }) =>
+      type === 'multiline' &&
+      css`
+        @media screen and (max-width: 600px) {
+          transition: 0.5s;
+          font-size: 20px;
+        }
+        @media screen and (max-width: 520px) {
+          transition: 0.5s;
+          font-size: 18px;
+        }
+      `}
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      transition: 0.5s;
+      font-size: ${({ type }) => (type === 'multiline' ? '14px' : '20px')}; //14px;
+    }
   `,
   SubText: styled.span`
     font-weight: 500;
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      transition: 0.5s;
+      font-size: 13px;
+    }
   `,
   TextWrapper: styled.div`
     display: flex;
