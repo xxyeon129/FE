@@ -2,23 +2,16 @@ import axios, { AxiosHeaderValue } from 'axios';
 import { accessToken, getAccessToken } from './token';
 import { SERVER_URL } from '@src/constants/constants';
 
-// type FormDataType = {
-//   nickname: string;
-//   profileImage: File;
-// };
-
 export const getUser = async (id: number) => {
   try {
     const response = await axios.get(`${SERVER_URL}/api/users/${id}`);
     return response.data.data;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };
 
 export const updateUser = async ([formData, id]: [FormData, number]) => {
-  console.log(id);
   try {
     const asyncAccessToken = await getAccessToken();
     const response = await axios.patch(`${SERVER_URL}/api/users/${id}`, formData, {
@@ -28,7 +21,6 @@ export const updateUser = async ([formData, id]: [FormData, number]) => {
     });
     return response.data;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };
@@ -42,7 +34,6 @@ export const deleteUser = async (id: number) => {
     });
     console.log('User account deleted');
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };

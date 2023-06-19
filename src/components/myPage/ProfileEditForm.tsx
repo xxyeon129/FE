@@ -78,21 +78,9 @@ const StTextWrapper = styled.div`
 const StInput = styled.input`
   padding: 10px;
   width: 100%;
-  /* left: 7.76%;
-  right: 55.12%;
-  top: 49.26%;
-  bottom: 43.54%; */
   background: #ffffff;
   border: 1px solid rgba(203, 203, 203, 0.7);
   border-radius: 6px;
-  /* 
-  @media (max-width: 768px) {
-    width: 100%;
-    left: initial;
-    right: initial;
-    top: initial;
-    bottom: initial;
-  } */
 `;
 
 const StError = styled.div`
@@ -109,10 +97,6 @@ const StFileUpload = styled.input`
 
 const StImageEditBox = styled.div`
   border: 3px solid #ffffff;
-  /* left: 20.75%;
-  right: 68.22%;
-  top: 22.96%;
-  bottom: 58.94%; */
   box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.15);
   width: 107px;
   height: 107.15px;
@@ -138,10 +122,6 @@ const StGoodButton = styled.button`
     background-color: #4ae040;
     color: white;
   }
-
-  /* @media (max-width: 768px) {
-    width: 100%;
-  } */
 `;
 
 const StContent = styled.div`
@@ -159,12 +139,6 @@ const StContent = styled.div`
     text-align: center;
     margin-bottom: 15px;
   }
-
-  /* @media (max-width: 768px) {
-    h4 {
-      margin-bottom: 10px;
-    }
-  } */
 `;
 
 const StCameraIcon = styled(Upload)`

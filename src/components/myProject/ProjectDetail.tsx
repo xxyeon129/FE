@@ -12,6 +12,7 @@ import { FormFields } from './FormFields';
 import { GetProject } from './GetProject';
 import { refreshToken } from '@src/apis/token';
 import imageCompression from 'browser-image-compression';
+
 export interface ProjectDetailData {
   title: string;
   term: string;
@@ -20,6 +21,7 @@ export interface ProjectDetailData {
   description: string;
   projectImageList: [];
   userId: string;
+  nickname: string;
 }
 export interface ImageType {
   id: number;
@@ -32,7 +34,9 @@ const ProjectModal: React.FC<{
 }> = React.memo(({ showModal, setShowModal, projectId }) => {
   const [isEditable, setIsEditable] = useState(false);
   const title = useInput('');
-  const term = useInput('');
+  // const term = useInput('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const people = useInput('');
   const position = useInput('');
   const description = useInput('');
@@ -56,7 +60,6 @@ const ProjectModal: React.FC<{
   useEffect(() => {
     if (data) {
       title.onChange({ target: { value: data.title } } as ChangeEvent<HTMLInputElement>);
-      term.onChange({ target: { value: data.term } } as ChangeEvent<HTMLInputElement>);
       people.onChange({ target: { value: data.people } } as ChangeEvent<HTMLInputElement>);
       position.onChange({ target: { value: data.position } } as ChangeEvent<HTMLInputElement>);
       description.onChange({
@@ -74,9 +77,10 @@ const ProjectModal: React.FC<{
         title.setErrorText('제목을 입력하세요');
         throw new Error();
       }
-      if (!term.value) {
-        term.setErrorText('기간을 입력하세요');
+      if (!startDate || !endDate) {
+        alert('시작일과 마감일을 선택하세요');
         throw new Error();
+        return;
       }
       if (!people.value) {
         people.setErrorText('인원을 입력하세요');
@@ -118,16 +122,13 @@ const ProjectModal: React.FC<{
   const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
-      // 이미지 리사이징 처리
       const options = {
         maxSizeMB: 0.5,
-        // maxWidthOrHeight: 800,
       };
       const compressedImages = await Promise.all(
         fileList.map(file => imageCompression(file, options))
       );
       setImageList(compressedImages);
-      console.log(fileList);
       const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
@@ -148,7 +149,7 @@ const ProjectModal: React.FC<{
     const imageBlob = new Blob(imageList, { type: 'application/json' });
     const text = JSON.stringify({
       title: title.value,
-      term: term.value,
+      term: `${startDate?.toLocaleDateString()} - ${endDate?.toLocaleDateString()}`,
       people: people.value,
       position: position.value,
       description: description.value,
@@ -158,7 +159,6 @@ const ProjectModal: React.FC<{
     formData.append('images', imageBlob);
 
     await updateProjectMutation.mutateAsync(formData);
-    // setShowModal(false);
   };
 
   const handleCloseModal = () => {
@@ -166,12 +166,14 @@ const ProjectModal: React.FC<{
     setIsEditable(false);
   };
 
-  console.log(userId, data?.userId);
+  const keepModalWindow = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
 
   return (
     <>
       {showModal && (
-        <ModalWrapper>
+        <ModalWrapper onClick={keepModalWindow}>
           <ModalContent>
             <ScrollableContent>
               <StLayout>
@@ -189,7 +191,11 @@ const ProjectModal: React.FC<{
                     <StTextBox>
                       <FormFields
                         title={title}
-                        term={term}
+                        // term={term}
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
                         people={people}
                         position={position}
                         description={description}
