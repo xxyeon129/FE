@@ -81,7 +81,6 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
     let compressedImageFile;
     imageFile && (compressedImageFile = await useImageCompress(imageFile));
     compressedImageFile && formData.append('portfolioImage', compressedImageFile);
-    setIsLoadingCompressedImage(false);
 
     return formData;
   };
@@ -94,6 +93,7 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
 
     try {
       await createPortfolio(formData);
+      setIsLoadingCompressedImage(false);
       alert('TEST ALERT: 포트폴리오 작성 완료');
 
       const storageData = localStorage.getItem('recoil-persist');
