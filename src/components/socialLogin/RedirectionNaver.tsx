@@ -8,9 +8,7 @@ function RedirectionNaver() {
 
   const authNaverLogin = async (code: string) => {
     try {
-      const response = await axios.get(
-        `https://portfol.pro/api/users/naver?code=${code}&state=state`
-      );
+      const response = await axios.get(`https://ppol.pro/api/users/naver?code=${code}&state=state`);
       console.log(response);
       const accesstoken = response.headers['accesstoken'];
       localStorage.setItem('accesstoken', accesstoken);
