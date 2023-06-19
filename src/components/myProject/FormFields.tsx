@@ -5,7 +5,6 @@ import { ChangeEvent } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { styled } from 'styled-components';
-// import Calendar from 'src/components/myProject/Calender';
 
 interface FormFieldsProps {
   title: {
@@ -14,12 +13,6 @@ interface FormFieldsProps {
     error: string;
     setErrorText: (text: string) => void;
   };
-  // term: {
-  //   value: string;
-  //   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  //   error: string;
-  //   setErrorText: (text: string) => void;
-  // };
   startDate: Date | null;
   setStartDate: (date: Date | null) => void;
   endDate: Date | null;

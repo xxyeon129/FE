@@ -132,7 +132,6 @@ const MyPage = () => {
     });
     const nicknameBlob = new Blob([text], { type: 'application/json' });
     formData.append('nickname', nicknameBlob);
-    console.log(profileImage);
     formData.append('profileImage', profileImage as Blob);
     await updateUserMutation.mutateAsync([formData, Number(id)]);
     refetch();
@@ -143,7 +142,6 @@ const MyPage = () => {
   const handleEditClick = () => {
     setIsEditing(true);
     setMyPageEdit(false);
-    console.log('회원정보 수정 버튼 클릭시 : ', profileImage);
   };
 
   const handleCloseClick = () => {
