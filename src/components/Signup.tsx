@@ -6,8 +6,8 @@ import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
 import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
 
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
-import LoginNowModal from './LoginNowModal';
 import { useNavigate } from 'react-router-dom';
+import ProposalLoginModal from './ProposalLoginModal';
 
 type SignupProps = {
   onClose: () => void;
@@ -270,7 +270,7 @@ function Signup({ onClose }: SignupProps) {
         </StButtonContainer>
       </StModalContent>
       {loginNow && (
-        <LoginNowModal
+        <ProposalLoginModal
           email={email}
           password={password}
           onCloseModal={() => setLoginNow(false)}

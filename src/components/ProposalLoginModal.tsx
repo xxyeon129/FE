@@ -13,10 +13,9 @@ interface LoginModalProps {
   onSiginupClose: () => void;
 }
 
-function LoginNowModal(props: LoginModalProps) {
+function ProposalLoginModal(props: LoginModalProps) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassWord] = useState<string>('');
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 상태 변수
 
   useEffect(() => {
     setEmail(props.email);
@@ -39,8 +38,6 @@ function LoginNowModal(props: LoginModalProps) {
       localStorage.setItem('accesstoken', accessToken);
       localStorage.setItem('refreshtoken', refreshToken);
 
-      // setIsLoggedIn(true); // 로그인 상태를 true로 설정하여 화면을 다시 렌더링
-
       props.onCloseModal();
       props.onSiginupClose();
       alert('로그인');
@@ -48,11 +45,6 @@ function LoginNowModal(props: LoginModalProps) {
       alert('로그인 실패');
     }
   };
-
-  // // isLoggedIn 상태에 따라 다른 컴포넌트 렌더링
-  // if (isLoggedIn) {
-  //   return <NavContent />; // 로그인이 성공한 경우에 렌더링할 컴포넌트 반환
-  // }
 
   return (
     <StModalContainer>
@@ -71,7 +63,7 @@ function LoginNowModal(props: LoginModalProps) {
   );
 }
 
-export default LoginNowModal;
+export default ProposalLoginModal;
 
 const StModalContainer = styled.div`
   position: fixed;
