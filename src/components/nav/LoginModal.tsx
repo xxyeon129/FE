@@ -10,6 +10,7 @@ import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQu
 import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
 import KakaoLogin from '../socialLogin/KakaoLogin';
 import NaverLogin from '../socialLogin/NaverLogin';
+import GoogleLogin from '../socialLogin/GoogleLogin';
 
 type LoginProps = {
   onClose: () => void;
@@ -146,6 +147,7 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
         <StSocialLogin>
           <KakaoLogin />
           <NaverLogin />
+          <GoogleLogin />
         </StSocialLogin>
       </StModalContent>
     </StModalWrapper>
