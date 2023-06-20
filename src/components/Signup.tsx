@@ -444,7 +444,7 @@ const StSubmitButton = styled.button`
   ${buttonStyle}
   width: 150px;
   height: 40px;
-  margin-top: 20px;
+  margin-top: 5px;
 
   @media (max-width: 1023px) {
     width: 100px;
