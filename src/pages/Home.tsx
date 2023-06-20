@@ -229,7 +229,7 @@ const StButton = styled.button<{ color: string }>`
 const StShadow = styled.div`
   position: absolute;
   width: 100%;
-  top: 300px;
+  top: 305px;
   background: linear-gradient(180deg, #ffffff -5.06%, rgba(255, 255, 255, 0) 150%);
   transform: rotate(-180deg);
   padding: 250px;
