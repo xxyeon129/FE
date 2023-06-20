@@ -15,7 +15,6 @@ interface ProjectListProps {
 }
 
 function ProjectList(props: ProjectListProps) {
-  console.log('프로젝트 데이터 :', props.projects);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleMouseEnter = (index: number) => {
