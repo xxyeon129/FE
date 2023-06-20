@@ -8,7 +8,7 @@ function RedirectionGoogle() {
 
   const authGoogleLogin = async (code: string) => {
     try {
-      const response = await axios.get(`${SERVER_URL}/api/users/google?code=${code}&state=state`);
+      const response = await axios.get(`${SERVER_URL}/api/users/google?code=${code}`);
       const accesstoken = response.headers['accesstoken'];
       const refreshtoken = response.headers['refreshtoken'];
       localStorage.setItem('accesstoken', accesstoken);
