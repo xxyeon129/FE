@@ -39,6 +39,7 @@ function LinkSection(props: LinkSectionProps) {
         </StBlog>
       )}
 
+      {/* <div>{props.githubId} 의 잔디</div> */}
       {props.githubId && (
         <StGithub onClick={props.onMyGit}>
           <StGitgrass

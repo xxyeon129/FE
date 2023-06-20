@@ -60,8 +60,6 @@ function PortfolioDetails() {
 
   const projectData = useRecoilValue(projectDataAtom);
 
-  // console.log('겟이미지', getPortfolioImage);
-
   useEffect(() => {
     if (projectData !== null) {
       const projectId = projectData.id;
