@@ -45,17 +45,13 @@ const Home = () => {
 
   const { data, isLoading } = useQuery('latestPortfolioList', async () => {
     let lastId = await getLastId({ category: 'All' });
-    let length10List: PortfolioDataType[] = [];
+    let list: PortfolioDataType[] = [];
 
-    while (length10List.length < 10 && lastId >= 0) {
-      const latestPortfolioData = await getAllList({ lastId, category: 'All' });
-      length10List = [...length10List, ...latestPortfolioData];
-
-      if (latestPortfolioData.length < 10) {
-        lastId -= 10;
-      }
+    while (list.length < 10 && lastId >= 0) {
+      const { serverData } = await getAllList({ lastId, category: 'All' });
+      list = [...list, ...serverData];
     }
-    return length10List.slice(0, 9);
+    return list.slice(0, 9);
   });
 
   useEffect(() => {

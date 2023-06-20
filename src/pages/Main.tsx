@@ -6,10 +6,12 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { getAllList, getFilteredList, getLastId } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
 import { PortfolioDataType } from '@src/types/portfolioType';
-import { categoryState, filterState } from '@src/states';
+import { categoryState, createPortfolioState, filterState } from '@src/states';
 import { filterListObject } from '@src/constants/portfolioFilteringData';
 import * as S from '@src/style/common/commonStyles';
 import PortfolioItem from '@src/components/common/PortfolioItem';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -17,39 +19,50 @@ const Main = () => {
   const [lastId, setLastId] = useState<number>(0);
   const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
+  const [nextLastId, setNextLastId] = useState<number>(0);
 
+  const [isPortfolioCreated, setIsPortfolioCreated] = useRecoilState(createPortfolioState);
   const [selectedFilter, setSelectedFilter] = useRecoilState(filterState);
   const selectedCategory = useRecoilValue(categoryState);
 
   const isExistData = list.length !== 0;
 
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
+
   // --- 무한스크롤 ---
   const observer = useRef<IntersectionObserver | null>(null);
 
   const loadMoreData = useCallback(async () => {
-    if (lastId - 10 > 0) {
+    if (nextLastId > 0) {
       setIsMoreLoading(true);
-      // console.log('무한스크롤 함수 실행 라스트 id: ', lastId); // 66 -> 56
-
       let newData: PortfolioDataType[];
+      let serverNextId = nextLastId;
 
       if (selectedFilter !== 'All') {
-        newData = await getFilteredList({
-          lastId: lastId - 10,
+        const { serverData, serverLastId } = await getFilteredList({
+          lastId: nextLastId,
           category: selectedCategory,
           filter: selectedFilter,
         });
+
+        newData = serverData;
+        serverNextId = serverLastId;
       } else {
-        newData = await getAllList({ lastId: lastId - 10, category: selectedCategory });
+        const { serverData, serverLastId } = await getAllList({
+          lastId: nextLastId,
+          category: selectedCategory,
+        });
+        newData = serverData;
+        serverNextId = serverLastId;
       }
 
       setList(prevData => [...prevData, ...newData]);
-      setLastId((prevId: number) => prevId - 10);
+      setNextLastId(serverNextId);
       setIsMoreLoading(false);
     } else {
       return;
     }
-  }, [lastId]);
+  }, [lastId, nextLastId]);
 
   const lastItemRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -66,8 +79,6 @@ const Main = () => {
   const fetchLastId = async (filterKeyword?: string) => {
     const lastId = await getLastId({ category: selectedCategory, filter: filterKeyword });
     setLastId(lastId);
-    // console.log('lastId 체크 => ', lastId);
-
     return lastId;
   };
 
@@ -77,16 +88,20 @@ const Main = () => {
     if (filterKeyword !== 'All') {
       fetchFilteredList(filterKeyword);
       // console.log('FirstMountList if문 걸려서 실행 -> filteredList 함수로 이동');
-
       return;
     }
 
-    const serverDataLastId = await fetchLastId();
-    const serverData = await getAllList({ lastId: serverDataLastId, category: selectedCategory });
+    const firstServerLastId = await fetchLastId();
+
+    const { serverData, serverLastId } = await getAllList({
+      lastId: firstServerLastId,
+      category: selectedCategory,
+    });
+    setNextLastId(serverLastId);
     setList(serverData);
 
-    // console.log('fetchFirstMount 함수의 라스트 id => ', serverDataLastId);
     setIsDataLoading(false);
+    return serverLastId;
   };
 
   const fetchFilteredList = async (filterKeyword: string) => {
@@ -94,7 +109,6 @@ const Main = () => {
     if (filterKeyword === 'All') {
       fetchFirstMountList(filterKeyword);
       // console.log('All 선택했을 경우 filteredList 함수에서 조건걸려서 FirstMount로 이동');
-      // return;
     }
 
     const serverDataLastId = await fetchLastId(filterKeyword);
@@ -120,14 +134,16 @@ const Main = () => {
     //   }
     // }
 
-    const filteredData = await getFilteredList({
+    const { serverData, serverLastId } = await getFilteredList({
       lastId: serverDataLastId,
       category: selectedCategory,
       filter: filterKeyword,
     });
-
-    setList(filteredData);
+    setNextLastId(serverLastId);
+    setList(serverData);
+    // TO DO: 직무 필터 적용한 게시글이 10개 미만일 경우 10개 이상이 될 때까지 계속 호출해서 불러오기
     // setList(length10List);
+
     setIsDataLoading(false);
   };
 
@@ -160,8 +176,19 @@ const Main = () => {
         break;
     }
 
-    fetchFirstMountList(selectedFilter);
+    const updateNextId = async () => {
+      const nextId = await fetchFirstMountList(selectedFilter);
+      setNextLastId(nextId);
+    };
+    updateNextId();
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (isPortfolioCreated) {
+      showSnackbarPopup();
+      setIsPortfolioCreated(false);
+    }
+  }, []);
 
   return (
     <S.PageContainer>
@@ -189,6 +216,13 @@ const Main = () => {
         </>
       )}
       {!isMoreLoading && <StLoadingIndicator ref={lastItemRef} />}
+      {isSnackbarVisible && (
+        <SnackbarPopup
+          text="정상적으로 포트폴리오가 작성되었습니다"
+          type="done"
+          isSnackbarVisible={isSnackbarVisible}
+        />
+      )}
     </S.PageContainer>
   );
 };
@@ -200,7 +234,7 @@ const StAllCategoryTitle = styled.h1`
 `;
 
 const StLoadingIndicator = styled.div`
-  padding: 1rem;
+  padding: 5px;
 `;
 
 const spinAnimation = keyframes`

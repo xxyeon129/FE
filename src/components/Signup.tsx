@@ -315,7 +315,6 @@ const StModalContent = styled.form`
   background-color: white;
   padding: 100px;
   border-radius: 20px;
-  margin-top: 100px;
   height: 700px;
   width: 600px;
   align-items: center;

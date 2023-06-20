@@ -30,11 +30,9 @@ export const getAllList = async ({ lastId, size = 9, category }: GetAllListParam
       ...(category !== 'All' && { category }),
     };
 
-    // TEST CODE
-    // console.log('API params', params);
-
     const response = await apiRequest.get(RESOURCE, { params });
-    return response.data.data.content;
+
+    return { serverLastId: response.data.message, serverData: response.data.data.content };
   } catch (error) {
     throw new Error('API getAllList error');
   }
@@ -47,8 +45,6 @@ export const getFilteredList = async ({
   filter,
 }: GetFilteredListParams) => {
   try {
-    // TODO: 2차 스코프 - 사용자가 포트폴리오에 여러 필터를 적용했을 경우
-
     const params = {
       'last-portfolio-id': lastId,
       size,
@@ -56,15 +52,9 @@ export const getFilteredList = async ({
       ...(filter !== 'All' && { filter }),
     };
 
-    // TEST CODE
-    // console.log('API params', params);
-
     const response = await apiRequest.get(RESOURCE, { params });
 
-    // TEST CODE
-    // console.log('API RES@@ => ', response.data.data.content);
-
-    return response.data.data.content;
+    return { serverLastId: response.data.message, serverData: response.data.data.content };
   } catch (error) {
     throw new Error('API getFilteredist error');
   }
@@ -101,9 +91,6 @@ export const createPortfolio = async (formData: FormData) => {
         RefreshToken: asyncRefreshToken as AxiosHeaderValue,
       },
     });
-
-    // TEST CODE
-    // console.log(response);
   } catch (error) {
     throw new Error('API createPortfolio error');
   }
