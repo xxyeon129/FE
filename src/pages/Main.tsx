@@ -6,10 +6,12 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { getAllList, getFilteredList, getLastId } from '@src/apis/portfolio';
 import Filter from '@src/components/main/Filter';
 import { PortfolioDataType } from '@src/types/portfolioType';
-import { categoryState, filterState } from '@src/states';
+import { categoryState, createPortfolioState, filterState } from '@src/states';
 import { filterListObject } from '@src/constants/portfolioFilteringData';
 import * as S from '@src/style/common/commonStyles';
 import PortfolioItem from '@src/components/common/PortfolioItem';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
 
 const Main = () => {
   const [list, setList] = useState<PortfolioDataType[]>([]);
@@ -19,10 +21,13 @@ const Main = () => {
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
   const [nextLastId, setNextLastId] = useState<number>(0);
 
+  const [isPortfolioCreated, setIsPortfolioCreated] = useRecoilState(createPortfolioState);
   const [selectedFilter, setSelectedFilter] = useRecoilState(filterState);
   const selectedCategory = useRecoilValue(categoryState);
 
   const isExistData = list.length !== 0;
+
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   // --- 무한스크롤 ---
   const observer = useRef<IntersectionObserver | null>(null);
@@ -178,6 +183,13 @@ const Main = () => {
     updateNextId();
   }, [selectedCategory]);
 
+  useEffect(() => {
+    if (isPortfolioCreated) {
+      showSnackbarPopup();
+      setIsPortfolioCreated(false);
+    }
+  }, []);
+
   return (
     <S.PageContainer>
       {selectedCategory === 'All' ? (
@@ -204,6 +216,13 @@ const Main = () => {
         </>
       )}
       {!isMoreLoading && <StLoadingIndicator ref={lastItemRef} />}
+      {isSnackbarVisible && (
+        <SnackbarPopup
+          text="정상적으로 포트폴리오가 작성되었습니다"
+          type="done"
+          isSnackbarVisible={isSnackbarVisible}
+        />
+      )}
     </S.PageContainer>
   );
 };

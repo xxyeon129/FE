@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { useSetRecoilState } from 'recoil';
 import { ReactComponent as UploadIcon } from '@src/assets/upload-image-icon.svg';
 
 import { createPortfolio } from '@src/apis/portfolio';
 import { PATH_URL } from '@src/constants/constants';
 import { STEP } from '@src/constants/createPortfolioConstants';
+import { createPortfolioState } from '@src/states';
 
 import useCreatPortfolioRecoilValues from '@src/Hook/useCreatePortfolioRecoilValues';
 import useResetCreatePortfolioRecoilValues from '@src/Hook/useResetCreatePortfolioRecoilValues';
@@ -14,6 +16,8 @@ import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabe
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import useImageCompress from '@src/Hook/useImageCompress';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
   onPrevButtonClick,
@@ -36,10 +40,13 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
-  const [isImageExist, setIsImageExist] = useState(false);
-  const [isLoadingCompressedImage, setIsLoadingCompressedImage] = useState(false);
+  const [isImageExist, setIsImageExist] = useState<boolean>(false);
+  const [isLoadingCompressedImage, setIsLoadingCompressedImage] = useState<boolean>(false);
+  const setIsPortfolioCreated = useSetRecoilState<boolean>(createPortfolioState);
+
   const navigate = useNavigate();
   const resetRecoilValues = useResetCreatePortfolioRecoilValues();
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   const techStack = techStackArray.toString();
   const isNoImageFile = imageFile === null;
@@ -81,7 +88,6 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
     let compressedImageFile;
     imageFile && (compressedImageFile = await useImageCompress(imageFile));
     compressedImageFile && formData.append('portfolioImage', compressedImageFile);
-
     return formData;
   };
 
@@ -94,7 +100,6 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
     try {
       await createPortfolio(formData);
       setIsLoadingCompressedImage(false);
-      alert('TEST ALERT: 포트폴리오 작성 완료');
 
       const storageData = localStorage.getItem('recoil-persist');
       if (storageData) {
@@ -103,10 +108,12 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
         localStorage.setItem('recoil-persist', JSON.stringify(leaveLoginState));
       }
       resetRecoilValues();
+      setIsPortfolioCreated(true);
 
       navigate(PATH_URL.MAIN);
     } catch (error) {
-      if (isNoImageFile) alert('TEST ALERT: 이미지를 추가해주세요!');
+      setIsLoadingCompressedImage(false);
+      if (isNoImageFile) showSnackbarPopup();
       console.log('CreatePortfolio catch error: ', error);
     }
   };
@@ -123,10 +130,6 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
   const title = '마지막 단계입니다!';
   const description = '포트폴리오 대표 이미지를 등록해주세요.';
 
-  const fileTypeInput = (
-    <StInput type="file" accept="image/*" id="portfolioImage" onChange={onUploadImage} />
-  );
-
   return (
     <S.Container>
       <S.ContentContainer>
@@ -137,7 +140,12 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
               <StPreviewImg src={imagePreview} alt="portfolio representative image" />
               <StLabelContainer>
                 <StPreviewImgLabel htmlFor="portfolioImage">이미지 변경</StPreviewImgLabel>
-                {fileTypeInput}
+                <StInput
+                  type="file"
+                  accept="image/*"
+                  id="portfolioImage"
+                  onChange={onUploadImage}
+                />
               </StLabelContainer>
             </StPreviewContainer>
           )}
@@ -149,7 +157,7 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
                   이미지 파일을 선택해 포트폴리오 대표 이미지를 설정해주세요.
                 </StUploadText>
               </StLabel>
-              {fileTypeInput}
+              <StInput type="file" accept="image/*" id="portfolioImage" onChange={onUploadImage} />
             </StNoImgContainer>
           )}
         </StImageContainer>
@@ -163,6 +171,9 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
           isLoading={isLoadingCompressedImage}
         />
       </S.ButtonContainer>
+      {isSnackbarVisible && (
+        <SnackbarPopup text="이미지를 추가해주세요!" isSnackbarVisible={isSnackbarVisible} />
+      )}
     </S.Container>
   );
 };

@@ -12,6 +12,8 @@ import NextStepButton from '@src/components/common/createPortfolio/NextStepButto
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import ErrorMessage from '../../common/createPortfolio/ErrorMessage';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [portfolioTitle, setPortfolioTitle] = useRecoilState(createTitleState);
@@ -25,9 +27,13 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
     setRecoilState: setPortfolioTitle,
     validator: validateTitle,
   });
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   const onClickNextButton = () => {
-    if (isInvalidTitle) return;
+    if (isInvalidTitle) {
+      showSnackbarPopup();
+      return;
+    }
     onNextButtonClick(STEP.FOUR);
   };
 
@@ -50,6 +56,12 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.TWO)} />
         <NextStepButton onClick={onClickNextButton} notAllowed={`${isInvalidTitle}`} />
       </S.ButtonContainer>
+      {isSnackbarVisible && (
+        <SnackbarPopup
+          text="글자수에 맞게 제목을 입력해주세요!"
+          isSnackbarVisible={isSnackbarVisible}
+        />
+      )}
     </S.Container>
   );
 };

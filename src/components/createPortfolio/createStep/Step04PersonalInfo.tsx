@@ -13,6 +13,8 @@ import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButto
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
 import AdditionalPersonalInfo from '../AdditionalPersonalInfo';
 import ErrorMessage from '../../common/createPortfolio/ErrorMessage';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [email, setEmail] = useRecoilState(createEmailState);
@@ -23,8 +25,13 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
     errorMessage,
   } = useOnChangeInput({ inputValue: email, setRecoilState: setEmail, validator: validateEmail });
 
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
+
   const onClickButton = () => {
-    if (isInvalidEmail) return;
+    if (isInvalidEmail) {
+      showSnackbarPopup();
+      return;
+    }
     onNextButtonClick(STEP.FIVE);
   };
 
@@ -56,6 +63,12 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.THREE)} />
         <NextStepButton onClick={onClickButton} notAllowed={`${isInvalidEmail}`} />
       </S.ButtonContainer>
+      {isSnackbarVisible && (
+        <SnackbarPopup
+          text="이메일 형식을 올바르게 입력해주세요!"
+          isSnackbarVisible={isSnackbarVisible}
+        />
+      )}
     </S.Container>
   );
 };
