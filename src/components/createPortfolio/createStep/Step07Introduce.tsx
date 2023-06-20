@@ -12,6 +12,8 @@ import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabe
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import ErrorMessage from '../../common/createPortfolio/ErrorMessage';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [experience, setExperience] = useRecoilState(createExperienceState);
@@ -22,8 +24,13 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
     validator: validateExperience,
   });
 
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
+
   const onClickNextButton = () => {
-    if (isInvalid) return;
+    if (isInvalid) {
+      showSnackbarPopup();
+      return;
+    }
     onNextButtonClick(STEP.EIGHT);
   };
 
@@ -47,6 +54,12 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.SIX)} />
         <NextStepButton onClick={onClickNextButton} notAllowed={`${isInvalid}`} />
       </S.ButtonContainer>
+      {isSnackbarVisible && (
+        <SnackbarPopup
+          text="10자 이상 소개글을 작성해주세요!"
+          isSnackbarVisible={isSnackbarVisible}
+        />
+      )}
     </S.Container>
   );
 };

@@ -6,11 +6,13 @@ import useCloseDropdown from '@src/Hook/useCloseDropdown';
 interface MobileDropdownMenuProps {
   isMobileDropdownOpen: boolean;
   setIsMobileDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsInProgressModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MobileDropdownMenu = ({
   isMobileDropdownOpen,
   setIsMobileDropdownOpen,
+  setIsInProgressModalOpen,
 }: MobileDropdownMenuProps) => {
   const { dropdownRef, onClickOutside } = useCloseDropdown({
     isDropdownOpen: isMobileDropdownOpen,
@@ -28,7 +30,11 @@ const MobileDropdownMenu = ({
   return (
     <StDropdownMenu>
       <StUnorderedList ref={dropdownRef}>
-        <HeaderListItem liWidth="100%" setIsMobileDropdownOpen={setIsMobileDropdownOpen} />
+        <HeaderListItem
+          liWidth="100%"
+          setIsMobileDropdownOpen={setIsMobileDropdownOpen}
+          setIsInProgressModalOpen={setIsInProgressModalOpen}
+        />
       </StUnorderedList>
     </StDropdownMenu>
   );
