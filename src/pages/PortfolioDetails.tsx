@@ -57,7 +57,6 @@ function PortfolioDetails() {
   const [imageLoadError, setImageLoadError] = useState<boolean>(false);
   const [updateComplete, setUpdateComplete] = useState(false);
   const [category, setCategory] = useState(false);
-
   const projectData = useRecoilValue(projectDataAtom);
 
   // console.log('겟이미지', getPortfolioImage);
@@ -390,6 +389,7 @@ function PortfolioDetails() {
                   showModal={isProjectModalOpen}
                   projectId={selectedProjectId}
                   setShowModal={setIsProjectModalOpen}
+                  getMyPortfolio={getMyPortfolio}
                 />
               )}
 
