@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, ChangeEvent, KeyboardEvent } from 'react';
 import { useRecoilState } from 'recoil';
 import { portfolioDataState, searchTermState } from '@src/states/SearchResultsState';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import { search, searchPage } from '@src/apis/search';
@@ -9,20 +10,29 @@ import { ReactComponent as SearchIcon } from 'src/assets/Icons.svg';
 const AutoSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  // const [suggestions, setSuggestions] = useState<string[]>([]);
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
   const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { data: suggestions = [] } = useQuery<string[]>(
+    ['suggestions', searchTerm],
+    () => search(searchTerm),
+    {
+      enabled: searchTerm !== '',
+    }
+  );
+
   useEffect(() => {
-    const debounceSearch = debounce(async (term: string) => {
-      if (term !== '') {
-        const suggestions = await search(term);
-        setSuggestions(suggestions);
-      }
+    const debounceSearch = debounce((term: string) => {
+      setSearchTerm(term);
+      setSelectedSuggestion(term);
     }, 500);
     debounceSearch(searchTerm);
+    return () => {
+      debounceSearch.cancel(); // debounce 함수 실행 취소
+    };
   }, [searchTerm]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -111,7 +121,7 @@ const AutoSearch: React.FC = () => {
     </div>
   );
 };
-export default AutoSearch;
+export default React.memo(AutoSearch);
 
 const StSearch = styled.div`
   display: flex;
