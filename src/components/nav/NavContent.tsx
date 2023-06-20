@@ -8,7 +8,7 @@ import { DesktopAndTablet } from '@src/style/mediaQuery';
 const NavContent = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   return (
     <>
-      <UserProfile />
+      <UserProfile setIsLoginModalOpen={setIsLoginModalOpen} />
       <StAutoSearchContainer>
         <DesktopAndTablet>
           <AutoSearch />

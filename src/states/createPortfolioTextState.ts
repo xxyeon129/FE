@@ -87,3 +87,9 @@ export const createGithubState = atom<string>({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
+export const createPortfolioState = atom<boolean>({
+  key: 'createPortfolioState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});

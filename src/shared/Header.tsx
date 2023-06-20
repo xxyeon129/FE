@@ -9,9 +9,10 @@ import AutoSearch from '@src/components/AutoSearch';
 
 interface HeaderProps {
   onClickMobileMenu: () => void;
+  setIsInProgressModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Header = ({ onClickMobileMenu }: HeaderProps) => {
+const Header = ({ onClickMobileMenu, setIsInProgressModalOpen }: HeaderProps) => {
   const navigate = useNavigate();
   const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
 
@@ -29,7 +30,7 @@ const Header = ({ onClickMobileMenu }: HeaderProps) => {
       <StLogo onClick={onClickLogo} />
       <DesktopAndTablet>
         <StUnorderedList>
-          <HeaderListItem liWidth="130px" />
+          <HeaderListItem liWidth="130px" setIsInProgressModalOpen={setIsInProgressModalOpen} />
         </StUnorderedList>
       </DesktopAndTablet>
       <MobileRow>

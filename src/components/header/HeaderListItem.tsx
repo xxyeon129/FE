@@ -11,9 +11,14 @@ import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
 interface HeaderListItemProps {
   liWidth: string;
   setIsMobileDropdownOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsInProgressModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HeaderListItem = ({ liWidth, setIsMobileDropdownOpen }: HeaderListItemProps) => {
+const HeaderListItem = ({
+  liWidth,
+  setIsMobileDropdownOpen,
+  setIsInProgressModalOpen,
+}: HeaderListItemProps) => {
   const [userId, setUserId] = useState('');
   const isLogin = useRecoilValue(loginState);
   const setSelectedCategory = useSetRecoilState(selectedCategoryState);
@@ -34,6 +39,9 @@ const HeaderListItem = ({ liWidth, setIsMobileDropdownOpen }: HeaderListItemProp
     setIsMobileDropdownOpen && setIsMobileDropdownOpen(false);
     if (path.length !== 0) {
       navigate(path);
+    }
+    if (path.length === 0) {
+      setIsInProgressModalOpen(true);
     }
     window.scrollTo({
       top: 0,

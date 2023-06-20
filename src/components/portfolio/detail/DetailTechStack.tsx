@@ -6,8 +6,6 @@ interface DetailTechStackProps {
 }
 
 function DetailTechStack(props: DetailTechStackProps) {
-  console.log('기술스텍', props.techStack);
-
   if (props.techStack.length === 0 || props.techStack.every(item => item.trim() === '')) {
     return null;
   }

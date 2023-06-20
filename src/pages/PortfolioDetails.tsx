@@ -150,14 +150,14 @@ function PortfolioDetails() {
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
       type: 'application/json',
     });
-    const portfolioImageBlob = portfolioImage
-      ? new Blob([portfolioImage], { type: 'multipart/form-data' })
-      : new Blob([], { type: 'multipart/form-data' });
+    // const portfolioImageBlob = portfolioImage
+    //   ? new Blob([portfolioImage], { type: 'multipart/form-data' })
+    //   : new Blob([], { type: 'multipart/form-data' });
 
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
 
-    updatedData.append('portfolioImage', portfolioImageBlob);
+    updatedData.append('portfolioImage', portfolioImage as Blob);
 
     try {
       const response = await axios.patch(

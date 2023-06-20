@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import { MobileRow } from '@src/style/mediaQuery';
 import { ReactComponent as LogoutModalIcon } from '@src/assets/nav/logout-modal-icon.svg';
+import { ReactComponent as InProgressModalIcon } from '@src/assets/mypage-profile.svg';
 import Nav from '@src/shared/Nav';
 import Header from './Header';
 import useAuthModal from '@src/Hook/useAuthModal';
@@ -16,6 +17,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState<boolean>(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState<boolean>(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
+  const [isInProgressModalOpen, setIsInProgressModalOpen] = useState<boolean>(false);
 
   const [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal, onLogoutCloseModal] =
     useAuthModal({
@@ -24,13 +26,20 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
       setIsLogoutModalOpen,
     });
 
+  const onCloseInProgressModal = () => {
+    setIsInProgressModalOpen(false);
+  };
+
   const onClickMobileMenu = () => {
     setIsMobileDropdownOpen(!isMobileDropdownOpen);
   };
 
   return (
     <StLayout>
-      <Header onClickMobileMenu={onClickMobileMenu} />
+      <Header
+        onClickMobileMenu={onClickMobileMenu}
+        setIsInProgressModalOpen={setIsInProgressModalOpen}
+      />
 
       <Nav setIsLoginModalOpen={setIsLoginModalOpen} setIsLogoutModalOpen={setIsLogoutModalOpen} />
       <StContent>{children}</StContent>
@@ -41,6 +50,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
             <MobileDropdownMenu
               isMobileDropdownOpen={isMobileDropdownOpen}
               setIsMobileDropdownOpen={setIsMobileDropdownOpen}
+              setIsInProgressModalOpen={setIsInProgressModalOpen}
             />
           )}
         </>
@@ -56,6 +66,15 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
           mainText="로그아웃 되었습니다."
           mainButtonText="확인"
           onClose={onLogoutCloseModal}
+        />
+      )}
+      {isInProgressModalOpen && (
+        <Modal
+          Icon={InProgressModalIcon}
+          mainText="준비 중인 기능입니다!"
+          subText="더 나은 서비스를 개발 중입니다"
+          mainButtonText="확인"
+          onClose={onCloseInProgressModal}
         />
       )}
     </StLayout>
