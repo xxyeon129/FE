@@ -23,8 +23,6 @@ const SearchResults = () => {
     const pageData = await searchPage(index, searchTermData);
     setPortfolioData(pageData);
     setSelectedPage(index);
-    console.log(pageData);
-    console.log(searchTermData);
   };
   // 초기 상태일 때는 검색어 x -> handlePageButtonClick => searchTermData 빈값이어서 전체 데이타 불러와지고 ->검색어 입력 searchTermState 변화 -> [searchTermData] 의존성 배열때문에  handlePageButtonClick(1); 실행됨
   useEffect(() => {
