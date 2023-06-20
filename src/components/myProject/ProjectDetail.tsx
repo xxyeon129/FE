@@ -10,9 +10,7 @@ import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import { GetProject } from './GetProject';
-import { refreshToken } from '@src/apis/token';
 import imageCompression from 'browser-image-compression';
-
 export interface ProjectDetailData {
   title: string;
   term: string;
@@ -31,10 +29,10 @@ const ProjectModal: React.FC<{
   showModal: boolean;
   projectId: number | null;
   setShowModal: (showModal: boolean) => void;
-}> = React.memo(({ showModal, setShowModal, projectId }) => {
+  getMyPortfolio: () => void;
+}> = React.memo(({ showModal, setShowModal, projectId, getMyPortfolio }) => {
   const [isEditable, setIsEditable] = useState(false);
   const title = useInput('');
-  // const term = useInput('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const people = useInput('');
@@ -43,6 +41,7 @@ const ProjectModal: React.FC<{
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const accessToken = localStorage.getItem('accesstoken') || '';
+  const [dateError, setDateError] = useState('');
   const handleEdit = () => {
     if (accessToken) {
       setIsEditable(!isEditable);
@@ -73,6 +72,15 @@ const ProjectModal: React.FC<{
 
   const updateProjectMutation = useMutation(
     async (formData: FormData) => {
+      setDateError('');
+      if (!startDate || !endDate) {
+        setDateError('시작일과 마감일을 선택하세요');
+        throw new Error();
+      }
+      if (startDate > endDate) {
+        setDateError('시작일은 마감일보다 이전이어야 합니다.');
+        throw new Error();
+      }
       if (!title.value) {
         title.setErrorText('제목을 입력하세요');
         throw new Error();
@@ -114,6 +122,7 @@ const ProjectModal: React.FC<{
     },
     {
       onSuccess: () => {
+        getMyPortfolio();
         alert('수정되었습니다.');
       },
     }
@@ -134,17 +143,7 @@ const ProjectModal: React.FC<{
     }
   };
 
-  const removeImageHandler = () => {
-    setImageList([]);
-    setPreviewImages([]);
-  };
-
   const handleSubmit = async () => {
-    const refreshToken = localStorage.getItem('refreshtoken');
-    if (!refreshToken) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
     const formData = new FormData();
     const imageBlob = new Blob(imageList, { type: 'application/json' });
     const text = JSON.stringify({
@@ -183,19 +182,15 @@ const ProjectModal: React.FC<{
                 </StHeader>
                 {isEditable ? (
                   <>
-                    <ImageField
-                      previewImages={previewImages}
-                      imageHandler={imageHandler}
-                      removeImage={removeImageHandler}
-                    />
+                    <ImageField previewImages={previewImages} imageHandler={imageHandler} />
                     <StTextBox>
                       <FormFields
                         title={title}
-                        // term={term}
                         startDate={startDate}
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        dateError={dateError}
                         people={people}
                         position={position}
                         description={description}

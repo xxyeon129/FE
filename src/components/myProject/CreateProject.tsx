@@ -11,7 +11,6 @@ import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import imageCompression from 'browser-image-compression';
-
 const CreateProject: React.FC<{
   showModal1: boolean;
   setShowModal1: (showModal1: boolean) => void;
@@ -25,7 +24,7 @@ const CreateProject: React.FC<{
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [projectData, setProjectData] = useRecoilState(projectDataAtom);
-
+  const [dateError, setDateError] = useState('');
   const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
@@ -39,10 +38,6 @@ const CreateProject: React.FC<{
       const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
-  };
-  const removeImage = () => {
-    setImageList([]);
-    setPreviewImages([]);
   };
 
   const queryClient = useQueryClient();
@@ -75,19 +70,17 @@ const CreateProject: React.FC<{
   );
 
   const handleSubmit = async () => {
-    const refreshToken = localStorage.getItem('refreshtoken');
-
-    if (!refreshToken) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
-
+    setDateError('');
     if (!title.value) {
       title.setErrorText('제목을 입력하세요');
       return;
     }
     if (!startDate || !endDate) {
-      alert('시작일과 마감일을 선택하세요');
+      setDateError('시작일과 마감일을 선택하세요');
+      return;
+    }
+    if (startDate > endDate) {
+      setDateError('시작일은 마감일보다 이전이어야 합니다.');
       return;
     }
     if (!people.value) {
@@ -131,19 +124,15 @@ const CreateProject: React.FC<{
               <StHeader>
                 <Pol />
               </StHeader>
-              <ImageField
-                previewImages={previewImages}
-                imageHandler={imageHandler}
-                removeImage={removeImage}
-              />
+              <ImageField previewImages={previewImages} imageHandler={imageHandler} />
               <StTextBox>
                 <FormFields
                   title={title}
-                  // term={term}
                   startDate={startDate}
                   setStartDate={setStartDate}
                   endDate={endDate}
                   setEndDate={setEndDate}
+                  dateError={dateError}
                   people={people}
                   position={position}
                   description={description}
