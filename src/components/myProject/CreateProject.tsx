@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
@@ -11,7 +11,8 @@ import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import imageCompression from 'browser-image-compression';
-
+import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
+import Modal from 'src/components/common/Modal';
 const CreateProject: React.FC<{
   showModal1: boolean;
   setShowModal1: (showModal1: boolean) => void;
@@ -25,6 +26,8 @@ const CreateProject: React.FC<{
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [projectData, setProjectData] = useRecoilState(projectDataAtom);
+  const [dateError, setDateError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
@@ -39,10 +42,6 @@ const CreateProject: React.FC<{
       const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
-  };
-  const removeImage = () => {
-    setImageList([]);
-    setPreviewImages([]);
   };
 
   const queryClient = useQueryClient();
@@ -66,28 +65,23 @@ const CreateProject: React.FC<{
       onSuccess: data => {
         queryClient.setQueryData('projectData', data.data);
         setProjectData(data.data);
-        alert('프로젝트가 성공적으로 작성되었습니다.');
-      },
-      onError: () => {
-        alert('프로젝트 작성에 실패했습니다.');
+        setShowSuccessModal(true);
       },
     }
   );
 
   const handleSubmit = async () => {
-    const refreshToken = localStorage.getItem('refreshtoken');
-
-    if (!refreshToken) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
-
+    setDateError('');
     if (!title.value) {
       title.setErrorText('제목을 입력하세요');
       return;
     }
     if (!startDate || !endDate) {
-      alert('시작일과 마감일을 선택하세요');
+      setDateError('시작일과 마감일을 선택하세요');
+      return;
+    }
+    if (startDate > endDate) {
+      setDateError('시작일은 마감일보다 이전이어야 합니다.');
       return;
     }
     if (!people.value) {
@@ -111,7 +105,6 @@ const CreateProject: React.FC<{
       return;
     }
     await mutation.mutateAsync();
-    setShowModal1(false);
   };
 
   const handleCloseModal = () => {
@@ -127,23 +120,30 @@ const CreateProject: React.FC<{
       {showModal1 && (
         <ModalWrapper onClick={keepModalWindow}>
           <ModalContent onClick={keepModalWindow}>
+            {showSuccessModal && (
+              <Modal
+                Icon={ProFileUpdate}
+                mainText="프로젝트가 성공적으로 작성되었습니다."
+                mainButtonText="확인"
+                onClose={() => {
+                  setShowSuccessModal(false);
+                  setShowModal1(false);
+                }}
+              />
+            )}
             <StLayout>
               <StHeader>
                 <Pol />
               </StHeader>
-              <ImageField
-                previewImages={previewImages}
-                imageHandler={imageHandler}
-                removeImage={removeImage}
-              />
+              <ImageField previewImages={previewImages} imageHandler={imageHandler} />
               <StTextBox>
                 <FormFields
                   title={title}
-                  // term={term}
                   startDate={startDate}
                   setStartDate={setStartDate}
                   endDate={endDate}
                   setEndDate={setEndDate}
+                  dateError={dateError}
                   people={people}
                   position={position}
                   description={description}

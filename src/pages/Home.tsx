@@ -229,7 +229,7 @@ const StButton = styled.button<{ color: string }>`
 const StShadow = styled.div`
   position: absolute;
   width: 100%;
-  top: 305px;
+  top: 300px;
   background: linear-gradient(180deg, #ffffff -5.06%, rgba(255, 255, 255, 0) 150%);
   transform: rotate(-180deg);
   padding: 250px;
@@ -266,7 +266,7 @@ const StBackgroundIcon = styled(BackgroundIcon)`
 
 const StTextLabel = styled.h2`
   font-weight: 900;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 `;
 
 const StListContainer = styled.div`
@@ -274,7 +274,7 @@ const StListContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 41px;
-  margin-top: 50px;
+  /* margin-top: 50px; */
 `;
 
 export default Home;

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react';
 import { useEffect } from 'react';
 
 const RedirectionNaver = () => {
@@ -7,7 +6,9 @@ const RedirectionNaver = () => {
 
   const authNaverLogin = async (code: string) => {
     try {
-      const response = await axios.get(`https://ppol.pro/api/users/naver?code=${code}&state=state`);
+      const response = await axios.get(
+        `https://portfol.pro/api/users/naver?code=${code}&state=state`
+      );
       const accesstoken = response.headers['accesstoken'];
       localStorage.setItem('accesstoken', accesstoken);
       const refreshtoken = response.headers['refreshtoken'];
