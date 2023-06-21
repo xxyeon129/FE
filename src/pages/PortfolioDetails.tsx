@@ -20,6 +20,8 @@ import EditLinkSection from '@src/components/portfolio/edit/EditLinkSection';
 import ProjectEditSection from '@src/components/portfolio/edit/ProjectEditSection';
 import DetailTechStack from '@src/components/portfolio/detail/DetailTechStack';
 import { Desktop } from '@src/style/mediaQuery.ts';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 function PortfolioDetails() {
   interface Project {
@@ -57,6 +59,7 @@ function PortfolioDetails() {
   const [imageLoadError, setImageLoadError] = useState<boolean>(false);
   const [updateComplete, setUpdateComplete] = useState(false);
   const [category, setCategory] = useState(false);
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   const projectData = useRecoilValue(projectDataAtom);
 
@@ -190,7 +193,8 @@ function PortfolioDetails() {
 
   useEffect(() => {
     if (updateComplete) {
-      alert('수정완료');
+      // alert('수정완료');
+      showSnackbarPopup();
       setUpdateComplete(false);
     }
   }, [updateComplete]);
@@ -392,6 +396,14 @@ function PortfolioDetails() {
                 <DeletePortfolioModal
                   portId={portid}
                   onCloseModal={() => setIsDeleteModalOpen(false)}
+                />
+              )}
+
+              {isSnackbarVisible && (
+                <SnackbarPopup
+                  text="수정완료"
+                  type="done" // ---> type 속성을 생략하면 디폴트로 빨간색 에러 스낵바 ui로 설정. type="done" 설정 시 회색 스낵바 UI
+                  isSnackbarVisible={isSnackbarVisible}
                 />
               )}
             </div>

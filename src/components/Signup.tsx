@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
 import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
 import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
-
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
 import { useNavigate } from 'react-router-dom';
 import ProposalLoginModal from './ProposalLoginModal';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 type SignupProps = {
   onClose: () => void;
@@ -24,6 +25,7 @@ function Signup({ onClose }: SignupProps) {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [loginNow, setLoginNow] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   const modalRef = useRef(null);
   const [errors, setErrors] = useState({
@@ -40,9 +42,8 @@ function Signup({ onClose }: SignupProps) {
         password,
         nickname,
       });
-      alert('회원가입 성공');
+      showSnackbarPopup();
       setLoginNow(true);
-      // onClose();
       return response;
     } catch (error) {
       alert('회원가입 실패 ');
@@ -202,13 +203,14 @@ function Signup({ onClose }: SignupProps) {
               id="password"
               value={password}
               onChange={onPasswordChange}
+              placeholder="비밀번호 입력 (문자,숫자,특수문자 포함 6자 이상)"
             />
           </DesktopAndTablet>
           <MobileRow>
             <StInput
               type={showPassword ? 'text' : 'password'}
               id="password"
-              placeholder="비밀번호"
+              placeholder="비밀번호 입력 (문자,숫자,특수문자 포함 6자 이상)"
               value={password}
               onChange={onPasswordChange}
             />
@@ -276,6 +278,10 @@ function Signup({ onClose }: SignupProps) {
           onCloseModal={() => setLoginNow(false)}
           onSiginupClose={onClose}
         />
+      )}
+
+      {isSnackbarVisible && (
+        <SnackbarPopup text="회원가입 성공" type="done" isSnackbarVisible={isSnackbarVisible} />
       )}
     </StModalWrapper>
   );
@@ -398,6 +404,7 @@ const StEyeIcon = styled(Eye)`
 const StErrorSection = styled.div`
   margin-bottom: 30px;
   margin-top: -15px;
+  font-size: 14px;
 
   @media (max-width: 1023px) {
     font-size: 14px;

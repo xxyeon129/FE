@@ -39,15 +39,17 @@ function LinkSection(props: LinkSectionProps) {
         </StBlog>
       )}
 
-      {/* <div>{props.githubId} 의 잔디</div> */}
-      {props.githubId && (
-        <StGithub onClick={props.onMyGit}>
-          <StGitgrass
-            src={`https://ghchart.rshah.org/${props.githubId}`}
-            alt="GitHub Contributions"
-          />
-        </StGithub>
-      )}
+      <div>
+        {props.githubId && (
+          <StGithub onClick={props.onMyGit}>
+            <StGithubId>{props.githubId} 의 잔디</StGithubId>
+            <StGitgrass
+              src={`https://ghchart.rshah.org/${props.githubId}`}
+              alt="GitHub Contributions"
+            />
+          </StGithub>
+        )}
+      </div>
 
       <StLine />
     </Container>
@@ -148,6 +150,12 @@ const StGithub = styled.div`
   margin: 5% 0;
   border-radius: 20px;
   cursor: pointer;
+`;
+
+const StGithubId = styled.p`
+  /* @media (max-width: 1170) {
+    font-size: 8px;
+  } */
 `;
 
 const StGitgrass = styled.img`
