@@ -144,7 +144,7 @@ const StSearch = styled.div`
     flex-direction: row;
     border: none;
     background: none;
-    font-size: 16px;
+    font-size: 15px;
     max-width: 140px;
 
     &:focus::placeholder {
