@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, ChangeEventHandler } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { getProject, updateProject } from '@src/apis/projectapi';
 import { styled } from 'styled-components';
@@ -11,6 +11,8 @@ import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import { GetProject } from './GetProject';
 import imageCompression from 'browser-image-compression';
+import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
+import Modal from 'src/components/common/Modal';
 export interface ProjectDetailData {
   title: string;
   term: string;
@@ -35,13 +37,14 @@ const ProjectModal: React.FC<{
   const title = useInput('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [dateError, setDateError] = useState('');
   const people = useInput('');
   const position = useInput('');
   const description = useInput('');
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const accessToken = localStorage.getItem('accesstoken') || '';
-  const [dateError, setDateError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const handleEdit = () => {
     if (accessToken) {
       setIsEditable(!isEditable);
@@ -72,7 +75,6 @@ const ProjectModal: React.FC<{
 
   const updateProjectMutation = useMutation(
     async (formData: FormData) => {
-      setDateError('');
       if (!startDate || !endDate) {
         setDateError('시작일과 마감일을 선택하세요');
         throw new Error();
@@ -85,11 +87,6 @@ const ProjectModal: React.FC<{
         title.setErrorText('제목을 입력하세요');
         throw new Error();
       }
-      if (!startDate || !endDate) {
-        alert('시작일과 마감일을 선택하세요');
-        throw new Error();
-        return;
-      }
       if (!people.value) {
         people.setErrorText('인원을 입력하세요');
         throw new Error();
@@ -98,7 +95,6 @@ const ProjectModal: React.FC<{
         position.setErrorText('담당 포지션을 입력하세요');
         throw new Error();
       }
-
       if (!description.value) {
         description.setErrorText('설명을 입력하세요');
         throw new Error();
@@ -123,7 +119,7 @@ const ProjectModal: React.FC<{
     {
       onSuccess: () => {
         getMyPortfolio();
-        alert('수정되었습니다.');
+        setShowSuccessModal(true);
       },
     }
   );
@@ -174,6 +170,17 @@ const ProjectModal: React.FC<{
       {showModal && (
         <ModalWrapper onClick={keepModalWindow}>
           <ModalContent>
+            {showSuccessModal && (
+              <Modal
+                Icon={ProFileUpdate}
+                mainText="프로젝트가 성공적으로 수정되었습니다."
+                mainButtonText="확인"
+                onClose={() => {
+                  setShowSuccessModal(false);
+                  setShowModal(false);
+                }}
+              />
+            )}
             <ScrollableContent>
               <StLayout>
                 <StHeader>
