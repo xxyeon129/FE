@@ -16,9 +16,15 @@ type LoginProps = {
   onClose: () => void;
   onSignUpClick: () => void;
   navigatePath?: string;
+  setIsSocialLoginWarnModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
+const LoginModal = ({
+  onClose,
+  onSignUpClick,
+  navigatePath,
+  setIsSocialLoginWarnModalOpen,
+}: LoginProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -145,7 +151,10 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
           <button onClick={onSignUp}>회원가입</button>
         </div>
         <StSocialLogin>
-          <KakaoLogin />
+          <KakaoLogin
+            setIsSocialLoginWarnModalOpen={setIsSocialLoginWarnModalOpen}
+            onCloseLoginModal={onClose}
+          />
           <NaverLogin />
           <GoogleLogin />
         </StSocialLogin>
