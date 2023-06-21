@@ -2,14 +2,14 @@ import { ReactComponent as KakaoIcon } from '@src/assets/socailLogin/kakaologin.
 import { styled } from 'styled-components';
 
 interface KakaoLoginProps {
-  setIsSocialLoginWarnModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsKakaoLoginWarnModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onCloseLoginModal: () => void;
 }
 
-const KakaoLogin = ({ setIsSocialLoginWarnModalOpen, onCloseLoginModal }: KakaoLoginProps) => {
+const KakaoLogin = ({ setIsKakaoLoginWarnModalOpen, onCloseLoginModal }: KakaoLoginProps) => {
   const onClickKakaoLoginButton = () => {
     onCloseLoginModal();
-    setIsSocialLoginWarnModalOpen(true);
+    setIsKakaoLoginWarnModalOpen(true);
   };
 
   return (

@@ -73,7 +73,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
         <LoginModal
           onClose={onCloseLoginModal}
           onSignUpClick={onClickSignUpButton}
-          setIsSocialLoginWarnModalOpen={setIsKakaoLoginWarnModalOpen}
+          setIsKakaoLoginWarnModalOpen={setIsKakaoLoginWarnModalOpen}
         />
       )}
       {isSignUpModalOpen && <Signup onClose={onCloseSignUpModal} />}
