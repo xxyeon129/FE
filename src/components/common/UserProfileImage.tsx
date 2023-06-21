@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { ReactComponent as ProfileIcon } from '@src/assets/default-user-profile-icon.svg';
 import { useState } from 'react';
+import useImgLoadError from '@src/Hook/useImgLoadError';
 
 interface UserProfileImageProps {
   isExistToken?: boolean;
@@ -10,11 +11,7 @@ interface UserProfileImageProps {
 }
 
 const UserProfileImage = ({ isExistToken, imgSrc, isLoading, size }: UserProfileImageProps) => {
-  const [imageLoadError, setImageLoadError] = useState<boolean>(false);
-
-  const onImageError = () => {
-    setImageLoadError(true);
-  };
+  const { imageLoadError, onImageError } = useImgLoadError();
 
   return (
     <>
