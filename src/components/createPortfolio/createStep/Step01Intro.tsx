@@ -53,9 +53,9 @@ const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
           <StButtonContainer>
             <NextStepButton
               onClick={() => onNextButtonClick(STEP.TWO)}
-              width="150px"
               marginRight="0px"
               text="시작하기"
+              isIntroButton="true"
             />
           </StButtonContainer>
         </StDetailContainer>
