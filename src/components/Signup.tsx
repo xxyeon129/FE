@@ -299,7 +299,7 @@ function Signup({ onClose }: SignupProps) {
 export default Signup;
 
 const buttonStyle = `
-padding: 8px 16px;
+// padding: 8px 16px;
 background-color: #3d3d3d;
 color: white;
 border: none;
@@ -387,12 +387,13 @@ const StInputSection = styled.div`
   align-items: center;
   margin-bottom: 20px;
   position: relative;
+  gap: 10px;
 `;
 
 const StInput = styled.input`
   flex: 1;
   padding: 8px;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   border: 1px solid #ccc;
   border-radius: 4px;
   height: 40px;
@@ -458,10 +459,15 @@ const StSuccessMessage = styled.label`
 
 const StButton = styled.button`
   ${buttonStyle}
+  height: 40px;
+  margin-top: 10px;
+
   @media (max-width: 479px) {
     height: 40px;
-    width: 95px;
+    width: 75px;
     margin-top: -5px;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
