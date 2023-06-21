@@ -32,9 +32,6 @@ function ProposalLoginModal(props: LoginModalProps) {
       const accessToken = response.headers['accesstoken'];
       const refreshToken = response.headers['refreshtoken'];
 
-      console.log(response.data);
-      console.log(response.headers);
-
       localStorage.setItem('accesstoken', accessToken);
       localStorage.setItem('refreshtoken', refreshToken);
 

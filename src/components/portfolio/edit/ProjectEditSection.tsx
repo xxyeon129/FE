@@ -19,7 +19,6 @@ interface ProjectImage {
 }
 
 function ProjectEditSection(props: ProjectEditSectionProps) {
-  console.log(props.projects);
   return (
     <div>
       <StProjectList>
