@@ -59,8 +59,6 @@ function PortfolioDetails() {
   const [category, setCategory] = useState(false);
   const projectData = useRecoilValue(projectDataAtom);
 
-  // console.log('겟이미지', getPortfolioImage);
-
   useEffect(() => {
     if (projectData !== null) {
       const projectId = projectData.id;
@@ -150,9 +148,6 @@ function PortfolioDetails() {
     const portfolioRequestBlob = new Blob([JSON.stringify(portfolioRequestDto)], {
       type: 'application/json',
     });
-    // const portfolioImageBlob = portfolioImage
-    //   ? new Blob([portfolioImage], { type: 'multipart/form-data' })
-    //   : new Blob([], { type: 'multipart/form-data' });
 
     const updatedData = new FormData();
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);

@@ -131,9 +131,9 @@ function Signup({ onClose }: SignupProps) {
 
   const onEmailCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
+    // 이메일인증해야쥐
     try {
       const response = await axios.get(`${SERVER_URL}/api/users/email-check?email=${email}`);
-      console.log(email);
       setEmailSuccessCheck('사용가능한 아이디입니다.');
       setEmailErrorCheck('');
     } catch (error: unknown) {
@@ -393,10 +393,6 @@ const StEyeIcon = styled(Eye)`
   height: 20px;
   fill: #ccc;
   cursor: pointer;
-
-  /* &:hover {
-    background-color: #bcbcbc;
-  } */
 `;
 
 const StErrorSection = styled.div`
@@ -447,7 +443,7 @@ const StSubmitButton = styled.button`
   ${buttonStyle}
   width: 150px;
   height: 40px;
-  margin-top: 20px;
+  margin-top: 5px;
 
   @media (max-width: 1023px) {
     width: 100px;
@@ -466,10 +462,3 @@ const StButtonContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-// const CloseButton = styled.button`
-//   ${buttonStyle}
-//   width: 80px;
-//   height: 30px;
-//   margin: 20px 0;
-// `;
