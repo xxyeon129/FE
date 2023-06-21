@@ -90,7 +90,7 @@ function Signup({ onClose }: SignupProps) {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const nicknameRegex = /^[가-힣a-zA-Z]{2,10}$/;
+    const nicknameRegex = /^[a-zA-Z가-힣0-9]{1,10}$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
     let Error = false;
 
@@ -132,20 +132,13 @@ function Signup({ onClose }: SignupProps) {
 
   const onEmailCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // e.preventDefault();
-    // 이메일인증해야쥐
-    try {
-      const response = await axios.get(`${SERVER_URL}/api/users/email-check?email=${email}`);
-      setEmailSuccessCheck('사용가능한 아이디입니다.');
-      setEmailErrorCheck('');
-    } catch (error: unknown) {
-      if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
-        setEmailErrorCheck('중복된 아이디입니다.');
-        setEmailSuccessCheck('');
-      } else if ((error as AxiosError).response && (error as AxiosError).response?.status === 400) {
-        setEmailErrorCheck('이메일 형식이 올바르지 않습니다.');
-        setEmailSuccessCheck('');
-      }
-    }
+    // 이메일 인증해야 함
+    const response = await axios.get(`${SERVER_URL}/api/users/email`, {
+      params: {
+        receiverEmail: email,
+      },
+    });
+    console.log(response.data);
   };
 
   const onButtonClick = () => {
@@ -184,7 +177,7 @@ function Signup({ onClose }: SignupProps) {
             />
           </MobileRow>
           <StButton onClick={onEmailCheck} type="button">
-            중복검사
+            이메일인증
           </StButton>
         </StInputSection>
         <StErrorSection>
@@ -192,6 +185,16 @@ function Signup({ onClose }: SignupProps) {
           {emailErrorCheck && <StErrorMessage>{emailErrorCheck}</StErrorMessage>}
           {emailSuccessCheck && <StSuccessMessage>{emailSuccessCheck}</StSuccessMessage>}
         </StErrorSection>
+
+        {/* 이메일코드 */}
+        <StInputSection>
+          <DesktopAndTablet>
+            <StInput type="text" placeholder="이메일 확인 코드" />
+          </DesktopAndTablet>
+          <MobileRow>
+            <StInput type="text" placeholder="이메일 확인 코드" />
+          </MobileRow>
+        </StInputSection>
 
         <DesktopAndTablet>
           <label htmlFor="password">비밀번호</label>
@@ -251,13 +254,19 @@ function Signup({ onClose }: SignupProps) {
         </DesktopAndTablet>
         <StInputSection>
           <DesktopAndTablet>
-            <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
+            <StInput
+              type="text"
+              id="nickname"
+              value={nickname}
+              onChange={onNicknameChange}
+              placeholder="닉네임 입력 (문자,숫자, 포함 2자 이상)"
+            />
           </DesktopAndTablet>
           <MobileRow>
             <StInput
               type="text"
               id="nickname"
-              placeholder="닉네임"
+              placeholder="닉네임 입력 (문자,숫자, 포함 2자 이상)"
               value={nickname}
               onChange={onNicknameChange}
             />
@@ -318,22 +327,22 @@ const StModalWrapper = styled.div`
 
 const StModalContent = styled.form`
   background-color: white;
-  padding: 100px;
+  padding: 70px;
   border-radius: 20px;
-  height: 700px;
+  height: 800px;
   width: 600px;
   align-items: center;
   overflow: hidden;
 
   @media (max-width: 1023px) {
     width: 500px;
-    height: 650px;
+    height: 750px;
     padding: 50px;
   }
 
   @media (max-width: 767px) {
     width: 500px;
-    height: 550px;
+    height: 650px;
     padding: 50px;
   }
 
@@ -388,6 +397,11 @@ const StInput = styled.input`
   border-radius: 4px;
   height: 40px;
   margin-top: 10px;
+
+  @media (max-width: 479px) {
+    margin: 0;
+    margin-top: -5px;
+  }
 `;
 
 const StEyeIcon = styled(Eye)`
@@ -444,6 +458,11 @@ const StSuccessMessage = styled.label`
 
 const StButton = styled.button`
   ${buttonStyle}
+  @media (max-width: 479px) {
+    height: 40px;
+    width: 95px;
+    margin-top: -5px;
+  }
 `;
 
 const StSubmitButton = styled.button`

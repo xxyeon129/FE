@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/portedit-youtube-icon.svg';
 import { ReactComponent as Blog } from '@src/assets/portfolioDetail/portedit-blog-icon.svg';
+import ErrorIcon from '@src/assets/portfolioDetail/port-error-icon.svg';
 
 interface LinkSectionProps {
   blog: string;
@@ -13,6 +14,8 @@ interface LinkSectionProps {
 }
 
 function LinkSection(props: LinkSectionProps) {
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+
   return (
     <Container>
       <div>
@@ -42,11 +45,19 @@ function LinkSection(props: LinkSectionProps) {
       <div>
         {props.githubId && (
           <StGithub onClick={props.onMyGit}>
-            <StGithubId>{props.githubId} 의 잔디</StGithubId>
-            <StGitgrass
-              src={`https://ghchart.rshah.org/${props.githubId}`}
-              alt="GitHub Contributions"
-            />
+            <StGithubContainer>
+              <StGitgrass
+                src={`https://ghchart.rshah.org/${props.githubId}`}
+                alt="GitHub 아이디를 확인해주세요."
+                onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                  e.currentTarget.src = ErrorIcon;
+                  e.currentTarget.style.width = '20px';
+                  e.currentTarget.style.height = '20px';
+                  setShowErrorMessage(true);
+                }}
+              />
+              {showErrorMessage && <ErrorMessage>GitHub 아이디를 확인해주세요.</ErrorMessage>}
+            </StGithubContainer>
           </StGithub>
         )}
       </div>
@@ -150,6 +161,13 @@ const StGithub = styled.div`
   margin: 5% 0;
   border-radius: 20px;
   cursor: pointer;
+  justify-content: center;
+`;
+
+const StGithubContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
 const StGithubId = styled.p`
@@ -162,6 +180,8 @@ const StGitgrass = styled.img`
   width: 100%;
   height: auto;
 `;
+
+const ErrorMessage = styled.div``;
 
 const YouTubeIcon = styled.div`
   display: flex;
