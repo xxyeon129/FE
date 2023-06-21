@@ -1,5 +1,5 @@
-import React from 'react';
-import { ReactComponent as Googlelogin } from '@src/assets/socailLogin/googlelogin.svg';
+import { ReactComponent as GoogleIcon } from '@src/assets/socailLogin/googlelogin.svg';
+import { styled } from 'styled-components';
 
 function GoogleLogin() {
   const Google_Client_ID = `${import.meta.env.VITE_GOOGLE_CLIENT_ID}`;
@@ -13,9 +13,13 @@ function GoogleLogin() {
 
   return (
     <div>
-      <Googlelogin onClick={Google} />
+      <StGoogleIcon onClick={Google} />
     </div>
   );
 }
+
+const StGoogleIcon = styled(GoogleIcon)`
+  cursor: pointer;
+`;
 
 export default GoogleLogin;
