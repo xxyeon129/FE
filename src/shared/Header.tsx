@@ -58,12 +58,12 @@ const StHeader = styled.header`
 
   @media ${({ theme }) => theme.size.mobileRow} {
     transition: 0.5s;
-    padding: 0 21px;
+    padding: 0 18px;
   }
 
   @media ${({ theme }) => theme.size.mobileColumn} {
     transition: 0.5s;
-    padding: 0 18px;
+    padding: 0 15px;
   }
 `;
 
