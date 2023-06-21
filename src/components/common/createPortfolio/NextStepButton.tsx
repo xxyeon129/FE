@@ -42,6 +42,19 @@ const StButton = styled.button<{ width: string; marginright: string; notallowed:
   }
 
   cursor: ${({ notallowed }) => notallowed === 'true' && 'not-allowed'};
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: ${({ width }) => (width ? '120px' : '80px')};
+    padding: 15px;
+    font-size: 16px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    width: ${({ width }) => (width ? '110px' : '70px')};
+    padding: 13px 0;
+    font-size: 14px;
+  }
 `;
 
 const spinAnimation = keyframes`
