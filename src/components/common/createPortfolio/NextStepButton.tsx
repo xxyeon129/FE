@@ -43,7 +43,8 @@ const StButton = styled.button<{
   font-size: 18px;
   margin-right: ${({ marginright }) => marginright};
 
-  background-color: ${({ theme }) => theme.color.neonGreen};
+  background-color: ${({ theme, notallowed }) =>
+    notallowed === 'true' ? theme.color.paleGray : theme.color.neonGreen};
 
   &:not([notallowed='true']):hover {
     transition: 0.5s;
