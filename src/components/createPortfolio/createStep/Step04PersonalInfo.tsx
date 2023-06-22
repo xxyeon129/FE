@@ -17,6 +17,7 @@ import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
 import SnackbarPopup from '@src/components/common/SnackbarPopup';
 import EmailForm from '../EmailForm';
 import { useState } from 'react';
+import PhoneForm from '../PhoneForm';
 
 const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [email, setEmail] = useRecoilState<string>(createEmailState);
@@ -46,6 +47,7 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
         <TitleTextLabel title={title} description={description} />
         <StPersonalInfoForm>
           <EmailForm isInvalidEmail={isInvalidEmail} errorMessage={errorMessage} />
+          {/* <PhoneForm /> */}
           <AdditionalPersonalInfo sharedStyle={sharedStyle} />
         </StPersonalInfoForm>
       </S.ContentContainer>

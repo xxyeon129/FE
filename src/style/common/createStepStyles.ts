@@ -45,3 +45,27 @@ export const StInputLabel = styled.div`
   color: gray;
   font-size: 13px;
 `;
+
+export const PersonalInfoStyle = {
+  Container: styled.div`
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px 20px;
+  `,
+  Label: styled.label`
+    color: gray;
+    font-weight: 800;
+    font-size: 15px;
+  `,
+  Input: styled.input`
+    border: none;
+    &::placeholder {
+      color: #b5b5b5;
+    }
+  `,
+};
