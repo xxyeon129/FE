@@ -251,6 +251,8 @@ const StModalContent = styled.form`
 `;
 
 const StModalTitle = styled.h1`
+  line-height: 120%;
+
   @media (max-width: 1023px) {
     font-size: 25px;
   }
@@ -304,6 +306,10 @@ const StSocialLogin = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 767px) {
+    margin-top: 20px;
+  }
 `;
 
 const StSignupButton = styled.button`
