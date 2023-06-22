@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { ReactComponent as ErrorIcon } from '@src/assets/not-found-icon.svg';
 import useAuthModal from '@src/Hook/useAuthModal';
 import LoginModal from '@src/components/nav/LoginModal';
+import Signup from '@src/components/Signup';
 
 const Login = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -11,7 +12,7 @@ const Login = () => {
 
   const location = useLocation();
 
-  const [onCloseLoginModal, onClickSignUpButton, onSignUpCloseModal] = useAuthModal({
+  const [onCloseLoginModal, onClickSignUpButton, onCloseSignUpModal] = useAuthModal({
     setIsLoginModalOpen,
     setIsSignUpModalOpen,
   });
@@ -35,6 +36,7 @@ const Login = () => {
           navigatePath={location.pathname}
         />
       )}
+      {isSignUpModalOpen && <Signup onClose={onCloseSignUpModal} />}
     </StLogin>
   );
 };
