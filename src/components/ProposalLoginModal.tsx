@@ -2,8 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
-import UserProfile from './nav/UserProfile';
-import NavContent from './nav/NavContent';
 import { ReactComponent as Icon } from '@src/assets/portfolioDetail/port-delete-icon.svg';
 
 interface LoginModalProps {
