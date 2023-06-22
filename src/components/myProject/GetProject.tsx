@@ -4,6 +4,7 @@ import { ProjectDetailData } from './ProjectDetail';
 import { ImageType } from './ProjectDetail';
 import { ReactComponent as Edit } from 'src/assets/project-edit.svg';
 import { ReactComponent as NickNameIcon } from 'src/assets/getproject-nickname.svg';
+import DefaultImg from '@src/assets/images/defaultimg-pol.jpg';
 interface ProjectDetailProps {
   projectData: ProjectDetailData | undefined;
   handleEdit: () => void;
@@ -17,13 +18,18 @@ export const GetProject: React.FC<ProjectDetailProps> = ({
   accessToken,
   userId,
 }) => {
+  const defaultImage = DefaultImg;
   return (
     <>
       <StGetImageContainer>
         <StGetImageBox>
-          {projectData?.projectImageList.map((image: ImageType, index: number) => (
-            <StImage key={index} src={image.imageUrl} alt="Preview" />
-          ))}
+          {projectData?.projectImageList && projectData?.projectImageList.length > 0 ? (
+            projectData?.projectImageList.map((image: ImageType, index: number) => (
+              <StImage key={index} src={image.imageUrl} alt="Preview" />
+            ))
+          ) : (
+            <StImage src={defaultImage} alt="Default Preview" />
+          )}
         </StGetImageBox>
         <StGetHeader>
           {accessToken && userId === projectData?.userId && <Edit onClick={handleEdit}></Edit>}
@@ -60,7 +66,7 @@ const StTextWrap = styled.div`
 
 const StTitle = styled.div`
   font-weight: bold;
-  font-size: 15px;
+  font-size: 20px;
   width: 100%;
   margin-bottom: 1px;
 `;
@@ -89,7 +95,7 @@ const StText = styled.div`
   font-family: 'SUIT';
   font-style: normal;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 150%;
 
   @media (max-width: 600px) {
@@ -161,14 +167,14 @@ const StGetTextWrap = styled.div`
     font-family: 'SUIT';
     font-style: normal;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 20px;
     margin-right: 20px;
   }
   p {
     font-family: 'SUIT';
     font-style: normal;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 20px;
   }
 `;
 
