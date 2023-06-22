@@ -5,9 +5,11 @@ import { styled } from 'styled-components';
 const Chart = () => {
   return (
     <StPageContainer>
+      <StTitle>Charts</StTitle>
       <StChart>
-        <StTitle>Charts</StTitle>
-        <PhotographerChart />
+        <StChartWrapper>
+          <PhotographerChart />
+        </StChartWrapper>
       </StChart>
     </StPageContainer>
   );
@@ -16,6 +18,7 @@ const Chart = () => {
 const StChart = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
 `;
 
 const StTitle = styled.h1`
@@ -23,5 +26,7 @@ const StTitle = styled.h1`
   font-weight: 900;
   margin: 30px 0;
 `;
+
+const StChartWrapper = styled.div``;
 
 export default Chart;

@@ -37,7 +37,7 @@ const PhotographerChart = () => {
           'rgba(210, 83, 255, 0.25)',
         ],
         borderColor: ['#99E7FF', '#52B6FF', '#0076E3', '#3A42FF', '#BB86FF', '#D253FF'],
-        borderWidth: 2,
+        borderWidth: 3,
       },
     ],
   };
