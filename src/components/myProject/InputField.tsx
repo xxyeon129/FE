@@ -8,13 +8,29 @@ export const InputField: React.FC<{
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
   error?: string;
-}> = ({ title, value, onChange, placeholder, error }) => (
-  <StTextWrap>
-    <StTitle>{title}</StTitle>
-    <StInput type="text" value={value} onChange={onChange} placeholder={placeholder} />
-    {error && <StError>{error}</StError>}
-  </StTextWrap>
-);
+  count: number;
+  maxLength: number;
+}> = ({ title, value, onChange, placeholder, error, count, maxLength }) => {
+  const Overlength = count == maxLength;
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    if (inputValue.length <= maxLength) {
+      onChange(e);
+    }
+  };
+
+  return (
+    <StTextWrap>
+      <StTitle>{title}</StTitle>
+      <StInput type="text" value={value} onChange={handleInputChange} placeholder={placeholder} />
+      {error && <StError>{error}</StError>}
+      <StCharacterCount overlength={Overlength}>
+        {count}/{maxLength}
+      </StCharacterCount>
+    </StTextWrap>
+  );
+};
 
 const StTextWrap = styled.div`
   display: flex;
@@ -48,4 +64,11 @@ const StError = styled.div`
   font-size: 14px;
   padding: 0px 10px;
   color: red;
+`;
+
+const StCharacterCount = styled.div<{ overlength: boolean }>`
+  font-size: 1px;
+  padding: 0px 10px;
+  color: ${({ overlength }) => (overlength ? 'red' : 'rgba(0, 0, 0, 0.5)')};
+  text-align: right;
 `;

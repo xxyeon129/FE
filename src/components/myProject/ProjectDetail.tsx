@@ -1,18 +1,18 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, ChangeEventHandler } from 'react';
 import { useQuery, useMutation } from 'react-query';
 import { getProject, updateProject } from '@src/apis/projectapi';
 import { styled } from 'styled-components';
 import jwtDecode from 'jwt-decode';
-import DefaultImg from '@src/assets/images/no-img.jpg';
+import DefaultImg from '@src/assets/images/defaultimg-pol.jpg';
 import { ReactComponent as Pol } from 'src/assets/pol-icon.svg';
 import { ReactComponent as Close } from 'src/assets/mypage-close.svg';
 import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import { GetProject } from './GetProject';
-import { refreshToken } from '@src/apis/token';
 import imageCompression from 'browser-image-compression';
-
+import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
+import Modal from 'src/components/common/Modal';
 export interface ProjectDetailData {
   title: string;
   term: string;
@@ -31,18 +31,21 @@ const ProjectModal: React.FC<{
   showModal: boolean;
   projectId: number | null;
   setShowModal: (showModal: boolean) => void;
-}> = React.memo(({ showModal, setShowModal, projectId }) => {
+  getMyPortfolio: () => void;
+}> = React.memo(({ showModal, setShowModal, projectId, getMyPortfolio }) => {
   const [isEditable, setIsEditable] = useState(false);
   const title = useInput('');
-  // const term = useInput('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [dateError, setDateError] = useState('');
   const people = useInput('');
   const position = useInput('');
   const description = useInput('');
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const accessToken = localStorage.getItem('accesstoken') || '';
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const handleEdit = () => {
     if (accessToken) {
       setIsEditable(!isEditable);
@@ -56,7 +59,6 @@ const ProjectModal: React.FC<{
     const project = await getProject(projectId);
     return project;
   });
-
   useEffect(() => {
     if (data) {
       title.onChange({ target: { value: data.title } } as ChangeEvent<HTMLInputElement>);
@@ -65,56 +67,35 @@ const ProjectModal: React.FC<{
       description.onChange({
         target: { value: data.description },
       } as ChangeEvent<HTMLTextAreaElement>);
-      setPreviewImages(
-        data.projectImageList.map((image: ImageType) => image.imageUrl) || DefaultImg
-      );
+      if (data.projectImageList.length === 0) {
+        setPreviewImages([DefaultImg]);
+      } else {
+        setPreviewImages(data.projectImageList.map((image: ImageType) => image.imageUrl));
+      }
+      const [start, end] = data.term.split(' - ').map(dateStr => new Date(dateStr));
+      setStartDate(start);
+      setEndDate(end);
     }
   }, [data]);
+  const isFormValid =
+    title.value &&
+    startDate &&
+    endDate &&
+    startDate <= endDate &&
+    people.value &&
+    position.value &&
+    description.value;
 
   const updateProjectMutation = useMutation(
     async (formData: FormData) => {
-      if (!title.value) {
-        title.setErrorText('제목을 입력하세요');
-        throw new Error();
-      }
-      if (!startDate || !endDate) {
-        alert('시작일과 마감일을 선택하세요');
-        throw new Error();
-        return;
-      }
-      if (!people.value) {
-        people.setErrorText('인원을 입력하세요');
-        throw new Error();
-      }
-      if (!position.value) {
-        position.setErrorText('담당 포지션을 입력하세요');
-        throw new Error();
-      }
-
-      if (!description.value) {
-        description.setErrorText('설명을 입력하세요');
-        throw new Error();
-      }
-      if (title.value.length < 3 || title.value.length > 45) {
-        title.setErrorText('제목은 3자 이상 45자 이하여야 합니다.');
-        throw new Error();
-      }
-      if (description.value.length < 3 || description.value.length > 1500) {
-        description.setErrorText('설명은 3자 이상 1500자 이하여야 합니다.');
-        throw new Error();
-      }
-      if (position.value.length < 3 || position.value.length > 20) {
-        position.setErrorText('20자 이내로 입력하세요');
-        throw new Error();
-      }
-
       await updateProject(formData, projectId);
       refetch();
       setIsEditable(false);
     },
     {
       onSuccess: () => {
-        alert('수정되었습니다.');
+        getMyPortfolio();
+        setShowSuccessModal(true);
       },
     }
   );
@@ -122,6 +103,17 @@ const ProjectModal: React.FC<{
   const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
+      const isAllFilesValid = fileList.every(file => {
+        const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        return validImageTypes.includes(file.type);
+      });
+
+      if (!isAllFilesValid) {
+        setErrorMessage('이미지 파일만 넣어주세요');
+        return;
+      } else {
+        setErrorMessage('');
+      }
       const options = {
         maxSizeMB: 0.5,
       };
@@ -134,17 +126,7 @@ const ProjectModal: React.FC<{
     }
   };
 
-  const removeImageHandler = () => {
-    setImageList([]);
-    setPreviewImages([]);
-  };
-
   const handleSubmit = async () => {
-    const refreshToken = localStorage.getItem('refreshtoken');
-    if (!refreshToken) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
     const formData = new FormData();
     const imageBlob = new Blob(imageList, { type: 'application/json' });
     const text = JSON.stringify({
@@ -175,6 +157,17 @@ const ProjectModal: React.FC<{
       {showModal && (
         <ModalWrapper onClick={keepModalWindow}>
           <ModalContent>
+            {showSuccessModal && (
+              <Modal
+                Icon={ProFileUpdate}
+                mainText="프로젝트가 성공적으로 수정되었습니다."
+                mainButtonText="확인"
+                onClose={() => {
+                  setShowSuccessModal(false);
+                  setShowModal(false);
+                }}
+              />
+            )}
             <ScrollableContent>
               <StLayout>
                 <StHeader>
@@ -183,19 +176,16 @@ const ProjectModal: React.FC<{
                 </StHeader>
                 {isEditable ? (
                   <>
-                    <ImageField
-                      previewImages={previewImages}
-                      imageHandler={imageHandler}
-                      removeImage={removeImageHandler}
-                    />
+                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                    <ImageField previewImages={previewImages} imageHandler={imageHandler} />
                     <StTextBox>
                       <FormFields
                         title={title}
-                        // term={term}
                         startDate={startDate}
                         setStartDate={setStartDate}
                         endDate={endDate}
                         setEndDate={setEndDate}
+                        dateError={dateError}
                         people={people}
                         position={position}
                         description={description}
@@ -213,7 +203,9 @@ const ProjectModal: React.FC<{
                 {isEditable && (
                   <StBottom>
                     <StBadButton onClick={handleEdit}>취소</StBadButton>
-                    <StGoodButton onClick={handleSubmit}>수정완료</StGoodButton>
+                    <StGoodButton onClick={handleSubmit} disabled={!isFormValid}>
+                      수정완료
+                    </StGoodButton>
                   </StBottom>
                 )}
               </StLayout>
@@ -244,7 +236,7 @@ const ModalContent = styled.div`
   border-radius: 35px;
   background: #fefefe;
   width: 700px;
-  height: 840px;
+  height: 870px;
   overflow-y: auto;
   max-height: 100%;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
@@ -345,4 +337,9 @@ const StBadButton = styled.button`
     width: 100%;
     margin: 0;
   }
+`;
+const ErrorMessage = styled.div`
+  font-size: 14px;
+  padding: 0px 10px;
+  color: red;
 `;

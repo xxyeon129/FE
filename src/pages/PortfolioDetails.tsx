@@ -60,7 +60,6 @@ function PortfolioDetails() {
   const [updateComplete, setUpdateComplete] = useState(false);
   const [category, setCategory] = useState(false);
   const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
-
   const projectData = useRecoilValue(projectDataAtom);
 
   useEffect(() => {
@@ -392,6 +391,7 @@ function PortfolioDetails() {
                   showModal={isProjectModalOpen}
                   projectId={selectedProjectId}
                   setShowModal={setIsProjectModalOpen}
+                  getMyPortfolio={getMyPortfolio}
                 />
               )}
 

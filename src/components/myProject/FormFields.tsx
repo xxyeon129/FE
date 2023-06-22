@@ -1,11 +1,9 @@
 import React from 'react';
 import { InputField } from './InputField';
 import { TextAreaField } from './TextAreaField';
-import { ChangeEvent } from 'react';
-import DatePicker from 'react-datepicker';
+import { ChangeEvent, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { styled } from 'styled-components';
-
+import { CustomDatePicker } from './DatePicker';
 interface FormFieldsProps {
   title: {
     value: string;
@@ -17,6 +15,7 @@ interface FormFieldsProps {
   setStartDate: (date: Date | null) => void;
   endDate: Date | null;
   setEndDate: (date: Date | null) => void;
+  dateError: string;
   people: {
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -36,111 +35,110 @@ interface FormFieldsProps {
     setErrorText: (text: string) => void;
   };
 }
-
 export const FormFields: React.FC<FormFieldsProps> = ({
   title,
-  // term,
   startDate,
   setStartDate,
   endDate,
   setEndDate,
+  dateError,
   people,
   position,
   description,
 }) => {
+  const [titleLength, setTitleLength] = useState(title.value.length);
+  const [peopleLength, setPeopleLength] = useState(people.value.length);
+  const [positionLength, setPositionLength] = useState(position.value.length);
+  const [descriptionLength, setDescriptionLength] = useState(description.value.length);
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    title.onChange(e);
+    setTitleLength(value.length);
+    if (value.length < 1 || value.length > 50) {
+      title.setErrorText('제목은 1자 이상 50자 이하여야 합니다.');
+    } else {
+      title.setErrorText('');
+    }
+  };
+
+  const handlePeopleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    people.onChange(e);
+    setPeopleLength(value.length);
+    if (value.length < 1 || value.length > 50) {
+      people.setErrorText('프로젝트 인원은 1자 이상 50자 이하여야 합니다.');
+    } else {
+      people.setErrorText('');
+    }
+  };
+
+  const handlePositionChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    position.onChange(e);
+    setPositionLength(value.length);
+    if (value.length < 1 || value.length > 20) {
+      position.setErrorText('해당 포지션은 1자 이상 20자 이하여야 합니다.');
+    } else {
+      position.setErrorText('');
+    }
+  };
+
+  const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    description.onChange(e);
+    setDescriptionLength(value.length);
+    if (value.length < 1 || value.length > 1500) {
+      description.setErrorText('프로젝트 설명은 1자 이상 1500자 이하여야 합니다.');
+    } else {
+      description.setErrorText('');
+    }
+  };
+
   return (
     <>
       <InputField
         title="프로젝트 제목"
         value={title.value}
-        onChange={title.onChange}
-        placeholder="프로젝트 제목을 입력하세요"
+        onChange={handleTitleChange}
+        placeholder="프로젝트 제목을 입력하세요 (1 ~ 50자)"
         error={title.error}
+        count={titleLength}
+        maxLength={50}
       />
-      <DatePickerWrapper>
-        <StTitle>프로젝트 기간</StTitle>
-        <StInputWrapper>
-          <DatePicker
-            selected={startDate}
-            onChange={date => setStartDate(date)}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="yyyy/MM/dd"
-            placeholderText="시작일"
-          />
-          <DatePicker
-            selected={endDate}
-            onChange={date => setEndDate(date)}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            minDate={startDate}
-            dateFormat="yyyy/MM/dd"
-            placeholderText="마감일"
-          />
-        </StInputWrapper>
-      </DatePickerWrapper>
-
+      <CustomDatePicker
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        error={dateError}
+      />
       <InputField
         title="프로젝트 인원"
         value={people.value}
-        onChange={people.onChange}
-        placeholder="프로젝트 인원을 입력하세요"
+        onChange={handlePeopleChange}
+        placeholder="프로젝트 인원을 입력하세요  ex) ~명 or OOO... (1 ~ 50자)"
         error={people.error}
+        count={peopleLength}
+        maxLength={50}
       />
       <InputField
         title="해당 포지션"
         value={position.value}
-        onChange={position.onChange}
-        placeholder="포지션을 입력하세요. ex) UX/UI 디자이너"
+        onChange={handlePositionChange}
+        placeholder="포지션을 입력하세요. ex) UX/UI 디자이너 (1 ~ 20자)"
         error={position.error}
+        count={positionLength}
+        maxLength={20}
       />
       <TextAreaField
         title="프로젝트 설명"
         value={description.value}
-        onChange={description.onChange}
-        placeholder="프로젝트 설명을 입력하세요"
+        onChange={handleDescriptionChange}
+        placeholder="프로젝트 설명을 입력하세요 (1 ~ 1500자)"
         error={description.error}
+        count={descriptionLength}
+        maxLength={1500}
       />
     </>
   );
 };
-const DatePickerWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-
-  .react-datepicker__input-container input {
-    width: 100%;
-    height: 40px;
-    left: 55px;
-    top: 326px;
-    background: #ffffff;
-    border: 1px solid rgba(203, 203, 203, 0.7);
-    border-radius: 6px;
-    padding: 10px;
-
-    &:focus::placeholder {
-      font-size: 0.8em;
-      transition: font-size 0.3s;
-    }
-  }
-  .react-datepicker-wrapper,
-  .react-datepicker__input-container {
-    width: 100%;
-  }
-`;
-
-const StTitle = styled.div`
-  font-weight: bold;
-  font-size: 15px;
-  width: 100%;
-  margin-bottom: 1px;
-`;
-
-const StInputWrapper = styled.div`
-  display: flex;
-  gap: 20px;
-  width: 100%;
-`;

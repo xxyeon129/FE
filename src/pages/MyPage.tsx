@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, useCallback } from 'react';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
@@ -47,7 +47,6 @@ const MyPage = () => {
   const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () =>
     getUser(Number(id))
   );
-
   useEffect(() => {
     if (data) {
       nickname.onChange({ target: { value: data.nickname } } as ChangeEvent<HTMLInputElement>);
@@ -64,11 +63,7 @@ const MyPage = () => {
       nickname.setErrorText(error.response?.data.errorMessage as string);
     },
   });
-  const deleteUserMutation = useMutation(deleteUser, {
-    onSuccess: () => {
-      alert('회원 탈퇴 되었습니다.');
-    },
-  });
+  const deleteUserMutation = useMutation(deleteUser, {});
   const updatePasswordMutation = useMutation(updatePassword, {
     onSuccess: () => {
       setShowPasswordModal(true);
@@ -78,80 +73,74 @@ const MyPage = () => {
     },
   });
 
-  const handleWithdrawal = async () => {
-    if (!refreshToken) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
+  const handleWithdrawal = useCallback(async () => {
     await deleteUserMutation.mutateAsync(Number(id));
     navigate('/');
     setShowModal(false);
-  };
+  }, [refreshToken, deleteUserMutation, id, navigate]);
 
-  const handleSavePassword = async () => {
-    if (!refreshToken) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
+  const handleSavePassword = useCallback(async () => {
     if (oldpassword.value.trim() === '') {
       oldpassword.setErrorText('현재 비밀번호를 입력해주세요.');
       return;
     }
-
     if (newpassword.value.trim() === '') {
       newpassword.setErrorText('새로운 비밀번호를 입력해주세요.');
       return;
     }
-
     if (checknewpassword.value.trim() === '') {
       checknewpassword.setErrorText('비밀번호 확인을 입력해주세요.');
       return;
     }
-
     const passwordData = {
       oldPassword: oldpassword.value,
       newPassword: newpassword.value,
       checkNewPassword: checknewpassword.value,
     };
-
     await updatePasswordMutation.mutateAsync([passwordData, Number(id)]);
     setApiError('');
-  };
+  }, [
+    refreshToken,
+    oldpassword.value,
+    newpassword.value,
+    checknewpassword.value,
+    updatePasswordMutation,
+  ]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
 
-    if (nickname.value.trim() === '') {
-      nickname.setErrorText('닉네임을 입력하세요');
-      return;
-    }
+      if (nickname.value.trim() === '') {
+        nickname.setErrorText('닉네임을 입력하세요');
+        return;
+      }
 
-    const formData = new FormData();
-    const text = JSON.stringify({
-      nickname: nickname.value,
-    });
-    const nicknameBlob = new Blob([text], { type: 'application/json' });
-    formData.append('nickname', nicknameBlob);
-    formData.append('profileImage', profileImage as Blob);
-    await updateUserMutation.mutateAsync([formData, Number(id)]);
-    refetch();
-    setIsEditing(false);
-    setMyPageEdit(true);
-  };
+      const formData = new FormData();
+      const text = JSON.stringify({
+        nickname: nickname.value,
+      });
+      const nicknameBlob = new Blob([text], { type: 'application/json' });
+      formData.append('nickname', nicknameBlob);
+      formData.append('profileImage', profileImage as Blob);
+      await updateUserMutation.mutateAsync([formData, Number(id)]);
+      refetch();
+      setIsEditing(false);
+      setMyPageEdit(true);
+    },
+    [nickname.value, updateUserMutation]
+  );
 
   const handleEditClick = () => {
     setIsEditing(true);
     setMyPageEdit(false);
   };
-
   const handleCloseClick = () => {
     setIsEditing(false);
   };
-
   const handleWithdrawalClick = () => {
     setShowModal(true);
   };
-
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -183,7 +172,6 @@ const MyPage = () => {
               handleNicknameChange={nickname.onChange}
               handleSubmit={handleSubmit}
             />
-            {/* <StMid></StMid> */}
             {data?.kakaoId === null && data?.naverId === null && (
               <>
                 <StMid></StMid>
@@ -245,10 +233,7 @@ const StHeader = styled.div<{ isediting: Boolean }>`
   background-size: cover;
   background-position: center;
 `;
-
-// ...
-
-//-------------------------------------------------------------
+////////////////////////////////
 
 const StMyPageEditBox = styled.div`
   position: absolute;
@@ -261,14 +246,10 @@ const StMyPageEditBox = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
 
   @media (max-width: 768px) {
     width: 100%;
     height: 100%;
-    /* padding: 20px 0px; */
     box-shadow: none;
     border-radius: 0px;
   }
@@ -286,7 +267,6 @@ const StLayout = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     padding: 20px;
-    /* gap: 10px; */
   }
 `;
 
@@ -295,10 +275,6 @@ const StClose = styled.div`
   flex-direction: column;
   align-items: flex-end;
   padding: 25px;
-
-  /* @media (max-width: 1024px) {
-    padding: 10px;
-  } */
 `;
 
 const StMid = styled.div`

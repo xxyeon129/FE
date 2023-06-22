@@ -4,8 +4,7 @@ import { styled } from 'styled-components';
 export const ImageField: React.FC<{
   previewImages: string[];
   imageHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-  removeImage: () => void;
-}> = ({ previewImages, imageHandler, removeImage }) => (
+}> = ({ previewImages, imageHandler }) => (
   <StImageHeader>
     <StImageBox>
       {previewImages.map((url, index) => (

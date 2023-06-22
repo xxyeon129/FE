@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
@@ -11,7 +11,8 @@ import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import imageCompression from 'browser-image-compression';
-
+import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
+import Modal from 'src/components/common/Modal';
 const CreateProject: React.FC<{
   showModal1: boolean;
   setShowModal1: (showModal1: boolean) => void;
@@ -25,10 +26,23 @@ const CreateProject: React.FC<{
   const [imageList, setImageList] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [projectData, setProjectData] = useRecoilState(projectDataAtom);
-
+  const [dateError, setDateError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
+      const isAllFilesValid = fileList.every(file => {
+        const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        return validImageTypes.includes(file.type);
+      });
+
+      if (!isAllFilesValid) {
+        setErrorMessage('이미지 파일만 넣어주세요');
+        return;
+      } else {
+        setErrorMessage('');
+      }
       const options = {
         maxSizeMB: 0.5,
       };
@@ -39,10 +53,6 @@ const CreateProject: React.FC<{
       const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
       setPreviewImages(previewURLs);
     }
-  };
-  const removeImage = () => {
-    setImageList([]);
-    setPreviewImages([]);
   };
 
   const queryClient = useQueryClient();
@@ -66,52 +76,22 @@ const CreateProject: React.FC<{
       onSuccess: data => {
         queryClient.setQueryData('projectData', data.data);
         setProjectData(data.data);
-        alert('프로젝트가 성공적으로 작성되었습니다.');
-      },
-      onError: () => {
-        alert('프로젝트 작성에 실패했습니다.');
+        setShowSuccessModal(true);
       },
     }
   );
 
+  const isFormValid =
+    title.value &&
+    startDate &&
+    endDate &&
+    startDate <= endDate &&
+    people.value &&
+    position.value &&
+    description.value;
+
   const handleSubmit = async () => {
-    const refreshToken = localStorage.getItem('refreshtoken');
-
-    if (!refreshToken) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
-
-    if (!title.value) {
-      title.setErrorText('제목을 입력하세요');
-      return;
-    }
-    if (!startDate || !endDate) {
-      alert('시작일과 마감일을 선택하세요');
-      return;
-    }
-    if (!people.value) {
-      people.setErrorText('인원을 입력하세요');
-      return;
-    }
-    if (!position.value) {
-      position.setErrorText('담당 포지션을 입력하세요');
-      return;
-    }
-    if (!description.value) {
-      description.setErrorText('설명을 입력하세요');
-      return;
-    }
-    if (title.value.length < 3 || title.value.length > 50) {
-      title.setErrorText('제목은 3자 이상 50자 이하여야 합니다.');
-      return;
-    }
-    if ((description.value.length < 3 || description.value, length > 1500)) {
-      description.setErrorText('설명은 3자 이상 1500자 이하여야 합니다.');
-      return;
-    }
     await mutation.mutateAsync();
-    setShowModal1(false);
   };
 
   const handleCloseModal = () => {
@@ -127,33 +107,45 @@ const CreateProject: React.FC<{
       {showModal1 && (
         <ModalWrapper onClick={keepModalWindow}>
           <ModalContent onClick={keepModalWindow}>
-            <StLayout>
-              <StHeader>
-                <Pol />
-              </StHeader>
-              <ImageField
-                previewImages={previewImages}
-                imageHandler={imageHandler}
-                removeImage={removeImage}
+            {showSuccessModal && (
+              <Modal
+                Icon={ProFileUpdate}
+                mainText="프로젝트가 성공적으로 작성되었습니다."
+                mainButtonText="확인"
+                onClose={() => {
+                  setShowSuccessModal(false);
+                  setShowModal1(false);
+                }}
               />
-              <StTextBox>
-                <FormFields
-                  title={title}
-                  // term={term}
-                  startDate={startDate}
-                  setStartDate={setStartDate}
-                  endDate={endDate}
-                  setEndDate={setEndDate}
-                  people={people}
-                  position={position}
-                  description={description}
-                />
-              </StTextBox>
-              <StBottom>
-                <StBadButton onClick={handleCloseModal}>닫기</StBadButton>
-                <StGoodButton onClick={handleSubmit}>등록하기</StGoodButton>
-              </StBottom>
-            </StLayout>
+            )}
+            <ScrollableContent>
+              <StLayout>
+                <StHeader>
+                  <Pol />
+                </StHeader>
+                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                <ImageField previewImages={previewImages} imageHandler={imageHandler} />
+                <StTextBox>
+                  <FormFields
+                    title={title}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                    dateError={dateError}
+                    people={people}
+                    position={position}
+                    description={description}
+                  />
+                </StTextBox>
+                <StBottom>
+                  <StBadButton onClick={handleCloseModal}>닫기</StBadButton>
+                  <StGoodButton onClick={handleSubmit} disabled={!isFormValid}>
+                    등록하기
+                  </StGoodButton>
+                </StBottom>
+              </StLayout>
+            </ScrollableContent>
           </ModalContent>
         </ModalWrapper>
       )}
@@ -180,7 +172,7 @@ const ModalContent = styled.div`
   border-radius: 35px;
   background: #fefefe;
   width: 700px;
-  height: 840px;
+  height: 870px;
   overflow-y: auto;
   max-height: 100%;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
@@ -193,6 +185,11 @@ const ModalContent = styled.div`
     height: 100%;
     border-radius: 0;
   }
+`;
+
+const ScrollableContent = styled.div`
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const StLayout = styled.div`
@@ -277,4 +274,9 @@ const StBadButton = styled.button`
     width: 100%;
     margin: 0;
   }
+`;
+const ErrorMessage = styled.div`
+  font-size: 14px;
+  padding: 0px 10px;
+  color: red;
 `;
