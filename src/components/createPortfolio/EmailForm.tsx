@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import { createEmailState } from '@src/states';
+import { createEmailDomainState, createEmailIdState, createEmailState } from '@src/states';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
 import ErrorMessage from '../common/createPortfolio/ErrorMessage';
@@ -15,9 +15,9 @@ interface EmailFormProps {
 
 const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
   const [email, setEmail] = useRecoilState(createEmailState);
-  const [emailIdValue, setEmailIdValue] = useState<string>('');
+  const [emailIdValue, setEmailIdValue] = useRecoilState<string>(createEmailIdState);
+  const [emailDomainValue, setEmailDomainValue] = useRecoilState<string>(createEmailDomainState);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [emailDomainValue, setEmailDomainValue] = useState<string>('');
   const [isSelectWriteDomain, setIsSelectWriteDomain] = useState<boolean>(false);
 
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
