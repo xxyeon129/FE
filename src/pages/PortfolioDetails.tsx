@@ -158,6 +158,8 @@ function PortfolioDetails() {
 
     updatedData.append('portfolioImage', portfolioImage as Blob);
 
+    console.log(portfolioImage);
+
     try {
       const response = await axios.patch(
         `${SERVER_URL}/api/portfolios/${portfolioId}`,
@@ -323,6 +325,7 @@ function PortfolioDetails() {
                 fileInputRef={fileInputRef}
                 onhandlePortfolioImageChange={onhandlePortfolioImageChange}
                 getPortfolioImage={getPortfolioImage}
+                setPortfolioImage={setPortfolioImage}
               />
               <Desktop>
                 <TechStackTag techStack={techStack} setTechStack={setTechStack} StWidth="100%" />

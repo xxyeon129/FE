@@ -15,6 +15,10 @@ interface InformationProps {
   location: string;
   intro: string;
   filter: string;
+  portfolioImagePreview: string | null;
+  fileInputRef: RefObject<HTMLInputElement>;
+  getPortfolioImage: string | null;
+  setPortfolioImage: React.Dispatch<React.SetStateAction<File | null>>;
   onTitleHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   onEmailHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   onTelephoneHandler: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -24,10 +28,7 @@ interface InformationProps {
   onPortfolioUpdate: () => void;
   onPortfolioEditClear: () => void;
   onImageClick: () => void;
-  portfolioImagePreview: string | null;
-  fileInputRef: RefObject<HTMLInputElement>;
   onhandlePortfolioImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  getPortfolioImage: string | null;
 }
 
 interface StInputContainerProps {
@@ -46,7 +47,13 @@ const Information: React.FC<InformationProps> = props => {
       const cropper = cropperRef.current.cropper;
       if (cropper) {
         const croppedCanvas = cropper.getCroppedCanvas();
-        const croppedImage = croppedCanvas.toDataURL();
+        const croppedImage = croppedCanvas.toBlob(blob => {
+          if (!blob) return;
+          let file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' });
+          props.setPortfolioImage(file);
+        }, 'image/jpeg');
+
+        // console.log(croppedImage);
       }
     }
   };
@@ -62,11 +69,11 @@ const Information: React.FC<InformationProps> = props => {
       <StFirstEditWrapper>
         <StLeftContainer>
           {/* ------------------------ */}
-
           <StImagePreviewer>
             {props.portfolioImagePreview ? (
               <Cropper
                 ref={cropperRef}
+                zoomTo={0.5}
                 src={props.portfolioImagePreview}
                 style={{ height: 300, width: '100%' }}
                 aspectRatio={16 / 9}

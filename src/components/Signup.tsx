@@ -5,7 +5,6 @@ import { SERVER_URL } from '@src/constants/constants';
 import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
 import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
-import { useNavigate } from 'react-router-dom';
 import ProposalLoginModal from './ProposalLoginModal';
 import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
 import SnackbarPopup from '@src/components/common/SnackbarPopup';
