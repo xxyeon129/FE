@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
-import useLoginModal from '@src/Hook/useAuthModal';
+import { ReactComponent as ErrorIcon } from '@src/assets/not-found-icon.svg';
+import useAuthModal from '@src/Hook/useAuthModal';
 import LoginModal from '@src/components/nav/LoginModal';
 
 const Login = () => {
@@ -10,7 +11,7 @@ const Login = () => {
 
   const location = useLocation();
 
-  const [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal] = useLoginModal({
+  const [onCloseLoginModal, onClickSignUpButton, onSignUpCloseModal] = useAuthModal({
     setIsLoginModalOpen,
     setIsSignUpModalOpen,
   });
@@ -21,12 +22,16 @@ const Login = () => {
 
   return (
     <StLogin>
-      <StText>로그인 후 이용 가능한 서비스입니다.</StText>
+      <ErrorIcon />
+      <StTextContainer>
+        <StText>로그인 후 이용 가능한 서비스입니다!</StText>
+        <StDescription>간편하게 로그인 후 다양한 POL 서비스를 이용해보세요.</StDescription>
+      </StTextContainer>
       <StLoginButton onClick={onClickLoginButton}>로그인</StLoginButton>
       {isLoginModalOpen && (
         <LoginModal
-          onClose={onLoginCloseModal}
-          onSignUpClick={onSignUpButtonClick}
+          onClose={onCloseLoginModal}
+          onSignUpClick={onClickSignUpButton}
           navigatePath={location.pathname}
         />
       )}
@@ -41,27 +46,57 @@ const StLogin = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 `;
 
-const StText = styled.div`
-  font-size: 20px;
-  font-weight: bold;
+const StTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  line-height: 250%;
+`;
+
+const StText = styled.h2`
+  /* font-size: 20px; */
+  font-weight: 900;
   text-align: center;
-  margin-bottom: 20px;
+`;
+
+const StDescription = styled.div`
+  line-height: 150%;
+  font-size: 18px;
+  text-align: center;
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 15px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 13px;
+  }
 `;
 
 const StLoginButton = styled.button`
   background-color: ${({ theme }) => theme.color.neonGreen};
-  border-radius: 50px;
-  padding: 10px 20px;
-
   font-size: 17px;
-  font-weight: bold;
+  font-weight: 800;
+  padding: 15px 25px;
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
 
   &:hover {
     transition: 0.5s;
     background-color: ${({ theme }) => theme.color.lightGreen};
     color: white;
+  }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 15px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 13px;
   }
 `;
 
