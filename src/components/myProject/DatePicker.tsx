@@ -16,31 +16,52 @@ export const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
   setEndDate,
   error,
 }) => {
+  const [dateError, setDateError] = useState<string>('');
+
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+    validateDates(date, endDate);
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    setEndDate(date);
+    validateDates(startDate, date);
+  };
+
+  const validateDates = (start: Date | null, end: Date | null) => {
+    if (!start || !end) {
+      setDateError('시작일과 마감일을 선택하세요');
+    } else if (start > end) {
+      setDateError('시작일은 마감일보다 이전이어야 합니다.');
+    } else {
+      setDateError('');
+    }
+  };
   return (
     <DatePickerWrapper>
       <StTitle>프로젝트 기간</StTitle>
       <StInputWrapper>
         <DatePicker
           selected={startDate}
-          onChange={date => setStartDate(date)}
+          onChange={handleStartDateChange}
           selectsStart
           startDate={startDate}
           endDate={endDate}
-          dateFormat="yyyy/MM/dd"
+          dateFormat="yyyy.MM.dd"
           placeholderText="시작일"
         />
         <DatePicker
           selected={endDate}
-          onChange={date => setEndDate(date)}
+          onChange={handleEndDateChange}
           selectsEnd
           startDate={startDate}
           endDate={endDate}
           minDate={startDate}
-          dateFormat="yyyy/MM/dd"
+          dateFormat="yyyy.MM.dd"
           placeholderText="마감일"
         />
       </StInputWrapper>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {dateError && <ErrorMessage>{dateError}</ErrorMessage>}
     </DatePickerWrapper>
   );
 };
@@ -48,6 +69,7 @@ const DatePickerWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
 
   .react-datepicker__input-container input {
     width: 100%;
@@ -58,6 +80,7 @@ const DatePickerWrapper = styled.div`
     border: 1px solid rgba(203, 203, 203, 0.7);
     border-radius: 6px;
     padding: 10px;
+    /* margin-bottom: 10px; */
 
     &:focus::placeholder {
       font-size: 0.8em;
