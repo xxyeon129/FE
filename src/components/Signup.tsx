@@ -157,7 +157,6 @@ function Signup({ onClose }: SignupProps) {
         },
       });
       alert(response.data.message);
-      console.log(response.data.data);
       setEmailCode(response.data.data);
     } catch (error) {
       if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
