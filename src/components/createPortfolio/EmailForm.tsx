@@ -26,6 +26,7 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
 
   const { onChangeInput: onChangeEmailIdValue } = useOnChangeInput({
     setRecoilState: setEmailIdValue,
+    setIsCheckboxChecked,
   });
 
   const { onChangeInput: onChangeEmailDomainValue } = useOnChangeInput({
@@ -60,10 +61,12 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
 
   const onClickDomainOption = (domain: string) => {
     if (domain === '직접 입력') {
+      setIsCheckboxChecked(false);
       setEmailDomainValue('');
       setIsSelectWriteDomain(true);
       return;
     }
+    setIsCheckboxChecked(false);
     setIsSelectWriteDomain(false);
     setEmailDomainValue(domain);
   };
@@ -88,7 +91,12 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
         <StLabelContainer>
           <StInputLabel htmlFor="email">email</StInputLabel>
           <StJoinedEmailCheckWrapper>
-            <StCheckJoinedEmail type="checkbox" id="check" onChange={onChangeJoinedEmailCheckbox} />
+            <StCheckJoinedEmail
+              type="checkbox"
+              id="check"
+              checked={isCheckboxChecked}
+              onChange={onChangeJoinedEmailCheckbox}
+            />
             <StJoinedEmailLabel htmlFor="check">가입한 email로 입력</StJoinedEmailLabel>
           </StJoinedEmailCheckWrapper>
         </StLabelContainer>
