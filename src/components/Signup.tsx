@@ -78,12 +78,9 @@ function Signup({ onClose }: SignupProps) {
 
   const onEmailCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputEmailCode(e.target.value);
-    console.log(inputEmailCode);
   };
 
   const onEmailCodeCheck = () => {
-    console.log('입력값 : ', inputEmailCode);
-    console.log('받아온 값 : ', emailCode);
     if (inputEmailCode === emailCode) {
       setEmailCodeError('');
       setEmailCodeSuccess('이메일 인증이 성공했습니다.');
