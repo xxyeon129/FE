@@ -24,7 +24,11 @@ function Signup({ onClose }: SignupProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [loginNow, setLoginNow] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const [emailCode, setEmailCode] = useState<string>('');
+  const [inputEmailCode, setInputEmailCode] = useState<string>('');
+  const [emailCodeError, setEmailCodeError] = useState<string>('');
+  const [emailCodeSuccess, setEmailCodeSuccess] = useState<string>('');
+
   const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   const modalRef = useRef(null);
@@ -33,6 +37,7 @@ function Signup({ onClose }: SignupProps) {
     password: '',
     confirmPassword: '',
     nickname: '',
+    emailcode: '',
   });
 
   const addUsers = async () => {
@@ -69,6 +74,23 @@ function Signup({ onClose }: SignupProps) {
   const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
     setErrors(prevState => ({ ...prevState, nickname: '' }));
+  };
+
+  const onEmailCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputEmailCode(e.target.value);
+    console.log(inputEmailCode);
+  };
+
+  const onEmailCodeCheck = () => {
+    console.log('입력값 : ', inputEmailCode);
+    console.log('받아온 값 : ', emailCode);
+    if (inputEmailCode === emailCode) {
+      setEmailCodeError('');
+      setEmailCodeSuccess('이메일 인증이 성공했습니다.');
+    } else {
+      setEmailCodeError('올바른 이메일 확인 코드를 입력해주세요.');
+      setEmailCodeSuccess('');
+    }
   };
 
   const onBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -138,7 +160,9 @@ function Signup({ onClose }: SignupProps) {
         receiverEmail: email,
       },
     });
-    console.log(response.data);
+    alert(response.data.message);
+    console.log(response.data.data);
+    setEmailCode(response.data.data);
   };
 
   const onButtonClick = () => {
@@ -189,12 +213,31 @@ function Signup({ onClose }: SignupProps) {
         {/* 이메일코드 */}
         <StInputSection>
           <DesktopAndTablet>
-            <StInput type="text" placeholder="이메일 확인 코드" />
+            <StInput
+              type="text"
+              placeholder="이메일 확인 코드"
+              id="emailcode"
+              value={inputEmailCode}
+              onChange={onEmailCodeChange}
+            />
           </DesktopAndTablet>
           <MobileRow>
-            <StInput type="text" placeholder="이메일 확인 코드" />
+            <StInput
+              type="text"
+              placeholder="이메일 확인 코드"
+              id="emailcode"
+              value={inputEmailCode}
+              onChange={onEmailCodeChange}
+            />
           </MobileRow>
+          <StButton onClick={onEmailCodeCheck} type="button">
+            코드확인
+          </StButton>
         </StInputSection>
+        <StErrorSection>
+          {emailCodeError && <StErrorMessage>{emailCodeError}</StErrorMessage>}
+          {emailCodeSuccess && <StSuccessMessage>{emailCodeSuccess}</StSuccessMessage>}
+        </StErrorSection>
 
         <DesktopAndTablet>
           <label htmlFor="password">비밀번호</label>
