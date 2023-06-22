@@ -1,3 +1,4 @@
+import PhotographerChart from '@src/components/charts/PhotographerChart';
 import { PageContainer as StPageContainer } from '@src/style/common/commonStyles';
 import { styled } from 'styled-components';
 
@@ -6,6 +7,7 @@ const Chart = () => {
     <StPageContainer>
       <StChart>
         <StTitle>Charts</StTitle>
+        <PhotographerChart />
       </StChart>
     </StPageContainer>
   );
