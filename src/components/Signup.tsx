@@ -153,16 +153,20 @@ function Signup({ onClose }: SignupProps) {
   };
 
   const onEmailCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // e.preventDefault();
-    // 이메일 인증해야 함
-    const response = await axios.get(`${SERVER_URL}/api/users/email`, {
-      params: {
-        receiverEmail: email,
-      },
-    });
-    alert(response.data.message);
-    console.log(response.data.data);
-    setEmailCode(response.data.data);
+    try {
+      const response = await axios.get(`${SERVER_URL}/api/users/email`, {
+        params: {
+          receiverEmail: email,
+        },
+      });
+      alert(response.data.message);
+      console.log(response.data.data);
+      setEmailCode(response.data.data);
+    } catch (error) {
+      if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
+        alert('이미 인증된 이메일입니다.');
+      }
+    }
   };
 
   const onButtonClick = () => {
