@@ -148,7 +148,7 @@ const LoginModal = ({
 
         <div>
           <span>아직 폴 회원이 아니세요?</span>
-          <button onClick={onSignUp}>회원가입</button>
+          <StSignupButton onClick={onSignUp}>회원가입</StSignupButton>
         </div>
         <StSocialLogin>
           {setIsKakaoLoginWarnModalOpen && (
@@ -158,8 +158,8 @@ const LoginModal = ({
             />
           )}
 
-          <NaverLogin />
-          <GoogleLogin />
+          {/* <NaverLogin />
+          <GoogleLogin /> */}
         </StSocialLogin>
       </StModalContent>
     </StModalWrapper>
@@ -227,7 +227,6 @@ const StModalContent = styled.form`
   background-color: white;
   padding: 100px;
   border-radius: 20px;
-  margin-top: 100px;
   height: 700px;
   width: 600px;
   align-items: center;
@@ -300,9 +299,15 @@ const StErrorMessage = styled.label`
 `;
 
 const StSocialLogin = styled.div`
-  margin-top: 20px;
+  margin-top: 35px;
   gap: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const StSignupButton = styled.button`
+  font-size: 16px;
+  font-weight: 800;
+  color: ${({ theme }) => theme.color.lightGreen};
 `;
