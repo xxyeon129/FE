@@ -28,10 +28,21 @@ const CreateProject: React.FC<{
   const [projectData, setProjectData] = useRecoilState(projectDataAtom);
   const [dateError, setDateError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length >= 0) {
       const fileList = Array.from(e.target.files);
+      const isAllFilesValid = fileList.every(file => {
+        const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        return validImageTypes.includes(file.type);
+      });
+
+      if (!isAllFilesValid) {
+        setErrorMessage('이미지 파일만 넣어주세요');
+        return;
+      } else {
+        setErrorMessage('');
+      }
       const options = {
         maxSizeMB: 0.5,
       };
@@ -70,40 +81,16 @@ const CreateProject: React.FC<{
     }
   );
 
+  const isFormValid =
+    title.value &&
+    startDate &&
+    endDate &&
+    startDate <= endDate &&
+    people.value &&
+    position.value &&
+    description.value;
+
   const handleSubmit = async () => {
-    setDateError('');
-    if (!title.value) {
-      title.setErrorText('제목을 입력하세요');
-      return;
-    }
-    if (!startDate || !endDate) {
-      setDateError('시작일과 마감일을 선택하세요');
-      return;
-    }
-    if (startDate > endDate) {
-      setDateError('시작일은 마감일보다 이전이어야 합니다.');
-      return;
-    }
-    if (!people.value) {
-      people.setErrorText('인원을 입력하세요');
-      return;
-    }
-    if (!position.value) {
-      position.setErrorText('담당 포지션을 입력하세요');
-      return;
-    }
-    if (!description.value) {
-      description.setErrorText('설명을 입력하세요');
-      return;
-    }
-    if (title.value.length < 3 || title.value.length > 50) {
-      title.setErrorText('제목은 3자 이상 50자 이하여야 합니다.');
-      return;
-    }
-    if ((description.value.length < 3 || description.value, length > 1500)) {
-      description.setErrorText('설명은 3자 이상 1500자 이하여야 합니다.');
-      return;
-    }
     await mutation.mutateAsync();
   };
 
@@ -131,29 +118,34 @@ const CreateProject: React.FC<{
                 }}
               />
             )}
-            <StLayout>
-              <StHeader>
-                <Pol />
-              </StHeader>
-              <ImageField previewImages={previewImages} imageHandler={imageHandler} />
-              <StTextBox>
-                <FormFields
-                  title={title}
-                  startDate={startDate}
-                  setStartDate={setStartDate}
-                  endDate={endDate}
-                  setEndDate={setEndDate}
-                  dateError={dateError}
-                  people={people}
-                  position={position}
-                  description={description}
-                />
-              </StTextBox>
-              <StBottom>
-                <StBadButton onClick={handleCloseModal}>닫기</StBadButton>
-                <StGoodButton onClick={handleSubmit}>등록하기</StGoodButton>
-              </StBottom>
-            </StLayout>
+            <ScrollableContent>
+              <StLayout>
+                <StHeader>
+                  <Pol />
+                </StHeader>
+                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                <ImageField previewImages={previewImages} imageHandler={imageHandler} />
+                <StTextBox>
+                  <FormFields
+                    title={title}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                    dateError={dateError}
+                    people={people}
+                    position={position}
+                    description={description}
+                  />
+                </StTextBox>
+                <StBottom>
+                  <StBadButton onClick={handleCloseModal}>닫기</StBadButton>
+                  <StGoodButton onClick={handleSubmit} disabled={!isFormValid}>
+                    등록하기
+                  </StGoodButton>
+                </StBottom>
+              </StLayout>
+            </ScrollableContent>
           </ModalContent>
         </ModalWrapper>
       )}
@@ -180,7 +172,7 @@ const ModalContent = styled.div`
   border-radius: 35px;
   background: #fefefe;
   width: 700px;
-  height: 840px;
+  height: 870px;
   overflow-y: auto;
   max-height: 100%;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
@@ -193,6 +185,11 @@ const ModalContent = styled.div`
     height: 100%;
     border-radius: 0;
   }
+`;
+
+const ScrollableContent = styled.div`
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const StLayout = styled.div`
@@ -277,4 +274,9 @@ const StBadButton = styled.button`
     width: 100%;
     margin: 0;
   }
+`;
+const ErrorMessage = styled.div`
+  font-size: 14px;
+  padding: 0px 10px;
+  color: red;
 `;
