@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import { createEmailDomainState, createEmailIdState, createEmailState } from '@src/states';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -7,6 +7,7 @@ import { IoIosArrowUp } from 'react-icons/io';
 import ErrorMessage from '../common/createPortfolio/ErrorMessage';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
+import useDecodeJWT from '@src/Hook/useDecodeJWT';
 
 interface EmailFormProps {
   isInvalidEmail: boolean;
@@ -14,11 +15,12 @@ interface EmailFormProps {
 }
 
 const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
-  const [email, setEmail] = useRecoilState(createEmailState);
+  const setEmail = useSetRecoilState(createEmailState);
   const [emailIdValue, setEmailIdValue] = useRecoilState<string>(createEmailIdState);
   const [emailDomainValue, setEmailDomainValue] = useRecoilState<string>(createEmailDomainState);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [isSelectWriteDomain, setIsSelectWriteDomain] = useState<boolean>(false);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState<boolean>(false);
 
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
@@ -36,6 +38,24 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
 
   const onClickInput = (e: React.MouseEvent<HTMLInputElement>) => {
     e.stopPropagation();
+  };
+
+  const setJoinedEmail = () => {
+    const joinedEmail = useDecodeJWT().sub;
+    const joinedEmailArray = joinedEmail.split('@');
+    setEmailIdValue(joinedEmailArray[0]);
+    setEmailDomainValue(joinedEmailArray[1]);
+  };
+
+  const onChangeJoinedEmailCheckbox = () => {
+    if (isCheckboxChecked) {
+      setIsCheckboxChecked(false);
+      setEmailIdValue('');
+      setEmailDomainValue('');
+    } else {
+      setIsCheckboxChecked(true);
+      setJoinedEmail();
+    }
   };
 
   const onClickDomainOption = (domain: string) => {
@@ -60,13 +80,18 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
 
   useEffect(() => {
     setEmail(`${emailIdValue}@${emailDomainValue}`);
-    console.log(email);
   }, [emailIdValue, emailDomainValue]);
 
   return (
     <StEmailContainer>
       <StOutLineDiv>
-        <StInputLabel htmlFor="email">email</StInputLabel>
+        <StLabelContainer>
+          <StInputLabel htmlFor="email">email</StInputLabel>
+          <StJoinedEmailCheckWrapper>
+            <StCheckJoinedEmail type="checkbox" id="check" onChange={onChangeJoinedEmailCheckbox} />
+            <StJoinedEmailLabel htmlFor="check">가입한 email로 입력</StJoinedEmailLabel>
+          </StJoinedEmailCheckWrapper>
+        </StLabelContainer>
         <StEmailInputWrapper>
           <StEmailIDInput
             id="email"
@@ -124,11 +149,33 @@ const StOutLineDiv = styled.div`
   border-radius: 10px;
 `;
 
+const StLabelContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2px;
+  padding-bottom: 5px;
+`;
+
 const StInputLabel = styled.label`
   color: gray;
   font-weight: 800;
   font-size: 15px;
-  padding-bottom: 5px;
+`;
+
+const StJoinedEmailCheckWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StCheckJoinedEmail = styled.input`
+  accent-color: ${({ theme }) => theme.color.neonGreen};
+  cursor: pointer;
+`;
+
+const StJoinedEmailLabel = styled.label`
+  font-size: 15px;
+  cursor: pointer;
 `;
 
 const StEmailInputWrapper = styled.div`
