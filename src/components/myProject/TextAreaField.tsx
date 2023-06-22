@@ -7,13 +7,28 @@ export const TextAreaField: React.FC<{
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder: string;
   error?: string;
-}> = ({ title, value, onChange, placeholder, error }) => (
-  <StTextWrap>
-    <StTitle>{title}</StTitle>
-    <StTextArea value={value} onChange={onChange} placeholder={placeholder} />
-    {error && <StError>{error}</StError>}
-  </StTextWrap>
-);
+  count: number;
+  maxLength: number;
+}> = ({ title, value, onChange, placeholder, error, count, maxLength }) => {
+  const Overlength = count == maxLength;
+
+  const handleTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const textareaValue = e.target.value;
+    if (textareaValue.length <= maxLength) {
+      onChange(e);
+    }
+  };
+  return (
+    <StTextWrap>
+      <StTitle>{title}</StTitle>
+      <StTextArea value={value} onChange={handleTextAreaChange} placeholder={placeholder} />
+      {error && <StError>{error}</StError>}
+      <StCharacterCount overlength={Overlength}>
+        {count}/{maxLength}
+      </StCharacterCount>
+    </StTextWrap>
+  );
+};
 
 const StTextWrap = styled.div`
   display: flex;
@@ -34,7 +49,7 @@ const StTextArea = styled.textarea`
   border: 1px solid rgba(203, 203, 203, 0.7);
   border-radius: 6px;
   transition: font-size 0.3s;
-  font-size: 15px;
+  resize: none;
 
   &:focus::placeholder {
     font-size: 0.8em;
@@ -46,4 +61,11 @@ const StError = styled.div`
   font-size: 14px;
   color: red;
   padding: 0px 10px;
+`;
+
+const StCharacterCount = styled.div<{ overlength: boolean }>`
+  font-size: 1px;
+  padding: 0px 10px;
+  color: ${({ overlength }) => (overlength ? 'red' : 'rgba(0, 0, 0, 0.5)')};
+  text-align: right;
 `;
