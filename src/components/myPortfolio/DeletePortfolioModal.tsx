@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Icon } from '@src/assets/portfolioDetail/port-delete-icon.svg';
 import { SERVER_URL } from '@src/constants/constants';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 interface DeletePortfoliosModalProps {
   portId: number | undefined;
@@ -12,6 +14,7 @@ interface DeletePortfoliosModalProps {
 
 function DeletePortfolioModal({ portId, onCloseModal }: DeletePortfoliosModalProps) {
   const navigate = useNavigate();
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   const onHandleDelete = async () => {
     const accessToken = localStorage.getItem('accesstoken');
@@ -24,7 +27,7 @@ function DeletePortfolioModal({ portId, onCloseModal }: DeletePortfoliosModalPro
           RefreshToken: refreshToken,
         },
       });
-      alert('삭제 완료');
+      showSnackbarPopup();
       navigate('/');
     } catch (error) {
       alert('삭제 실패');
@@ -45,6 +48,13 @@ function DeletePortfolioModal({ portId, onCloseModal }: DeletePortfoliosModalPro
           <StButton onClick={onCloseModal}>취소</StButton>
         </StButtonContainer>
       </StModalContent>
+      {isSnackbarVisible && (
+        <SnackbarPopup
+          text="삭제 완료"
+          type="done" // ---> type 속성을 생략하면 디폴트로 빨간색 에러 스낵바 ui로 설정. type="done" 설정 시 회색 스낵바 UI
+          isSnackbarVisible={isSnackbarVisible}
+        />
+      )}
     </StModalContainer>
   );
 }

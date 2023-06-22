@@ -146,10 +146,6 @@ const LoginModal = ({
           <LoginButton onClick={onSubmit}>로그인</LoginButton>
         </div>
 
-        <div>
-          <span>아직 폴 회원이 아니세요?</span>
-          <StSignupButton onClick={onSignUp}>회원가입</StSignupButton>
-        </div>
         <StSocialLogin>
           {setIsKakaoLoginWarnModalOpen && (
             <KakaoLogin
@@ -161,6 +157,10 @@ const LoginModal = ({
           {/* <NaverLogin />
           <GoogleLogin /> */}
         </StSocialLogin>
+        <StSignup>
+          <span>아직 폴 회원이 아니세요?</span>
+          <button onClick={onSignUp}>회원가입</button>
+        </StSignup>
       </StModalContent>
     </StModalWrapper>
   );
@@ -225,32 +225,34 @@ const StDotIcon = styled(Dot)`
 
 const StModalContent = styled.form`
   background-color: white;
-  padding: 100px;
+  padding: 80px;
   border-radius: 20px;
-  height: 700px;
+  margin-top: 100px;
+  height: 730px;
   width: 600px;
   align-items: center;
 
   @media (max-width: 1023px) {
-    height: 600px;
+    height: 630px;
     width: 500px;
     padding: 50px;
   }
 
   @media (max-width: 767px) {
-    height: 500px;
+    height: 600px;
     width: 400px;
     padding: 50px;
   }
 
   @media (max-width: 479px) {
-    height: 500px;
+    height: 570px;
     width: 400px;
     padding: 50px;
   }
 `;
 
 const StModalTitle = styled.h1`
+  margin-bottom: 25px;
   line-height: 120%;
 
   @media (max-width: 1023px) {
@@ -267,7 +269,7 @@ const StModalTitle = styled.h1`
 `;
 
 const StInputSection = styled.div`
-  margin: 30px 0;
+  margin: 15px 0;
 `;
 
 const StInput = styled.input`
@@ -301,19 +303,27 @@ const StErrorMessage = styled.label`
 `;
 
 const StSocialLogin = styled.div`
-  margin-top: 35px;
-  gap: 10px;
+  margin-bottom: 10px;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+`;
+
+const StSignup = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 
+  button {
+    text-decoration: underline;
+    font-weight: 800;
+    font-size: 17px;
+  }
+
   @media (max-width: 767px) {
     margin-top: 20px;
   }
-`;
-
-const StSignupButton = styled.button`
-  font-size: 16px;
-  font-weight: 800;
-  color: ${({ theme }) => theme.color.lightGreen};
 `;

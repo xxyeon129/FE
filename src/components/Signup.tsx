@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
 import { ReactComponent as Eye } from '@src/assets/nav/input-i-icon.svg';
 import { ReactComponent as Dot } from '@src/assets/nav/dot-icon.svg';
-
 import { MobileRow, DesktopAndTablet, TabletAndMobile } from '@src/style/mediaQuery.ts';
-import { useNavigate } from 'react-router-dom';
 import ProposalLoginModal from './ProposalLoginModal';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 type SignupProps = {
   onClose: () => void;
@@ -23,7 +23,12 @@ function Signup({ onClose }: SignupProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [loginNow, setLoginNow] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const [emailCode, setEmailCode] = useState<string>('');
+  const [inputEmailCode, setInputEmailCode] = useState<string>('');
+  const [emailCodeError, setEmailCodeError] = useState<string>('');
+  const [emailCodeSuccess, setEmailCodeSuccess] = useState<string>('');
+
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
   const modalRef = useRef(null);
   const [errors, setErrors] = useState({
@@ -31,6 +36,7 @@ function Signup({ onClose }: SignupProps) {
     password: '',
     confirmPassword: '',
     nickname: '',
+    emailcode: '',
   });
 
   const addUsers = async () => {
@@ -40,9 +46,8 @@ function Signup({ onClose }: SignupProps) {
         password,
         nickname,
       });
-      alert('회원가입 성공');
+      showSnackbarPopup();
       setLoginNow(true);
-      // onClose();
       return response;
     } catch (error) {
       alert('회원가입 실패 ');
@@ -70,6 +75,20 @@ function Signup({ onClose }: SignupProps) {
     setErrors(prevState => ({ ...prevState, nickname: '' }));
   };
 
+  const onEmailCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputEmailCode(e.target.value);
+  };
+
+  const onEmailCodeCheck = () => {
+    if (inputEmailCode === emailCode) {
+      setEmailCodeError('');
+      setEmailCodeSuccess('이메일 인증이 성공했습니다.');
+    } else {
+      setEmailCodeError('올바른 이메일 확인 코드를 입력해주세요.');
+      setEmailCodeSuccess('');
+    }
+  };
+
   const onBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!window.matchMedia('(max-width: 1023px)').matches) {
       if (modalRef.current === e.target) {
@@ -89,7 +108,7 @@ function Signup({ onClose }: SignupProps) {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const nicknameRegex = /^[가-힣a-zA-Z]{2,10}$/;
+    const nicknameRegex = /^[a-zA-Z가-힣0-9]{1,10}$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
     let Error = false;
 
@@ -130,19 +149,17 @@ function Signup({ onClose }: SignupProps) {
   };
 
   const onEmailCheck = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // e.preventDefault();
-    // 이메일인증해야쥐
     try {
-      const response = await axios.get(`${SERVER_URL}/api/users/email-check?email=${email}`);
-      setEmailSuccessCheck('사용가능한 아이디입니다.');
-      setEmailErrorCheck('');
-    } catch (error: unknown) {
+      const response = await axios.get(`${SERVER_URL}/api/users/email`, {
+        params: {
+          receiverEmail: email,
+        },
+      });
+      alert(response.data.message);
+      setEmailCode(response.data.data);
+    } catch (error) {
       if ((error as AxiosError).response && (error as AxiosError).response?.status === 409) {
-        setEmailErrorCheck('중복된 아이디입니다.');
-        setEmailSuccessCheck('');
-      } else if ((error as AxiosError).response && (error as AxiosError).response?.status === 400) {
-        setEmailErrorCheck('이메일 형식이 올바르지 않습니다.');
-        setEmailSuccessCheck('');
+        alert('이미 인증된 이메일입니다.');
       }
     }
   };
@@ -183,13 +200,42 @@ function Signup({ onClose }: SignupProps) {
             />
           </MobileRow>
           <StButton onClick={onEmailCheck} type="button">
-            중복검사
+            이메일인증
           </StButton>
         </StInputSection>
         <StErrorSection>
           {errors.email && <StErrorMessage>{errors.email}</StErrorMessage>}
           {emailErrorCheck && <StErrorMessage>{emailErrorCheck}</StErrorMessage>}
           {emailSuccessCheck && <StSuccessMessage>{emailSuccessCheck}</StSuccessMessage>}
+        </StErrorSection>
+
+        {/* 이메일코드 */}
+        <StInputSection>
+          <DesktopAndTablet>
+            <StInput
+              type="text"
+              placeholder="이메일 확인 코드"
+              id="emailcode"
+              value={inputEmailCode}
+              onChange={onEmailCodeChange}
+            />
+          </DesktopAndTablet>
+          <MobileRow>
+            <StInput
+              type="text"
+              placeholder="이메일 확인 코드"
+              id="emailcode"
+              value={inputEmailCode}
+              onChange={onEmailCodeChange}
+            />
+          </MobileRow>
+          <StButton onClick={onEmailCodeCheck} type="button">
+            코드확인
+          </StButton>
+        </StInputSection>
+        <StErrorSection>
+          {emailCodeError && <StErrorMessage>{emailCodeError}</StErrorMessage>}
+          {emailCodeSuccess && <StSuccessMessage>{emailCodeSuccess}</StSuccessMessage>}
         </StErrorSection>
 
         <DesktopAndTablet>
@@ -202,13 +248,14 @@ function Signup({ onClose }: SignupProps) {
               id="password"
               value={password}
               onChange={onPasswordChange}
+              placeholder="비밀번호 입력 (문자,숫자,특수문자 포함 6자 이상)"
             />
           </DesktopAndTablet>
           <MobileRow>
             <StInput
               type={showPassword ? 'text' : 'password'}
               id="password"
-              placeholder="비밀번호"
+              placeholder="비밀번호 입력 (문자,숫자,특수문자 포함 6자 이상)"
               value={password}
               onChange={onPasswordChange}
             />
@@ -249,13 +296,19 @@ function Signup({ onClose }: SignupProps) {
         </DesktopAndTablet>
         <StInputSection>
           <DesktopAndTablet>
-            <StInput type="text" id="nickname" value={nickname} onChange={onNicknameChange} />
+            <StInput
+              type="text"
+              id="nickname"
+              value={nickname}
+              onChange={onNicknameChange}
+              placeholder="닉네임 입력 (문자,숫자, 포함 2자 이상)"
+            />
           </DesktopAndTablet>
           <MobileRow>
             <StInput
               type="text"
               id="nickname"
-              placeholder="닉네임"
+              placeholder="닉네임 입력 (문자,숫자, 포함 2자 이상)"
               value={nickname}
               onChange={onNicknameChange}
             />
@@ -277,6 +330,10 @@ function Signup({ onClose }: SignupProps) {
           onSiginupClose={onClose}
         />
       )}
+
+      {isSnackbarVisible && (
+        <SnackbarPopup text="회원가입 성공" type="done" isSnackbarVisible={isSnackbarVisible} />
+      )}
     </StModalWrapper>
   );
 }
@@ -284,7 +341,7 @@ function Signup({ onClose }: SignupProps) {
 export default Signup;
 
 const buttonStyle = `
-padding: 8px 16px;
+// padding: 8px 16px;
 background-color: #3d3d3d;
 color: white;
 border: none;
@@ -312,22 +369,22 @@ const StModalWrapper = styled.div`
 
 const StModalContent = styled.form`
   background-color: white;
-  padding: 100px;
+  padding: 70px;
   border-radius: 20px;
-  height: 700px;
+  height: 800px;
   width: 600px;
   align-items: center;
   overflow: hidden;
 
   @media (max-width: 1023px) {
     width: 500px;
-    height: 650px;
+    height: 750px;
     padding: 50px;
   }
 
   @media (max-width: 767px) {
     width: 500px;
-    height: 550px;
+    height: 650px;
     padding: 50px;
   }
 
@@ -372,16 +429,22 @@ const StInputSection = styled.div`
   align-items: center;
   margin-bottom: 20px;
   position: relative;
+  gap: 10px;
 `;
 
 const StInput = styled.input`
   flex: 1;
   padding: 8px;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   border: 1px solid #ccc;
   border-radius: 4px;
   height: 40px;
   margin-top: 10px;
+
+  @media (max-width: 479px) {
+    margin: 0;
+    margin-top: -5px;
+  }
 `;
 
 const StEyeIcon = styled(Eye)`
@@ -398,6 +461,7 @@ const StEyeIcon = styled(Eye)`
 const StErrorSection = styled.div`
   margin-bottom: 30px;
   margin-top: -15px;
+  font-size: 14px;
 
   @media (max-width: 1023px) {
     font-size: 14px;
@@ -437,6 +501,16 @@ const StSuccessMessage = styled.label`
 
 const StButton = styled.button`
   ${buttonStyle}
+  height: 40px;
+  margin-top: 10px;
+
+  @media (max-width: 479px) {
+    height: 40px;
+    width: 75px;
+    margin-top: -5px;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const StSubmitButton = styled.button`
