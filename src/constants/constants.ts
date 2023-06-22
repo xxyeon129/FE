@@ -6,15 +6,16 @@ export const PATH_URL = {
   PORTFOLIO_DETAIL: '/portfolio/detail',
   PORTFOLIODETAILEDIT: '/portedit',
   PROJECT: '/project/',
-  MYPAGE: `/mypage/:id`,
+  MYPAGE: '/mypage/:id',
   MY_PAGE: '/mypage',
-  SEARCHRESULTS: `/searchresults`,
+  SEARCHRESULTS: '/searchresults',
   DETAILTEST: '/testdetail/:149',
   MY_PORTFOLIO: '/myportfolio',
   MY_PORTFOLIO_PATH: '/myportfolio/:id',
   CREATE_PORTFOLIO: '/myportfolio/create',
   KAKAO_AUTH: '/api/users/kakao',
   NAVER_AUTH: '/api/users/naver',
+  CHART: '/chart',
 };
 
 export const SERVER_URL = import.meta.env.VITE_API_URL;
