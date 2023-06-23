@@ -32,10 +32,9 @@ export const getDesignerChart = async () => {
 
 export const getDeveloperChart = async () => {
   try {
-    const response = await apiRequest.get(`${RESOURCE}/api/statistics/develop`);
-    const data = response.data.data;
-    return data;
+    const response = await apiRequest.get(`${RESOURCE}/develop`);
+    return response.data.data;
   } catch (error) {
-    throw new Error('API getDevleoperChart error');
+    throw new Error('API getDeveloper error');
   }
 };
