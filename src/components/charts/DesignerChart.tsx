@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 const DesignerChart = () => {
-  const [labels, setLabels] = useState<string>([]);
-  const [count, setCount] = useState<number>([]);
+  const [labels, setLabels] = useState<string[]>([]);
+  const [count, setCount] = useState<number[]>([]);
 
   const fetchDesignerChart = async () => {
     const designerData = await getDesignerChart();

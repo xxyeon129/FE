@@ -157,7 +157,7 @@ function PortfolioDetails() {
 
     updatedData.append('portfolioImage', portfolioImage as Blob);
 
-    console.log(portfolioImage);
+    // console.log(portfolioImage);
 
     try {
       const response = await axios.patch(
@@ -262,15 +262,15 @@ function PortfolioDetails() {
   };
 
   const onMyGit = () => {
-    window.location.href = `https://github.com/${githubId}`;
+    window.open(`https://github.com/${githubId}`);
   };
 
   const onMyBlog = () => {
-    window.location.href = `${blog}`;
+    window.open(`${blog}`);
   };
 
   const onMyYoutube = () => {
-    window.location.href = `${youtube}`;
+    window.open(`${youtube}`);
   };
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
