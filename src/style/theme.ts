@@ -1,4 +1,9 @@
-const theme = {
+export interface ThemeType {
+  color: Record<string, string>;
+  size: Record<string, string>;
+}
+
+const theme: ThemeType = {
   color: {
     neonGreen: '#6BF65F',
     oliveGreen: '#2C4001',

@@ -12,20 +12,20 @@ const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
   const descriptionDetail = [
     {
       id: 1,
-      label: '포트폴리오 기본 정보를 입력해주세요',
-      text: '표시될 포트폴리오 제목과 주요 사용 기술, 카테고리 등\n기본 정보를 알려주세요.',
+      label: '포트폴리오 기본 정보를 \n입력해주세요',
+      text: '표시될 포트폴리오 제목과 주요 사용 기술, 카테고리 등 \n기본 정보를 알려주세요.',
       labelNumber: LabelNumberOne,
     },
     {
       id: 2,
-      label: '포트폴리오 추가 정보를 입력해주세요',
-      text: '참여하신 프로젝트 이력과 Youtube, Blog 링크를 추가해주시면\n포트폴리오가 더 돋보일 수 있어요.',
+      label: '포트폴리오 추가 정보를 \n입력해주세요',
+      text: '참여하신 프로젝트 이력과 Youtube, Blog 링크를 추가해주시면 \n포트폴리오가 더 돋보일 수 있어요.',
       labelNumber: LabelNumberTwo,
     },
     {
       id: 3,
       label: '등록을 완료하세요',
-      text: '포트폴리오 대표 이미지를 제출하고 등록을 완료하세요.\n바로 등록하지 않으셔도 기존 작성 내용이 임시저장됩니다.',
+      text: '포트폴리오 대표 이미지를 제출하고 등록을 완료하세요. \n바로 등록하지 않으셔도 기존 작성 내용이 임시저장됩니다.',
       labelNumber: LabelNumberThree,
     },
   ];
@@ -53,9 +53,9 @@ const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
           <StButtonContainer>
             <NextStepButton
               onClick={() => onNextButtonClick(STEP.TWO)}
-              width="150px"
               marginRight="0px"
               text="시작하기"
+              isIntroButton="true"
             />
           </StButtonContainer>
         </StDetailContainer>
@@ -72,6 +72,11 @@ const StStep01Container = styled.div`
 
   padding-right: 40px;
   padding-left: 60px;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    padding-left: 30px;
+  }
 `;
 
 const StContentContainer = styled.div`
@@ -89,12 +94,26 @@ const StDescriptionContainer = styled.h1`
   flex-direction: column;
   justify-content: center;
   padding-bottom: 100px;
+
+  @media ${({ theme }) => theme.size.tablet} {
+    transition: 0.5s;
+    margin: 0;
+  }
+  @media screen and (max-width: 580px) {
+    transition: 0.5s;
+    padding-bottom: 50px;
+  }
 `;
 
 const StLogoAndTextDescriptionContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    gap: 0;
+  }
 `;
 
 const StLogo = styled(Logo)`
@@ -123,8 +142,13 @@ const StLogo = styled(Logo)`
   }
   @media screen and (max-width: 520px) {
     transition: 0.5s;
-    width: 75px;
+    width: 68px;
     height: 23px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: 64px;
+    height: 19px;
   }
 `;
 
@@ -159,6 +183,9 @@ const StDescriptionText = styled.h3`
     transition: 0.5s;
     font-size: 20px;
   }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    font-size: 19px;
+  }
 `;
 
 const StDetailContainer = styled.div`
@@ -172,6 +199,10 @@ const StDetailContainer = styled.div`
 
 const StDetailItem = styled.div`
   margin-bottom: 30px;
+  @media screen and (max-width: 520px) {
+    transition: 0.5s;
+    margin-bottom: 20px;
+  }
 `;
 
 const StLabelContainer = styled.div`
@@ -183,6 +214,19 @@ const StLabel = styled.h3`
   font-size: 19px;
   margin-left: 5px;
   font-weight: 800;
+
+  @media screen and (max-width: 520px) {
+    transition: 0.5s;
+    font-size: 17px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    line-height: 140%;
+    font-size: 16px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    white-space: pre-wrap;
+  }
 `;
 
 const StDetailText = styled.div`
@@ -193,11 +237,30 @@ const StDetailText = styled.div`
   min-height: 100px;
   line-height: 150%;
   white-space: pre-wrap;
+
+  @media screen and (max-width: 645px) {
+    white-space: normal;
+  }
+  @media screen and (max-width: 580px) {
+    transition: 0.5s;
+    font-size: 14px;
+  }
+  @media screen and (max-width: 520px) {
+    transition: 0.5s;
+    font-size: 13px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    display: none;
+  }
 `;
 
 const StButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    padding-top: 20px;
+  }
 `;
 
 export default Step01Intro;

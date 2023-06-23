@@ -12,6 +12,8 @@ import PortfolioFilter from '../PortfolioFilter';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
+import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
+import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 const Step02CategoryFilter = ({
   onNextButtonClick,
@@ -20,12 +22,17 @@ const Step02CategoryFilter = ({
   const [category, setCategory] = useRecoilState(createCategoryState);
   const [filter, setFilter] = useRecoilState(createFilterState);
 
+  const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
+
   const isAllSelected = category.length !== 0 && filter.length !== 0;
 
   const categoryDropdownOptions = categoryList.slice(1);
 
   const onClickNextButton = () => {
-    if (!isAllSelected) return;
+    if (!isAllSelected) {
+      showSnackbarPopup();
+      return;
+    }
     onNextButtonClick(STEP.THREE);
   };
 
@@ -60,6 +67,9 @@ const Step02CategoryFilter = ({
         <PrevStepButton onClick={() => onPrevButtonClick(STEP.ONE)} />
         <NextStepButton onClick={onClickNextButton} notAllowed={`${!isAllSelected}`} />
       </S.ButtonContainer>
+      {isSnackbarVisible && (
+        <SnackbarPopup text="직군과 직무를 선택해주세요!" isSnackbarVisible={isSnackbarVisible} />
+      )}
     </S.Container>
   );
 };

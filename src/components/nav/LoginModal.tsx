@@ -16,9 +16,15 @@ type LoginProps = {
   onClose: () => void;
   onSignUpClick: () => void;
   navigatePath?: string;
+  setIsKakaoLoginWarnModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
+const LoginModal = ({
+  onClose,
+  onSignUpClick,
+  navigatePath,
+  setIsKakaoLoginWarnModalOpen,
+}: LoginProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -141,9 +147,15 @@ const LoginModal = ({ onClose, onSignUpClick, navigatePath }: LoginProps) => {
         </div>
 
         <StSocialLogin>
-          <KakaoLogin />
-          <NaverLogin />
-          <GoogleLogin />
+          {setIsKakaoLoginWarnModalOpen && (
+            <KakaoLogin
+              setIsKakaoLoginWarnModalOpen={setIsKakaoLoginWarnModalOpen}
+              onCloseLoginModal={onClose}
+            />
+          )}
+
+          {/* <NaverLogin />
+          <GoogleLogin /> */}
         </StSocialLogin>
         <StSignup>
           <span>아직 폴 회원이 아니세요?</span>
@@ -241,6 +253,8 @@ const StModalContent = styled.form`
 
 const StModalTitle = styled.h1`
   margin-bottom: 25px;
+  line-height: 120%;
+
   @media (max-width: 1023px) {
     font-size: 25px;
   }
@@ -302,10 +316,14 @@ const StSignup = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* font-weight: bold; */
 
   button {
     text-decoration: underline;
-    font-weight: bold;
+    font-weight: 800;
+    font-size: 17px;
+  }
+
+  @media (max-width: 767px) {
+    margin-top: 20px;
   }
 `;

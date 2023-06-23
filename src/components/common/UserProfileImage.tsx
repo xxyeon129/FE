@@ -1,5 +1,7 @@
 import { styled } from 'styled-components';
 import { ReactComponent as ProfileIcon } from '@src/assets/default-user-profile-icon.svg';
+import { useState } from 'react';
+import useImgLoadError from '@src/Hook/useImgLoadError';
 
 interface UserProfileImageProps {
   isExistToken?: boolean;
@@ -9,11 +11,13 @@ interface UserProfileImageProps {
 }
 
 const UserProfileImage = ({ isExistToken, imgSrc, isLoading, size }: UserProfileImageProps) => {
+  const { imageLoadError, onImageError } = useImgLoadError();
+
   return (
     <>
       {/* TO DO: Nav에 적용할 경우 isExistToken && 조건 적용해야 함 */}
-      {imgSrc !== null ? (
-        <StProfileImg src={imgSrc} size={size} alt="user profile image" />
+      {imgSrc !== null && !imageLoadError ? (
+        <StProfileImg src={imgSrc} size={size} alt="user profile image" onError={onImageError} />
       ) : (
         !isLoading && <StProfileIcon size={size} />
       )}

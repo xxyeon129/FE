@@ -8,6 +8,7 @@ interface ModalProps {
   subButtonText?: string;
   deletePost?: (id: number) => Promise<void>;
   onClose: () => void;
+  onCloseKakaoModal?: () => void;
   selectedId?: number | null;
   type?: string;
 }
@@ -22,13 +23,14 @@ const Modal = ({
   onClose,
   selectedId,
   type,
+  onCloseKakaoModal,
 }: ModalProps) => {
   const keepModalOpen = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
 
   return (
-    <ModalStyle.Background onClick={onClose}>
+    <ModalStyle.Background onClick={onCloseKakaoModal ? onCloseKakaoModal : onClose}>
       <ModalStyle.Container onClick={keepModalOpen}>
         <ModalStyle.Content>
           <Icon />
@@ -40,7 +42,10 @@ const Modal = ({
         <ModalStyle.ButtonWrapper>
           {subButtonText && (
             <Button
-              onClick={() => deletePost && selectedId && deletePost(selectedId)}
+              onClick={() =>
+                (deletePost && selectedId && deletePost(selectedId)) ||
+                (onCloseKakaoModal && onCloseKakaoModal())
+              }
               width="140px"
               fontsize="20px"
               padding="12px 0"

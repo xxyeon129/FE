@@ -139,6 +139,9 @@ export const ModalStyle = {
   `,
   SubText: styled.span`
     font-weight: 500;
+    white-space: pre-wrap;
+    line-height: 150%;
+    text-align: center;
     @media ${({ theme }) => theme.size.mobileColumn} {
       transition: 0.5s;
       font-size: 13px;

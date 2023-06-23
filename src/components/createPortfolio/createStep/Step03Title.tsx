@@ -47,7 +47,7 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
         <TitleTextLabel title={title} description={description} />
         <StInputContainer>
           <StInputWrapper>
-            <StInput value={portfolioTitle} onChange={onChangeInput} />
+            <StInput value={portfolioTitle} onChange={onChangeInput} maxLength={29} />
             {isInvalidTitle && <ErrorMessage errorMessage={errorMessage} />}
           </StInputWrapper>
         </StInputContainer>
@@ -57,10 +57,7 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
         <NextStepButton onClick={onClickNextButton} notAllowed={`${isInvalidTitle}`} />
       </S.ButtonContainer>
       {isSnackbarVisible && (
-        <SnackbarPopup
-          text="글자수에 맞게 제목을 입력해주세요!"
-          isSnackbarVisible={isSnackbarVisible}
-        />
+        <SnackbarPopup text="5자 이상 제목을 입력해주세요!" isSnackbarVisible={isSnackbarVisible} />
       )}
     </S.Container>
   );

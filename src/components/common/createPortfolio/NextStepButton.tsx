@@ -8,6 +8,7 @@ interface NextStepButtonProps {
   notAllowed?: string;
   width?: string;
   isLoading?: boolean;
+  isIntroButton?: string;
 }
 
 const NextStepButton = ({
@@ -15,25 +16,35 @@ const NextStepButton = ({
   onClick,
   text = '다음',
   notAllowed = 'false',
-  width = '90px',
   isLoading = false,
+  isIntroButton,
 }: NextStepButtonProps) => {
   return (
-    <StButton width={width} marginright={marginRight} onClick={onClick} notallowed={notAllowed}>
+    <StButton
+      marginright={marginRight}
+      onClick={onClick}
+      notallowed={notAllowed}
+      isintrobutton={isIntroButton && isIntroButton}
+    >
       {isLoading ? <StButtonLoadingIcon /> : text}
     </StButton>
   );
 };
 
-const StButton = styled.button<{ width: string; marginright: string; notallowed: string }>`
-  width: ${({ width }) => width};
+const StButton = styled.button<{
+  marginright: string;
+  notallowed: string;
+  isintrobutton?: string;
+}>`
+  width: ${({ isintrobutton }) => (isintrobutton ? '150px' : '90px')};
   padding: 15px 25px;
   border-radius: 8px;
   font-weight: 900;
   font-size: 18px;
   margin-right: ${({ marginright }) => marginright};
 
-  background-color: ${({ theme }) => theme.color.neonGreen};
+  background-color: ${({ theme, notallowed }) =>
+    notallowed === 'true' ? theme.color.paleGray : theme.color.neonGreen};
 
   &:not([notallowed='true']):hover {
     transition: 0.5s;
@@ -42,6 +53,19 @@ const StButton = styled.button<{ width: string; marginright: string; notallowed:
   }
 
   cursor: ${({ notallowed }) => notallowed === 'true' && 'not-allowed'};
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: ${({ isintrobutton }) => (isintrobutton ? '120px' : '80px')};
+    padding: 15px;
+    font-size: 16px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    width: ${({ isintrobutton }) => (isintrobutton ? '110px' : '70px')};
+    padding: 13px 0;
+    font-size: 14px;
+  }
 `;
 
 const spinAnimation = keyframes`
