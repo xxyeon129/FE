@@ -1,4 +1,4 @@
-import { getPhotographerChart } from '@src/apis/chart';
+import { getDeveloperChart } from '@src/apis/chart';
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -10,9 +10,9 @@ const DeveloperChart = () => {
   const [count, setCount] = useState<number[]>([]);
 
   const fetchDeveloperChart = async () => {
-    const photographerData = await getPhotographerChart();
-    const labelsData: string[] = Object.keys(photographerData);
-    const countData: number[] = Object.values(photographerData);
+    const DeveloperChartData = await getDeveloperChart();
+    const labelsData: string[] = Object.keys(DeveloperChartData);
+    const countData: number[] = Object.values(DeveloperChartData);
 
     setLabels(labelsData);
     setCount(countData);
