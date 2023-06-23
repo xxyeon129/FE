@@ -87,7 +87,6 @@ const Main = () => {
     setIsDataLoading(true);
     if (filterKeyword !== 'All') {
       fetchFilteredList(filterKeyword);
-      // console.log('FirstMountList if문 걸려서 실행 -> filteredList 함수로 이동');
       return;
     }
 
@@ -108,31 +107,9 @@ const Main = () => {
     setIsDataLoading(true);
     if (filterKeyword === 'All') {
       fetchFirstMountList(filterKeyword);
-      // console.log('All 선택했을 경우 filteredList 함수에서 조건걸려서 FirstMount로 이동');
     }
 
     const serverDataLastId = await fetchLastId(filterKeyword);
-    // TO DO: 직무 필터 적용한 게시글이 10개 미만일 경우 10개 이상이 될 때까지 계속 호출해서 불러오기
-    // let length10List: PortfolioDataType[] = []
-
-    // console.log('필터데이터 최대id', serverDataLastId);
-
-    // while (length10List.length < 10) {
-    //   const filteredData = await getFilteredList({
-    //     lastId: serverDataLastId,
-    //     category: selectedCategory,
-    //     filter: filterKeyword,
-    //   });
-    //   length10List = [...length10List, ...filteredData];
-    //   console.log('filtered data test => ', length10List); // 계속 8개 받아옴
-
-    //   if (filteredData.length < 10) {
-    //     serverDataLastId -= 10;
-    //     console.log('minusedLastId', serverDataLastId);
-
-    //     setLastId(serverDataLastId);
-    //   }
-    // }
 
     const { serverData, serverLastId } = await getFilteredList({
       lastId: serverDataLastId,
@@ -141,8 +118,6 @@ const Main = () => {
     });
     setNextLastId(serverLastId);
     setList(serverData);
-    // TO DO: 직무 필터 적용한 게시글이 10개 미만일 경우 10개 이상이 될 때까지 계속 호출해서 불러오기
-    // setList(length10List);
 
     setIsDataLoading(false);
   };

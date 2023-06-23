@@ -14,6 +14,8 @@ import {
   createTitleState,
   createYoutubeState,
   createProjectListState,
+  createEmailIdState,
+  createEmailDomainState,
 } from '@src/states';
 import { useQueryClient } from 'react-query';
 
@@ -22,6 +24,8 @@ const useResetCreatePortfolioRecoilValues = () => {
   const resetCategory = useResetRecoilState(createCategoryState);
   const resetFilter = useResetRecoilState(createFilterState);
   const resetEmail = useResetRecoilState(createEmailState);
+  const resetEmailId = useResetRecoilState(createEmailIdState);
+  const resetEmailDomain = useResetRecoilState(createEmailDomainState);
   const resetResidence = useResetRecoilState(createResidenceState);
   const resetLocation = useResetRecoilState(createLocationState);
   const resetTelephone = useResetRecoilState(createTelephoneState);
@@ -40,6 +44,8 @@ const useResetCreatePortfolioRecoilValues = () => {
     resetCategory();
     resetFilter();
     resetEmail();
+    resetEmailId();
+    resetEmailDomain();
     resetResidence();
     resetLocation();
     resetTelephone();

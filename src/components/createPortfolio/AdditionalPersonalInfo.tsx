@@ -56,6 +56,7 @@ const StAdditionalInfomationItem = styled.div<{ sharedstyle: string }>`
 const StInputDescription = styled.div`
   color: gray;
   font-size: 15px;
+  font-weight: 800;
 `;
 
 const StPersonalInfoInput = styled.input`

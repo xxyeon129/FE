@@ -4,7 +4,6 @@ import { SERVER_URL } from '@src/constants/constants';
 
 function RedirectionGoogle() {
   const code = new URL(window.location.href).searchParams.get('code');
-  console.log(code);
 
   const authGoogleLogin = async (code: string) => {
     try {

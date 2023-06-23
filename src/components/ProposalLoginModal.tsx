@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { SERVER_URL } from '@src/constants/constants';
-import UserProfile from './nav/UserProfile';
-import NavContent from './nav/NavContent';
 import { ReactComponent as Icon } from '@src/assets/portfolioDetail/port-delete-icon.svg';
+import { useSetRecoilState } from 'recoil';
+import { loginState } from '@src/states';
 
 interface LoginModalProps {
   email: string;
@@ -16,6 +16,7 @@ interface LoginModalProps {
 function ProposalLoginModal(props: LoginModalProps) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassWord] = useState<string>('');
+  const setIsLogin = useSetRecoilState<boolean>(loginState);
 
   useEffect(() => {
     setEmail(props.email);
@@ -37,6 +38,7 @@ function ProposalLoginModal(props: LoginModalProps) {
 
       props.onCloseModal();
       props.onSiginupClose();
+      setIsLogin(true);
       alert('로그인');
     } catch (error) {
       alert('로그인 실패');

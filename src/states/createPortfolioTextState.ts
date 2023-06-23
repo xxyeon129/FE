@@ -28,6 +28,18 @@ export const createEmailState = atom<string>({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const createEmailIdState = atom<string>({
+  key: 'createEmailIdState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const createEmailDomainState = atom<string>({
+  key: 'createEmailDomainState',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const createTelephoneState = atom<string>({
   key: 'createTelephoneState',
   default: '',

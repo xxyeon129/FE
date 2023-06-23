@@ -30,7 +30,7 @@ const HeaderListItem = ({
     { value: 'Home', underLineWidth: '28%', path: PATH_URL.HOME },
     { value: 'My Portfolios', underLineWidth: '63%', path: `${PATH_URL.MY_PORTFOLIO}/${userId}` },
     { value: 'My Page', underLineWidth: '40%', path: `${PATH_URL.MY_PAGE}/${userId}` },
-    { value: 'Notification', underLineWidth: '57%', path: '' },
+    { value: 'Charts', underLineWidth: '29%', path: PATH_URL.CHART },
   ];
 
   const onClickText = (path: string) => {

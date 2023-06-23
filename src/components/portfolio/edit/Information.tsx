@@ -1,9 +1,11 @@
-import React, { ChangeEvent, RefObject } from 'react';
+import React, { ChangeEvent, RefObject, useRef } from 'react';
 import { styled } from 'styled-components';
 import { ReactComponent as MailIcon } from '@src/assets/portfolioDetail/port-mail-icon.svg';
 import { ReactComponent as Telephone } from '@src/assets/portfolioDetail/port-telephone-icon.svg';
 import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-iocn.svg';
 import { ReactComponent as Photo } from '@src/assets/portfolioDetail/portedit-photo-icon.svg';
+import Cropper, { ReactCropperElement } from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
 
 interface InformationProps {
   portfolioTitle: string;
@@ -13,6 +15,10 @@ interface InformationProps {
   location: string;
   intro: string;
   filter: string;
+  portfolioImagePreview: string | null;
+  fileInputRef: RefObject<HTMLInputElement>;
+  getPortfolioImage: string | null;
+  setPortfolioImage: React.Dispatch<React.SetStateAction<File | null>>;
   onTitleHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   onEmailHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   onTelephoneHandler: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -22,10 +28,7 @@ interface InformationProps {
   onPortfolioUpdate: () => void;
   onPortfolioEditClear: () => void;
   onImageClick: () => void;
-  portfolioImagePreview: string | null;
-  fileInputRef: RefObject<HTMLInputElement>;
   onhandlePortfolioImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  getPortfolioImage: string | null;
 }
 
 interface StInputContainerProps {
@@ -37,6 +40,24 @@ interface StInputProps {
   height?: string;
 }
 const Information: React.FC<InformationProps> = props => {
+  const cropperRef = useRef<ReactCropperElement>(null);
+
+  const handleCrop = () => {
+    if (cropperRef.current) {
+      const cropper = cropperRef.current.cropper;
+      if (cropper) {
+        const croppedCanvas = cropper.getCroppedCanvas();
+        const croppedImage = croppedCanvas.toBlob(blob => {
+          if (!blob) return;
+          let file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' });
+          props.setPortfolioImage(file);
+        }, 'image/jpeg');
+
+        // console.log(croppedImage);
+      }
+    }
+  };
+
   return (
     <div>
       <StButtonContainer>
@@ -47,9 +68,18 @@ const Information: React.FC<InformationProps> = props => {
       </StButtonContainer>
       <StFirstEditWrapper>
         <StLeftContainer>
-          <StImagePreviewer onClick={props.onImageClick}>
+          {/* ------------------------ */}
+          <StImagePreviewer>
             {props.portfolioImagePreview ? (
-              <StRepresentativeImageEdit src={props.portfolioImagePreview} alt="" />
+              <Cropper
+                ref={cropperRef}
+                zoomTo={0.5}
+                src={props.portfolioImagePreview}
+                style={{ height: 300, width: '100%' }}
+                aspectRatio={16 / 9}
+                guides={true}
+                crop={handleCrop}
+              />
             ) : (
               <StPreviewerComment>선택된 이미지가 없습니다.</StPreviewerComment>
             )}
@@ -60,9 +90,12 @@ const Information: React.FC<InformationProps> = props => {
               onChange={props.onhandlePortfolioImageChange}
             />
             <StIconWrapper>
-              <Photo />
+              <Photo onClick={props.onImageClick} />
             </StIconWrapper>
           </StImagePreviewer>
+
+          {/* ------------------------ */}
+
           {props.filter && <StFilter>{props.filter}</StFilter>}
         </StLeftContainer>
         <StRightContainer>
@@ -221,7 +254,7 @@ const StImagePreviewer = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 300px;
-  /* border: 2px dashed #ccc; */
+  border: 2px dashed #ccc;
   border-radius: 5px;
   cursor: pointer;
 `;
