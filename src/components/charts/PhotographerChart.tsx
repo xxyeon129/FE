@@ -2,6 +2,7 @@ import { getPhotographerChart } from '@src/apis/chart';
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { styled } from 'styled-components';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -43,7 +44,8 @@ const PhotographerChart = () => {
   };
 
   const options = {
-    responsive: true,
+    // responsive: false,
+    // maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'bottom' as const,
@@ -51,7 +53,11 @@ const PhotographerChart = () => {
     },
   };
 
-  return <Doughnut data={data} options={options} />;
+  return <StDoughutChart data={data} options={options} />;
 };
+
+const StDoughutChart = styled(Doughnut)`
+  width: 100%;
+`;
 
 export default PhotographerChart;

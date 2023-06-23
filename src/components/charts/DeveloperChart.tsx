@@ -44,7 +44,7 @@ const DeveloperChart = () => {
   };
 
   const options = {
-    responsive: true,
+    // responsive: false,
     plugins: {
       legend: {
         position: 'bottom' as const,
