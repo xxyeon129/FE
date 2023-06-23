@@ -3,6 +3,7 @@ import ProjectModal from '@src/components/myProject/ProjectDetail';
 import AutoSearch from '@src/components/AutoSearch';
 import Project from '@src/components/myProject/CreateProject';
 import NaverLogin from '@src/components/socialLogin/NaverLogin';
+import DeveloperChatData from '@src/components/DeveloperChatData';
 const Test: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
@@ -16,6 +17,7 @@ const Test: React.FC = () => {
       <Project showModal1={showModal1} setShowModal1={setShowModal1} />
       <AutoSearch />
       <NaverLogin />
+      <DeveloperChatData />
     </>
   );
 };
