@@ -1,5 +1,4 @@
 import { getAllChart } from '@src/apis/chart';
-import { ThemeType } from '@src/style/theme';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,14 +8,52 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { useEffect, useRef, useState } from 'react';
+import { Bar, getElementAtEvent } from 'react-chartjs-2';
+import { css, styled } from 'styled-components';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const AllChart = () => {
+interface AllChartProps {
+  setClickType: React.Dispatch<React.SetStateAction<string>>;
+  clickType: string;
+}
+
+const AllChart = ({ setClickType, clickType }: AllChartProps) => {
   const [labels, setLabels] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
+
+  const [options, setOptions] = useState({
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+      title: {
+        display: true,
+      },
+    },
+  });
+
+  const chartRef = useRef(null);
+  const onClickChart = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    if (chartRef.current) {
+      const clickIndex = getElementAtEvent(chartRef.current, event)[0].index;
+      switch (clickIndex) {
+        case 0:
+          setClickType('develop');
+          break;
+        case 1:
+          setClickType('design');
+          break;
+        case 2:
+          setClickType('photographer');
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   const fetchChart = async () => {
     const data = await getAllChart();
@@ -31,17 +68,9 @@ const AllChart = () => {
     fetchChart();
   }, []);
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom' as const,
-      },
-      title: {
-        display: true,
-      },
-    },
-  };
+  useEffect(() => {
+    setOptions(prevState => ({ ...prevState, maintainAspectRatio: true }));
+  }, [clickType]);
 
   const data = {
     labels,
@@ -51,12 +80,29 @@ const AllChart = () => {
         data: count,
         backgroundColor: ['#45BE59', '#5FF6D2', '#99E7FF'],
         borderColor: ['transparent'],
-        borderWidth: 40,
+        borderWidth: 0,
       },
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return (
+    <StBarChart
+      options={options}
+      data={data}
+      ref={chartRef}
+      onClick={onClickChart}
+      isclicked={clickType}
+    />
+  );
 };
+
+const StBarChart = styled(Bar)<{ isclicked: string }>`
+  width: 100%;
+  height: 100%;
+
+  @media screen and (max-width: 550px) {
+    padding: 10px;
+  }
+`;
 
 export default AllChart;
