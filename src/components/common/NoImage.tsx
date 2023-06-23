@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import noImage from '@src/assets/images/no-img.jpg';
+import noImage from '@src/assets/images/defaultimg-pol.jpg';
 
 interface NoImageProps {
   width?: string;
