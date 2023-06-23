@@ -10,7 +10,7 @@ const Chart = () => {
       <StChart>
         <StChartWrapper>
           <AllChart />
-          <PhotographerChart />
+          {/* <PhotographerChart /> */}
           {/* <DesignerChart /> */}
         </StChartWrapper>
       </StChart>
