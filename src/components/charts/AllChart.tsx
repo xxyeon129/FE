@@ -1,5 +1,4 @@
 import { getAllChart } from '@src/apis/chart';
-import { ThemeType } from '@src/style/theme';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -73,20 +72,6 @@ const AllChart = ({ setClickType, clickType }: AllChartProps) => {
     setOptions(prevState => ({ ...prevState, maintainAspectRatio: true }));
   }, [clickType]);
 
-  // const options = {
-  //   // responsive: false,
-  //   maintainAspectRatio: maintainAspectRatioState,
-  //   // cutoutPercentage: 50,
-  //   plugins: {
-  //     legend: {
-  //       position: 'bottom' as const,
-  //     },
-  //     title: {
-  //       display: true,
-  //     },
-  //   },
-  // };
-
   const data = {
     labels,
     datasets: [
@@ -115,16 +100,7 @@ const StBarChart = styled(Bar)<{ isclicked: string }>`
   width: 100%;
   height: 100%;
 
-  ${({ isclicked }) =>
-    isclicked.length !== 0 &&
-    css`
-      /* width: 0%;
-      height: 0px; */
-    `}
-  @media
-    screen
-    and
-    (max-width: 550px) {
+  @media screen and (max-width: 550px) {
     padding: 10px;
   }
 `;
