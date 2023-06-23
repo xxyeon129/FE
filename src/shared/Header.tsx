@@ -55,6 +55,16 @@ const StHeader = styled.header`
   align-items: center;
   background-color: white;
   z-index: 998;
+
+  @media ${({ theme }) => theme.size.mobileRow} {
+    transition: 0.5s;
+    padding: 0 18px;
+  }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    padding: 0 15px;
+  }
 `;
 
 const StLogo = styled(Logo)`

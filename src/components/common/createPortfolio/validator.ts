@@ -1,22 +1,12 @@
 const ERROR_MESSAGE = {
   TITLE_UNDER_5: '제목을 5글자 이상 입력해주세요.',
-  TITLE_OVER_20: '제목을 30글자 미만으로 입력해주세요.',
   EMAIL: '올바른 이메일 주소를 입력해주세요.',
   EXPERIENCE: '10자 이상 입력해주세요.',
 };
 
 export const validateTitle = (value: string) => {
-  const isUnderValue = value.length < 5;
-  const isOverValue = value.length > 29;
-  if (isUnderValue) {
-    return [isUnderValue, isUnderValue && ERROR_MESSAGE.TITLE_UNDER_5];
-  }
-  if (isOverValue) {
-    return [isOverValue, isOverValue && ERROR_MESSAGE.TITLE_OVER_20];
-  }
-  const vauleIsValid = false;
-  const noErrorMessage = '';
-  return [vauleIsValid, noErrorMessage];
+  const isInvalidTitle = value.length < 5;
+  return [isInvalidTitle, isInvalidTitle && ERROR_MESSAGE.TITLE_UNDER_5];
 };
 
 export const validateEmail = (value: string) => {

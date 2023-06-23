@@ -14,29 +14,30 @@ const useAuthModal = ({
   setIsSignUpModalOpen,
   setIsLogoutModalOpen,
 }: useLoginModalProps) => {
-  const setIsLogin = useSetRecoilState(loginState);
+  // const setIsLogin = useSetRecoilState(loginState);
   const navigate = useNavigate();
 
-  const onLoginCloseModal = () => {
+  const onCloseLoginModal = () => {
     setIsLoginModalOpen(false);
-    setIsLogin(true);
+    // 필요 없는 코드라서 주석처리 - 추후 오류가 날 경우 복구하기 위해 삭제 보류
+    // setIsLogin(true);
   };
 
-  const onSignUpButtonClick = () => {
+  const onClickSignUpButton = () => {
     setIsLoginModalOpen(false);
     setIsSignUpModalOpen(true);
   };
 
-  const onSignUpCloseModal = () => {
+  const onCloseSignUpModal = () => {
     setIsSignUpModalOpen(false);
   };
 
-  const onLogoutCloseModal = () => {
+  const onCloseLogoutModal = () => {
     setIsLogoutModalOpen && setIsLogoutModalOpen(false);
     navigate(PATH_URL.HOME);
   };
 
-  return [onLoginCloseModal, onSignUpButtonClick, onSignUpCloseModal, onLogoutCloseModal];
+  return [onCloseLoginModal, onClickSignUpButton, onCloseSignUpModal, onCloseLogoutModal];
 };
 
 export default useAuthModal;

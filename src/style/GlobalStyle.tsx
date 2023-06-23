@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'SUIT Variable', sans-serif;
   }
 
-  textarea{
+  input, textarea{
     font-family: 'SUIT Variable', sans-serif;
   }
 `;

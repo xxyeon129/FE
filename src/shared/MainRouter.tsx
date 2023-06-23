@@ -14,6 +14,7 @@ import CreatePortfolio from '@src/pages/CreatePortfolio';
 import Login from '@src/pages/Login';
 import RedirectionNaver from '@src/components/socialLogin/RedirectionNaver';
 import RedirectionKakao from '@src/components/socialLogin/RedirectionKakao';
+import Chart from '@src/pages/Chart';
 
 const MainRouter = () => {
   return (
@@ -31,6 +32,7 @@ const MainRouter = () => {
             <Route path={PATH_URL.CREATE_PORTFOLIO} element={<CreatePortfolio />} />
             <Route path={PATH_URL.KAKAO_AUTH} element={<RedirectionKakao />} />
             <Route path={PATH_URL.NAVER_AUTH} element={<RedirectionNaver />} />
+            <Route path={PATH_URL.CHART} element={<Chart />} />
             <Route path="*" element={<Login />} />
           </Routes>
         </Layout>

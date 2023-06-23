@@ -11,18 +11,18 @@ export const Tablet = ({ children }: { children: JSX.Element }): JSX.Element | n
 };
 
 export const MobileRow = ({ children }: { children: JSX.Element }): JSX.Element | null => {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-  return isMobile ? children : null;
+  const isMobileRow = useMediaQuery({ maxWidth: 767 });
+  return isMobileRow ? children : null;
 };
 
 export const MobileColumn = ({ children }: { children: JSX.Element }): JSX.Element | null => {
-  const isMobile = useMediaQuery({ maxWidth: 480 });
-  return isMobile ? children : null;
+  const isMobileColumn = useMediaQuery({ maxWidth: 480 });
+  return isMobileColumn ? children : null;
 };
 
 export const DesktopAndTablet = ({ children }: { children: JSX.Element }): JSX.Element | null => {
-  const isTabletAndMobile = useMediaQuery({ minWidth: 768 });
-  return isTabletAndMobile ? children : null;
+  const isDesktopAndTablet = useMediaQuery({ minWidth: 768 });
+  return isDesktopAndTablet ? children : null;
 };
 
 export const TabletAndMobile = ({ children }: { children: JSX.Element }): JSX.Element | null => {
