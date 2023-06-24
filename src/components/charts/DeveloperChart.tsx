@@ -1,7 +1,8 @@
-import { getPhotographerChart } from '@src/apis/chart';
+import { getDeveloperChart } from '@src/apis/chart';
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { styled } from 'styled-components';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -10,9 +11,9 @@ const DeveloperChart = () => {
   const [count, setCount] = useState<number[]>([]);
 
   const fetchDeveloperChart = async () => {
-    const photographerData = await getPhotographerChart();
-    const labelsData: string[] = Object.keys(photographerData);
-    const countData: number[] = Object.values(photographerData);
+    const DeveloperData = await getDeveloperChart();
+    const labelsData: string[] = Object.keys(DeveloperData);
+    const countData: number[] = Object.values(DeveloperData);
 
     setLabels(labelsData);
     setCount(countData);
@@ -44,7 +45,8 @@ const DeveloperChart = () => {
   };
 
   const options = {
-    responsive: true,
+    // responsive: false,
+    // maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'bottom' as const,
@@ -52,7 +54,11 @@ const DeveloperChart = () => {
     },
   };
 
-  return <Doughnut data={data} options={options} />;
+  return <StDoughutChart data={data} options={options} />;
 };
+
+const StDoughutChart = styled(Doughnut)`
+  width: 100%;
+`;
 
 export default DeveloperChart;

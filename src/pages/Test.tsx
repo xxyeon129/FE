@@ -5,7 +5,8 @@ import Project from '@src/components/myProject/CreateProject';
 import NaverLogin from '@src/components/socialLogin/NaverLogin';
 import GoogleLogin from '@src/components/socialLogin/GoogleLogin';
 import { styled } from 'styled-components';
-const Test = () => {
+
+const Test: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
 
