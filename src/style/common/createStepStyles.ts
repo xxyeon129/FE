@@ -52,7 +52,7 @@ export const PersonalInfoStyle = {
     height: 80px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
     border: 1px solid gray;
     border-radius: 10px;
     padding: 10px 20px;
@@ -63,7 +63,9 @@ export const PersonalInfoStyle = {
     font-size: 15px;
   `,
   Input: styled.input`
+    width: 100%;
     border: none;
+    font-size: 15px;
     &::placeholder {
       color: #b5b5b5;
     }
