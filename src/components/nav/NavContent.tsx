@@ -5,6 +5,7 @@ import Category from './Category';
 import UserProfile from './UserProfile';
 import { NavProps } from '@src/shared/Nav';
 import { DesktopAndTablet } from '@src/style/mediaQuery';
+import LightAndDarkMode from './LightAndDarkMode';
 const NavContent = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   return (
     <>
@@ -23,7 +24,7 @@ const NavContent = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => 
           setIsLogoutModalOpen={setIsLogoutModalOpen}
         />
         {/* TODO: 다크모드 2차 scope */}
-        {/* <LightAndDarkMode /> */}
+        <LightAndDarkMode />
       </StBottomContainer>
     </>
   );

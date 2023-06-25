@@ -2,7 +2,6 @@ import React from 'react';
 import { styled } from 'styled-components';
 import { ReactComponent as EditIcon } from 'src/assets/mypage-edit.svg';
 import { UserData } from '@src/pages/MyPage';
-
 interface MyPageInfoProps {
   data: UserData | undefined;
   userImage: string;
@@ -89,6 +88,7 @@ const StBottom = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: black;
   button {
     margin-top: 30px;
   }
