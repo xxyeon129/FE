@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { ProjectDataType } from '@src/types/portfolioType';
 import { getUser } from '@src/apis/user';
+import { ReactComponent as DeleteModalIcon } from '@src/assets/delete-post-modal-icon.svg';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import UserProfileImage from '../common/UserProfileImage';
 import NoImage from '../common/NoImage';
+import Modal from '../common/Modal';
 
 interface ProjectItemProps {
   project: ProjectDataType;
@@ -15,10 +17,19 @@ interface ProjectItemProps {
 
 const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) => {
   const [userData, setUserData] = useState({ nickname: '', profileImage: null });
-  const [imageLoadError, setImageLoadError] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [imageLoadError, setImageLoadError] = useState<boolean>(false);
 
   const onImageError = () => {
     setImageLoadError(true);
+  };
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const onCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
   };
 
   useEffect(() => {
@@ -35,7 +46,7 @@ const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) =
     <StProjectItem>
       <StImgContainer>
         {isEditMode && (
-          <StIconContainer onClick={() => deleteProject && deleteProject(project.id)}>
+          <StIconContainer onClick={openDeleteModal}>
             <StDeleteIcon />
           </StIconContainer>
         )}
@@ -61,6 +72,19 @@ const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) =
           <StUserName>{userData.nickname}</StUserName>
         </StBottomDescription>
       </StDescriptionContainer>
+      {isDeleteModalOpen && (
+        <Modal
+          Icon={DeleteModalIcon}
+          onClose={onCloseDeleteModal}
+          deletePost={deleteProject}
+          mainText="프로젝트를 정말 삭제할까요?"
+          subText="삭제하고 나면 복구할 수 없어요."
+          mainButtonText="취소"
+          subButtonText="삭제하기"
+          selectedId={project.id}
+          type="multiline"
+        />
+      )}
     </StProjectItem>
   );
 };
