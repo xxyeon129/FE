@@ -8,6 +8,7 @@ import ErrorMessage from '../common/createPortfolio/ErrorMessage';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
+import { StInputLabel } from '@src/style/common/createStepStyles';
 
 interface EmailFormProps {
   isInvalidEmail: boolean;
@@ -163,12 +164,6 @@ const StLabelContainer = styled.div`
   justify-content: space-between;
   padding: 0 2px;
   padding-bottom: 5px;
-`;
-
-const StInputLabel = styled.label`
-  color: gray;
-  font-weight: 800;
-  font-size: 15px;
 `;
 
 const StJoinedEmailCheckWrapper = styled.div`

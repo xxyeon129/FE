@@ -11,13 +11,11 @@ import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
 import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButton';
 import TitleTextLabel from '@src/components/common/createPortfolio/TitleTextLabel';
-import AdditionalPersonalInfo from '../AdditionalPersonalInfo';
-import ErrorMessage from '../../common/createPortfolio/ErrorMessage';
 import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
 import SnackbarPopup from '@src/components/common/SnackbarPopup';
 import EmailForm from '../EmailForm';
-import { useState } from 'react';
 import PhoneForm from '../PhoneForm';
+import LocationForm from '../LocationForm';
 
 const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [email, setEmail] = useRecoilState<string>(createEmailState);
@@ -46,9 +44,21 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
       <S.ContentContainer>
         <TitleTextLabel title={title} description={description} />
         <StPersonalInfoForm>
-          <EmailForm isInvalidEmail={isInvalidEmail} errorMessage={errorMessage} />
-          <PhoneForm />
-          <AdditionalPersonalInfo sharedStyle={sharedStyle} />
+          <StEmailFormWrapper>
+            <StFormDescriptionText>
+              <span className="asteriskMark">*</span>필수 입력
+            </StFormDescriptionText>
+            <EmailForm isInvalidEmail={isInvalidEmail} errorMessage={errorMessage} />
+          </StEmailFormWrapper>
+          <StAdditionalInfoContainer>
+            <StFormDescriptionText>선택 입력</StFormDescriptionText>
+            <StAdditionalInfoWrapper>
+              <StPhoneFormWrapper>
+                <PhoneForm />
+              </StPhoneFormWrapper>
+              <LocationForm />
+            </StAdditionalInfoWrapper>
+          </StAdditionalInfoContainer>
         </StPersonalInfoForm>
       </S.ContentContainer>
 
@@ -77,14 +87,38 @@ const StPersonalInfoForm = styled.div`
   }
 `;
 
-const sharedStyle = `
-  width: 100%;
-  height: 65px;
+const StFormDescriptionText = styled.span`
+  color: ${({ theme }) => theme.color.lightGreen};
+  font-weight: 550;
+
+  .asteriskMark {
+    color: ${({ theme }) => theme.color.lightGreen};
+    font-size: 18px;
+    font-weight: 800;
+  }
+`;
+
+const StEmailFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  z-index: 3;
+`;
 
-  padding: 10px;
+const StPhoneFormWrapper = styled.div`
+  z-index: 2;
+`;
+
+const StAdditionalInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const StAdditionalInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 export default Step04PersonalInfo;
