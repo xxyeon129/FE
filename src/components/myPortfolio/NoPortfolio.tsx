@@ -2,9 +2,13 @@ import { PATH_URL } from '@src/constants/constants';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { ReactComponent as NotFoundIcon } from '@src/assets/not-found-icon.svg';
+import { ReactComponent as NotFoundDarkModeIcon } from '@src/assets/not-found-dark-mode-icon.svg';
 import { Button } from '@src/style/common/commonStyles';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const NoPortfolio = () => {
+  const isDarkMode = useRecoilValue(isDarkModeState);
   const navigate = useNavigate();
 
   const onClickCreatePortfolioButton = () => {
@@ -13,7 +17,8 @@ const NoPortfolio = () => {
 
   return (
     <StNoPortfolio>
-      <NotFoundIcon />
+      <NotFoundDarkModeIcon />
+      {/* {isDarkMode ? <NotFoundDarkModeIcon /> : <NotFoundIcon />} */}
       <StNoPortfolioText>
         작성하신 포트폴리오가 없습니다.
         <br />

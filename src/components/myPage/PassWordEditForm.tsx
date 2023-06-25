@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface PassWordEditFormProps {
   handleCurrentPasswordChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -28,11 +30,12 @@ const PassWordEditForm: React.FC<PassWordEditFormProps> = ({
   checknewpasswordError,
   apiError,
 }) => {
+  const isDarkMode = useRecoilValue(isDarkModeState);
   return (
     <StPwContent>
-      <h4>비밀번호</h4>
+      <h4 style={{ color: isDarkMode ? '#000000' : '#000000' }}>비밀번호</h4>
       <StTextWrapper>
-        <StTitle>현재 비밀번호</StTitle>
+        <StTitle style={{ color: isDarkMode ? '#000000' : '#000000' }}>현재 비밀번호</StTitle>
         <StInput
           type="password"
           name="password"
@@ -43,7 +46,7 @@ const PassWordEditForm: React.FC<PassWordEditFormProps> = ({
         {oldpasswordError && <StError>{oldpasswordError}</StError>}
       </StTextWrapper>
       <StTextWrapper>
-        <StTitle>비밀번호</StTitle>
+        <StTitle style={{ color: isDarkMode ? '#000000' : '#000000' }}>비밀번호</StTitle>
         <StInput
           type="password"
           name="password"
@@ -54,7 +57,7 @@ const PassWordEditForm: React.FC<PassWordEditFormProps> = ({
         {newpasswordError && <StError>{newpasswordError}</StError>}
       </StTextWrapper>
       <StTextWrapper>
-        <StTitle>비밀번호 확인</StTitle>
+        <StTitle style={{ color: isDarkMode ? '#000000' : '#000000' }}>비밀번호 확인</StTitle>
         <StInput
           type="password"
           name="passwordCheck"

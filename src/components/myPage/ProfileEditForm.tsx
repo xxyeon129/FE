@@ -68,6 +68,7 @@ const StImage = styled.img`
 const StTitle = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
+  color: black;
 `;
 
 const StTextWrapper = styled.div`
@@ -129,6 +130,7 @@ const StContent = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  color: black;
 
   h4 {
     font-family: 'SUIT';

@@ -1,6 +1,8 @@
 import { styled } from 'styled-components';
 import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
 import NavContent from '@src/components/nav/NavContent';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 export interface NavProps {
   setIsLoginModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,10 +10,12 @@ export interface NavProps {
 }
 
 const Nav = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
+  const isDarkMode = useRecoilValue(isDarkModeState);
+
   return (
     <>
       <DesktopAndTablet>
-        <StNav>
+        <StNav darkmode={`${isDarkMode}`}>
           <NavContent
             setIsLoginModalOpen={setIsLoginModalOpen}
             setIsLogoutModalOpen={setIsLogoutModalOpen}
@@ -19,7 +23,7 @@ const Nav = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
         </StNav>
       </DesktopAndTablet>
       <MobileRow>
-        <StMobileNav>
+        <StMobileNav darkmode={`${isDarkMode}`}>
           <NavContent
             setIsLoginModalOpen={setIsLoginModalOpen}
             setIsLogoutModalOpen={setIsLogoutModalOpen}
@@ -39,22 +43,25 @@ const commonNavStyle = `
   position: fixed;
   top: 70px;
   height: calc(100vh - 70px);
-  background-color: white;
   z-index: 1000;
 `;
 
-const StNav = styled.div`
+const StNav = styled.div<{ darkmode: string }>`
   ${commonNavStyle}
   padding: 45px 41px;
   width: 270px;
+  background-color: ${({ darkmode }) => (darkmode === 'true' ? 'black' : 'white')};
+  color: ${({ darkmode }) => (darkmode === 'true' ? 'white' : 'black')};
 `;
 
-const StMobileNav = styled.div`
+const StMobileNav = styled.div<{ darkmode: string }>`
   ${commonNavStyle}
   padding: 45px 0;
   width: 85px;
   align-items: center;
   border-bottom-right-radius: 20px;
+  background-color: ${({ darkmode }) => (darkmode === 'true' ? 'black' : 'white')};
+  color: ${({ darkmode }) => (darkmode === 'true' ? 'white' : 'black')};
 `;
 
 export default Nav;
