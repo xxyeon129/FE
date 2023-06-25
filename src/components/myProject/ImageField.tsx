@@ -4,26 +4,28 @@ import { styled } from 'styled-components';
 export const ImageField: React.FC<{
   previewImages: string[];
   imageHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-}> = ({ previewImages, imageHandler }) => (
-  <StImageHeader>
-    <StImageBox>
-      {previewImages.map((url, index) => (
-        <StImage key={index} src={url} alt="프리뷰" />
-      ))}
-    </StImageBox>
-    <StImageText>
-      <h3>프로젝트 썸네일</h3>
-      <p>
-        10MB 이하의 jpg, jpeg, png 파일을
-        <br /> 업로드 해주세요.
-      </p>
-      <StImageTextdiv>
-        <StLabel htmlFor="file">파일 선택</StLabel>
-        <StFileUpload type="file" id="file" onChange={imageHandler}></StFileUpload>
-      </StImageTextdiv>
-    </StImageText>
-  </StImageHeader>
-);
+}> = ({ previewImages, imageHandler }) => {
+  return (
+    <StImageHeader>
+      <StImageBox>
+        {previewImages.map((url, index) => (
+          <StImage key={index} src={url} alt="프리뷰" />
+        ))}
+      </StImageBox>
+      <StImageText>
+        <h3>프로젝트 썸네일</h3>
+        <p>
+          10MB 이하의 jpg, jpeg, png 파일을
+          <br /> 업로드 해주세요.
+        </p>
+        <StImageTextdiv>
+          <StLabel htmlFor="file">파일 선택</StLabel>
+          <StFileUpload type="file" id="file" onChange={imageHandler}></StFileUpload>
+        </StImageTextdiv>
+      </StImageText>
+    </StImageHeader>
+  );
+};
 
 const StImageBox = styled.div`
   width: 160px;
@@ -81,7 +83,7 @@ const StImageHeader = styled.div`
 
 const StImageText = styled.div`
   /* margin-left: 50px; */
-
+  color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;

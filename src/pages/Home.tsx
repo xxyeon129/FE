@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { styled } from 'styled-components';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   categoryState,
   filterState,
@@ -10,7 +10,9 @@ import {
   selectedHeaderState,
 } from '@src/states';
 import { ReactComponent as Logo } from '@src/assets/logo.svg';
+import { ReactComponent as DarkLogo } from '@src/assets/dark-mode-logo.svg';
 import { ReactComponent as BackgroundIcon } from '@src/assets/home-background-icon.svg';
+import { ReactComponent as BackgroundDarkModeIcon } from '@src/assets/home-background-dark-mode-icon.svg';
 import { PATH_URL } from '@src/constants/constants';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
 import { getAllList, getLastId } from '@src/apis/portfolio';
@@ -18,6 +20,7 @@ import { PortfolioDataType } from '@src/types/portfolioType';
 import * as S from '@src/style/common/commonStyles';
 import theme from '@src/style/theme';
 import PortfolioItem from '@src/components/common/PortfolioItem';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -25,6 +28,7 @@ const Home = () => {
   const setFilter = useSetRecoilState<string>(filterState);
   const setSelectedCategory = useSetRecoilState<string>(selectedCategoryState);
   const setSelectedHeader = useSetRecoilState<boolean>(selectedHeaderState);
+  const isDarkMode = useRecoilValue(isDarkModeState);
 
   const navigate = useNavigate();
 
@@ -65,7 +69,7 @@ const Home = () => {
           <StIntroText>개발자, 디자이너, 포토그래퍼가 이용하는</StIntroText>
           <StIntroTitle>포트폴리오 공유 서비스</StIntroTitle>
         </StIntroTextContainer>
-        <StLogo />
+        {isDarkMode ? <StDarkModeLogo /> : <StLogo />}
         <StButtonContainer>
           {buttonList.map((button, index) => (
             <StButton key={index} color={button.color} onClick={() => onClickButton(button.value)}>
@@ -73,8 +77,8 @@ const Home = () => {
             </StButton>
           ))}
         </StButtonContainer>
-        <StShadow />
-        <StBackgroundIcon />
+        <StShadow isdarkmode={`${isDarkMode}`} />
+        {isDarkMode ? <StBackgroundDarkModeIcon /> : <StBackgroundIcon />}
       </StIntroContainer>
       <StListContainer>
         <StTextLabel>지금 뜨는 포트폴리오</StTextLabel>
@@ -162,7 +166,7 @@ const StIntroTitle = styled.h1`
   }
 `;
 
-const StLogo = styled(Logo)`
+const logoStyle = `
   width: 223px;
   height: 68px;
   z-index: 1;
@@ -177,23 +181,31 @@ const StLogo = styled(Logo)`
     width: 213px;
     height: 58px;
   }
-  @media ${({ theme }) => theme.size.mobileColumn} {
+  @media screen and (max-width: 480px) {
     transition: 0.5s;
     width: 203px;
     height: 48px;
   }
-  @media ${({ theme }) => theme.size.smallMobile} {
+  @media screen and (max-width: 380px) {
     transition: 0.5s;
     width: 193px;
     height: 38px;
   }
 `;
 
+const StLogo = styled(Logo)`
+  ${logoStyle}
+`;
+
+const StDarkModeLogo = styled(DarkLogo)`
+  ${logoStyle}
+`;
+
 const StButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const StButton = styled.button<{ color: string }>`
@@ -226,42 +238,53 @@ const StButton = styled.button<{ color: string }>`
   }
 `;
 
-const StShadow = styled.div`
+const StShadow = styled.div<{ isdarkmode: string }>`
   position: absolute;
   width: 100%;
   top: 300px;
-  background: linear-gradient(180deg, #ffffff -5.06%, rgba(255, 255, 255, 0) 150%);
+  background: ${({ isdarkmode }) =>
+    isdarkmode === 'true'
+      ? 'linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.00) 100%)'
+      : 'linear-gradient(180deg, #ffffff -5.06%, rgba(255, 255, 255, 0) 150%);'};
   transform: rotate(-180deg);
   padding: 250px;
-  z-index: 0.1;
+  z-index: ${({ isdarkmode }) => (isdarkmode === 'true' ? '1' : '0.1')};
+`;
+
+const backgroundIconStyle = `
+position: absolute;
+top: 305px;
+margin-left: 570px;
+
+@media screen and (max-width: 830px) {
+  transition: 0.5s;
+  margin-left: 450px;
+}
+@media screen and (max-width: 480px) {
+  transition: 0.5s;
+  top: 245px;
+  margin-left: 380px;
+  width: 450px;
+  height: 433px;
+}
+
+@media screen and (max-width: 380px) {
+  transition: 0.5s;
+  top: 240px;
+  margin-left: 300px;
+  width: 389px;
+  height: 372px;
+}
 `;
 
 const StBackgroundIcon = styled(BackgroundIcon)`
-  position: absolute;
-  top: 305px;
-  margin-left: 570px;
-
+  ${backgroundIconStyle}
   z-index: -1;
+`;
 
-  @media screen and (max-width: 830px) {
-    transition: 0.5s;
-    margin-left: 450px;
-  }
-  @media ${({ theme }) => theme.size.mobileColumn} {
-    transition: 0.5s;
-    top: 245px;
-    margin-left: 380px;
-    width: 450px;
-    height: 433px;
-  }
-
-  @media ${({ theme }) => theme.size.smallMobile} {
-    transition: 0.5s;
-    top: 240px;
-    margin-left: 300px;
-    width: 389px;
-    height: 372px;
-  }
+const StBackgroundDarkModeIcon = styled(BackgroundDarkModeIcon)`
+  ${backgroundIconStyle}
+  z-index: -0.7;
 `;
 
 const StTextLabel = styled.h2`

@@ -179,6 +179,7 @@ const ModalContent = styled.div`
     rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
     rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
   z-index: 9999;
+  color: black;
 
   @media (max-width: 768px) {
     width: 100%;

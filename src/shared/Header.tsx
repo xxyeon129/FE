@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
 import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
 import { ReactComponent as Logo } from '@src/assets/logo.svg';
+import { ReactComponent as DarkLogo } from '@src/assets/dark-mode-logo.svg';
 import HeaderListItem from '@src/components/header/HeaderListItem';
 import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
 import AutoSearch from '@src/components/AutoSearch';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface HeaderProps {
   onClickMobileMenu: () => void;
@@ -13,6 +16,7 @@ interface HeaderProps {
 }
 
 const Header = ({ onClickMobileMenu, setIsInProgressModalOpen }: HeaderProps) => {
+  const isDarkMode = useRecoilValue(isDarkModeState);
   const navigate = useNavigate();
   const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
 
@@ -26,8 +30,8 @@ const Header = ({ onClickMobileMenu, setIsInProgressModalOpen }: HeaderProps) =>
   };
 
   return (
-    <StHeader>
-      <StLogo onClick={onClickLogo} />
+    <StHeader darkmode={`${isDarkMode}`}>
+      {isDarkMode ? <StDarkModeLogo onClick={onClickLogo} /> : <StLogo onClick={onClickLogo} />}
       <DesktopAndTablet>
         <StUnorderedList>
           <HeaderListItem liWidth="130px" setIsInProgressModalOpen={setIsInProgressModalOpen} />
@@ -45,7 +49,7 @@ const Header = ({ onClickMobileMenu, setIsInProgressModalOpen }: HeaderProps) =>
   );
 };
 
-const StHeader = styled.header`
+const StHeader = styled.header<{ darkmode: string }>`
   position: fixed;
   padding: 0 41px;
   width: 100%;
@@ -53,7 +57,8 @@ const StHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: ${({ darkmode }) => (darkmode === 'true' ? 'black' : 'white')};
+  color: ${({ darkmode }) => (darkmode === 'true' ? 'white' : 'black')};
   z-index: 998;
 
   @media ${({ theme }) => theme.size.mobileRow} {
@@ -67,10 +72,18 @@ const StHeader = styled.header`
   }
 `;
 
-const StLogo = styled(Logo)`
+const logoStyle = `
   width: 63px;
   height: 20px;
-  cursor: pointer;
+  cursor: pointer;  
+`;
+
+const StLogo = styled(Logo)`
+  ${logoStyle}
+`;
+
+const StDarkModeLogo = styled(DarkLogo)`
+  ${logoStyle}
 `;
 
 const StUnorderedList = styled.ul`
