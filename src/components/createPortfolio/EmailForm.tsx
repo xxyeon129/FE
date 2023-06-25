@@ -9,6 +9,7 @@ import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { StInputLabel } from '@src/style/common/createStepStyles';
+import { EMAIL_REGEX } from '../common/createPortfolio/validator';
 
 interface EmailFormProps {
   isInvalidEmail: boolean;
@@ -16,7 +17,7 @@ interface EmailFormProps {
 }
 
 const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
-  const setEmail = useSetRecoilState(createEmailState);
+  const setEmail = useSetRecoilState<string>(createEmailState);
   const [emailIdValue, setEmailIdValue] = useRecoilState<string>(createEmailIdState);
   const [emailDomainValue, setEmailDomainValue] = useRecoilState<string>(createEmailDomainState);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -25,10 +26,11 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
 
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
-  const { onChangeInput: onChangeEmailIdValue } = useOnChangeInput({
-    setRecoilState: setEmailIdValue,
-    setIsCheckboxChecked,
-  });
+  const onChangeEmailIdValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.replace(EMAIL_REGEX.ID, '');
+    setEmailIdValue(inputValue);
+    setIsCheckboxChecked(false);
+  };
 
   const { onChangeInput: onChangeEmailDomainValue } = useOnChangeInput({
     setRecoilState: setEmailDomainValue,
