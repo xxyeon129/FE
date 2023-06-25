@@ -102,11 +102,11 @@ const StEmailFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  z-index: 3;
+  z-index: 4;
 `;
 
 const StPhoneFormWrapper = styled.div`
-  z-index: 2;
+  z-index: 3;
 `;
 
 const StAdditionalInfoContainer = styled.div`
