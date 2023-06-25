@@ -16,6 +16,10 @@ export const TELEPHONE_REGEX = {
   US_NUMBER: /^(\d{3})(\d{3})(\d{4})$/,
 };
 
+export const LINK_REGEX = /[^a-zA-Z0-9 !/@#$%^&*(),.?":{}|<>_-]+/g;
+
+export const GITHUB_ID_REGEX = /[^A-Za-z0-9-]/g;
+
 export const validateTitle = (value: string) => {
   const isInvalidTitle = value.length < 5;
   return [isInvalidTitle, isInvalidTitle && ERROR_MESSAGE.TITLE_UNDER_5];
