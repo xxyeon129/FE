@@ -1,4 +1,6 @@
+import { isDarkModeState } from '@src/states/darkModeState';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 
 interface DetailTechStackProps {
@@ -6,6 +8,8 @@ interface DetailTechStackProps {
 }
 
 function DetailTechStack(props: DetailTechStackProps) {
+  const isDarkMode = useRecoilValue(isDarkModeState);
+
   if (props.techStack.length === 0 || props.techStack.every(item => item.trim() === '')) {
     return null;
   }
@@ -18,7 +22,9 @@ function DetailTechStack(props: DetailTechStackProps) {
         </StTechnology>
         <StTechStackContainer>
           {props.techStack?.map((item, index) => (
-            <StTechStack key={index}>{item}</StTechStack>
+            <StTechStack isdarkmode={`${isDarkMode}`} key={index}>
+              {item}
+            </StTechStack>
           ))}
         </StTechStackContainer>
       </StTechStackSection>
@@ -68,9 +74,10 @@ const StTechStackContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  gap: 20px;
 `;
 
-const StTechStack = styled.div`
+const StTechStack = styled.div<{ isdarkmode: string }>`
   width: calc(20% - 5px);
   height: 37px;
   border-radius: 20px;
@@ -79,7 +86,7 @@ const StTechStack = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f2fff1;
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '#232323' : '#f2fff1')};
   margin-right: 15px;
   transition: transform 0.3s ease, background-color 0.3s ease;
   font-weight: bold;
@@ -88,7 +95,7 @@ const StTechStack = styled.div`
 
   &:hover {
     transform: scale(1.1);
-    background-color: #eaeaea;
+    background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '#232323' : '#eaeaea')};
   }
 
   @media (min-width: 480px) and (max-width: 767px) {

@@ -22,6 +22,7 @@ import DetailTechStack from '@src/components/portfolio/detail/DetailTechStack';
 import { Desktop } from '@src/style/mediaQuery.ts';
 import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
 import SnackbarPopup from '@src/components/common/SnackbarPopup';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 function PortfolioDetails() {
   interface Project {
@@ -61,6 +62,7 @@ function PortfolioDetails() {
   const [category, setCategory] = useState(false);
   const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
   const projectData = useRecoilValue(projectDataAtom);
+  const isDarkMode = useRecoilValue(isDarkModeState);
 
   useEffect(() => {
     if (projectData !== null) {
@@ -299,7 +301,7 @@ function PortfolioDetails() {
 
   return (
     <>
-      <div>
+      <StContainer isdarkmode={`${isDarkMode}`}>
         <div>
           {portEdit ? (
             <StEditWrapper>
@@ -403,21 +405,19 @@ function PortfolioDetails() {
               )}
 
               {isSnackbarVisible && (
-                <SnackbarPopup
-                  text="수정완료"
-                  type="done" // ---> type 속성을 생략하면 디폴트로 빨간색 에러 스낵바 ui로 설정. type="done" 설정 시 회색 스낵바 UI
-                  isSnackbarVisible={isSnackbarVisible}
-                />
+                <SnackbarPopup text="수정완료" type="done" isSnackbarVisible={isSnackbarVisible} />
               )}
             </div>
           )}
         </div>
-      </div>
+      </StContainer>
     </>
   );
 }
 
 export default PortfolioDetails;
+
+const StContainer = styled.div<{ isdarkmode: string }>``;
 
 const StEditWrapper = styled.div`
   padding: 100px;
