@@ -47,7 +47,7 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
         <TitleTextLabel title={title} description={description} />
         <StPersonalInfoForm>
           <EmailForm isInvalidEmail={isInvalidEmail} errorMessage={errorMessage} />
-          {/* <PhoneForm /> */}
+          <PhoneForm />
           <AdditionalPersonalInfo sharedStyle={sharedStyle} />
         </StPersonalInfoForm>
       </S.ContentContainer>

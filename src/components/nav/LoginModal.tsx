@@ -154,8 +154,8 @@ const LoginModal = ({
             />
           )}
 
-          {/* <NaverLogin />
-          <GoogleLogin /> */}
+          <NaverLogin />
+          {/* <GoogleLogin /> */}
         </StSocialLogin>
         <StSignup>
           <span>아직 폴 회원이 아니세요?</span>

@@ -17,6 +17,8 @@ import ProfileEditForm from '@src/components/myPage/ProfileEditForm';
 import PassWordEditForm from '@src/components/myPage/PassWordEditForm';
 import { useInput } from 'src/Hook/useInput';
 import { refreshToken } from '@src/apis/token';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 export interface UserData {
   nickname: string;
   email: string;
@@ -44,6 +46,7 @@ const MyPage = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [apiError, setApiError] = useState('');
   const setMyPageEdit = useSetRecoilState(myPageEditState);
+  const isDarkMode = useRecoilValue(isDarkModeState);
   const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () =>
     getUser(Number(id))
   );
@@ -155,7 +158,7 @@ const MyPage = () => {
 
   return (
     <Stdiv>
-      <StHeader isediting={isEditing}></StHeader>
+      <StHeader isediting={`${isEditing}`}></StHeader>
       {isEditing ? (
         <StMyPageEditBox>
           <StClose>
@@ -202,7 +205,7 @@ const MyPage = () => {
       {showModal && <WithdrawalModal onWithdrawal={handleWithdrawal} onClose={handleCloseModal} />}
       {showUpdateModal && <UpdateProfileModal onClose={() => setShowUpdateModal(false)} />}
       {showPasswordModal && <UpdatePasswordModal onClose={() => setShowPasswordModal(false)} />}
-      <Stbottom isediting={isEditing} />
+      <Stbottom isediting={`${isEditing}`} />
     </Stdiv>
   );
 };
@@ -213,20 +216,20 @@ const Stdiv = styled.div`
   position: relative;
 `;
 
-const Stbottom = styled.div<{ isediting: Boolean }>`
+const Stbottom = styled.div<{ isediting: string }>`
   background: #6bf65f;
   height: 60%;
-  background-color: ${props => (props.isediting ? '#D3D3D3' : '#6BF65F')};
+  background-color: ${props => (props.isediting === 'true' ? '#D3D3D3' : '#6BF65F')};
 `;
 
-const StHeader = styled.div<{ isediting: Boolean }>`
+const StHeader = styled.div<{ isediting: string }>`
   width: 100%;
   height: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: ${props =>
-    props.isediting
+    props.isediting === 'true'
       ? '#D3D3D3'
       : 'linear-gradient(135deg, #8FE7A1, #9BC7BF, #CBD0E1, #5CC3BA, #0DC49C, #6E9EB2)'};
   background-size: cover;

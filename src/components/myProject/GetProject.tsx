@@ -69,6 +69,7 @@ const StTitle = styled.div`
   font-size: 20px;
   width: 100%;
   margin-bottom: 1px;
+  color: black;
 `;
 
 const StImage = styled.img`
@@ -97,6 +98,7 @@ const StText = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 150%;
+  color: black;
 
   @media (max-width: 600px) {
     width: 100%;
@@ -134,6 +136,7 @@ const StGetHeader = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  color: black;
 
   h1 {
     font-family: 'SUIT';
@@ -162,6 +165,7 @@ const StGetTextWrap = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
+  color: black;
 
   div {
     font-family: 'SUIT';

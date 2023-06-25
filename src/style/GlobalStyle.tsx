@@ -4,6 +4,11 @@ const GlobalStyle = createGlobalStyle`
   body {
     height: 100vh;
     font-family: 'SUIT Variable', sans-serif;
+
+    .darkMode{
+      background-color: black;
+      color: white;
+    }
   }
 
   button{

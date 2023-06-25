@@ -52,6 +52,7 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
           <StTextarea
             value={experience}
             onChange={onChangeInput}
+            maxLength={1500}
             placeholder="포트폴리오에 표시될 소개 내용을 10자 이상 작성해주세요."
           />
           <StWordCount>{inputLength}/1500</StWordCount>

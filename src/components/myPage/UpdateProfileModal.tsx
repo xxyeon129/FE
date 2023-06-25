@@ -78,6 +78,7 @@ const StModalLayout = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.5em;
+  color: black;
 
   div {
     margin-top: 30px;
