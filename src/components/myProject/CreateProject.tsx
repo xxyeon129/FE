@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { projectDataAtom } from '@src/states/createProjectState';
@@ -10,9 +9,10 @@ import { ReactComponent as Pol } from 'src/assets/pol-icon.svg';
 import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
-import imageCompression from 'browser-image-compression';
 import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
 import Modal from 'src/components/common/Modal';
+import { useImageHandling } from '@src/Hook/useImageHandling';
+
 const CreateProject: React.FC<{
   showModal1: boolean;
   setShowModal1: (showModal1: boolean) => void;
@@ -23,38 +23,10 @@ const CreateProject: React.FC<{
   const people = useInput('');
   const position = useInput('');
   const description = useInput('');
-  const [imageList, setImageList] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [projectData, setProjectData] = useRecoilState(projectDataAtom);
   const [dateError, setDateError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length >= 0) {
-      const fileList = Array.from(e.target.files);
-      const isAllFilesValid = fileList.every(file => {
-        const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        return validImageTypes.includes(file.type);
-      });
-
-      if (!isAllFilesValid) {
-        setErrorMessage('이미지 파일만 넣어주세요');
-        return;
-      } else {
-        setErrorMessage('');
-      }
-      const options = {
-        maxSizeMB: 0.5,
-      };
-      const compressedImages = await Promise.all(
-        fileList.map(file => imageCompression(file, options))
-      );
-      setImageList(compressedImages);
-      const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
-      setPreviewImages(previewURLs);
-    }
-  };
-
+  const { imageList, previewImages, errorMessage, imageHandler } = useImageHandling();
   const queryClient = useQueryClient();
   const mutation = useMutation(
     async () => {

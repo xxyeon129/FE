@@ -5,10 +5,10 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 import { useQuery, useMutation } from 'react-query';
-import user from 'src/assets/default-user-profile-icon.svg';
+import user from 'src/assets/default-user-profile-icon.svg'; //0
 import { useSetRecoilState } from 'recoil';
 import { myPageEditState } from '@src/states/myPageEditState';
-import { ReactComponent as Close } from 'src/assets/mypage-close.svg';
+import { ReactComponent as Close } from 'src/assets/mypage-close.svg'; //0
 import WithdrawalModal from '@src/components/myPage/WithdrawalModal';
 import UpdatePasswordModal from '@src/components/myPage/UpdatePasswordModal';
 import UpdateProfileModal from '@src/components/myPage/UpdateProfileModal';
@@ -78,7 +78,6 @@ const MyPage = () => {
     navigate('/');
     setShowModal(false);
   }, [refreshToken, deleteUserMutation, id, navigate]);
-
   const handleSavePassword = useCallback(async () => {
     if (oldpassword.value.trim() === '') {
       oldpassword.setErrorText('현재 비밀번호를 입력해주세요.');
