@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { createTelephoneState } from '@src/states';
 import { PersonalInfoStyle } from '@src/style/common/createStepStyles';
 import { ReactComponent as KOR } from '@src/assets/createPortfolio/create-portfolio-phone-kor.svg';
@@ -8,11 +8,13 @@ import { ReactComponent as US } from '@src/assets/createPortfolio/create-portfol
 import { BiCaretDown } from 'react-icons/bi';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import { TELEPHONE_REGEX } from '../common/createPortfolio/validator';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const PhoneForm = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [selectedCountryOption, setSelectedCountryOption] = useState<string>('KOR');
   const [telephone, setTelephone] = useRecoilState<string>(createTelephoneState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
@@ -61,13 +63,17 @@ const PhoneForm = () => {
     <PersonalInfoStyle.Container>
       <PersonalInfoStyle.Label>전화번호</PersonalInfoStyle.Label>
       <StInputWrapper>
-        <StTelephoneSelect onClick={onClickSelectBox}>
+        <StTelephoneSelect onClick={onClickSelectBox} isdarkmode={`${isDarkMode}`}>
           {selectedCountryOption === 'KOR' ? <StKorFlagIcon /> : <StUsFlagIcon />}
           <BiCaretDown />
           {isDropdownOpen && (
-            <StDropdownUnorderedList ref={dropdownRef}>
+            <StDropdownUnorderedList ref={dropdownRef} isdarkmode={`${isDarkMode}`}>
               {dropdownList.map((list, index) => (
-                <StDropdownList key={index} onClick={() => onClickOption(list.value)}>
+                <StDropdownList
+                  key={index}
+                  onClick={() => onClickOption(list.value)}
+                  isdarkmode={`${isDarkMode}`}
+                >
                   <span>{list.value}</span>
                   <span className="number">{list.number}</span>
                 </StDropdownList>
@@ -104,9 +110,10 @@ const StInputWrapper = styled.div`
   font-weight: 600;
 `;
 
-const StTelephoneSelect = styled.div`
+const StTelephoneSelect = styled.div<{ isdarkmode: string }>`
   width: 70px;
-  background-color: ${({ theme }) => theme.color.gray};
+  background-color: ${({ theme, isdarkmode }) =>
+    isdarkmode === 'true' ? theme.color.fontColor : theme.color.gray};
   padding: 5px;
   border-radius: 5px;
   margin-right: 3px;
@@ -118,7 +125,7 @@ const StTelephoneSelect = styled.div`
   cursor: pointer;
 `;
 
-const StDropdownUnorderedList = styled.ul`
+const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -127,11 +134,12 @@ const StDropdownUnorderedList = styled.ul`
   margin-top: 3px;
   top: 100%;
   left: 0;
-  background-color: white;
+  background-color: ${({ theme, isdarkmode }) =>
+    isdarkmode === 'true' ? theme.color.darkModeGray : 'white'};
   border: 1px solid ${({ theme }) => theme.color.paleGray};
 `;
 
-const StDropdownList = styled.li`
+const StDropdownList = styled.li<{ isdarkmode: string }>`
   padding: 10px 7px;
   display: flex;
   justify-content: space-between;
@@ -144,14 +152,17 @@ const StDropdownList = styled.li`
 
   &:first-child {
     padding-top: 15px;
+    border-radius: 5px 5px 0 0;
   }
 
   &:last-child {
     padding-bottom: 15px;
+    border-radius: 0 0 5px 5px;
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.lightGray};
+    background-color: ${({ theme, isdarkmode }) =>
+      isdarkmode === 'true' ? 'black' : theme.color.lightGray};
   }
 `;
 

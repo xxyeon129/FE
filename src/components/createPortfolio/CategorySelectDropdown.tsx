@@ -4,6 +4,8 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
 import { StInputLabel } from '../../style/common/createStepStyles';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface CategorySelectDropdownProps {
   dropdownOptions: string[];
@@ -19,6 +21,7 @@ const CategorySelectDropdown = ({
   setSelectedOption,
 }: CategorySelectDropdownProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
@@ -50,9 +53,13 @@ const CategorySelectDropdown = ({
       </StSelectBar>
 
       {isDropdownOpen && (
-        <StDropdownUnorderedList ref={dropdownRef}>
+        <StDropdownUnorderedList ref={dropdownRef} isdarkmode={`${isDarkMode}`}>
           {dropdownOptions.map((option: string, index: number) => (
-            <StDropdownList key={index} onClick={() => onClickOption(option)}>
+            <StDropdownList
+              key={index}
+              onClick={() => onClickOption(option)}
+              isdarkmode={`${isDarkMode}`}
+            >
               {option}
             </StDropdownList>
           ))}
@@ -94,21 +101,23 @@ const StSelectValue = styled.div`
   font-weight: 800;
 `;
 
-const StDropdownUnorderedList = styled.ul`
+const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
   position: absolute;
   width: 100%;
   margin-top: 5px;
-  background-color: white;
+  background-color: ${({ theme, isdarkmode }) =>
+    isdarkmode === 'true' ? theme.color.darkModeGray : 'white'};
   border: 1px solid gray;
   border-radius: 7px;
 `;
 
-const StDropdownList = styled.li`
+const StDropdownList = styled.li<{ isdarkmode: string }>`
   cursor: pointer;
   padding: 9px 20px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.lightGray};
+    background-color: ${({ theme, isdarkmode }) =>
+      isdarkmode === 'true' ? 'black' : theme.color.lightGray};
   }
 
   &:first-child {

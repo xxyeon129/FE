@@ -16,7 +16,7 @@ import useSnackbarPopup from '@src/Hook/useSnackbarPopup';
 import SnackbarPopup from '@src/components/common/SnackbarPopup';
 
 const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
-  const [portfolioTitle, setPortfolioTitle] = useRecoilState(createTitleState);
+  const [portfolioTitle, setPortfolioTitle] = useRecoilState<string>(createTitleState);
 
   const {
     onChangeInput,

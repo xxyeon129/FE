@@ -2,13 +2,17 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { ReactComponent as ErrorIcon } from '@src/assets/not-found-icon.svg';
+import { ReactComponent as ErrorDarkModeIcon } from '@src/assets/not-found-dark-mode-icon.svg';
 import useAuthModal from '@src/Hook/useAuthModal';
 import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const Login = () => {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState<boolean>(false);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const location = useLocation();
 
@@ -23,7 +27,7 @@ const Login = () => {
 
   return (
     <StLogin>
-      <ErrorIcon />
+      {isDarkMode ? <ErrorDarkModeIcon /> : <ErrorIcon />}
       <StTextContainer>
         <StText>로그인 후 이용 가능한 서비스입니다!</StText>
         <StDescription>간편하게 로그인 후 다양한 POL 서비스를 이용해보세요.</StDescription>

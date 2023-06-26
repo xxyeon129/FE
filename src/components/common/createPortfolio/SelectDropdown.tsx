@@ -4,6 +4,8 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
 import { StInputLabel } from '@src/style/common/createStepStyles';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface SelectDropdownProps {
   dropdownOptions: string[];
@@ -15,6 +17,7 @@ interface SelectDropdownProps {
 }
 
 const SelectDropdown = (props: SelectDropdownProps) => {
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
@@ -55,9 +58,13 @@ const SelectDropdown = (props: SelectDropdownProps) => {
       </StSelectBar>
 
       {isDropdownOpen && (
-        <StDropdownUnorderedList ref={dropdownRef}>
+        <StDropdownUnorderedList ref={dropdownRef} isdarkmode={`${isDarkMode}`}>
           {props.dropdownOptions.map((option: string, index: number) => (
-            <StDropdownList key={index} onClick={() => onClickOption(option)}>
+            <StDropdownList
+              key={index}
+              onClick={() => onClickOption(option)}
+              isdarkmode={`${isDarkMode}`}
+            >
               {option}
             </StDropdownList>
           ))}
@@ -102,24 +109,26 @@ const StSelectValue = styled.div<{ ispersonalinfo: string; isselected: string }>
   color: ${({ isselected }) => !(isselected.length > 1) && '#b5b5b5'};
 `;
 
-const StDropdownUnorderedList = styled.ul`
+const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
   position: absolute;
   width: 100%;
   max-height: 170px;
   overflow-y: auto;
   margin-top: 5px;
-  background-color: white;
+  background-color: ${({ theme, isdarkmode }) =>
+    isdarkmode === 'true' ? theme.color.darkModeGray : 'white'};
   border: 1px solid gray;
   border-radius: 7px;
   margin-bottom: 20px;
 `;
 
-const StDropdownList = styled.li`
+const StDropdownList = styled.li<{ isdarkmode: string }>`
   cursor: pointer;
   padding: 9px 20px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.lightGray};
+    background-color: ${({ theme, isdarkmode }) =>
+      isdarkmode === 'true' ? 'black' : theme.color.lightGray};
   }
 
   &:first-child {

@@ -1,14 +1,19 @@
 import { styled } from 'styled-components';
 import { STEP } from '@src/constants/createPortfolioConstants';
 import { ReactComponent as Logo } from '@src/assets/logo.svg';
+import { ReactComponent as DarkModeLogo } from '@src/assets/dark-mode-logo.svg';
 import { ReactComponent as LabelNumberOne } from '@src/assets/createPortfolio/create-portfolio-step01-intro-number-1.svg';
 import { ReactComponent as LabelNumberTwo } from '@src/assets/createPortfolio/create-portfolio-step01-intro-number-2.svg';
 import { ReactComponent as LabelNumberThree } from '@src/assets/createPortfolio/create-portfolio-step01-intro-number-3.svg';
 import NextStepButton from '@src/components/common/createPortfolio/NextStepButton';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
   onNextButtonClick,
 }) => {
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
+
   const descriptionDetail = [
     {
       id: 1,
@@ -35,7 +40,7 @@ const Step01Intro: React.FC<{ onNextButtonClick: (step: string) => void }> = ({
       <StContentContainer>
         <StDescriptionContainer>
           <StLogoAndTextDescriptionContainer>
-            <StLogo />
+            <StLogoWrapper>{isDarkMode ? <DarkModeLogo /> : <Logo />}</StLogoWrapper>
             <StDescriptionText>과 함께</StDescriptionText>
           </StLogoAndTextDescriptionContainer>
           <StDescriptionText>포트폴리오를 입력해볼까요?</StDescriptionText>
@@ -116,39 +121,41 @@ const StLogoAndTextDescriptionContainer = styled.div`
   }
 `;
 
-const StLogo = styled(Logo)`
-  width: 82px;
-  height: 30px;
-
-  @media screen and (max-width: 1350px) {
-    transition: 0.5s;
-    width: 80px;
-    height: 28px;
-  }
-  @media screen and (max-width: 1205px) {
-    transition: 0.5s;
-    width: 77px;
-    height: 25px;
-  }
-  @media ${({ theme }) => theme.size.tablet} {
-    transition: 0.5s;
+const StLogoWrapper = styled.div`
+  & svg {
     width: 82px;
     height: 30px;
-  }
-  @media screen and (max-width: 580px) {
-    transition: 0.5s;
-    width: 77px;
-    height: 25px;
-  }
-  @media screen and (max-width: 520px) {
-    transition: 0.5s;
-    width: 68px;
-    height: 23px;
-  }
-  @media ${({ theme }) => theme.size.mobileColumn} {
-    transition: 0.5s;
-    width: 64px;
-    height: 19px;
+
+    @media screen and (max-width: 1350px) {
+      transition: 0.5s;
+      width: 80px;
+      height: 28px;
+    }
+    @media screen and (max-width: 1205px) {
+      transition: 0.5s;
+      width: 77px;
+      height: 25px;
+    }
+    @media ${({ theme }) => theme.size.tablet} {
+      transition: 0.5s;
+      width: 82px;
+      height: 30px;
+    }
+    @media screen and (max-width: 580px) {
+      transition: 0.5s;
+      width: 77px;
+      height: 25px;
+    }
+    @media screen and (max-width: 520px) {
+      transition: 0.5s;
+      width: 68px;
+      height: 23px;
+    }
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      transition: 0.5s;
+      width: 64px;
+      height: 19px;
+    }
   }
 `;
 

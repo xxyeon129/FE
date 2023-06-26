@@ -16,7 +16,7 @@ interface HeaderProps {
 }
 
 const Header = ({ onClickMobileMenu, setIsInProgressModalOpen }: HeaderProps) => {
-  const isDarkMode = useRecoilValue(isDarkModeState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
   const navigate = useNavigate();
   const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
 

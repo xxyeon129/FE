@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import {
   categoryState,
@@ -12,12 +12,14 @@ import {
   categoryListForDisplay,
 } from '@src/constants/portfolioFilteringData';
 import { PATH_URL } from '@src/constants/constants';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const Category = () => {
   const setCategory = useSetRecoilState<string>(categoryState);
   const setFilter = useSetRecoilState<string>(filterState);
-  const [selectedCategory, setSelectedCategory] = useRecoilState(selectedCategoryState);
-  const setSelectedHeader = useSetRecoilState(selectedHeaderState);
+  const [selectedCategory, setSelectedCategory] = useRecoilState<string>(selectedCategoryState);
+  const setSelectedHeader = useSetRecoilState<boolean>(selectedHeaderState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const navigate = useNavigate();
 
@@ -37,7 +39,11 @@ const Category = () => {
     <StCategory>
       {categoryListForDisplay.map((categoryItem, categoryItemIndex: number) => (
         <StCategoryItem key={categoryItemIndex} onClick={() => onClickCategory(categoryItem.value)}>
-          {categoryItem.icon && <categoryItem.icon />}
+          {categoryItem.icon && (
+            <StIconWrapper isdarkmode={`${isDarkMode}`}>
+              <categoryItem.icon />
+            </StIconWrapper>
+          )}
           <StLabel
             key={categoryItemIndex}
             isclicked={`${selectedCategory === categoryItem.value}`}
@@ -62,6 +68,14 @@ const StCategoryItem = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+`;
+
+const StIconWrapper = styled.div<{ isdarkmode: string }>`
+  & svg {
+    & path {
+      fill: ${({ isdarkmode }) => isdarkmode === 'true' && '#B4B4B4'};
+    }
+  }
 `;
 
 const StLabel = styled.div<{ isclicked: string; color: string; value: string }>`
