@@ -26,8 +26,11 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
       )}
       <StDescriptionContainer>
         <StUserContainer>
-          <UserProfileImage imgSrc={item.userProfileImage} size="25px" />
-          <StUserNameText>{item.userName}</StUserNameText>
+          <StUserProfile>
+            <UserProfileImage imgSrc={item.userProfileImage} size="25px" />
+            <StUserNameText>{item.userName}</StUserNameText>
+          </StUserProfile>
+          <Stviews>{item.views}</Stviews>
         </StUserContainer>
         <StTitle>{item.portfolioTitle}</StTitle>
       </StDescriptionContainer>
@@ -63,6 +66,7 @@ const StUserContainer = styled.div`
   align-items: center;
   margin-top: 5px;
   margin-bottom: 10px;
+  justify-content: space-between;
 `;
 
 const StUserNameText = styled.div`
@@ -74,6 +78,19 @@ const StTitle = styled.div`
   font-weight: bold;
   font-size: 18px;
   line-height: 130%;
+`;
+
+const StUserProfile = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Stviews = styled.div`
+  font-size: 14px;
+  padding-right: 6px;
+  color: gray;
 `;
 
 export default PortfolioItem;
