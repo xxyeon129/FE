@@ -3,9 +3,13 @@ import { useState, useEffect } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { ProjectDataType } from '@src/types/portfolioType';
 import { getUser } from '@src/apis/user';
+import { ReactComponent as DeleteModalIcon } from '@src/assets/delete-post-modal-icon.svg';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import UserProfileImage from '../common/UserProfileImage';
 import NoImage from '../common/NoImage';
+import Modal from '../common/Modal';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface ProjectItemProps {
   project: ProjectDataType;
@@ -15,10 +19,20 @@ interface ProjectItemProps {
 
 const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) => {
   const [userData, setUserData] = useState({ nickname: '', profileImage: null });
-  const [imageLoadError, setImageLoadError] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [imageLoadError, setImageLoadError] = useState<boolean>(false);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const onImageError = () => {
     setImageLoadError(true);
+  };
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const onCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
   };
 
   useEffect(() => {
@@ -35,7 +49,7 @@ const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) =
     <StProjectItem>
       <StImgContainer>
         {isEditMode && (
-          <StIconContainer onClick={() => deleteProject && deleteProject(project.id)}>
+          <StIconContainer onClick={openDeleteModal}>
             <StDeleteIcon />
           </StIconContainer>
         )}
@@ -53,14 +67,27 @@ const ProjectItem = ({ project, isEditMode, deleteProject }: ProjectItemProps) =
       </StImgContainer>
       <StDescriptionContainer>
         <StTopDescription>
-          <StProjectTitle>{project.title}</StProjectTitle>
+          <StProjectTitle isdarkmode={`${isDarkMode}`}>{project.title}</StProjectTitle>
           <StProjectPosition>{project.position}</StProjectPosition>
         </StTopDescription>
         <StBottomDescription>
           <UserProfileImage imgSrc={userData.profileImage} size="25px" />
-          <StUserName>{userData.nickname}</StUserName>
+          <StUserName isdarkmode={`${isDarkMode}`}>{userData.nickname}</StUserName>
         </StBottomDescription>
       </StDescriptionContainer>
+      {isDeleteModalOpen && (
+        <Modal
+          Icon={DeleteModalIcon}
+          onClose={onCloseDeleteModal}
+          deletePost={deleteProject}
+          mainText="프로젝트를 정말 삭제할까요?"
+          subText="삭제하고 나면 복구할 수 없어요."
+          mainButtonText="취소"
+          subButtonText="삭제하기"
+          selectedId={project.id}
+          type="multiline"
+        />
+      )}
     </StProjectItem>
   );
 };
@@ -117,10 +144,10 @@ const StTopDescription = styled.div`
   align-items: center;
 `;
 
-const StProjectTitle = styled.div`
+const StProjectTitle = styled.div<{ isdarkmode: string }>`
   font-weight: bold;
   font-size: 19px;
-  color: ${({ theme }) => theme.color.fontColor};
+  color: ${({ theme, isdarkmode }) => (isdarkmode === 'true' ? 'white' : theme.color.fontColor)};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -139,10 +166,10 @@ const StBottomDescription = styled.div`
   align-items: center;
 `;
 
-const StUserName = styled.div`
+const StUserName = styled.div<{ isdarkmode: string }>`
   margin-left: 10px;
   font-weight: bold;
-  color: ${({ theme }) => theme.color.fontColor};
+  color: ${({ theme, isdarkmode }) => (isdarkmode === 'true' ? 'white' : theme.color.fontColor)};
 `;
 
 export default ProjectItem;

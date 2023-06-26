@@ -23,7 +23,6 @@ const NavContent = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => 
           setIsLoginModalOpen={setIsLoginModalOpen}
           setIsLogoutModalOpen={setIsLogoutModalOpen}
         />
-        {/* TODO: 다크모드 2차 scope */}
         <LightAndDarkMode />
       </StBottomContainer>
     </>
@@ -41,7 +40,6 @@ const StCategoryContainer = styled.div`
 const StBottomContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
 `;
 
 export default NavContent;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 import { createEmailDomainState, createEmailIdState, createEmailState } from '@src/states';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -8,6 +8,9 @@ import ErrorMessage from '../common/createPortfolio/ErrorMessage';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
+import { StInputLabel } from '@src/style/common/createStepStyles';
+import { EMAIL_REGEX } from '../common/createPortfolio/validator';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface EmailFormProps {
   isInvalidEmail: boolean;
@@ -15,7 +18,8 @@ interface EmailFormProps {
 }
 
 const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
-  const setEmail = useSetRecoilState(createEmailState);
+  const setEmail = useSetRecoilState<string>(createEmailState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
   const [emailIdValue, setEmailIdValue] = useRecoilState<string>(createEmailIdState);
   const [emailDomainValue, setEmailDomainValue] = useRecoilState<string>(createEmailDomainState);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -24,10 +28,11 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
 
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
-  const { onChangeInput: onChangeEmailIdValue } = useOnChangeInput({
-    setRecoilState: setEmailIdValue,
-    setIsCheckboxChecked,
-  });
+  const onChangeEmailIdValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.replace(EMAIL_REGEX.ID, '');
+    setEmailIdValue(inputValue);
+    setIsCheckboxChecked(false);
+  };
 
   const { onChangeInput: onChangeEmailDomainValue } = useOnChangeInput({
     setRecoilState: setEmailDomainValue,
@@ -122,9 +127,13 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
               </StemailDomain>
             )}
             {isDropdownOpen && (
-              <StDropdownUnorderedList ref={dropdownRef}>
+              <StDropdownUnorderedList ref={dropdownRef} isdarkmode={`${isDarkMode}`}>
                 {emailDomainList.map((domain, index) => (
-                  <StDropdownDomainList key={index} onClick={() => onClickDomainOption(domain)}>
+                  <StDropdownDomainList
+                    key={index}
+                    onClick={() => onClickDomainOption(domain)}
+                    isdarkmode={`${isDarkMode}`}
+                  >
                     {domain}
                   </StDropdownDomainList>
                 ))}
@@ -163,12 +172,6 @@ const StLabelContainer = styled.div`
   justify-content: space-between;
   padding: 0 2px;
   padding-bottom: 5px;
-`;
-
-const StInputLabel = styled.label`
-  color: gray;
-  font-weight: 800;
-  font-size: 15px;
 `;
 
 const StJoinedEmailCheckWrapper = styled.div`
@@ -226,10 +229,10 @@ const StDomainSelectBar = styled.div`
   cursor: pointer;
 `;
 
-const StDropdownUnorderedList = styled.ul`
+const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
   position: absolute;
   width: 100%;
-  background-color: white;
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '#191a1d' : 'white')};
   margin-top: 5px;
   top: 100%;
   left: 0;
@@ -237,18 +240,19 @@ const StDropdownUnorderedList = styled.ul`
   border-radius: 10px;
 `;
 
-const StDropdownDomainList = styled.li`
+const StDropdownDomainList = styled.li<{ isdarkmode: string }>`
   cursor: pointer;
   padding: 9px 20px;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.lightGray};
+    background-color: ${({ theme, isdarkmode }) =>
+      isdarkmode === 'true' ? 'black' : theme.color.lightGray};
   }
 
   &:first-child {
     padding-top: 17px;
     padding-bottom: 10px;
-    border-radius: 7px 7px 0 0;
+    border-radius: 10px 10px 0 0;
   }
 
   &:not(:first-child, :last-child) {
@@ -256,7 +260,7 @@ const StDropdownDomainList = styled.li`
   }
 
   &:last-child {
-    border-radius: 0 0 7px 7px;
+    border-radius: 0 0 10px 10px;
     padding-top: 10px;
     padding-bottom: 17px;
   }

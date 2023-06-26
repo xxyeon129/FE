@@ -113,6 +113,7 @@ const StTechStackTagList = styled.li`
 const StTechStackTagText = styled.span`
   font-weight: 700;
   padding: 10px 35px;
+  color: black;
 `;
 
 const StTagDeleteIconWrapper = styled.div`

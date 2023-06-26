@@ -17,8 +17,7 @@ const NoPortfolio = () => {
 
   return (
     <StNoPortfolio>
-      <NotFoundDarkModeIcon />
-      {/* {isDarkMode ? <NotFoundDarkModeIcon /> : <NotFoundIcon />} */}
+      {isDarkMode ? <NotFoundDarkModeIcon /> : <NotFoundIcon />}
       <StNoPortfolioText>
         작성하신 포트폴리오가 없습니다.
         <br />
