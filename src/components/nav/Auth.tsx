@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { loginState } from '@src/states';
 import { ReactComponent as AuthIcon } from '@src/assets/nav/nav-logout-icon.svg';
 import useResetCreatePortfolioRecoilValues from '@src/Hook/useResetCreatePortfolioRecoilValues';
 import useResetSelectedFilterRecoilValues from '@src/Hook/useResetSelectedFilterRecoilValues';
 import { DesktopAndTablet } from '@src/style/mediaQuery';
 import { NavProps } from '@src/shared/Nav';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const Auth = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const [isLogin, setIsLogin] = useRecoilState<boolean>(loginState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
   const resetRecoilValues = useResetCreatePortfolioRecoilValues();
   const resetSelectedRecoilValue = useResetSelectedFilterRecoilValues();
 
@@ -34,7 +35,7 @@ const Auth = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
   return (
     <StAuth>
       <StAuthClickContainer onClick={onClickAuth}>
-        <AuthIcon />
+        <StAuthIcon isdarkmode={`${isDarkMode}`} />
         <DesktopAndTablet>
           <StLabel>{isLogin ? 'Logout' : 'Login'}</StLabel>
         </DesktopAndTablet>
@@ -44,14 +45,23 @@ const Auth = ({ setIsLoginModalOpen, setIsLogoutModalOpen }: NavProps) => {
 };
 
 const StAuth = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+  @media ${({ theme }) => theme.size.mobileRow} {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const StAuthClickContainer = styled.span`
   display: flex;
   align-items: center;
-  display: inline-flex;
   cursor: pointer;
+`;
+
+const StAuthIcon = styled(AuthIcon)<{ isdarkmode: string }>`
+  & path {
+    stroke: ${({ isdarkmode }) => isdarkmode === 'true' && 'white'};
+  }
 `;
 
 const StLabel = styled.span`

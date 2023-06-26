@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { createTelephoneState } from '@src/states';
 import { PersonalInfoStyle } from '@src/style/common/createStepStyles';
 import { ReactComponent as KOR } from '@src/assets/createPortfolio/create-portfolio-phone-kor.svg';
 import { ReactComponent as US } from '@src/assets/createPortfolio/create-portfolio-phone-us.svg';
 import { BiCaretDown } from 'react-icons/bi';
-import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
+import { TELEPHONE_REGEX } from '../common/createPortfolio/validator';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const PhoneForm = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [selectedCountryOption, setSelectedCountryOption] = useState<string>('KOR');
   const [telephone, setTelephone] = useRecoilState<string>(createTelephoneState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
-  const { onChangeInput: onChangeTelephone } = useOnChangeInput({ setRecoilState: setTelephone });
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
   const dropdownList = [
@@ -31,6 +32,25 @@ const PhoneForm = () => {
     setIsDropdownOpen(false);
   };
 
+  const onChangeKorHypenTelephone = (e: ChangeEvent<HTMLInputElement>) => {
+    let hypenValue = e.target.value.replace(TELEPHONE_REGEX.ONLY_NUMBER, '');
+    if (e.target.value.length < 11) {
+      hypenValue = hypenValue.replace(TELEPHONE_REGEX.KOR_FIRST_TWO_NUMBER, `$1-$2-$3`);
+    } else {
+      hypenValue = hypenValue.replace(TELEPHONE_REGEX.KOR_FIRST_THREE_NUMBER, `$1-$2-$3`);
+    }
+
+    setTelephone(hypenValue);
+  };
+
+  const onChangeUsHypenTelephone = (e: ChangeEvent<HTMLInputElement>) => {
+    let hypenValue = e.target.value
+      .replace(TELEPHONE_REGEX.ONLY_NUMBER, '')
+      .replace(TELEPHONE_REGEX.US_NUMBER, `$1-$2-$3`);
+
+    setTelephone(hypenValue);
+  };
+
   useEffect(() => {
     document.addEventListener('mousedown', onClickOutside);
 
@@ -43,13 +63,17 @@ const PhoneForm = () => {
     <PersonalInfoStyle.Container>
       <PersonalInfoStyle.Label>전화번호</PersonalInfoStyle.Label>
       <StInputWrapper>
-        <StTelephoneSelect onClick={onClickSelectBox}>
+        <StTelephoneSelect onClick={onClickSelectBox} isdarkmode={`${isDarkMode}`}>
           {selectedCountryOption === 'KOR' ? <StKorFlagIcon /> : <StUsFlagIcon />}
           <BiCaretDown />
           {isDropdownOpen && (
-            <StDropdownUnorderedList ref={dropdownRef}>
+            <StDropdownUnorderedList ref={dropdownRef} isdarkmode={`${isDarkMode}`}>
               {dropdownList.map((list, index) => (
-                <StDropdownList key={index} onClick={() => onClickOption(list.value)}>
+                <StDropdownList
+                  key={index}
+                  onClick={() => onClickOption(list.value)}
+                  isdarkmode={`${isDarkMode}`}
+                >
                   <span>{list.value}</span>
                   <span className="number">{list.number}</span>
                 </StDropdownList>
@@ -57,12 +81,23 @@ const PhoneForm = () => {
             </StDropdownUnorderedList>
           )}
         </StTelephoneSelect>
-        <PersonalInfoStyle.Input
-          type="tel"
-          value={telephone}
-          onChange={onChangeTelephone}
-          placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
-        />
+        {selectedCountryOption === 'KOR' ? (
+          <PersonalInfoStyle.Input
+            type="tel"
+            value={telephone}
+            onChange={onChangeKorHypenTelephone}
+            maxLength={13}
+            placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
+          />
+        ) : (
+          <PersonalInfoStyle.Input
+            type="tel"
+            value={telephone}
+            maxLength={10}
+            onChange={onChangeUsHypenTelephone}
+            placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
+          />
+        )}
       </StInputWrapper>
     </PersonalInfoStyle.Container>
   );
@@ -75,9 +110,10 @@ const StInputWrapper = styled.div`
   font-weight: 600;
 `;
 
-const StTelephoneSelect = styled.div`
+const StTelephoneSelect = styled.div<{ isdarkmode: string }>`
   width: 70px;
-  background-color: ${({ theme }) => theme.color.gray};
+  background-color: ${({ theme, isdarkmode }) =>
+    isdarkmode === 'true' ? theme.color.fontColor : theme.color.gray};
   padding: 5px;
   border-radius: 5px;
   margin-right: 3px;
@@ -89,21 +125,22 @@ const StTelephoneSelect = styled.div`
   cursor: pointer;
 `;
 
-const StDropdownUnorderedList = styled.ul`
+const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 80px;
+  width: 100px;
   border-radius: 5px;
   margin-top: 3px;
   top: 100%;
   left: 0;
-  background-color: white;
+  background-color: ${({ theme, isdarkmode }) =>
+    isdarkmode === 'true' ? theme.color.darkModeGray : 'white'};
   border: 1px solid ${({ theme }) => theme.color.paleGray};
 `;
 
-const StDropdownList = styled.li`
-  padding: 3px 5px;
+const StDropdownList = styled.li<{ isdarkmode: string }>`
+  padding: 10px 7px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,15 +151,18 @@ const StDropdownList = styled.li`
   }
 
   &:first-child {
-    padding-top: 5px;
+    padding-top: 15px;
+    border-radius: 5px 5px 0 0;
   }
 
   &:last-child {
-    padding-bottom: 5px;
+    padding-bottom: 15px;
+    border-radius: 0 0 5px 5px;
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.lightGray};
+    background-color: ${({ theme, isdarkmode }) =>
+      isdarkmode === 'true' ? 'black' : theme.color.lightGray};
   }
 `;
 

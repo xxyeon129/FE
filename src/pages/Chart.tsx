@@ -2,8 +2,8 @@ import { css, styled } from 'styled-components';
 import { useState } from 'react';
 import { PageContainer as StPageContainer } from '@src/style/common/commonStyles';
 import AllChart from '@src/components/charts/AllChart';
-import DesignerChart from '@src/components/charts/DesignerChart';
 import DeveloperChart from '@src/components/charts/DeveloperChart';
+import DesignerChart from '@src/components/charts/DesignerChart';
 import PhotographerChart from '@src/components/charts/PhotographerChart';
 
 const Chart = () => {

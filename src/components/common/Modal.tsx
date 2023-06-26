@@ -6,7 +6,7 @@ interface ModalProps {
   subText?: string;
   mainButtonText: string;
   subButtonText?: string;
-  deletePost?: (id: number) => Promise<void>;
+  deletePost?: ((id: number) => Promise<void>) | ((id: number) => void);
   onClose: () => void;
   onCloseKakaoModal?: () => void;
   selectedId?: number | null;

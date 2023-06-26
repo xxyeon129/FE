@@ -28,7 +28,7 @@ const Home = () => {
   const setFilter = useSetRecoilState<string>(filterState);
   const setSelectedCategory = useSetRecoilState<string>(selectedCategoryState);
   const setSelectedHeader = useSetRecoilState<boolean>(selectedHeaderState);
-  const isDarkMode = useRecoilValue(isDarkModeState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const navigate = useNavigate();
 

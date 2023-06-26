@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { filterState, selectedCategoryState } from '@src/states';
+import { isDarkModeState } from '@src/states/darkModeState';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
 import theme from '@src/style/theme';
 
@@ -12,8 +13,9 @@ interface FilterPropsType {
 
 const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
   const [filter, setFilter] = useRecoilState<string>(filterState);
-  const [backgroundColor, setBackgroundColor] = useState('');
-  const selectedCategory = useRecoilValue(selectedCategoryState);
+  const [backgroundColor, setBackgroundColor] = useState<string>('');
+  const selectedCategory = useRecoilValue<string>(selectedCategoryState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const onClickFilter = (filterKeyword: string) => {
     setFilter(filterKeyword);
@@ -44,6 +46,7 @@ const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
           onClick={() => onClickFilter(filterKeyword)}
           isselected={`${filterKeyword === filter}`}
           color={backgroundColor}
+          isdarkmode={`${isDarkMode}`}
         >
           {filterKeyword}
         </StFilterButton>
@@ -72,14 +75,16 @@ const StFilterListContainer = styled.div`
   }
 `;
 
-const StFilterButton = styled.button<{ isselected: string; color: string }>`
+const StFilterButton = styled.button<{ isselected: string; color: string; isdarkmode: string }>`
   font-size: 16px;
   width: 140px;
   height: 37px;
   border-radius: 50px;
-  background-color: ${({ theme, isselected, color }) =>
-    isselected === 'true' ? color : theme.color.lightGray};
+  background-color: ${({ theme, isselected, color, isdarkmode }) =>
+    isselected === 'true' ? color : isdarkmode === 'true' ? '#4B4B4B' : theme.color.lightGray};
   font-weight: ${({ isselected }) => isselected === 'true' && '800'};
+  color: ${({ isdarkmode, isselected }) =>
+    isdarkmode === 'true' ? (isselected === 'true' ? 'black' : 'white') : 'black'};
 
   @media ${({ theme }) => theme.size.mobileRow} {
     font-size: 13px;

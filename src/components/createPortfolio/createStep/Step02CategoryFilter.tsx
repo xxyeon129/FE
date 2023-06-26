@@ -19,8 +19,8 @@ const Step02CategoryFilter = ({
   onNextButtonClick,
   onPrevButtonClick,
 }: CreatePortfolioStepProps) => {
-  const [category, setCategory] = useRecoilState(createCategoryState);
-  const [filter, setFilter] = useRecoilState(createFilterState);
+  const [category, setCategory] = useRecoilState<string>(createCategoryState);
+  const [filter, setFilter] = useRecoilState<string>(createFilterState);
 
   const { isSnackbarVisible, showSnackbarPopup } = useSnackbarPopup();
 
