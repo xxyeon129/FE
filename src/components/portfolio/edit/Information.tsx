@@ -55,8 +55,6 @@ const Information: React.FC<InformationProps> = props => {
           let file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' });
           props.setPortfolioImage(file);
         }, 'image/jpeg');
-
-        // console.log(croppedImage);
       }
     }
   };
@@ -69,9 +67,8 @@ const Information: React.FC<InformationProps> = props => {
         </StButton>
         <StButton onClick={props.onPortfolioUpdate}>수정완료</StButton>
       </StButtonContainer>
-      <StFirstEditWrapper>
+      <StFirstEditWrapper isdarkmode={`${isDarkMode}`}>
         <StLeftContainer>
-          {/* ------------------------ */}
           <StImagePreviewer>
             {props.portfolioImagePreview ? (
               <Cropper
@@ -97,13 +94,12 @@ const Information: React.FC<InformationProps> = props => {
             </StIconWrapper>
           </StImagePreviewer>
 
-          {/* ------------------------ */}
-
           {props.filter && <StFilter>{props.filter}</StFilter>}
         </StLeftContainer>
         <StRightContainer>
           <StInputContainer width="100%">
             <StInput
+              isdarkmode={`${isDarkMode}`}
               type="text"
               id="portfolioTitle"
               value={props.portfolioTitle}
@@ -114,8 +110,9 @@ const Information: React.FC<InformationProps> = props => {
             />
           </StInputContainer>
           <StInputContainer width="100%">
-            <StMailIcon />
+            <StMailIcon isdarkmode={`${isDarkMode}`} />
             <StInput
+              isdarkmode={`${isDarkMode}`}
               type="text"
               id="email"
               value={props.email}
@@ -125,8 +122,9 @@ const Information: React.FC<InformationProps> = props => {
             />
           </StInputContainer>
           <StInputContainer width="100%">
-            <StTelephoneIcon />
+            <StTelephoneIcon isdarkmode={`${isDarkMode}`} />
             <StInput
+              isdarkmode={`${isDarkMode}`}
               type="text"
               id="telephone"
               value={props.telephone}
@@ -136,8 +134,9 @@ const Information: React.FC<InformationProps> = props => {
             />
           </StInputContainer>
           <StInputContainer width="100%">
-            <StHomeIcon />
+            <StHomeIcon isdarkmode={`${isDarkMode}`} />
             <StInput
+              isdarkmode={`${isDarkMode}`}
               type="text"
               id="residence"
               value={props.residence}
@@ -149,6 +148,7 @@ const Information: React.FC<InformationProps> = props => {
           <StInputContainer width="100%">
             <StText isdarkmode={`${isDarkMode}`}>희망 근무지</StText>
             <StInput
+              isdarkmode={`${isDarkMode}`}
               type="text"
               id="location"
               value={props.location}
@@ -162,13 +162,14 @@ const Information: React.FC<InformationProps> = props => {
       <StIntro>
         <StIntroTitle>포트폴리오 소개</StIntroTitle>
         <StInput
+          isdarkmode={`${isDarkMode}`}
           type="text"
           id="intro"
           value={props.intro}
           onChange={props.onIntroHandler}
           width="100%"
           height="150px"
-          style={{ border: '1px solid #ccc' }}
+          style={{ border: '1px solid #ccc', color: 'white' }}
         />
       </StIntro>
       <StLine />
@@ -178,7 +179,7 @@ const Information: React.FC<InformationProps> = props => {
 
 export default Information;
 
-const StFirstEditWrapper = styled.div`
+const StFirstEditWrapper = styled.div<{ isdarkmode: string }>`
   background-color: #f1f1f1;
   display: flex;
   padding: 10px;
@@ -187,6 +188,7 @@ const StFirstEditWrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   border-radius: 10px;
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'black' : '#f1f1f1')};
 
   @media (min-width: 768px) and (max-width: 1023px) {
     flex-direction: column;
@@ -290,7 +292,7 @@ const StText = styled.div<{ isdarkmode: string }>`
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  color: black;
+  /* color: black; */
 
   @media (max-width: 1023px) {
     font-size: 16px;
@@ -328,29 +330,34 @@ const StInputContainer = styled.div<StInputContainerProps>`
   margin-bottom: 10px;
 `;
 
-const StInput = styled.input<StInputProps>`
+const StInput = styled.input<StInputProps & { isdarkmode: string }>`
+  color: black;
   width: ${props => props.width || '100%'};
   height: ${props => props.height || 'auto'};
   padding: 8px;
   border-radius: 5px;
-  /* border: 1px solid #ccc; */
   outline: none;
-  border: none;
+  border: ${({ isdarkmode }) => (isdarkmode === 'true' ? '1px solid white' : 'none')};
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '' : 'white')};
 `;
 
-const StMailIcon = styled(MailIcon)`
+const StMailIcon = styled(MailIcon)<{ isdarkmode: string }>`
   margin-right: 10px;
   padding: 5px;
+  stroke: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'white' : 'none')};
 `;
 
-const StTelephoneIcon = styled(Telephone)`
+const StTelephoneIcon = styled(Telephone)<{ isdarkmode: string }>`
   margin-right: 10px;
   padding: 5px;
+  stroke: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'white' : 'none')};
 `;
 
-const StHomeIcon = styled(Home)`
+const StHomeIcon = styled(Home)<{ isdarkmode: string }>`
   margin-right: 10px;
   padding: 5px;
+  stroke: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'white' : 'none')};
+  fill: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'white' : 'none')};
 `;
 
 const StButtonContainer = styled.div`

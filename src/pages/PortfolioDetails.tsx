@@ -78,6 +78,7 @@ function PortfolioDetails() {
     exp: number;
     iat: number;
   }
+  console.log('서버로 전송하기 위한 데이터 타입 : ', portfolioImage);
 
   const [userid, setUserId] = useState<number>(0);
   const { id } = useParams();
@@ -158,8 +159,6 @@ function PortfolioDetails() {
     updatedData.append('portfolioRequestDto', portfolioRequestBlob);
 
     updatedData.append('portfolioImage', portfolioImage as Blob);
-
-    // console.log(portfolioImage);
 
     try {
       const response = await axios.patch(
@@ -301,10 +300,10 @@ function PortfolioDetails() {
 
   return (
     <>
-      <StContainer isdarkmode={`${isDarkMode}`}>
+      <StContainer id="DarkMode" isdarkmode={`${isDarkMode}`}>
         <div>
           {portEdit ? (
-            <StEditWrapper>
+            <StEditWrapper isdarkmode={`${isDarkMode}`}>
               <Information
                 portfolioTitle={portfolioTitle}
                 residence={residence}
@@ -385,7 +384,6 @@ function PortfolioDetails() {
                 onMyYoutube={onMyYoutube}
                 onMyGit={onMyGit}
               />
-
               <ProjectList projects={projects} onProjectDetail={onProjectDetail} />
 
               {isProjectModalOpen && (
@@ -417,9 +415,12 @@ function PortfolioDetails() {
 
 export default PortfolioDetails;
 
-const StContainer = styled.div<{ isdarkmode: string }>``;
+const StContainer = styled.div<{ isdarkmode: string }>`
+  /* height: 100%; */
+  /* background-color: red; */
+`;
 
-const StEditWrapper = styled.div`
+const StEditWrapper = styled.div<{ isdarkmode: string }>`
   padding: 100px;
-  height: 100vh;
+  /* height: 100vh; */
 `;

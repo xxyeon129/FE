@@ -22,7 +22,7 @@ export const getPhotographerChart = async () => {
 
 export const getDesignerChart = async () => {
   try {
-    const response = await apiRequest.get(`${RESOURCE}/photographer`);
+    const response = await apiRequest.get(`${RESOURCE}/design`);
     console.log(response.data);
     return response.data.data;
   } catch (error) {
