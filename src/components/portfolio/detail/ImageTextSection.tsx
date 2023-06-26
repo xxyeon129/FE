@@ -73,7 +73,10 @@ function ImageTextSection(props: ImageTextSectionProps) {
               </StIconButton>
             </StTitle>
             <Stpart>{props.intro}</Stpart>
-            <StContactButton onClick={toggleContact}>{button}</StContactButton>
+            <StContactButton isdarkmode={`${isDarkMode}`} onClick={toggleContact}>
+              <StClickOnIcon isdarkmode={`${isDarkMode}`} />
+              {/* {button} */}
+            </StContactButton>
             {contactToggle && (
               <StContact>
                 <StContactItem isdarkmode={`${isDarkMode}`}>
@@ -150,9 +153,13 @@ const Stfilter = styled.div`
   margin-top: -20px;
 `;
 
-const StClickOnIcon = styled(ClickOn)``;
+const StClickOnIcon = styled(ClickOn)<{ isdarkmode: string }>`
+  color: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'white' : 'black')};
+  /* fill: ${({ isdarkmode }) => (isdarkmode ? 'white' : 'black')}; */
+  /* fill: 'rgb(42,169,224)'; */
+`;
 
-const StContactButton = styled.div`
+const StContactButton = styled.div<{ isdarkmode: string }>`
   text-align: center;
   cursor: pointer;
 `;
@@ -220,9 +227,7 @@ const StTitle = styled.div`
 `;
 
 const StTitleh1 = styled.h1<{ isdarkmode: string }>`
-  /* font-size: 20px; */
   font-weight: bold;
-  /* color: #333; */
   align-items: center;
   justify-content: center;
   color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '#FFFFFF' : '#333')};

@@ -44,12 +44,20 @@ const DesignerChart = () => {
           'rgba(153, 102, 255, 1)',
           'rgba(255, 159, 64, 1)',
         ],
-        borderWidth: 1,
+        borderWidth: 3,
       },
     ],
   };
 
-  return <Doughnut data={data} />;
+  const options = {
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+    },
+  };
+
+  return <Doughnut data={data} options={options} />;
 };
 
 export default DesignerChart;
