@@ -64,6 +64,10 @@ const StBackgroundBar = styled.div<{ isdarkmode: string }>`
   height: 13px;
   background-color: ${({ theme, isdarkmode }) =>
     isdarkmode === 'true' ? theme.color.fontColor : theme.color.gray};
+
+  @media ${({ theme }) => theme.size.mobileRow} {
+    width: calc(100% - 85px);
+  }
 `;
 
 const StProgressBar = styled.div<{ width: string }>`
