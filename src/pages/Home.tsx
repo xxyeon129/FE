@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { styled } from 'styled-components';
+import { keyframes, styled } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   categoryState,
@@ -21,6 +21,7 @@ import * as S from '@src/style/common/commonStyles';
 import theme from '@src/style/theme';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import { isDarkModeState } from '@src/states/darkModeState';
+import useScrollFadeIn from '@src/Hook/useScrollFadeIn';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -31,6 +32,15 @@ const Home = () => {
   const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const navigate = useNavigate();
+
+  const fadeInAnimationItem = {
+    0: useScrollFadeIn(1, 0.4),
+    1: useScrollFadeIn(1.5, 1),
+    2: useScrollFadeIn(2, 1.5),
+    3: useScrollFadeIn(3, 2),
+    4: useScrollFadeIn(3.1, 0.4),
+    5: useScrollFadeIn(3.2, 0.5),
+  };
 
   const buttonList = [
     { display: '개발자', value: CATEGORY_KEYWORD.DEVELOP, color: theme.color.neonGreen },
@@ -57,10 +67,12 @@ const Home = () => {
     <StHome>
       <StIntroContainer>
         <StIntroTextContainer>
-          <StIntroText>개발자, 디자이너, 포토그래퍼가 이용하는</StIntroText>
-          <StIntroTitle>포트폴리오 공유 서비스</StIntroTitle>
+          <StIntroText {...fadeInAnimationItem[0]}>
+            개발자, 디자이너, 포토그래퍼가 이용하는
+          </StIntroText>
+          <StIntroTitle {...fadeInAnimationItem[1]}>포트폴리오 공유 서비스</StIntroTitle>
         </StIntroTextContainer>
-        {isDarkMode ? <StDarkModeLogo /> : <StLogo />}
+        <div {...fadeInAnimationItem[2]}>{isDarkMode ? <StDarkModeLogo /> : <StLogo />}</div>
         <StButtonContainer>
           {buttonList.map((button, index) => (
             <StButton key={index} color={button.color} onClick={() => onClickButton(button.value)}>
@@ -72,7 +84,7 @@ const Home = () => {
         {isDarkMode ? <StBackgroundDarkModeIcon /> : <StBackgroundIcon />}
       </StIntroContainer>
       <StListContainer>
-        <StTextLabel>지금 뜨는 포트폴리오</StTextLabel>
+        <StTextLabel {...fadeInAnimationItem[4]}>지금 뜨는 포트폴리오</StTextLabel>
         <S.PortfolioListContainer>
           {latestPortfolioList.map((item: PortfolioDataType) => (
             <PortfolioItem key={item.id} item={item} listLength={12} />
@@ -199,6 +211,15 @@ const StButtonContainer = styled.div`
   z-index: 2;
 `;
 
+const fading = keyframes`
+  from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+`;
+
 const StButton = styled.button<{ color: string }>`
   width: 280px;
   background-color: ${({ color }) => color};
@@ -206,6 +227,19 @@ const StButton = styled.button<{ color: string }>`
   font-size: 18px;
   border-radius: 10px;
   padding: 12px 25px;
+
+  opacity: 0;
+  animation: ${fading} ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+  animation-delay: 2s;
+
+  &:nth-child(2) {
+    animation-delay: 2.8s;
+  }
+  &:nth-child(3) {
+    animation-delay: 3.5s;
+  }
 
   @media screen and (max-width: 660px) {
     transition: 0.5s;
@@ -271,6 +305,12 @@ margin-left: 570px;
 const StBackgroundIcon = styled(BackgroundIcon)`
   ${backgroundIconStyle}
   z-index: -1;
+
+  opacity: 0;
+  animation: ${fading} ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+  animation-delay: 3.9s;
 `;
 
 const StBackgroundDarkModeIcon = styled(BackgroundDarkModeIcon)`
