@@ -35,7 +35,7 @@ const AllChart = ({ setClickType, clickType }: AllChartProps) => {
       tooltip: {
         enabled: true,
         callbacks: {
-          title: (context: any) => {
+          title: (context: string) => {
             return ['도넛차트 둘러보기'];
           },
         },
@@ -95,6 +95,7 @@ const AllChart = ({ setClickType, clickType }: AllChartProps) => {
 
   return (
     <StBarChart
+      //@ts-ignore
       options={options}
       data={data}
       ref={chartRef}
