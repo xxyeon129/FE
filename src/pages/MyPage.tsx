@@ -101,7 +101,11 @@ const MyPage = () => {
       checkNewPassword: checknewpassword.value,
     };
     await updatePasswordMutation.mutateAsync([passwordData, Number(id)]);
+    setIsEditing(false);
     setApiError('');
+    oldpassword.onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
+    newpassword.onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
+    checknewpassword.onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
   }, [
     refreshToken,
     oldpassword.value,
