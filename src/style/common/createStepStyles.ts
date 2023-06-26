@@ -41,9 +41,10 @@ export const ButtonContainer = styled.div<{ width?: string; margintop?: string }
   }
 `;
 
-export const StInputLabel = styled.div`
+export const StInputLabel = styled.label`
   color: gray;
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 800;
 `;
 
 export const PersonalInfoStyle = {

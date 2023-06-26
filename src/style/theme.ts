@@ -12,6 +12,7 @@ const theme: ThemeType = {
     lightGray: '#F3F3F3;',
     paleGray: '#C7C7C7',
     gray: '#E7E7E7',
+    darkModeGray: '#191a1d',
     skyBlue: '#99E7FF',
     errorRed: '#F6685F',
     fontColor: '#3B3B3B',

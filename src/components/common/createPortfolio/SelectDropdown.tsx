@@ -1,28 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
-import { StInputLabel } from '../../style/common/createStepStyles';
+import { StInputLabel } from '@src/style/common/createStepStyles';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import { useRecoilValue } from 'recoil';
 import { isDarkModeState } from '@src/states/darkModeState';
 
-interface CategorySelectDropdownProps {
+interface SelectDropdownProps {
   dropdownOptions: string[];
   selectBarDefaultText: string;
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  label: string;
+  isPersonalInfo?: boolean;
 }
 
-const CategorySelectDropdown = ({
-  dropdownOptions,
-  selectBarDefaultText,
-  selectedOption,
-  setSelectedOption,
-}: CategorySelectDropdownProps) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+const SelectDropdown = (props: SelectDropdownProps) => {
   const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const { dropdownRef, onClickOutside } = useCloseDropdown({ isDropdownOpen, setIsDropdownOpen });
 
   const onClickSelectBar = () => {
@@ -30,7 +26,7 @@ const CategorySelectDropdown = ({
   };
 
   const onClickOption = (option: string) => {
-    setSelectedOption(option);
+    props.setSelectedOption(option);
     setIsDropdownOpen(false);
   };
 
@@ -44,17 +40,26 @@ const CategorySelectDropdown = ({
 
   return (
     <StDropdownContainer>
-      <StSelectBar onClick={onClickSelectBar} isclicked={`${isDropdownOpen}`}>
+      <StSelectBar
+        onClick={onClickSelectBar}
+        isclicked={`${isDropdownOpen}`}
+        ispersonalinfo={`${props.isPersonalInfo}`}
+      >
         <StTextContainer>
-          <StInputLabel>직군</StInputLabel>
-          <StSelectValue>{selectedOption || selectBarDefaultText}</StSelectValue>
+          <StInputLabel>{props.label}</StInputLabel>
+          <StSelectValue
+            ispersonalinfo={`${props.isPersonalInfo}`}
+            isselected={props.selectedOption}
+          >
+            {props.selectedOption || props.selectBarDefaultText}
+          </StSelectValue>
         </StTextContainer>
         {isDropdownOpen ? <StArrowUpIcon /> : <StArrowDownIcon />}
       </StSelectBar>
 
       {isDropdownOpen && (
         <StDropdownUnorderedList ref={dropdownRef} isdarkmode={`${isDarkMode}`}>
-          {dropdownOptions.map((option: string, index: number) => (
+          {props.dropdownOptions.map((option: string, index: number) => (
             <StDropdownList
               key={index}
               onClick={() => onClickOption(option)}
@@ -74,8 +79,9 @@ const StDropdownContainer = styled.div`
   position: relative;
 `;
 
-const StSelectBar = styled.div<{ isclicked: string }>`
+const StSelectBar = styled.div<{ isclicked: string; ispersonalinfo: string }>`
   outline: ${({ isclicked }) => (isclicked === 'true' ? '2px solid' : '1px solid')};
+  outline-color: ${({ ispersonalinfo }) => (ispersonalinfo === 'true' ? 'gray' : 'black')};
   border-radius: 7px;
   width: 100%;
   height: 50px;
@@ -96,19 +102,24 @@ const StTextContainer = styled.div`
   gap: 5px;
 `;
 
-const StSelectValue = styled.div`
+const StSelectValue = styled.div<{ ispersonalinfo: string; isselected: string }>`
   padding-top: 2px;
-  font-weight: 800;
+  font-weight: ${({ ispersonalinfo, isselected }) =>
+    ispersonalinfo === 'true' ? (isselected.length > 1 ? '600' : '400') : '800'};
+  color: ${({ isselected }) => !(isselected.length > 1) && '#b5b5b5'};
 `;
 
 const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
   position: absolute;
   width: 100%;
+  max-height: 170px;
+  overflow-y: auto;
   margin-top: 5px;
   background-color: ${({ theme, isdarkmode }) =>
     isdarkmode === 'true' ? theme.color.darkModeGray : 'white'};
   border: 1px solid gray;
   border-radius: 7px;
+  margin-bottom: 20px;
 `;
 
 const StDropdownList = styled.li<{ isdarkmode: string }>`
@@ -139,4 +150,4 @@ const StArrowUpIcon = styled(IoIosArrowUp)`
   font-size: 30px;
 `;
 
-export default CategorySelectDropdown;
+export default SelectDropdown;

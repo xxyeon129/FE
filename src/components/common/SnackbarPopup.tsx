@@ -45,7 +45,7 @@ const StSnackbar = styled.div<{ type: string }>`
   position: fixed;
   display: flex;
   align-items: center;
-  z-index: 1;
+  z-index: 999;
   right: 2%;
   bottom: 30px;
   min-width: 250px;

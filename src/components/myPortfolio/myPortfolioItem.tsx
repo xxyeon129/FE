@@ -66,6 +66,7 @@ const StImgWrapper = styled.div`
 
 const StDeleteIcon = styled(CgClose)`
   font-size: 18px;
+  color: black;
 `;
 
 const StIconWrapper = styled.div`

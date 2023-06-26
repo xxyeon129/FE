@@ -5,21 +5,26 @@ interface useOnChangeInputProps {
   setRecoilState: SetterOrUpdater<string>;
   inputValue?: string;
   validator?: (value: string) => (string | boolean)[];
-  setIsCheckboxChecked?: React.Dispatch<React.SetStateAction<boolean>>;
+  REGEX?: RegExp;
 }
 
 const useOnChangeInput = ({
   setRecoilState,
   inputValue,
   validator,
-  setIsCheckboxChecked,
+  REGEX,
 }: useOnChangeInputProps) => {
   const [isInvalid, setIsInvalid] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | boolean>('');
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (REGEX) {
+      const RegExInputValue = e.target.value.replace(REGEX, '');
+      setRecoilState(RegExInputValue);
+      return;
+    }
+
     setRecoilState(() => e.target.value);
-    setIsCheckboxChecked && setIsCheckboxChecked(false);
   };
 
   useEffect(() => {

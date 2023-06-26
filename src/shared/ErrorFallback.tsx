@@ -1,9 +1,13 @@
 import { styled } from 'styled-components';
 import { ReactComponent as ErrorIcon } from '@src/assets/not-found-icon.svg';
+import { ReactComponent as DarkModeErrorIcon } from '@src/assets/not-found-dark-mode-icon.svg';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 const ErrorFallback = () => {
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
   const navigate = useNavigate();
   const onClickHomeButton = () => {
     navigate(PATH_URL.HOME);
@@ -12,7 +16,7 @@ const ErrorFallback = () => {
 
   return (
     <StErrorFallback>
-      <ErrorIcon />
+      {isDarkMode ? <DarkModeErrorIcon /> : <ErrorIcon />}
       <StTextContainer>
         <StErrorTitle>요청하신 페이지를 찾을 수 없습니다.</StErrorTitle>
         <StErrorDescription>

@@ -77,6 +77,7 @@ export const ModalStyle = {
     border-radius: 30px;
     background-color: white;
     padding: 90px 50px;
+    color: black;
 
     display: flex;
     flex-direction: column;

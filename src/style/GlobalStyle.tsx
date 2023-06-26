@@ -8,6 +8,10 @@ const GlobalStyle = createGlobalStyle`
     .darkMode{
       background-color: black;
       color: white;
+
+      input, textarea{
+        color: white;
+      }
     }
   }
 
@@ -18,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
 
   input, textarea{
     font-family: 'SUIT Variable', sans-serif;
+    background-color: inherit;
   }
 `;
 
