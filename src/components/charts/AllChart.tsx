@@ -35,8 +35,8 @@ const AllChart = ({ setClickType, clickType }: AllChartProps) => {
       tooltip: {
         enabled: true,
         callbacks: {
-          title: (context: string) => {
-            return '도넛차트 둘러보기';
+          title: (context: any) => {
+            return ['도넛차트 둘러보기'];
           },
         },
       },
