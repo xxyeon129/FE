@@ -3,6 +3,8 @@ import { styled } from 'styled-components';
 import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/portedit-youtube-icon.svg';
 import { ReactComponent as Blog } from '@src/assets/portfolioDetail/portedit-blog-icon.svg';
 import ErrorIcon from '@src/assets/portfolioDetail/port-error-icon.svg';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface LinkSectionProps {
   blog: string;
@@ -15,6 +17,7 @@ interface LinkSectionProps {
 
 function LinkSection(props: LinkSectionProps) {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const isDarkMode = useRecoilValue(isDarkModeState);
 
   return (
     <Container>
@@ -23,8 +26,8 @@ function LinkSection(props: LinkSectionProps) {
       </div>
 
       {props.youtube && (
-        <StYoutube onClick={props.onMyYoutube}>
-          <YouTubeIcon>
+        <StYoutube isdarkmode={`${isDarkMode}`} onClick={props.onMyYoutube}>
+          <YouTubeIcon isdarkmode={`${isDarkMode}`}>
             <YouTube />
             <LinkTitle>YouTube</LinkTitle>
           </YouTubeIcon>
@@ -33,8 +36,8 @@ function LinkSection(props: LinkSectionProps) {
       )}
 
       {props.blog && (
-        <StBlog onClick={props.onMyBlog}>
-          <BlogIcon>
+        <StBlog onClick={props.onMyBlog} isdarkmode={`${isDarkMode}`}>
+          <BlogIcon isdarkmode={`${isDarkMode}`}>
             <Blog />
             <LinkTitle>Blog</LinkTitle>
           </BlogIcon>
@@ -45,7 +48,7 @@ function LinkSection(props: LinkSectionProps) {
       <div>
         {props.githubId && (
           <StGithub onClick={props.onMyGit}>
-            <StGithubContainer>
+            <StGithubContainer isdarkmode={`${isDarkMode}`}>
               <StGitgrass
                 src={`https://ghchart.rshah.org/${props.githubId}`}
                 alt="GitHub 아이디를 확인해주세요."
@@ -56,7 +59,11 @@ function LinkSection(props: LinkSectionProps) {
                   setShowErrorMessage(true);
                 }}
               />
-              {showErrorMessage && <ErrorMessage>GitHub 아이디를 확인해주세요.</ErrorMessage>}
+              {showErrorMessage && (
+                <ErrorMessage isdarkmode={`${isDarkMode}`}>
+                  GitHub 아이디를 확인해주세요.
+                </ErrorMessage>
+              )}
             </StGithubContainer>
           </StGithub>
         )}
@@ -103,7 +110,7 @@ const LinkTitle = styled.span`
   }
 `;
 
-const StBlog = styled.div`
+const StBlog = styled.div<{ isdarkmode: string }>`
   display: flex;
   align-items: center;
   width: 100%;
@@ -113,6 +120,7 @@ const StBlog = styled.div`
   border: 1px solid black;
   color: black;
   cursor: pointer;
+  background-color: #ffffff;
 
   &:hover {
     background-color: black;
@@ -128,7 +136,7 @@ const StBlog = styled.div`
   }
 `;
 
-const StYoutube = styled.div`
+const StYoutube = styled.div<{ isdarkmode: string }>`
   display: flex;
   align-items: center;
   width: 100%;
@@ -138,6 +146,7 @@ const StYoutube = styled.div`
   border: 1px solid black;
   color: black;
   cursor: pointer;
+  background-color: #ffffff;
 
   &:hover {
     background-color: black;
@@ -156,15 +165,16 @@ const StYoutube = styled.div`
 const StGithub = styled.div`
   display: flex;
   justify-content: center;
-  border: 1px solid black;
   padding: 20px;
   margin: 5% 0;
   border-radius: 20px;
   cursor: pointer;
   justify-content: center;
+  border: 1px solid black;
+  background-color: white;
 `;
 
-const StGithubContainer = styled.div`
+const StGithubContainer = styled.div<{ isdarkmode: string }>`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -181,28 +191,30 @@ const StGitgrass = styled.img`
   height: auto;
 `;
 
-const ErrorMessage = styled.div``;
+const ErrorMessage = styled.div<{ isdarkmode: string }>`
+  color: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'black' : 'black')};
+`;
 
-const YouTubeIcon = styled.div`
+const YouTubeIcon = styled.div<{ isdarkmode: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 30%;
   height: 40px;
-  background-color: black;
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '#232323' : 'black')};
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   padding: 10px;
   margin-right: 20px;
 `;
 
-const BlogIcon = styled.div`
+const BlogIcon = styled.div<{ isdarkmode: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 30%;
   height: 40px;
-  background-color: black;
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '#232323' : 'black')};
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   padding: 10px;

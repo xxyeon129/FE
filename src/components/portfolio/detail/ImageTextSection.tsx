@@ -7,6 +7,8 @@ import { ReactComponent as EditIconSvg } from '@src/assets/portfolioDetail/port-
 import { ReactComponent as Trash } from '@src/assets/portfolioDetail/port-trash-icon.svg';
 import { ReactComponent as ClickOn } from '@src/assets/portfolioDetail/port-clickon-icon.svg';
 import { ReactComponent as ClickDown } from '@src/assets/portfolioDetail/port-clickdown-icon.svg';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface ImageTextSectionProps {
   getPortfolioImage: string | null;
@@ -30,6 +32,7 @@ interface ImageTextSectionProps {
 function ImageTextSection(props: ImageTextSectionProps) {
   const [contactToggle, setConTactToggle] = useState<boolean>(false);
   const [button, setButton] = useState(<ClickOn />);
+  const isDarkMode = useRecoilValue(isDarkModeState);
 
   const toggleContact = () => {
     setConTactToggle(prevState => !prevState);
@@ -48,8 +51,10 @@ function ImageTextSection(props: ImageTextSectionProps) {
         </StContainerTop>
 
         <StContainerMiddle>
-          <StProfileContainer>
-            {props.proFileImage && <StProFileImage src={props.proFileImage} alt="" />}
+          <StProfileContainer isdarkmode={`${isDarkMode}`}>
+            {props.proFileImage && (
+              <StProFileImage isdarkmode={`${isDarkMode}`} src={props.proFileImage} alt="" />
+            )}
           </StProfileContainer>
         </StContainerMiddle>
 
@@ -57,7 +62,7 @@ function ImageTextSection(props: ImageTextSectionProps) {
           <StLowerContent>
             <Stfilter>{props.filter}</Stfilter>
             <StTitle>
-              <StTitleh1>{props.portfolioTitle}</StTitleh1>
+              <StTitleh1 isdarkmode={`${isDarkMode}`}>{props.portfolioTitle}</StTitleh1>
               <StIconButton>
                 {props.hostid === props.userid ? (
                   <StButtonSection>
@@ -71,15 +76,15 @@ function ImageTextSection(props: ImageTextSectionProps) {
             <StContactButton onClick={toggleContact}>{button}</StContactButton>
             {contactToggle && (
               <StContact>
-                <StContactItem>
+                <StContactItem isdarkmode={`${isDarkMode}`}>
                   <StMailIcon />
                   <span>{props.email}</span>
                 </StContactItem>
-                <StContactItem>
+                <StContactItem isdarkmode={`${isDarkMode}`}>
                   <StTelephoneIcon />
                   <span>{props.telephone}</span>
                 </StContactItem>
-                <StContactItem>
+                <StContactItem isdarkmode={`${isDarkMode}`}>
                   <StHomeIcon />
                   <span>
                     {props.residence} | {props.location} 근무 희망
@@ -114,15 +119,15 @@ const StContainerMiddle = styled.div`
   justify-content: center;
 `;
 
-const StProfileContainer = styled.div`
+const StProfileContainer = styled.div<{ isdarkmode: string }>`
   width: 150px;
   height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  border: 2px solid white;
-  background-color: white;
+  border: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'none' : '2px solid white')};
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'black' : 'white')};
 `;
 
 const StLowerContent = styled.div`
@@ -145,15 +150,11 @@ const Stfilter = styled.div`
   margin-top: -20px;
 `;
 
+const StClickOnIcon = styled(ClickOn)``;
+
 const StContactButton = styled.div`
   text-align: center;
-  font-weight: 1000;
-  font-size: 20px;
   cursor: pointer;
-
-  &:hover {
-    color: red;
-  }
 `;
 
 const StContact = styled.div`
@@ -173,10 +174,11 @@ const StContact = styled.div`
   }
 `;
 
-const StContactItem = styled.div`
+const StContactItem = styled.div<{ isdarkmode: string }>`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  color: #333;
 
   @media (max-width: 768px) {
     font-size: 12px;
@@ -217,12 +219,13 @@ const StTitle = styled.div`
   }
 `;
 
-const StTitleh1 = styled.h1`
+const StTitleh1 = styled.h1<{ isdarkmode: string }>`
   /* font-size: 20px; */
   font-weight: bold;
-  color: #333;
+  /* color: #333; */
   align-items: center;
   justify-content: center;
+  color: ${({ isdarkmode }) => (isdarkmode === 'true' ? '#FFFFFF' : '#333')};
 `;
 
 const Stpart = styled.div`
@@ -244,12 +247,13 @@ const StIconButton = styled.div`
   }
 `;
 
-const StProFileImage = styled.img`
+const StProFileImage = styled.img<{ isdarkmode: string }>`
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 2px solid white;
-  background-color: white;
+  border: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'none' : '2px solid white')};
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'black' : 'white')};
+
   margin-top: -150px;
   object-fit: cover;
 `;
