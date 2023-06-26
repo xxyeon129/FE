@@ -6,6 +6,8 @@ import { ReactComponent as Home } from '@src/assets/portfolioDetail/port-home-io
 import { ReactComponent as Photo } from '@src/assets/portfolioDetail/portedit-photo-icon.svg';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface InformationProps {
   portfolioTitle: string;
@@ -41,6 +43,7 @@ interface StInputProps {
 }
 const Information: React.FC<InformationProps> = props => {
   const cropperRef = useRef<ReactCropperElement>(null);
+  const isDarkMode = useRecoilValue(isDarkModeState);
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -144,7 +147,7 @@ const Information: React.FC<InformationProps> = props => {
             />
           </StInputContainer>
           <StInputContainer width="100%">
-            <StText>희망 근무지</StText>
+            <StText isdarkmode={`${isDarkMode}`}>희망 근무지</StText>
             <StInput
               type="text"
               id="location"
@@ -281,12 +284,13 @@ const StRepresentativeImageEdit = styled.img`
   border-radius: 10px;
 `;
 
-const StText = styled.div`
+const StText = styled.div<{ isdarkmode: string }>`
   width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
+  color: black;
 
   @media (max-width: 1023px) {
     font-size: 16px;
