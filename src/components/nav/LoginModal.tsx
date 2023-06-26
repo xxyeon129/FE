@@ -192,7 +192,6 @@ const StModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1001;
-  color: black;
 `;
 
 const StTitleAndButtonSection = styled.div`
@@ -232,6 +231,7 @@ const StModalContent = styled.form`
   height: 730px;
   width: 600px;
   align-items: center;
+  color: black;
 
   @media (max-width: 1023px) {
     height: 630px;
@@ -271,6 +271,7 @@ const StModalTitle = styled.h1`
 
 const StInputSection = styled.div`
   margin: 15px 0;
+  color: black;
 `;
 
 const StInput = styled.input`
@@ -282,6 +283,7 @@ const StInput = styled.input`
   height: 50px;
   margin: 15px 0;
   width: 100%;
+  color: black !important;
 
   @media (max-width: 1023px) {
     margin-bottom: -10px;

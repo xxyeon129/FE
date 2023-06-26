@@ -154,10 +154,9 @@ const Stfilter = styled.div`
 `;
 
 const StClickOnIcon = styled(ClickOn)<{ isdarkmode: string }>`
-  stroke: ${({ isdarkmode }) => (isdarkmode ? 'white' : 'black')};
+  color: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'white' : 'black')};
   /* fill: ${({ isdarkmode }) => (isdarkmode ? 'white' : 'black')}; */
   /* fill: 'rgb(42,169,224)'; */
-  /* fill: red; */
 `;
 
 const StContactButton = styled.div<{ isdarkmode: string }>`

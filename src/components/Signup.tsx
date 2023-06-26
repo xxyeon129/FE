@@ -441,6 +441,7 @@ const StInput = styled.input`
   border-radius: 4px;
   height: 40px;
   margin-top: 10px;
+  color: black !important;
 
   @media (max-width: 479px) {
     margin: 0;
