@@ -221,7 +221,7 @@ const Stbottom = styled.div<{ isediting: string; isdarkmode: string }>`
   background: #6bf65f;
   height: 60%;
   background-color: ${props =>
-    props.isediting === 'true' ? (props.isdarkmode === 'true' ? '#000000' : '#D3D3D3') : '#6BF65F'};
+    props.isediting === 'true' ? (props.isdarkmode === 'true' ? '#1F1F22' : '#D3D3D3') : '#6BF65F'};
 `;
 
 const StHeader = styled.div<{ isediting: string; isdarkmode: string }>`
@@ -233,7 +233,7 @@ const StHeader = styled.div<{ isediting: string; isdarkmode: string }>`
   background: ${props =>
     props.isediting === 'true'
       ? props.isdarkmode === 'true'
-        ? '#000000'
+        ? '#1F1F22'
         : '#D3D3D3'
       : 'linear-gradient(135deg, #8FE7A1, #9BC7BF, #CBD0E1, #5CC3BA, #0DC49C, #6E9EB2)'};
   background-position: center;
