@@ -78,6 +78,7 @@ function PortfolioDetails() {
     exp: number;
     iat: number;
   }
+  console.log('서버로 전송하기 위한 데이터 타입 : ', portfolioImage);
 
   const [userid, setUserId] = useState<number>(0);
   const { id } = useParams();

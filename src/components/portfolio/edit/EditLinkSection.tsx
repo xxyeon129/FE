@@ -133,6 +133,8 @@ const GitIcon = styled.div`
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   padding: 10px;
+  border: 1px solid;
+  border-right: none;
 `;
 
 const YouTubeIcon = styled.div`
@@ -145,6 +147,8 @@ const YouTubeIcon = styled.div`
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   padding: 10px;
+  border: 1px solid;
+  border-right: none;
 `;
 
 const BlogIcon = styled.div`
@@ -157,6 +161,8 @@ const BlogIcon = styled.div`
   border-bottom-left-radius: 4px;
   border-top-left-radius: 4px;
   padding: 10px;
+  border: 1px solid;
+  border-right: none;
 `;
 
 const LinkTitle = styled.span`
