@@ -4,6 +4,8 @@ import { ReactComponent as Git } from '@src/assets/portfolioDetail/portedit-git-
 import { ReactComponent as YouTube } from '@src/assets/portfolioDetail/portedit-youtube-icon.svg';
 import { ReactComponent as Blog } from '@src/assets/portfolioDetail/portedit-blog-icon.svg';
 import { DesktopAndTablet } from '@src/style/mediaQuery.ts';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface EditLinkSectionProps {
   youtube: string;
@@ -15,11 +17,13 @@ interface EditLinkSectionProps {
 }
 
 function EditLinkSection(props: EditLinkSectionProps) {
+  const isDarkMode = useRecoilValue(isDarkModeState);
+
   return (
     <div>
       <StRinkWrapper>
         <StRinkWrapperTitle>링크 추가</StRinkWrapperTitle>
-        <StRinkInputWithIcon>
+        <StRinkInputWithIcon isdarkmode={`${isDarkMode}`}>
           <YouTubeIcon>
             <YouTube />
             <DesktopAndTablet>
@@ -27,6 +31,7 @@ function EditLinkSection(props: EditLinkSectionProps) {
             </DesktopAndTablet>
           </YouTubeIcon>
           <StRinkInput
+            isdarkmode={`${isDarkMode}`}
             type="text"
             id="youtube"
             value={props.youtube}
@@ -34,7 +39,7 @@ function EditLinkSection(props: EditLinkSectionProps) {
             placeholder="운영하는 YouTube가 있다면 링크를 입력해주세요."
           />
         </StRinkInputWithIcon>
-        <StRinkInputWithIcon>
+        <StRinkInputWithIcon isdarkmode={`${isDarkMode}`}>
           <BlogIcon>
             <Blog />
             <DesktopAndTablet>
@@ -42,6 +47,7 @@ function EditLinkSection(props: EditLinkSectionProps) {
             </DesktopAndTablet>
           </BlogIcon>
           <StRinkInput
+            isdarkmode={`${isDarkMode}`}
             type="text"
             id="blog"
             value={props.blog}
@@ -50,7 +56,7 @@ function EditLinkSection(props: EditLinkSectionProps) {
           />
         </StRinkInputWithIcon>
         <div>
-          <StRinkInputWithIcon>
+          <StRinkInputWithIcon isdarkmode={`${isDarkMode}`}>
             <GitIcon>
               <Git />
               <DesktopAndTablet>
@@ -58,6 +64,7 @@ function EditLinkSection(props: EditLinkSectionProps) {
               </DesktopAndTablet>
             </GitIcon>
             <StRinkInput
+              isdarkmode={`${isDarkMode}`}
               type="text"
               id="github"
               value={props.githubId}
@@ -100,17 +107,20 @@ const StRinkWrapperTitle = styled.h1`
   }
 `;
 
-const StRinkInput = styled.input`
+const StRinkInput = styled.input<{ isdarkmode: string }>`
   ${input}
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   margin-top: 0px;
 `;
 
-const StRinkInputWithIcon = styled.div`
+const StRinkInputWithIcon = styled.div<{ isdarkmode: string }>`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  /* border: ${({ isdarkmode }) =>
+    isdarkmode === 'true' ? '2px solid #red' : '1px solid #ccc'}; */
+  /* border: 1px solid red; */
 `;
 
 const GitIcon = styled.div`

@@ -192,6 +192,7 @@ const StModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1001;
+  color: black;
 `;
 
 const StTitleAndButtonSection = styled.div`

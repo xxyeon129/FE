@@ -95,7 +95,7 @@ const StProjectNumber = styled.span`
 
 const StProjectList = styled.div`
   margin: 5%;
-  display: flex;
+  /* display: flex; */
   flex-wrap: wrap;
   flex-direction: column;
 `;

@@ -365,6 +365,7 @@ const StModalWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   align-items: center;
   z-index: 1001;
+  color: black;
 `;
 
 const StModalContent = styled.form`
