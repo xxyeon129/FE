@@ -53,7 +53,7 @@ const StInput = styled.input`
   border: 1px solid rgba(203, 203, 203, 0.7);
   border-radius: 6px;
   padding: 10px;
-
+  color: black;
   &:focus::placeholder {
     font-size: 0.8em;
     transition: font-size 0.3s;
