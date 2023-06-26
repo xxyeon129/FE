@@ -36,7 +36,7 @@ const AllChart = ({ setClickType, clickType }: AllChartProps) => {
         enabled: true,
         callbacks: {
           title: (context: string) => {
-            return ['도넛차트 둘러보기'];
+            return ['차트 상세보기'];
           },
         },
       },
