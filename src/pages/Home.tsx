@@ -75,7 +75,7 @@ const Home = () => {
         <StTextLabel>지금 뜨는 포트폴리오</StTextLabel>
         <S.PortfolioListContainer>
           {latestPortfolioList.map((item: PortfolioDataType) => (
-            <PortfolioItem key={item.id} item={item} />
+            <PortfolioItem key={item.id} item={item} listLength={12} />
           ))}
         </S.PortfolioListContainer>
       </StListContainer>

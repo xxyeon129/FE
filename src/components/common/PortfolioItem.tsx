@@ -6,7 +6,12 @@ import UserProfileImage from './UserProfileImage';
 import NoImage from './NoImage';
 import useImgLoadError from '@src/Hook/useImgLoadError';
 
-const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
+interface PortfolioItemProps {
+  item: PortfolioDataType;
+  listLength: number;
+}
+
+const PortfolioItem = ({ item, listLength }: PortfolioItemProps) => {
   const { imageLoadError, onImageError } = useImgLoadError();
 
   const navigate = useNavigate();
@@ -18,7 +23,7 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   };
 
   return (
-    <StItemContainer onClick={onClickPortfolioItem}>
+    <StItemContainer onClick={onClickPortfolioItem} length={listLength}>
       {isportfolioImageExist && !imageLoadError ? (
         <StPortfolioImg src={item.portfolioImage} onError={onImageError} />
       ) : (
@@ -35,11 +40,41 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
   );
 };
 
-const StItemContainer = styled.div`
+const StItemContainer = styled.div<{ length: number }>`
   cursor: pointer;
 
+  @keyframes scaleUp {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -20%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  ${({ length }) =>
+    Array.from(
+      { length: 10 },
+      (_, i) => `&:nth-child(${i + 1}) {
+        animation-delay: ${i * 0.1}s;
+      }`
+    ).join('\n')}
+
+  animation: fadeIn 0.3s ease-in both;
+
   &:hover {
-    transform: scale(1.05);
+    animation: fadeIn 0.3s ease-in both, scaleUp 1s ease;
     transition: 1s ease;
     cursor: pointer;
     z-index: 11;
