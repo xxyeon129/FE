@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from 'react';
 
-const useScrollFadeIn = (duration: number, delay: number) => {
+const useScrollFadeIn = (direction: string, duration: number, delay: number) => {
   const dom: React.RefObject<HTMLDivElement> = useRef(null);
 
   const handleScroll = useCallback(
@@ -19,19 +19,32 @@ const useScrollFadeIn = (duration: number, delay: number) => {
     [delay, duration]
   );
 
+  const handleDirection = (direction: string) => {
+    switch (direction) {
+      case 'down':
+        return 'translate3d(0, -50%, 0)';
+      case 'left':
+        return 'translate3d(50%, 0, 0)';
+      case 'listDown':
+        return 'translate3d(0, -10%, 0)';
+      default:
+        return;
+    }
+  };
+
   useEffect(() => {
     let observer: IntersectionObserver;
     const { current } = dom;
 
     if (current) {
-      observer = new IntersectionObserver(handleScroll, { threshold: 0.7 });
+      observer = new IntersectionObserver(handleScroll, { threshold: 0.2 });
       observer.observe(current);
 
       return () => observer && observer.disconnect();
     }
   }, [handleScroll]);
 
-  return { ref: dom, style: { opacity: 0, transform: 'translate3d(0, -50%, 0)' } };
+  return { ref: dom, style: { opacity: 0, transform: handleDirection(direction) } };
 };
 
 export default useScrollFadeIn;

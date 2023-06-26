@@ -34,12 +34,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   const fadeInAnimationItem = {
-    0: useScrollFadeIn(1, 0.4),
-    1: useScrollFadeIn(1.5, 1),
-    2: useScrollFadeIn(2, 1.5),
-    3: useScrollFadeIn(3, 2),
-    4: useScrollFadeIn(3.1, 0.4),
-    5: useScrollFadeIn(3.2, 0.5),
+    0: useScrollFadeIn('down', 1, 0.4),
+    1: useScrollFadeIn('down', 1.5, 1),
+    2: useScrollFadeIn('down', 2, 1.5),
+    3: useScrollFadeIn('down', 1.1, 0.1),
+    4: useScrollFadeIn('listDown', 1.1, 0.2),
   };
 
   const buttonList = [
@@ -84,8 +83,8 @@ const Home = () => {
         {isDarkMode ? <StBackgroundDarkModeIcon /> : <StBackgroundIcon />}
       </StIntroContainer>
       <StListContainer>
-        <StTextLabel {...fadeInAnimationItem[4]}>지금 뜨는 포트폴리오</StTextLabel>
-        <S.PortfolioListContainer>
+        <StTextLabel {...fadeInAnimationItem[3]}>지금 뜨는 포트폴리오</StTextLabel>
+        <S.PortfolioListContainer {...fadeInAnimationItem[4]}>
           {latestPortfolioList.map((item: PortfolioDataType) => (
             <PortfolioItem key={item.id} item={item} listLength={12} />
           ))}
@@ -241,6 +240,11 @@ const StButton = styled.button<{ color: string }>`
     animation-delay: 3.5s;
   }
 
+  &:hover {
+    transform: scale(1.07);
+    transition: 1s ease;
+  }
+
   @media screen and (max-width: 660px) {
     transition: 0.5s;
     width: 270px;
@@ -280,6 +284,7 @@ const backgroundIconStyle = `
 position: absolute;
 top: 305px;
 margin-left: 570px;
+opacity: 0;
 
 @media screen and (max-width: 830px) {
   transition: 0.5s;
@@ -306,7 +311,6 @@ const StBackgroundIcon = styled(BackgroundIcon)`
   ${backgroundIconStyle}
   z-index: -1;
 
-  opacity: 0;
   animation: ${fading} ease-in 1s;
   animation-fill-mode: forwards;
   animation-duration: 1s;
@@ -316,6 +320,11 @@ const StBackgroundIcon = styled(BackgroundIcon)`
 const StBackgroundDarkModeIcon = styled(BackgroundDarkModeIcon)`
   ${backgroundIconStyle}
   z-index: -0.7;
+
+  animation: ${fading} ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+  animation-delay: 3.9s;
 `;
 
 const StTextLabel = styled.h2`
