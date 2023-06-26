@@ -10,9 +10,10 @@ import Step07Introduce from '@src/components/createPortfolio/createStep/Step07In
 import Step08Link from '@src/components/createPortfolio/createStep/Step08Link';
 import Step09Image from '@src/components/createPortfolio/createStep/Step09Image';
 import { styled } from 'styled-components';
+import StepProgressBar from '@src/components/createPortfolio/StepProgressBar';
 
 const CreatePortfolio = () => {
-  const [step, setStep] = useState(STEP.ONE);
+  const [step, setStep] = useState<string>(STEP.ONE);
 
   const nextStep = (step: string) => {
     setStep(step);
@@ -41,6 +42,7 @@ const CreatePortfolio = () => {
           stepNine: <Step09Image onPrevButtonClick={prevStep} />,
         }[step]
       }
+      <StepProgressBar currentStep={step} />
     </StCreatePortfolio>
   );
 };
