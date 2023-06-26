@@ -113,3 +113,12 @@ export const deletePortfolio = async (id: number) => {
     return error;
   }
 };
+
+export const getPopularPortfolio = async () => {
+  try {
+    const response = await apiRequest.get(`${RESOURCE}/popularity`);
+    return response.data.data;
+  } catch (error) {
+    throw new Error('API getPopularPortfolio error');
+  }
+};

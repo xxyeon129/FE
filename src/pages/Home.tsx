@@ -15,7 +15,7 @@ import { ReactComponent as BackgroundIcon } from '@src/assets/home-background-ic
 import { ReactComponent as BackgroundDarkModeIcon } from '@src/assets/home-background-dark-mode-icon.svg';
 import { PATH_URL } from '@src/constants/constants';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
-import { getAllList, getLastId } from '@src/apis/portfolio';
+import { getPopularPortfolio } from '@src/apis/portfolio';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import * as S from '@src/style/common/commonStyles';
 import theme from '@src/style/theme';
@@ -47,20 +47,11 @@ const Home = () => {
     navigate(PATH_URL.MAIN);
   };
 
-  const { data, isLoading } = useQuery('latestPortfolioList', async () => {
-    let lastId = await getLastId({ category: 'All' });
-    let list: PortfolioDataType[] = [];
-
-    while (list.length < 10 && lastId >= 0) {
-      const { serverData } = await getAllList({ lastId, category: 'All' });
-      list = [...list, ...serverData];
-    }
-    return list.slice(0, 9);
-  });
+  const { data: popularPortfolioList } = useQuery('popularPortfolioList', getPopularPortfolio);
 
   useEffect(() => {
-    data && setLatestPortfolioList(data);
-  }, [data]);
+    popularPortfolioList && setLatestPortfolioList(popularPortfolioList);
+  }, [popularPortfolioList]);
 
   return (
     <StHome>
