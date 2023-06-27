@@ -21,9 +21,9 @@ const Main = () => {
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
   const [nextLastId, setNextLastId] = useState<number>(0);
 
-  const [isPortfolioCreated, setIsPortfolioCreated] = useRecoilState(createPortfolioState);
-  const [selectedFilter, setSelectedFilter] = useRecoilState(filterState);
-  const selectedCategory = useRecoilValue(categoryState);
+  const [isPortfolioCreated, setIsPortfolioCreated] = useRecoilState<boolean>(createPortfolioState);
+  const [selectedFilter, setSelectedFilter] = useRecoilState<string>(filterState);
+  const selectedCategory = useRecoilValue<string>(categoryState);
 
   const isExistData = list.length !== 0;
 
@@ -117,7 +117,12 @@ const Main = () => {
       filter: filterKeyword,
     });
     setNextLastId(serverLastId);
-    setList(serverData);
+
+    const updateKeyIdList = serverData.map((listItem: PortfolioDataType) => {
+      return { ...listItem, id: listItem.id * Math.random() };
+    });
+
+    setList(updateKeyIdList);
 
     setIsDataLoading(false);
   };
@@ -176,7 +181,7 @@ const Main = () => {
       {isExistData ? (
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
-            <PortfolioItem key={item.id * Math.random()} item={item} />
+            <PortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       ) : (
