@@ -50,6 +50,7 @@ const StNav = styled.div<{ darkmode: string }>`
   ${commonNavStyle}
   padding: 45px 41px;
   width: 270px;
+  transition: 0.5s;
   outline: ${({ darkmode }) => (darkmode === 'true' ? '1.5px solid white' : 'none')};
   background-color: ${({ darkmode }) => (darkmode === 'true' ? 'black' : 'white')};
   color: ${({ darkmode }) => (darkmode === 'true' ? 'white' : 'black')};
@@ -61,6 +62,7 @@ const StMobileNav = styled.div<{ darkmode: string }>`
   width: 85px;
   align-items: center;
   border-bottom-right-radius: 20px;
+  transition: 0.5s;
   outline: ${({ darkmode }) => (darkmode === 'true' ? '1.5px solid white' : 'none')};
   background-color: ${({ darkmode }) => (darkmode === 'true' ? 'black' : 'white')};
   color: ${({ darkmode }) => (darkmode === 'true' ? 'white' : 'black')};

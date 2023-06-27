@@ -62,6 +62,7 @@ const StBackgroundBar = styled.div<{ isdarkmode: string }>`
   width: calc(100% - 270px);
   bottom: 0;
   height: 13px;
+  transition: 0.5s;
   background-color: ${({ theme, isdarkmode }) =>
     isdarkmode === 'true' ? theme.color.fontColor : theme.color.gray};
 

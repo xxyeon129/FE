@@ -57,6 +57,7 @@ const StHeader = styled.header<{ darkmode: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: 0.5s;
   background-color: ${({ darkmode }) => (darkmode === 'true' ? 'black' : 'white')};
   color: ${({ darkmode }) => (darkmode === 'true' ? 'white' : 'black')};
   z-index: 998;

@@ -80,6 +80,7 @@ const StFilterButton = styled.button<{ isselected: string; color: string; isdark
   width: 140px;
   height: 37px;
   border-radius: 50px;
+  transition: 0.5s;
   background-color: ${({ theme, isselected, color, isdarkmode }) =>
     isselected === 'true' ? color : isdarkmode === 'true' ? '#4B4B4B' : theme.color.lightGray};
   font-weight: ${({ isselected }) => isselected === 'true' && '800'};
