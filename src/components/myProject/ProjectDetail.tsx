@@ -10,9 +10,9 @@ import { ImageField } from './ImageField';
 import { useInput } from '@src/Hook/useInput';
 import { FormFields } from './FormFields';
 import { GetProject } from './GetProject';
-import imageCompression from 'browser-image-compression';
 import { ReactComponent as ProFileUpdate } from 'src/assets/mypage-profile.svg';
 import Modal from 'src/components/common/Modal';
+import { useImageHandling } from '@src/Hook/useImageHandling';
 export interface ProjectDetailData {
   title: string;
   term: string;
@@ -41,11 +41,11 @@ const ProjectModal: React.FC<{
   const people = useInput('');
   const position = useInput('');
   const description = useInput('');
-  const [imageList, setImageList] = useState<File[]>([]);
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
   const accessToken = localStorage.getItem('accesstoken') || '';
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { imageList, previewImages, errorMessage, imageHandler, setPreviewImages } =
+    useImageHandling();
+
   const handleEdit = () => {
     if (accessToken) {
       setIsEditable(!isEditable);
@@ -99,32 +99,6 @@ const ProjectModal: React.FC<{
       },
     }
   );
-
-  const imageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length >= 0) {
-      const fileList = Array.from(e.target.files);
-      const isAllFilesValid = fileList.every(file => {
-        const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        return validImageTypes.includes(file.type);
-      });
-
-      if (!isAllFilesValid) {
-        setErrorMessage('이미지 파일만 넣어주세요');
-        return;
-      } else {
-        setErrorMessage('');
-      }
-      const options = {
-        maxSizeMB: 0.5,
-      };
-      const compressedImages = await Promise.all(
-        fileList.map(file => imageCompression(file, options))
-      );
-      setImageList(compressedImages);
-      const previewURLs = compressedImages.map(file => URL.createObjectURL(file));
-      setPreviewImages(previewURLs);
-    }
-  };
 
   const handleSubmit = async () => {
     const formData = new FormData();

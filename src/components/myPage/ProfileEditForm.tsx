@@ -82,6 +82,7 @@ const StInput = styled.input`
   background: #ffffff;
   border: 1px solid rgba(203, 203, 203, 0.7);
   border-radius: 6px;
+  color: black !important;
 `;
 
 const StError = styled.div`
