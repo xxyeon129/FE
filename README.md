@@ -1,7 +1,7 @@
 # 나를 보여주는 포트폴리오 공유 서비스 ***POL***
 ___
 
-![메인이미지](src\assets\images\ogimage.png)
+![메인이미지](https://github.com/OurPortfolio/FE/assets/108606678/32f89718-f610-4b36-829e-8fc9ea5455a4)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 * Designer  : 최혜민
 ___
 
-## **사용기술** (Project-Architecture)
+## 🛠 **사용기술** (Project-Architecture)
 
 ![아키텍처](src\assets\images\architecture.png)
 
