@@ -47,7 +47,12 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
         <TitleTextLabel title={title} description={description} />
         <StInputContainer>
           <StInputWrapper>
-            <StInput value={portfolioTitle} onChange={onChangeInput} maxLength={29} />
+            <StInput
+              placeholder="Ex) 1년차 직무 포트폴리오입니다."
+              value={portfolioTitle}
+              onChange={onChangeInput}
+              maxLength={29}
+            />
             {isInvalidTitle && <ErrorMessage errorMessage={errorMessage} />}
           </StInputWrapper>
         </StInputContainer>
@@ -77,7 +82,8 @@ const StInputWrapper = styled.div`
 `;
 
 const StInput = styled.input`
-  border: 2px solid gray;
+  border: none;
+  outline: 2px solid gray;
   border-radius: 10px;
   width: 750px;
   height: 70px;
@@ -85,8 +91,12 @@ const StInput = styled.input`
   font-weight: bold;
   font-size: 25px;
 
+  &::placeholder {
+    color: #b5b5b5;
+  }
+
   &:focus {
-    border: 3px solid;
+    outline: 3px solid;
   }
 
   @media ${({ theme }) => theme.size.tablet} {
