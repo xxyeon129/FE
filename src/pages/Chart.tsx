@@ -12,6 +12,7 @@ import { ReactComponent as Logo } from '@src/assets/logo.svg';
 import { ReactComponent as DarkModeLogo } from '@src/assets/dark-mode-logo.svg';
 import { useRecoilValue } from 'recoil';
 import { isDarkModeState } from '@src/states/darkModeState';
+import { MobileColumn } from '@src/style/mediaQuery';
 
 const Chart = () => {
   const [clickType, setClickType] = useState<string>('');
@@ -52,6 +53,9 @@ const Chart = () => {
       <StDescriptionContainer>
         <StDescrption>
           총&nbsp;<span>{animatedCount}</span>개의 포트폴리오가&nbsp;&nbsp;
+          <MobileColumn>
+            <br />
+          </MobileColumn>
           {isDarkMode ? <DarkModeLogo /> : <Logo />}
           &nbsp;서비스에 등록되어 있어요.
         </StDescrption>
@@ -100,6 +104,20 @@ const StDescriptionContainer = styled.div`
   flex-direction: column;
   gap: 15px;
   margin-bottom: 7px;
+
+  @media screen and (max-width: 850px) {
+    transition: 0.5s;
+    margin-top: 7px;
+    gap: 10px;
+  }
+  @media screen and (max-width: 500px) {
+    transition: 0.5s;
+    margin-top: 0;
+    gap: 6px;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    gap: 10px;
+  }
 `;
 
 const StDescrption = styled.h2`
@@ -118,20 +136,31 @@ const StDescrption = styled.h2`
       width: 60px;
       height: 22px;
     }
-    @media screen and (max-width: 945px) {
+    @media screen and (max-width: 955px) {
       transition: 0.5s;
       width: 50px;
       height: 20px;
     }
-    @media screen and (max-width: 840px) {
+    @media screen and (max-width: 850px) {
       transition: 0.5s;
       width: 40px;
-      height: 20px;
     }
-    @media screen and (max-width: 575px) {
+    @media screen and (max-width: 585px) {
       transition: 0.5s;
       width: 30px;
-      height: 20px;
+    }
+    @media screen and (max-width: 500px) {
+      transition: 0.5s;
+      width: 27px;
+    }
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      height: 12px;
+      margin-top: 7px;
+      padding-top: 3px;
+    }
+    @media screen and (max-width: 450px) {
+      transition: 0.5s;
+      width: 25px;
     }
   }
 
@@ -139,16 +168,25 @@ const StDescrption = styled.h2`
     transition: 0.5s;
     font-size: 25px;
   }
-  @media screen and (max-width: 945px) {
+  @media screen and (max-width: 955px) {
     transition: 0.5s;
     font-size: 20px;
   }
-  @media screen and (max-width: 840px) {
+  @media screen and (max-width: 850px) {
     transition: 0.5s;
     font-size: 17px;
   }
-  @media screen and (max-width: 575px) {
+  @media screen and (max-width: 585px) {
     transition: 0.5s;
+    font-size: 14px;
+  }
+  @media screen and (max-width: 500px) {
+    transition: 0.5s;
+    font-size: 12px;
+    white-space: pre-line;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    display: block;
     font-size: 14px;
   }
 `;
@@ -156,13 +194,21 @@ const StDescrption = styled.h2`
 const StSubDescription = styled.h3`
   color: ${({ theme }) => theme.color.lightGreen};
 
-  @media screen and (max-width: 840px) {
+  @media screen and (max-width: 850px) {
     transition: 0.5s;
     font-size: 15px;
   }
-  @media screen and (max-width: 575px) {
+  @media screen and (max-width: 585px) {
     transition: 0.5s;
     font-size: 12px;
+  }
+  @media screen and (max-width: 500px) {
+    transition: 0.5s;
+    font-size: 11px;
+  }
+  @media screen and (max-width: 450px) {
+    transition: 0.5s;
+    font-size: 9px;
   }
 `;
 
