@@ -1,4 +1,5 @@
 import { getAllChart } from '@src/apis/chart';
+import { ChartDataType } from '@src/types/chartDataType';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,9 +18,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 interface AllChartProps {
   setClickType: React.Dispatch<React.SetStateAction<string>>;
   clickType: string;
+  allChartData: ChartDataType;
 }
 
-const AllChart = ({ setClickType, clickType }: AllChartProps) => {
+const AllChart = ({ setClickType, clickType, allChartData }: AllChartProps) => {
   const [labels, setLabels] = useState<string[]>([]);
   const [count, setCount] = useState<number[]>([]);
 
@@ -63,18 +65,13 @@ const AllChart = ({ setClickType, clickType }: AllChartProps) => {
     }
   };
 
-  const fetchChart = async () => {
-    const data = await getAllChart();
-    const labelsData: string[] = Object.keys(data).slice(1);
-    const countData: number[] = Object.values(data);
+  useEffect(() => {
+    const labelsData: string[] = Object.keys(allChartData).slice(1);
+    const countData: number[] = Object.values(allChartData);
 
     setLabels(labelsData);
     setCount(countData);
-  };
-
-  useEffect(() => {
-    fetchChart();
-  }, []);
+  }, [allChartData]);
 
   useEffect(() => {
     setOptions(prevState => ({ ...prevState, maintainAspectRatio: true }));
