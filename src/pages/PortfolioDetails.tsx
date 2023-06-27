@@ -422,5 +422,12 @@ const StContainer = styled.div<{ isdarkmode: string }>`
 
 const StEditWrapper = styled.div<{ isdarkmode: string }>`
   padding: 100px;
-  /* height: 100vh; */
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+
+  @media (max-width: 479px) {
+    padding: 10px;
+  }
 `;
