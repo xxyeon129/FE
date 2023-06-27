@@ -1,6 +1,8 @@
 // InputField.tsx
 import React, { ChangeEvent } from 'react';
 import { styled } from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 export const InputField: React.FC<{
   title: string;
@@ -19,6 +21,7 @@ export const InputField: React.FC<{
       onChange(e);
     }
   };
+  const isDarkMode = useRecoilValue(isDarkModeState);
 
   return (
     <StTextWrap>
@@ -35,6 +38,7 @@ export const InputField: React.FC<{
 const StTextWrap = styled.div`
   display: flex;
   flex-direction: column;
+  color: black;
 `;
 
 const StTitle = styled.div`
@@ -53,6 +57,7 @@ const StInput = styled.input`
   border: 1px solid rgba(203, 203, 203, 0.7);
   border-radius: 6px;
   padding: 10px;
+  color: black !important;
 
   &:focus::placeholder {
     font-size: 0.8em;

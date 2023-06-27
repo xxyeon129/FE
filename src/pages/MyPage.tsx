@@ -5,10 +5,10 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser, deleteUser, updatePassword } from '@src/apis/mypageuser';
 import { useQuery, useMutation } from 'react-query';
-import user from 'src/assets/default-user-profile-icon.svg';
+import user from 'src/assets/default-user-profile-icon.svg'; //0
 import { useSetRecoilState } from 'recoil';
 import { myPageEditState } from '@src/states/myPageEditState';
-import { ReactComponent as Close } from 'src/assets/mypage-close.svg';
+import { ReactComponent as Close } from 'src/assets/mypage-close.svg'; //0
 import WithdrawalModal from '@src/components/myPage/WithdrawalModal';
 import UpdatePasswordModal from '@src/components/myPage/UpdatePasswordModal';
 import UpdateProfileModal from '@src/components/myPage/UpdateProfileModal';
@@ -47,6 +47,7 @@ const MyPage = () => {
   const [apiError, setApiError] = useState('');
   const setMyPageEdit = useSetRecoilState(myPageEditState);
   const isDarkMode = useRecoilValue(isDarkModeState);
+
   const { data, isLoading, isError, refetch } = useQuery<UserData>('userData', () =>
     getUser(Number(id))
   );
@@ -81,7 +82,6 @@ const MyPage = () => {
     navigate('/');
     setShowModal(false);
   }, [refreshToken, deleteUserMutation, id, navigate]);
-
   const handleSavePassword = useCallback(async () => {
     if (oldpassword.value.trim() === '') {
       oldpassword.setErrorText('현재 비밀번호를 입력해주세요.');
@@ -101,7 +101,11 @@ const MyPage = () => {
       checkNewPassword: checknewpassword.value,
     };
     await updatePasswordMutation.mutateAsync([passwordData, Number(id)]);
+    setIsEditing(false);
     setApiError('');
+    oldpassword.onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
+    newpassword.onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
+    checknewpassword.onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
   }, [
     refreshToken,
     oldpassword.value,
@@ -159,7 +163,7 @@ const MyPage = () => {
 
   return (
     <Stdiv>
-      <StHeader isediting={`${isEditing}`}></StHeader>
+      <StHeader isediting={`${isEditing}`} isdarkmode={`${isDarkMode}`}></StHeader>
       {isEditing ? (
         <StMyPageEditBox>
           <StClose>
@@ -206,7 +210,7 @@ const MyPage = () => {
       {showModal && <WithdrawalModal onWithdrawal={handleWithdrawal} onClose={handleCloseModal} />}
       {showUpdateModal && <UpdateProfileModal onClose={() => setShowUpdateModal(false)} />}
       {showPasswordModal && <UpdatePasswordModal onClose={() => setShowPasswordModal(false)} />}
-      <Stbottom isediting={`${isEditing}`} />
+      <Stbottom isediting={`${isEditing}`} isdarkmode={`${isDarkMode}`} />
     </Stdiv>
   );
 };
@@ -217,13 +221,14 @@ const Stdiv = styled.div`
   position: relative;
 `;
 
-const Stbottom = styled.div<{ isediting: string }>`
+const Stbottom = styled.div<{ isediting: string; isdarkmode: string }>`
   background: #6bf65f;
   height: 60%;
-  background-color: ${props => (props.isediting === 'true' ? '#D3D3D3' : '#6BF65F')};
+  background-color: ${props =>
+    props.isediting === 'true' ? (props.isdarkmode === 'true' ? '#1F1F22' : '#D3D3D3') : '#6BF65F'};
 `;
 
-const StHeader = styled.div<{ isediting: string }>`
+const StHeader = styled.div<{ isediting: string; isdarkmode: string }>`
   width: 100%;
   height: 40%;
   display: flex;
@@ -231,9 +236,10 @@ const StHeader = styled.div<{ isediting: string }>`
   align-items: center;
   background: ${props =>
     props.isediting === 'true'
-      ? '#D3D3D3'
+      ? props.isdarkmode === 'true'
+        ? '#1F1F22'
+        : '#D3D3D3'
       : 'linear-gradient(135deg, #8FE7A1, #9BC7BF, #CBD0E1, #5CC3BA, #0DC49C, #6E9EB2)'};
-  background-size: cover;
   background-position: center;
 `;
 ////////////////////////////////
