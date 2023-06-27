@@ -176,7 +176,7 @@ const Main = () => {
       {isExistData ? (
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
-            <PortfolioItem key={item.id} item={item} listLength={list.length} />
+            <PortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       ) : (

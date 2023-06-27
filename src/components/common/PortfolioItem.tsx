@@ -8,10 +8,9 @@ import useImgLoadError from '@src/Hook/useImgLoadError';
 
 interface PortfolioItemProps {
   item: PortfolioDataType;
-  listLength: number;
 }
 
-const PortfolioItem = ({ item, listLength }: PortfolioItemProps) => {
+const PortfolioItem = ({ item }: PortfolioItemProps) => {
   const { imageLoadError, onImageError } = useImgLoadError();
 
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const PortfolioItem = ({ item, listLength }: PortfolioItemProps) => {
   };
 
   return (
-    <StItemContainer onClick={onClickPortfolioItem} length={listLength}>
+    <StItemContainer onClick={onClickPortfolioItem}>
       {isportfolioImageExist && !imageLoadError ? (
         <StPortfolioImg src={item.portfolioImage} onError={onImageError} />
       ) : (
@@ -43,7 +42,7 @@ const PortfolioItem = ({ item, listLength }: PortfolioItemProps) => {
   );
 };
 
-const StItemContainer = styled.div<{ length: number }>`
+const StItemContainer = styled.div`
   cursor: pointer;
 
   @keyframes scaleUp {
@@ -66,13 +65,12 @@ const StItemContainer = styled.div<{ length: number }>`
     }
   }
 
-  ${({ length }) =>
-    Array.from(
-      { length: 10 },
-      (_, i) => `&:nth-child(${i + 1}) {
+  ${Array.from(
+    { length: 10 },
+    (_, i) => `&:nth-child(${i + 1}) {
         animation-delay: ${i * 0.1}s;
       }`
-    ).join('\n')}
+  ).join('\n')}
 
   animation: fadeIn 0.3s ease-in both;
 

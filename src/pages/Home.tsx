@@ -86,7 +86,7 @@ const Home = () => {
         <StTextLabel {...fadeInAnimationItem[3]}>지금 뜨는 포트폴리오</StTextLabel>
         <S.PortfolioListContainer {...fadeInAnimationItem[4]}>
           {latestPortfolioList.map((item: PortfolioDataType) => (
-            <PortfolioItem key={item.id} item={item} listLength={12} />
+            <PortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       </StListContainer>
