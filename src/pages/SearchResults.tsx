@@ -8,6 +8,7 @@ import PortfolioItem from '@src/components/common/PortfolioItem';
 import * as S from '@src/style/common/commonStyles';
 import { Desktop, DesktopAndTablet, MobileRow, TabletAndMobile } from '@src/style/mediaQuery';
 import { PageContainer } from '@src/style/common/commonStyles';
+import { isDarkModeState } from '@src/states/darkModeState';
 interface PortfolioData {
   content: PortfolioDataType[];
   totalPages: number;
@@ -18,6 +19,7 @@ interface StButtonProps {
 const SearchResults = () => {
   const [portfolioData, setPortfolioData] = useState<PortfolioData | undefined>();
   const searchTermData = useRecoilValue(searchTermState);
+  const isDarkMode = useRecoilValue(isDarkModeState);
   const [selectedPage, setSelectedPage] = useState(1);
   const handlePageButtonClick = async (index: number) => {
     const pageData = await searchPage(index, searchTermData);
@@ -58,7 +60,7 @@ const SearchResults = () => {
               <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
             </StHeader>
           )}
-          <StButtonContainer>
+          <StButtonContainer isdarkmode={`${isDarkMode}`}>
             {portfolioData &&
               Array.from({ length: portfolioData.totalPages }, (_, index) => (
                 <StButtonList key={index + 1}>
@@ -102,7 +104,7 @@ const SearchResults = () => {
               <h2>'{searchTermData}'에 대한 포트폴리오가 없습니다.</h2>
             </StHeader>
           )}
-          <StButtonContainer>
+          <StButtonContainer isdarkmode={`${isDarkMode}`}>
             {portfolioData &&
               Array.from({ length: portfolioData.totalPages }, (_, index) => (
                 <StButtonList key={index + 1}>
@@ -166,7 +168,7 @@ const StHeader = styled.div`
   }
 `;
 
-const StButtonContainer = styled.div`
+const StButtonContainer = styled.div<{ isdarkmode: string }>`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -179,15 +181,16 @@ const StButtonContainer = styled.div`
   bottom: 0;
   left: 0;
   width: calc(100% - 250px);
-  background: #fff;
+  /* background: #fff; */
+  background: ${props => (props.isdarkmode === 'true' ? '#1F1F22' : '#fff')};
   padding: 0px 0;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
   margin-left: 250px;
 
   @media (max-width: 768px) {
-    width: calc(100% - 82px); /* Adjust the width based on the width of your sidebar */
-    margin-left: 82px; /* Adjust the left margin based on the width of your sidebar */
+    width: calc(100% - 82px);
+    margin-left: 82px;
     display: flex;
   }
 `;

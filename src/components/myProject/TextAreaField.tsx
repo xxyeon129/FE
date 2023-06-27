@@ -50,7 +50,7 @@ const StTextArea = styled.textarea`
   border-radius: 6px;
   transition: font-size 0.3s;
   resize: none;
-
+  color: black !important;
   &:focus::placeholder {
     font-size: 0.8em;
     transition: font-size 0.3s;
