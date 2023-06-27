@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
+import { AiOutlineEye } from 'react-icons/ai';
 import UserProfileImage from './UserProfileImage';
 import NoImage from './NoImage';
 import useImgLoadError from '@src/Hook/useImgLoadError';
@@ -34,7 +35,10 @@ const PortfolioItem = ({ item }: PortfolioItemProps) => {
             <UserProfileImage imgSrc={item.userProfileImage} size="25px" />
             <StUserNameText>{item.userName}</StUserNameText>
           </StUserProfile>
-          <Stviews>{item.views}</Stviews>
+          <StViewsContainer>
+            <AiOutlineEye />
+            <Stviews>{item.views}</Stviews>
+          </StViewsContainer>
         </StUserContainer>
         <StTitle>{item.portfolioTitle}</StTitle>
       </StDescriptionContainer>
@@ -118,6 +122,16 @@ const StUserProfile = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const StViewsContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    color: gray;
+    margin-right: 4px;
+  }
 `;
 
 const Stviews = styled.div`
