@@ -22,6 +22,7 @@ import theme from '@src/style/theme';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import { isDarkModeState } from '@src/states/darkModeState';
 import useScrollFadeIn from '@src/Hook/useScrollFadeIn';
+import SlidePortfolioSection from '@src/components/home/SlidePortfolioSection';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -82,8 +83,12 @@ const Home = () => {
         <StShadow isdarkmode={`${isDarkMode}`} />
         {isDarkMode ? <StBackgroundDarkModeIcon /> : <StBackgroundIcon />}
       </StIntroContainer>
+      <SlidePortfolioSection
+        fadeInAnimation={fadeInAnimationItem[3]}
+        latestPortfolioList={latestPortfolioList}
+      />
       <StListContainer>
-        <StTextLabel {...fadeInAnimationItem[3]}>지금 뜨는 포트폴리오</StTextLabel>
+        <StTextLabel>지금 뜨는 포트폴리오</StTextLabel>
         <S.PortfolioListContainer {...fadeInAnimationItem[4]}>
           {latestPortfolioList.map((item: PortfolioDataType) => (
             <PortfolioItem key={item.id} item={item} />
@@ -99,6 +104,9 @@ const StHome = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
   margin-bottom: 100px;
 `;
 
