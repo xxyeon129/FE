@@ -99,12 +99,24 @@ const StSigninButton = styled.button`
   ${buttonStyle}
   margin-right: 17px;
   background-color: ${({ theme }) => theme.color.neonGreen};
+
+  &:hover {
+    transition: 0.5s;
+    color: white;
+    background-color: ${({ theme }) => theme.color.lightGreen};
+  }
 `;
 
 const StLoginButton = styled.button`
   ${buttonStyle}
   margin-left: 17px;
   background-color: ${({ theme }) => theme.color.lightGray};
+
+  &:hover {
+    transition: 0.5s;
+    color: white;
+    background-color: ${({ theme }) => theme.color.fontColor};
+  }
 `;
 
 export default LeadSignupLogin;
