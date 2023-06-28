@@ -2,9 +2,19 @@ import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { filterState, selectedCategoryState } from '@src/states';
-import { isDarkModeState } from '@src/states/darkModeState';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
+import { FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft } from 'react-icons/fa';
 import theme from '@src/style/theme';
+
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper';
+import SwiperCore from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+SwiperCore.use([Pagination, Navigation]);
 
 interface FilterPropsType {
   filterList: string[];
@@ -13,9 +23,8 @@ interface FilterPropsType {
 
 const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
   const [filter, setFilter] = useRecoilState<string>(filterState);
-  const [backgroundColor, setBackgroundColor] = useState<string>('');
-  const selectedCategory = useRecoilValue<string>(selectedCategoryState);
-  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
+  const [backgroundColor, setBackgroundColor] = useState('');
+  const selectedCategory = useRecoilValue(selectedCategoryState);
 
   const onClickFilter = (filterKeyword: string) => {
     setFilter(filterKeyword);
@@ -38,22 +47,80 @@ const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
     }
   }, [selectedCategory]);
 
+  const swiperBreakpoints = {
+    0: { slidesPerView: 1, spaceBetween: 1 },
+    435: { slidesPerView: 1, spaceBetween: 1 },
+    458: { slidesPerView: 1.3, spaceBetween: 1 },
+    508: { slidesPerView: 1.5, spaceBetween: 1 },
+    543: { slidesPerView: 2, spaceBetween: 1 },
+    560: { slidesPerView: 2.3, spaceBetween: 1 },
+    615: { slidesPerView: 2.5, spaceBetween: 1 },
+    651: { slidesPerView: 3, spaceBetween: 1 }, //
+    675: { slidesPerView: 3.3, spaceBetween: 1 },
+    767: { slidesPerView: 3.5, spaceBetween: 1 },
+    785: { slidesPerView: 1.5, spaceBetween: 5 },
+    825: { slidesPerView: 2, spaceBetween: 5 },
+    865: { slidesPerView: 2.3, spaceBetween: 5 },
+    940: { slidesPerView: 2.5, spaceBetween: 5 },
+    995: { slidesPerView: 3, spaceBetween: 1 },
+    1135: { slidesPerView: 3.5, spaceBetween: 1 },
+    1165: { slidesPerView: 4.5, spaceBetween: 1 },
+    1315: { slidesPerView: 5.5, spaceBetween: 1 },
+    1440: { slidesPerView: 6.5, spaceBetween: 1 },
+    1600: { slidesPerView: 7.5, spaceBetween: 1 },
+    1786: { slidesPerView: 8, spaceBetween: 10 },
+  };
+
   return (
-    <StFilterListContainer>
-      {filterList.map((filterKeyword, filterItemIndex) => (
-        <StFilterButton
-          key={filterItemIndex}
-          onClick={() => onClickFilter(filterKeyword)}
-          isselected={`${filterKeyword === filter}`}
-          color={backgroundColor}
-          isdarkmode={`${isDarkMode}`}
+    <StContainer className="swiper-container">
+      <StSwiperWrapper className="swiper-wrapper">
+        <Swiper
+          centeredSlides={false}
+          spaceBetween={1}
+          navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
+          modules={[Pagination, Navigation]}
+          breakpoints={swiperBreakpoints}
+          style={{ marginLeft: '60px', marginRight: '60px', position: 'unset' }}
+          className="mySwiper"
         >
-          {filterKeyword}
-        </StFilterButton>
-      ))}
-    </StFilterListContainer>
+          {filterList.map((filterKeyword, filterItemIndex) => (
+            <SwiperSlide key={filterItemIndex}>
+              <StFilterButton
+                onClick={() => onClickFilter(filterKeyword)}
+                isselected={`${filterKeyword === filter}`}
+                color={backgroundColor}
+              >
+                {filterKeyword}
+              </StFilterButton>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <StPrevIcon className="swiper-button-prev" />
+        <StNextIcon className="swiper-button-next" />
+      </StSwiperWrapper>
+    </StContainer>
   );
 };
+
+const StContainer = styled.div`
+  width: 100%;
+  padding: 50px 0;
+`;
+
+const StSwiperWrapper = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+const StNextIcon = styled(FaChevronRight)`
+  color: white;
+  filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.3));
+`;
+
+const StPrevIcon = styled(FaChevronLeft)`
+  color: white;
+  filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.3));
+`;
 
 const StFilterListContainer = styled.div`
   width: 100%;
@@ -75,17 +142,22 @@ const StFilterListContainer = styled.div`
   }
 `;
 
-const StFilterButton = styled.button<{ isselected: string; color: string; isdarkmode: string }>`
+const StFilterButton = styled.button<{ isselected: string; color: string }>`
   font-size: 16px;
   width: 140px;
   height: 37px;
+  margin: 7px 0;
   border-radius: 50px;
-  transition: 0.5s;
-  background-color: ${({ theme, isselected, color, isdarkmode }) =>
-    isselected === 'true' ? color : isdarkmode === 'true' ? '#4B4B4B' : theme.color.lightGray};
+  background-color: ${({ theme, isselected, color }) =>
+    isselected === 'true' ? color : theme.color.lightGray};
   font-weight: ${({ isselected }) => isselected === 'true' && '800'};
-  color: ${({ isdarkmode, isselected }) =>
-    isdarkmode === 'true' ? (isselected === 'true' ? 'black' : 'white') : 'black'};
+
+  /* &:first-child {
+    margin-left: 50px;
+  } */
+  /* &:last-child {
+    margin-right: 200px;
+  } */
 
   @media ${({ theme }) => theme.size.mobileRow} {
     font-size: 13px;
