@@ -68,7 +68,6 @@ const StScrollLeadText = styled.div<{ scroll: string }>`
   color: gray;
   animation: ${bounceAnimation} 1.7s infinite;
   display: ${({ scroll }) => (scroll === 'true' ? 'none' : 'block')};
-  animation-delay: 3.9s;
 `;
 
 const StIndicator = styled.div`
