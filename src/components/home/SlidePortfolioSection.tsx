@@ -1,12 +1,13 @@
-import { PortfolioDataType } from '@src/types/portfolioType';
 import { styled } from 'styled-components';
+import { useEffect, useState } from 'react';
+import { getAllChart } from '@src/apis/chart';
+import { PortfolioDataType } from '@src/types/portfolioType';
 
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import 'swiper/swiper.min.css';
 import NoImage from '../common/NoImage';
-import { useState } from 'react';
 
 interface SlidePortfolioSection {
   fadeInAnimation: {
@@ -21,6 +22,7 @@ interface SlidePortfolioSection {
 
 const SlidePortfolioSection = (props: SlidePortfolioSection) => {
   const [imageLoadError, setImageLoadError] = useState<Record<number, boolean>>({});
+  const [allPortfolioCount, setAllPortfolioCount] = useState<number>(0);
 
   const onImageError = (slideIndex: number) => {
     setImageLoadError(prevState => ({
@@ -29,10 +31,19 @@ const SlidePortfolioSection = (props: SlidePortfolioSection) => {
     }));
   };
 
+  const fetchPortfoiloCount = async () => {
+    const portfoiloCountData = await getAllChart();
+    setAllPortfolioCount(portfoiloCountData.all);
+  };
+
+  useEffect(() => {
+    fetchPortfoiloCount();
+  }, []);
+
   return (
     <StSlidePortfolioContainer>
       <StTitle {...props.fadeInAnimation}>
-        POL에 등록된 79+개의 다양한 포트폴리오를 살펴보세요
+        POL에 등록된&nbsp;<span>{allPortfolioCount}+</span>개의 다양한 포트폴리오를 살펴보세요.
       </StTitle>
       <StPortfolioListContainer>
         <Swiper
@@ -75,7 +86,12 @@ const StSlidePortfolioContainer = styled.div`
 `;
 
 const StTitle = styled.h1`
-  text-align: center;
+  display: flex;
+  justify-content: center;
+
+  > span {
+    color: ${({ theme }) => theme.color.lightGreen};
+  }
 `;
 
 const StPortfolioListContainer = styled.div``;
