@@ -24,7 +24,7 @@ import PortfolioItem from '@src/components/common/PortfolioItem';
 import { isDarkModeState } from '@src/states/darkModeState';
 import useScrollFadeIn from '@src/Hook/useScrollFadeIn';
 import SlidePortfolioSection from '@src/components/home/SlidePortfolioSection';
-import ScrollLeadText from '@src/components/home/ScrollLead';
+import ScrollLeadText from '@src/components/home/ScrollLeadText';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
