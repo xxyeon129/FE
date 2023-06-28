@@ -1,0 +1,23 @@
+export const swiperBreakpoints = {
+  0: { slidesPerView: 1, spaceBetween: 1 },
+  435: { slidesPerView: 1, spaceBetween: 1 },
+  458: { slidesPerView: 1.3, spaceBetween: 1 },
+  508: { slidesPerView: 1.5, spaceBetween: 1 },
+  543: { slidesPerView: 2, spaceBetween: 1 },
+  560: { slidesPerView: 2.3, spaceBetween: 1 },
+  615: { slidesPerView: 2.5, spaceBetween: 1 },
+  651: { slidesPerView: 3, spaceBetween: 1 }, //
+  675: { slidesPerView: 3.3, spaceBetween: 1 },
+  767: { slidesPerView: 3.5, spaceBetween: 1 },
+  785: { slidesPerView: 1.5, spaceBetween: 5 },
+  825: { slidesPerView: 2, spaceBetween: 5 },
+  865: { slidesPerView: 2.3, spaceBetween: 5 },
+  940: { slidesPerView: 2.5, spaceBetween: 5 },
+  995: { slidesPerView: 3, spaceBetween: 1 },
+  1135: { slidesPerView: 3.5, spaceBetween: 1 },
+  1165: { slidesPerView: 4.5, spaceBetween: 1 },
+  1315: { slidesPerView: 5.5, spaceBetween: 1 },
+  1440: { slidesPerView: 6.5, spaceBetween: 1 },
+  1600: { slidesPerView: 7.5, spaceBetween: 1 },
+  1786: { slidesPerView: 8, spaceBetween: 10 },
+};
