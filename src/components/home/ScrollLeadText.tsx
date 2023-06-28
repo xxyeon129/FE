@@ -67,7 +67,8 @@ const StScrollLeadText = styled.div<{ scroll: string }>`
   z-index: 2;
   color: gray;
   animation: ${bounceAnimation} 1.7s infinite;
-  display: ${({ scroll }) => (scroll === 'true' ? 'none' : 'block')};
+  display: ${({ scroll }) => (scroll === 'true' ? 'none' : 'flex')};
+  gap: 5px;
 `;
 
 const StIndicator = styled.div`
