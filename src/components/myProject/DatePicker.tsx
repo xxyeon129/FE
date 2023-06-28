@@ -81,7 +81,6 @@ const DatePickerWrapper = styled.div`
     border-radius: 6px;
     padding: 10px;
     color: black !important;
-    /* margin-bottom: 10px; */
 
     &:focus::placeholder {
       font-size: 0.8em;

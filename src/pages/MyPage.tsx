@@ -242,7 +242,6 @@ const StHeader = styled.div<{ isediting: string; isdarkmode: string }>`
       : 'linear-gradient(135deg, #8FE7A1, #9BC7BF, #CBD0E1, #5CC3BA, #0DC49C, #6E9EB2)'};
   background-position: center;
 `;
-////////////////////////////////
 
 const StMyPageEditBox = styled.div`
   position: absolute;
