@@ -1,4 +1,4 @@
-import { css, styled } from 'styled-components';
+import { css, keyframes, styled } from 'styled-components';
 
 export const PageContainer = styled.div`
   display: flex;
@@ -159,3 +159,12 @@ export const ModalStyle = {
     gap: 1rem;
   `,
 };
+
+export const fadeInAnimation = keyframes`
+from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;

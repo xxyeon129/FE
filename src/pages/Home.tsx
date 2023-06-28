@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { keyframes, styled } from 'styled-components';
+import { styled } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   categoryState,
@@ -17,12 +17,14 @@ import { PATH_URL } from '@src/constants/constants';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
 import { getPopularPortfolio } from '@src/apis/portfolio';
 import { PortfolioDataType } from '@src/types/portfolioType';
+import { fadeInAnimation } from '@src/style/common/commonStyles';
 import * as S from '@src/style/common/commonStyles';
 import theme from '@src/style/theme';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import { isDarkModeState } from '@src/states/darkModeState';
 import useScrollFadeIn from '@src/Hook/useScrollFadeIn';
 import SlidePortfolioSection from '@src/components/home/SlidePortfolioSection';
+import ScrollLeadText from '@src/components/home/ScrollLead';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -82,6 +84,7 @@ const Home = () => {
         </StButtonContainer>
         <StShadow isdarkmode={`${isDarkMode}`} />
         {isDarkMode ? <StBackgroundDarkModeIcon /> : <StBackgroundIcon />}
+        <ScrollLeadText />
       </StIntroContainer>
       <SlidePortfolioSection
         fadeInAnimation={fadeInAnimationItem[3]}
@@ -218,15 +221,6 @@ const StButtonContainer = styled.div`
   z-index: 2;
 `;
 
-const fading = keyframes`
-  from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-`;
-
 const StButton = styled.button<{ color: string }>`
   width: 280px;
   background-color: ${({ color }) => color};
@@ -236,7 +230,7 @@ const StButton = styled.button<{ color: string }>`
   padding: 12px 25px;
 
   opacity: 0;
-  animation: ${fading} ease-in 1s;
+  animation: ${fadeInAnimation} ease-in 1s;
   animation-fill-mode: forwards;
   animation-duration: 1s;
   animation-delay: 2s;
@@ -319,7 +313,7 @@ const StBackgroundIcon = styled(BackgroundIcon)`
   ${backgroundIconStyle}
   z-index: -1;
 
-  animation: ${fading} ease-in 1s;
+  animation: ${fadeInAnimation} ease-in 1s;
   animation-fill-mode: forwards;
   animation-duration: 1s;
   animation-delay: 3.9s;
@@ -329,7 +323,7 @@ const StBackgroundDarkModeIcon = styled(BackgroundDarkModeIcon)`
   ${backgroundIconStyle}
   z-index: -0.7;
 
-  animation: ${fading} ease-in 1s;
+  animation: ${fadeInAnimation} ease-in 1s;
   animation-fill-mode: forwards;
   animation-duration: 1s;
   animation-delay: 3.9s;
