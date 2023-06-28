@@ -25,6 +25,7 @@ import { isDarkModeState } from '@src/states/darkModeState';
 import useScrollFadeIn from '@src/Hook/useScrollFadeIn';
 import SlidePortfolioSection from '@src/components/home/SlidePortfolioSection';
 import ScrollLeadText from '@src/components/home/ScrollLeadText';
+import IntroduceCardsSection from '@src/components/home/IntroduceCardsSection';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -41,7 +42,10 @@ const Home = () => {
     1: useScrollFadeIn('down', 1.5, 1),
     2: useScrollFadeIn('down', 2, 1.5),
     3: useScrollFadeIn('down', 1.1, 0.1),
-    4: useScrollFadeIn('listDown', 1.1, 0.2),
+    4: useScrollFadeIn('down', 1.5, 0.4),
+    5: useScrollFadeIn('down', 1.6, 0.4),
+    6: useScrollFadeIn('down', 1.8, 0.1),
+    7: useScrollFadeIn('listDown', 1.1, 0.1),
   };
 
   const buttonList = [
@@ -90,9 +94,14 @@ const Home = () => {
         fadeInAnimation={fadeInAnimationItem[3]}
         latestPortfolioList={latestPortfolioList}
       />
+      <IntroduceCardsSection
+        mainFadeInAnimation={fadeInAnimationItem[4]}
+        subFadeInAnimation={fadeInAnimationItem[5]}
+        isDarkMode={isDarkMode}
+      />
       <StListContainer>
-        <StTextLabel>지금 뜨는 포트폴리오</StTextLabel>
-        <S.PortfolioListContainer {...fadeInAnimationItem[4]}>
+        <StTextLabel {...fadeInAnimationItem[6]}>지금 뜨는 포트폴리오</StTextLabel>
+        <S.PortfolioListContainer {...fadeInAnimationItem[7]}>
           {latestPortfolioList.map((item: PortfolioDataType) => (
             <PortfolioItem key={item.id} item={item} />
           ))}

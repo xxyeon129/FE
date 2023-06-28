@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import { getAllChart } from '@src/apis/chart';
 import { PortfolioDataType } from '@src/types/portfolioType';
+import { fadeInAnimationType } from '@src/types/commonType';
 
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -10,13 +11,7 @@ import 'swiper/swiper.min.css';
 import NoImage from '../common/NoImage';
 
 interface SlidePortfolioSection {
-  fadeInAnimation: {
-    ref: React.RefObject<HTMLDivElement>;
-    style: {
-      opacity: number;
-      transform: string | undefined;
-    };
-  };
+  fadeInAnimation: fadeInAnimationType;
   latestPortfolioList: PortfolioDataType[];
 }
 
