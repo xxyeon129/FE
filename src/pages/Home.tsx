@@ -26,6 +26,7 @@ import useScrollFadeIn from '@src/Hook/useScrollFadeIn';
 import SlidePortfolioSection from '@src/components/home/SlidePortfolioSection';
 import ScrollLeadText from '@src/components/home/ScrollLeadText';
 import IntroduceCardsSection from '@src/components/home/IntroduceCardsSection';
+import Banner from '@src/components/home/Banner';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -99,6 +100,7 @@ const Home = () => {
         subFadeInAnimation={fadeInAnimationItem[5]}
         isDarkMode={isDarkMode}
       />
+      <Banner isDarkMode={isDarkMode} />
       <StListContainer>
         <StTextLabel {...fadeInAnimationItem[6]}>지금 뜨는 포트폴리오</StTextLabel>
         <S.PortfolioListContainer {...fadeInAnimationItem[7]}>
