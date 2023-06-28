@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { useState } from 'react';
 import { styled } from 'styled-components';
 import { MobileRow } from '@src/style/mediaQuery';
+import { onClickKakaoLogin, onCloseKakaoModal } from './utils/kakaoLogin';
 import { ReactComponent as LogoutModalIcon } from '@src/assets/nav/logout-modal-icon.svg';
 import { ReactComponent as InProgressModalIcon } from '@src/assets/mypage-profile.svg';
 import { ReactComponent as SocialLoginWarnModalIcon } from '@src/assets/portfolioDetail/port-delete-icon.svg';
@@ -12,7 +13,6 @@ import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
 import MobileDropdownMenu from '@src/components/header/MobileDropdownMenu';
 import Modal from '@src/components/common/Modal';
-import { kakaoLoginRedirect } from './utils/kakaoLogin';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
@@ -31,16 +31,6 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const onCloseInProgressModal = () => {
     setIsInProgressModalOpen(false);
-  };
-
-  const onClickKakaoLogin = () => {
-    setIsKakaoLoginWarnModalOpen(false);
-    kakaoLoginRedirect();
-  };
-
-  const onCloseKakaoModal = () => {
-    setIsKakaoLoginWarnModalOpen(false);
-    setIsLoginModalOpen(true);
   };
 
   const onClickMobileMenu = () => {
@@ -101,8 +91,10 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
           subText={`카카오톡 로그인 시 전체 동의를 해주셔야\n간편가입이 가능합니다!`}
           mainButtonText="확인"
           subButtonText="취소"
-          onClose={onClickKakaoLogin}
-          onCloseKakaoModal={onCloseKakaoModal}
+          onClose={() => onClickKakaoLogin(setIsKakaoLoginWarnModalOpen)}
+          onCloseKakaoModal={() =>
+            onCloseKakaoModal(setIsKakaoLoginWarnModalOpen, setIsLoginModalOpen)
+          }
         />
       )}
     </StLayout>

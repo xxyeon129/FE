@@ -27,6 +27,7 @@ import SlidePortfolioSection from '@src/components/home/SlidePortfolioSection';
 import ScrollLeadText from '@src/components/home/ScrollLeadText';
 import IntroduceCardsSection from '@src/components/home/IntroduceCardsSection';
 import Banner from '@src/components/home/Banner';
+import LeadSignupLogin from '@src/components/home/LeadSignupLogin';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -47,6 +48,8 @@ const Home = () => {
     5: useScrollFadeIn('down', 1.6, 0.4),
     6: useScrollFadeIn('down', 1.8, 0.1),
     7: useScrollFadeIn('listDown', 1.1, 0.1),
+    8: useScrollFadeIn('down', 2, 0.1),
+    9: useScrollFadeIn('down', 2.2, 0.4),
   };
 
   const buttonList = [
@@ -109,6 +112,10 @@ const Home = () => {
           ))}
         </S.PortfolioListContainer>
       </StListContainer>
+      <LeadSignupLogin
+        fadeInAnimationText={fadeInAnimationItem[8]}
+        fadeInAnimationButton={fadeInAnimationItem[9]}
+      />
     </StHome>
   );
 };
@@ -121,7 +128,7 @@ const StHome = styled.div`
   display: flex;
   flex-direction: column;
   gap: 50px;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
 `;
 
 const StIntroContainer = styled.div`
