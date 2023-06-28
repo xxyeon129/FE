@@ -1,11 +1,13 @@
 import { styled } from 'styled-components';
 import { fadeInAnimationType } from '@src/types/commonType';
+// icons
 import { ReactComponent as ChartIcon } from '@src/assets/home/home-introduce-chart-icon.svg';
 import { ReactComponent as FilterIcon } from '@src/assets/home/home-introduce-filter-icon.svg';
 import { ReactComponent as SearchIcon } from '@src/assets/home/home-introduce-search-icon.svg';
 import { ReactComponent as WriteIcon } from '@src/assets/home/home-introduce-write-icon.svg';
 import { ReactComponent as DarkModeIcon } from '@src/assets/home/home-introduce-dark-mode-icon.svg';
 import { ReactComponent as ResponsiveIcon } from '@src/assets/home/home-introduce-responsive-icon.svg';
+// dark mode icons
 import { ReactComponent as DarkModeChartIcon } from '@src/assets/home/darkMode/home-dark-mode-introduce-chart-icon.svg';
 import { ReactComponent as DarkModeFilterIcon } from '@src/assets/home/darkMode/home-dark-mode-introduce-filter-icon.svg';
 import { ReactComponent as DarkModeSearchIcon } from '@src/assets/home/darkMode/home-dark-mode-introduce-search-icon.svg';
@@ -98,6 +100,7 @@ const IntroduceCardsSection = (props: IntroduceSectionProps) => {
 const StIntroduceContainer = styled.div`
   width: 100%;
   padding: 0 41px;
+  margin: 50px 0;
 `;
 
 const containerStyle = `

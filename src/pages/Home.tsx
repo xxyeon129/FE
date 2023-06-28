@@ -342,7 +342,7 @@ const StBackgroundDarkModeIcon = styled(BackgroundDarkModeIcon)`
 
 const StTextLabel = styled.h2`
   font-weight: 900;
-  /* margin-bottom: 30px; */
+  margin-bottom: 30px;
 `;
 
 const StListContainer = styled.div`
@@ -350,7 +350,7 @@ const StListContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 41px;
-  /* margin-top: 50px; */
+  margin-top: 30px;
 `;
 
 export default Home;
