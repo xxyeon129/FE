@@ -5,6 +5,7 @@ export interface PortfolioDataType {
   userProfileImage: string;
   userName: string;
   views: number;
+  key?: number;
 }
 
 export interface CreatePortfolioStepProps {
