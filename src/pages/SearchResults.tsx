@@ -42,7 +42,7 @@ const SearchResults = () => {
             <>
               <StHeader>
                 {searchTermData ? (
-                  <h2>'{searchTermData}' 기술 보유 포트폴리오 입니다.</h2>
+                  <h2>'{searchTermData}' 키워드 포트폴리오 입니다.</h2>
                 ) : (
                   <h2>모든 포트폴리오입니다.</h2>
                 )}

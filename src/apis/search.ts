@@ -4,7 +4,7 @@ import { SERVER_URL } from '@src/constants/constants';
 export const search = async (term: string) => {
   try {
     const response = await axios.get(`${SERVER_URL}/api/portfolios/autocomplete?keyword=${term}`);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     return [];
   }
