@@ -32,7 +32,6 @@ export const deleteUser = async (id: number) => {
         Authorization: accessToken,
       },
     });
-    console.log('User account deleted');
   } catch (error) {
     throw error;
   }
@@ -46,7 +45,6 @@ export const updatePassword = async ([passwordData, id]: [object, number]) => {
         Authorization: asyncAccessToken as AxiosHeaderValue,
       },
     });
-    console.log('Password updated successfully');
   } catch (error) {
     console.error(error);
     throw error;

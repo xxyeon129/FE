@@ -31,7 +31,7 @@ const AutoSearch: React.FC = () => {
     }, 500);
     debounceSearch(searchTerm);
     return () => {
-      debounceSearch.cancel(); // debounce 함수 실행 취소
+      debounceSearch.cancel();
     };
   }, [searchTerm]);
 
@@ -59,10 +59,6 @@ const AutoSearch: React.FC = () => {
     setSearchTerm(suggestion);
     inputRef.current?.focus();
   };
-
-  useEffect(() => {
-    // inputRef.current?.focus();
-  }, []);
 
   const handleArrowNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
