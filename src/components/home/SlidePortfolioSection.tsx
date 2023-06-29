@@ -80,6 +80,12 @@ const StSlidePortfolioContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  @media screen and (max-width: 695px) {
+    gap: 20px;
+  }
+  @media screen and (max-width: 535px) {
+    gap: 10px;
+  }
 `;
 
 const StTitle = styled.h1`
@@ -89,6 +95,53 @@ const StTitle = styled.h1`
   > span {
     color: ${({ theme }) => theme.color.lightGreen};
   }
+
+  @media screen and (max-width: 1100px) {
+    transition: 0.5s;
+    font-size: 28px;
+  }
+  @media screen and (max-width: 1000px) {
+    transition: 0.5s;
+    font-size: 25px;
+  }
+  @media screen and (max-width: 925px) {
+    transition: 0.5s;
+    font-size: 22px;
+  }
+  @media screen and (max-width: 865px) {
+    transition: 0.5s;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 785px) {
+    transition: 0.5s;
+    font-size: 16px;
+  }
+  @media ${({ theme }) => theme.size.mobileRow} {
+    transition: 0.5s;
+    font-size: 22px;
+  }
+  @media screen and (max-width: 695px) {
+    transition: 0.5s;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 595px) {
+    transition: 0.5s;
+    font-size: 16px;
+  }
+  @media screen and (max-width: 535px) {
+    transition: 0.5s;
+    font-size: 13px;
+  }
+  @media screen and (max-width: 396px) {
+    transition: 0.5s;
+    font-size: 10px;
+  }
+  /* 
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 30px;
+  }
+   */
 `;
 
 const StPortfolioListContainer = styled.div``;
