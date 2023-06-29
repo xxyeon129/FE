@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import 'swiper/swiper.min.css';
 import NoImage from '../common/NoImage';
+import { homePageSwiperBreakpoints } from '@src/shared/utils/swiperBreakpoints';
 
 interface SlidePortfolioSection {
   fadeInAnimation: fadeInAnimationType;
@@ -48,6 +49,7 @@ const SlidePortfolioSection = (props: SlidePortfolioSection) => {
           slidesPerView={6}
           autoplay={{ delay: 0, disableOnInteraction: true }}
           modules={[Autoplay]}
+          breakpoints={homePageSwiperBreakpoints}
           allowTouchMove={false}
         >
           {props.latestPortfolioList.map((popularPortfolio, index) => (

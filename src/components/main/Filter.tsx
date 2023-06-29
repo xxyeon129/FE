@@ -10,7 +10,7 @@ import theme from '@src/style/theme';
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
-import { swiperBreakpoints } from '@src/shared/utils/swiperBreakpoints';
+import { mainPageFilterswiperBreakpoints } from '@src/shared/utils/swiperBreakpoints';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -54,7 +54,7 @@ const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
           spaceBetween={1}
           navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
           modules={[Pagination, Navigation]}
-          breakpoints={swiperBreakpoints}
+          breakpoints={mainPageFilterswiperBreakpoints}
           style={{ marginLeft: '60px', marginRight: '60px', position: 'unset' }}
           className="mySwiper"
         >
