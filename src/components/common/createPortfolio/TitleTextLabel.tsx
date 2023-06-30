@@ -94,6 +94,11 @@ const StResponsiveDescription = styled.div`
     display: block;
     font-size: 16px;
   }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
   @media ${({ theme }) => theme.size.smallMobile} {
     transition: 0.5s;
     font-size: 12px;
