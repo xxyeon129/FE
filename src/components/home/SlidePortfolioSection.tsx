@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { getAllChart } from '@src/apis/chart';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { fadeInAnimationType } from '@src/types/commonType';
+import NoImage from '../common/NoImage';
 
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import 'swiper/swiper.min.css';
-import NoImage from '../common/NoImage';
 import { homePageSwiperBreakpoints } from '@src/shared/utils/swiperBreakpoints';
 
 interface SlidePortfolioSection {
@@ -47,7 +47,7 @@ const SlidePortfolioSection = (props: SlidePortfolioSection) => {
           speed={3000}
           loop={true}
           slidesPerView={6}
-          autoplay={{ delay: 0, disableOnInteraction: true }}
+          autoplay={{ delay: 1000, disableOnInteraction: false }}
           modules={[Autoplay]}
           breakpoints={homePageSwiperBreakpoints}
           allowTouchMove={false}
