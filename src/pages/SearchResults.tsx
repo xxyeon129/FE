@@ -26,7 +26,7 @@ const SearchResults = () => {
     setPortfolioData(pageData);
     setSelectedPage(index);
   };
-  // 초기 상태일 때는 검색어 x -> handlePageButtonClick => searchTermData 빈값이어서 전체 데이타 불러와지고 ->검색어 입력 searchTermState 변화 -> [searchTermData] 의존성 배열때문에  handlePageButtonClick(1); 실행됨
+
   useEffect(() => {
     handlePageButtonClick(1);
   }, [searchTermData]);
@@ -145,7 +145,6 @@ const StContainerMobile = styled.div`
 
   @media (max-width: 768px) {
     display: flex;
-    /* padding-left: 30px; */
     align-items: center;
   }
 `;
@@ -181,7 +180,6 @@ const StButtonContainer = styled.div<{ isdarkmode: string }>`
   bottom: 0;
   left: 0;
   width: calc(100% - 250px);
-  /* background: #fff; */
   background: ${props => (props.isdarkmode === 'true' ? '#1F1F22' : '#fff')};
   padding: 0px 0;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
