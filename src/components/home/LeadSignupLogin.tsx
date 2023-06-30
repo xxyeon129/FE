@@ -35,7 +35,8 @@ const LeadSignupLogin = (props: LeadSignupLoginProps) => {
   return (
     <StLeadSignupLoginConatiner>
       <StText {...props.fadeInAnimationText}>
-        POL의 모든 기능을 이용해 멋진 포트폴리오를 만들어보세요
+        POL의 모든 기능을 이용해
+        <br /> 멋진 포트폴리오를 만들어보세요
       </StText>
       <StButtonContainer {...props.fadeInAnimationButton}>
         <StSigninButton onClick={onClickSignupButton}>회원가입</StSigninButton>
@@ -76,6 +77,38 @@ const StLeadSignupLoginConatiner = styled.div`
 const StText = styled.h2`
   text-align: center;
   font-weight: 800;
+  > br {
+    display: none;
+  }
+
+  @media screen and (max-width: 950px) {
+    transition: 0.3s;
+    font-size: 20px;
+  }
+  @media screen and (max-width: 815px) {
+    transition: 0.3s;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 775px) {
+    transition: 0.3s;
+    font-size: 16px;
+  }
+  @media ${({ theme }) => theme.size.mobileRow} {
+    transition: 0.3s;
+    font-size: 22px;
+  }
+  @media screen and (max-width: 695px) {
+    transition: 0.3s;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 585px) {
+    transition: 0.3s;
+    font-size: 16px;
+    line-height: 140%;
+    > br {
+      display: block;
+    }
+  }
 `;
 
 const StButtonContainer = styled.div`
@@ -84,15 +117,38 @@ const StButtonContainer = styled.div`
   justify-content: center;
   margin-top: 25px;
   font-size: 18px;
+
+  @media screen and (max-width: 615px) {
+    transition: 0.7s;
+    font-size: 18px;
+  }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.7s;
+    font-size: 12px;
+  }
 `;
 
 const buttonStyle = `
   width: 158px;
-  padding:15px 0;
+  padding: 15px 0;
   border-radius: 50px;
   font-size: 18px;
   font-weight: 800;
   flex-shrink: 0;
+
+  @media screen and (max-width: 615px) {
+    transition: 0.7s;
+    width: 130px;
+    padding: 13px 0;
+    font-size: 15px;
+  }
+  @media screen and (max-width: 480px) {
+    transition: 0.7s;
+    width: 100px;
+    padding: 10px 0;
+    font-size: 12px;
+  }
 `;
 
 const StSigninButton = styled.button`
@@ -105,6 +161,12 @@ const StSigninButton = styled.button`
     color: white;
     background-color: ${({ theme }) => theme.color.lightGreen};
   }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    margin-right: 10px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    margin-right: 5px;
+  }
 `;
 
 const StLoginButton = styled.button`
@@ -116,6 +178,12 @@ const StLoginButton = styled.button`
     transition: 0.5s;
     color: white;
     background-color: ${({ theme }) => theme.color.fontColor};
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    margin-left: 10px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    margin-left: 5px;
   }
 `;
 
