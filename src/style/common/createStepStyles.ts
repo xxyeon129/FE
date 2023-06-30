@@ -12,6 +12,10 @@ export const Container = styled.div`
     padding: 0 30px;
     align-items: baseline;
   }
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    height: 120%;
+  }
 `;
 
 export const ContentContainer = styled.div`

@@ -58,7 +58,9 @@ const PortfolioFilter = ({ category, selectedFilter, setSelectedFilter }: Portfo
             </StFilterButton>
           ))
         ) : (
-          <SelectCategoryRequest />
+          <StSelectCategoryRequestWrapper>
+            <SelectCategoryRequest />
+          </StSelectCategoryRequestWrapper>
         )}
       </StFilterListContainer>
     </StPortfolioFilter>
@@ -70,18 +72,24 @@ const StPortfolioFilter = styled.div`
   border-radius: 10px;
   padding: 25px 20px;
   width: 100%;
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    margin-bottom: 20px;
+  }
 `;
 
 const StFilterListContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  padding: 20px 0;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  grid-auto-rows: min-content;
+  row-gap: 10px;
+  column-gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+`;
 
-  @media ${({ theme }) => theme.size.tablet} {
-    justify-content: flex-start;
-  }
+const StSelectCategoryRequestWrapper = styled.div`
+  width: 100%;
 `;
 
 const StFilterButton = styled.button<{ isselected: string; isdarkmode: string }>`
