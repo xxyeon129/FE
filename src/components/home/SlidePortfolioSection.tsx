@@ -9,6 +9,7 @@ import NoImage from '../common/NoImage';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import 'swiper/swiper.min.css';
+import 'swiper/css/bundle';
 import { homePageSwiperBreakpoints } from '@src/shared/utils/swiperBreakpoints';
 
 interface SlidePortfolioSection {

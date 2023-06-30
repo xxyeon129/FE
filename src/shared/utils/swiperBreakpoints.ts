@@ -36,6 +36,5 @@ export const homePageSwiperBreakpoints = {
   1085: { slidesPerView: 4.5, spaceBetween: 1 },
   1152: { slidesPerView: 5, spaceBetween: 1 },
   1230: { slidesPerView: 5.5, spaceBetween: 1 },
-  1500: { slidesPerView: 6.5, spaceBetween: 10 },
-  1600: { slidesPerView: 7.5, spaceBetween: 10 },
+  1500: { slidesPerView: 6, spaceBetween: 10 },
 };
