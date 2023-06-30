@@ -18,8 +18,7 @@ export const mainPageFilterswiperBreakpoints = {
   1165: { slidesPerView: 4.5, spaceBetween: 1 },
   1315: { slidesPerView: 5.5, spaceBetween: 1 },
   1440: { slidesPerView: 6.5, spaceBetween: 1 },
-  1600: { slidesPerView: 7.5, spaceBetween: 1 },
-  1786: { slidesPerView: 8, spaceBetween: 10 },
+  1600: { slidesPerView: 7, spaceBetween: 1 },
 };
 
 export const homePageSwiperBreakpoints = {
