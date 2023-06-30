@@ -105,9 +105,7 @@ const Home = () => {
       />
       <Banner isDarkMode={isDarkMode} />
       <StListContainer>
-        {latestPortfolioList.length !== 0 && (
-          <StTextLabel {...fadeInAnimationItem[6]}>지금 뜨는 포트폴리오</StTextLabel>
-        )}
+        <StTextLabel {...fadeInAnimationItem[6]}>지금 뜨는 포트폴리오</StTextLabel>
         <S.PortfolioListContainer {...fadeInAnimationItem[7]}>
           {latestPortfolioList.map((item: PortfolioDataType) => (
             <PortfolioItem key={item.id} item={item} />
