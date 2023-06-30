@@ -21,6 +21,19 @@ const StButton = styled.button`
     transition: 0.5s;
     background-color: lightgray;
   }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: 80px;
+    padding: 15px;
+    font-size: 16px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    width: 70px;
+    padding: 13px 0;
+    font-size: 14px;
+  }
 `;
 
 export default PrevStepButton;
