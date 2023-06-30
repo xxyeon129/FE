@@ -10,7 +10,6 @@ import { ReactComponent as SearchIcon } from 'src/assets/Icons.svg';
 const AutoSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedSuggestion, setSelectedSuggestion] = useState<string>('');
-  // const [suggestions, setSuggestions] = useState<string[]>([]);
   const [portfolioData, setPortfolioData] = useRecoilState(portfolioDataState);
   const [searchwords, setSearchWords] = useRecoilState(searchTermState);
   const navigate = useNavigate();
