@@ -36,13 +36,18 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
     onNextButtonClick(STEP.FIVE);
   };
 
-  const title = '포트폴리오에 표시될 개인 정보를 입력해주세요';
+  const title = '포트폴리오에 표시될 \n개인 정보를 입력해주세요';
   const description = '작성하신 정보는 포트폴리오 생성 후 언제든 수정하실 수 있습니다.';
+  const responsiveDescription = '작성하신 정보는 포트폴리오 생성 후 \n언제든 수정하실 수 있습니다.';
 
   return (
     <StPersonalInfoContainer>
       <S.ContentContainer>
-        <TitleTextLabel title={title} description={description} />
+        <TitleTextLabel
+          title={title}
+          description={description}
+          responsiveDescription={responsiveDescription}
+        />
         <StPersonalInfoForm>
           <StEmailFormWrapper>
             <StFormDescriptionText>

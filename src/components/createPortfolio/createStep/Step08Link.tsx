@@ -36,14 +36,20 @@ const Step08Link = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSte
   const selectedCategory = useRecoilValue(createCategoryState);
   const isDeveloper = selectedCategory === 'Develop';
 
-  const title = '포트폴리오에 표시될 추가정보를 알려주세요';
+  const title = '포트폴리오에 표시될 \n추가정보를 알려주세요';
   const description =
     '영문으로만 입력이 가능하니 한/영 키를 확인해주세요!\n추가정보를 입력하신 경우에만 링크 미리보기가 포트폴리오에 표시되고,\n입력하지 않아도 포트폴리오가 정상적으로 작성됩니다.';
+  const responsiveDescription =
+    '영문으로만 입력이 가능하니 한/영 키를 확인해주세요!\n\n추가정보를 입력하신 경우에만 링크 미리보기가 포트폴리오에 표시되고, 입력하지 않아도 포트폴리오가 정상적으로 작성됩니다.';
 
   return (
     <S.Container>
       <S.ContentContainer>
-        <TitleTextLabel title={title} description={description} />
+        <TitleTextLabel
+          title={title}
+          description={description}
+          responsiveDescription={responsiveDescription}
+        />
         <StInputContainer>
           <S.PersonalInfoStyle.Container>
             <S.PersonalInfoStyle.Label>Youtube</S.PersonalInfoStyle.Label>

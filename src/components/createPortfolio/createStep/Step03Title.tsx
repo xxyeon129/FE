@@ -37,14 +37,20 @@ const Step03Title = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSt
     onNextButtonClick(STEP.FOUR);
   };
 
-  const title = '포트폴리오를 잘 나타내는 제목을 입력해주세요';
+  const title = '포트폴리오를 잘 나타내는 \n제목을 입력해주세요';
   const description =
     '제목을 5자 이상, 30자 미만으로 작성해주세요.\n작성하신 제목은 나중에 수정하실 수 있습니다. 자유롭게 작성해주세요!';
+  const responsiveDescription =
+    '제목을 5자 이상, 30자 미만으로 작성해주세요.\n작성하신 제목은 나중에 수정하실 수 있습니다. \n자유롭게 작성해주세요!';
 
   return (
     <S.Container>
       <S.ContentContainer>
-        <TitleTextLabel title={title} description={description} />
+        <TitleTextLabel
+          title={title}
+          description={description}
+          responsiveDescription={responsiveDescription}
+        />
         <StInputContainer>
           <StInputWrapper>
             <StInput

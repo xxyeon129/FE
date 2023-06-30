@@ -43,11 +43,16 @@ const Step07Introduce = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfol
 
   const title = '간단한 소개글을 작성해주세요';
   const description = '본인의 업무 경험을 기반으로 핵심 역량과 업무 스킬을 간단히 작성해주세요.';
-
+  const responsiveDescription =
+    '본인의 업무 경험을 기반으로 \n핵심 역량과 업무 스킬을 간단히 작성해주세요.';
   return (
     <S.Container>
       <S.ContentContainer>
-        <TitleTextLabel title={title} description={description} />
+        <TitleTextLabel
+          title={title}
+          description={description}
+          responsiveDescription={responsiveDescription}
+        />
         <StTextareaContainer>
           <StTextarea
             value={experience}

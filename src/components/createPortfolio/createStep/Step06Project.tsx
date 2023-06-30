@@ -58,11 +58,18 @@ const Step06Project = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolio
   const title = '프로젝트를 추가하세요';
   const description =
     '진행하신 프로젝트를 추가하고 설명을 작성해보세요.\n추가된 프로젝트의 오른쪽 상단 X 아이콘을 눌러 삭제하실 수 있습니다.\n작성하신 프로젝트는 포트폴리오 작성 후 언제든 수정하실 수 있으니 편하게 작성해주세요!';
+  const responsiveDescription =
+    '진행하신 프로젝트를 추가하고 설명을 작성해보세요. \n\n추가된 프로젝트의 오른쪽 상단 X 아이콘을 눌러 삭제하실 수 있습니다. \n\n작성하신 프로젝트는 포트폴리오 작성 후 언제든 수정하실 수 있으니 편하게 작성해주세요!';
 
   return (
     <S.Container>
       <S.ContentContainer>
-        <TitleTextLabel title={title} description={description} containerWidth="900px" />
+        <TitleTextLabel
+          title={title}
+          description={description}
+          responsiveDescription={responsiveDescription}
+          containerWidth="900px"
+        />
         <StAddProjectContainer>
           <StAddProjectButton onClick={handleModal}>+ 프로젝트 추가</StAddProjectButton>
           <StProjectsList isprojectexist={`${isProjectExist}`}>

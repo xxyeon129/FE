@@ -13,14 +13,20 @@ import PrevStepButton from '@src/components/common/createPortfolio/PrevStepButto
 const Step05TechStack = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioStepProps) => {
   const [techStack, setTechStack] = useRecoilState(createTechStackState);
 
-  const title = '사용하고 있는 기술을 알려주세요';
+  const title = '사용하고 있는 \n기술을 알려주세요';
   const description =
     '기술 키워드를 입력 후 Enter를 누르면 태그가 생성됩니다.\nX 아이콘 클릭 시 해당 태그가 삭제됩니다.';
+  const responsiveDescription =
+    '기술 키워드를 입력 후 \nEnter를 누르면 태그가 생성됩니다.\nX 아이콘 클릭 시 해당 태그가 삭제됩니다.';
 
   return (
     <S.Container>
       <S.ContentContainer>
-        <TitleTextLabel title={title} description={description} />
+        <TitleTextLabel
+          title={title}
+          description={description}
+          responsiveDescription={responsiveDescription}
+        />
         <TechStackTag setTechStack={setTechStack} techStack={techStack} StWidth="750px" />
       </S.ContentContainer>
       <S.ButtonContainer>
