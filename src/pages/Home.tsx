@@ -43,7 +43,7 @@ const Home = () => {
     0: useScrollFadeIn('down', 1, 0.4),
     1: useScrollFadeIn('down', 1.5, 1),
     2: useScrollFadeIn('down', 2, 1.5),
-    3: useScrollFadeIn('down', 1.4, 0.5),
+    3: useScrollFadeIn('down', 1.4, 0.8),
     4: useScrollFadeIn('down', 1.5, 0.8),
     5: useScrollFadeIn('down', 1.6, 0.8),
     6: useScrollFadeIn('down', 1.8, 0.1),
@@ -105,7 +105,9 @@ const Home = () => {
       />
       <Banner isDarkMode={isDarkMode} />
       <StListContainer>
-        <StTextLabel {...fadeInAnimationItem[6]}>지금 뜨는 포트폴리오</StTextLabel>
+        {latestPortfolioList.length !== 0 && (
+          <StTextLabel {...fadeInAnimationItem[6]}>지금 뜨는 포트폴리오</StTextLabel>
+        )}
         <S.PortfolioListContainer {...fadeInAnimationItem[7]}>
           {latestPortfolioList.map((item: PortfolioDataType) => (
             <PortfolioItem key={item.id} item={item} />
