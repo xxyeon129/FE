@@ -46,14 +46,15 @@ const SlidePortfolioSection = (props: SlidePortfolioSection) => {
           spaceBetween={10}
           speed={3000}
           loop={true}
+          loopedSlides={6}
           slidesPerView={6}
-          autoplay={{ delay: 1000, disableOnInteraction: false }}
+          autoplay={{ delay: 300, disableOnInteraction: false }}
           modules={[Autoplay]}
           breakpoints={homePageSwiperBreakpoints}
           allowTouchMove={false}
         >
           {props.latestPortfolioList.map((popularPortfolio, index) => (
-            <SwiperSlide style={{ width: '20%' }}>
+            <SwiperSlide style={{ width: '20%' }} key={index * Math.random()}>
               {!imageLoadError[index] ? (
                 <StPortfolioImage
                   src={popularPortfolio.portfolioImage}
