@@ -21,9 +21,9 @@ const Main = () => {
   const [isMoreLoading, setIsMoreLoading] = useState<boolean>(false);
   const [nextLastId, setNextLastId] = useState<number>(0);
 
-  const [isPortfolioCreated, setIsPortfolioCreated] = useRecoilState(createPortfolioState);
-  const [selectedFilter, setSelectedFilter] = useRecoilState(filterState);
-  const selectedCategory = useRecoilValue(categoryState);
+  const [isPortfolioCreated, setIsPortfolioCreated] = useRecoilState<boolean>(createPortfolioState);
+  const [selectedFilter, setSelectedFilter] = useRecoilState<string>(filterState);
+  const selectedCategory = useRecoilValue<string>(categoryState);
 
   const isExistData = list.length !== 0;
 
@@ -56,7 +56,9 @@ const Main = () => {
         serverNextId = serverLastId;
       }
 
-      setList(prevData => [...prevData, ...newData]);
+      const randomKeyList = updateListKey(newData);
+
+      setList(prevData => [...prevData, ...randomKeyList]);
       setNextLastId(serverNextId);
       setIsMoreLoading(false);
     } else {
@@ -74,6 +76,15 @@ const Main = () => {
     },
     [loadMoreData]
   );
+
+  // --- 필터링 시에도 애니메이션 적용을 위해 key 랜덤 설정 ---
+  const updateListKey = (serverData: PortfolioDataType[]) => {
+    const randomKeyList = serverData.map((listItem: PortfolioDataType) => {
+      return { ...listItem, key: listItem.id * Math.random() };
+    });
+
+    return randomKeyList;
+  };
 
   // --- 데이터 호출 ---
   const fetchLastId = async (filterKeyword?: string) => {
@@ -97,7 +108,9 @@ const Main = () => {
       category: selectedCategory,
     });
     setNextLastId(serverLastId);
-    setList(serverData);
+
+    const randomKeyList = updateListKey(serverData);
+    setList(randomKeyList);
 
     setIsDataLoading(false);
     return serverLastId;
@@ -117,7 +130,9 @@ const Main = () => {
       filter: filterKeyword,
     });
     setNextLastId(serverLastId);
-    setList(serverData);
+
+    const randomKeyList = updateListKey(serverData);
+    setList(randomKeyList);
 
     setIsDataLoading(false);
   };
@@ -176,7 +191,7 @@ const Main = () => {
       {isExistData ? (
         <S.PortfolioListContainer>
           {list.map((item: PortfolioDataType) => (
-            <PortfolioItem key={item.id} item={item} />
+            <PortfolioItem key={item.key} item={item} />
           ))}
         </S.PortfolioListContainer>
       ) : (

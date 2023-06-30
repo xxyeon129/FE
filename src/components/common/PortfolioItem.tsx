@@ -2,11 +2,16 @@ import { styled } from 'styled-components';
 import { PortfolioDataType } from '@src/types/portfolioType';
 import { useNavigate } from 'react-router-dom';
 import { PATH_URL } from '@src/constants/constants';
+import { AiOutlineEye } from 'react-icons/ai';
 import UserProfileImage from './UserProfileImage';
 import NoImage from './NoImage';
 import useImgLoadError from '@src/Hook/useImgLoadError';
 
-const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
+interface PortfolioItemProps {
+  item: PortfolioDataType;
+}
+
+const PortfolioItem = ({ item }: PortfolioItemProps) => {
   const { imageLoadError, onImageError } = useImgLoadError();
 
   const navigate = useNavigate();
@@ -30,7 +35,10 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
             <UserProfileImage imgSrc={item.userProfileImage} size="25px" />
             <StUserNameText>{item.userName}</StUserNameText>
           </StUserProfile>
-          <Stviews>{item.views}</Stviews>
+          <StViewsContainer>
+            <AiOutlineEye />
+            <Stviews>{item.views}</Stviews>
+          </StViewsContainer>
         </StUserContainer>
         <StTitle>{item.portfolioTitle}</StTitle>
       </StDescriptionContainer>
@@ -41,8 +49,37 @@ const PortfolioItem: React.FC<{ item: PortfolioDataType }> = ({ item }) => {
 const StItemContainer = styled.div`
   cursor: pointer;
 
+  @keyframes scaleUp {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -20%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  ${Array.from(
+    { length: 10 },
+    (_, i) => `&:nth-child(${i + 1}) {
+        animation-delay: ${i * 0.1}s;
+      }`
+  ).join('\n')}
+
+  animation: fadeIn 0.3s ease-in both;
+
   &:hover {
-    transform: scale(1.05);
+    animation: fadeIn 0.3s ease-in both, scaleUp 1s ease;
     transition: 1s ease;
     cursor: pointer;
     z-index: 11;
@@ -85,6 +122,16 @@ const StUserProfile = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const StViewsContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    color: gray;
+    margin-right: 4px;
+  }
 `;
 
 const Stviews = styled.div`

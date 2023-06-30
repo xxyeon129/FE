@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'SUIT Variable', sans-serif;
 
     .darkMode{
+      transition: 0.5s;
       background-color: black;
       color: white;
 

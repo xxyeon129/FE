@@ -3,15 +3,19 @@ import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { ReactComponent as ErrorIcon } from '@src/assets/not-found-icon.svg';
 import { ReactComponent as ErrorDarkModeIcon } from '@src/assets/not-found-dark-mode-icon.svg';
+import { ReactComponent as SocialLoginWarnModalIcon } from '@src/assets/portfolioDetail/port-delete-icon.svg';
 import useAuthModal from '@src/Hook/useAuthModal';
+import { onClickKakaoLogin, onCloseKakaoModal } from '@src/shared/utils/kakaoLogin';
 import LoginModal from '@src/components/nav/LoginModal';
 import Signup from '@src/components/Signup';
 import { useRecoilValue } from 'recoil';
 import { isDarkModeState } from '@src/states/darkModeState';
+import Modal from '@src/components/common/Modal';
 
 const Login = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState<boolean>(false);
+  const [isKakaoLoginWarnModalOpen, setIsKakaoLoginWarnModalOpen] = useState<boolean>(false);
   const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const location = useLocation();
@@ -37,10 +41,24 @@ const Login = () => {
         <LoginModal
           onClose={onCloseLoginModal}
           onSignUpClick={onClickSignUpButton}
+          setIsKakaoLoginWarnModalOpen={setIsKakaoLoginWarnModalOpen}
           navigatePath={location.pathname}
         />
       )}
       {isSignUpModalOpen && <Signup onClose={onCloseSignUpModal} />}
+      {isKakaoLoginWarnModalOpen && (
+        <Modal
+          Icon={SocialLoginWarnModalIcon}
+          mainText="카카오톡 간편가입 주의"
+          subText={`카카오톡 로그인 시 전체 동의를 해주셔야\n간편가입이 가능합니다!`}
+          mainButtonText="확인"
+          subButtonText="취소"
+          onClose={() => onClickKakaoLogin(setIsKakaoLoginWarnModalOpen)}
+          onCloseKakaoModal={() =>
+            onCloseKakaoModal(setIsKakaoLoginWarnModalOpen, setIsLoginModalOpen)
+          }
+        />
+      )}
     </StLogin>
   );
 };

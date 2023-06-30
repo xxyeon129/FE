@@ -7,6 +7,7 @@ import { getAccessToken } from '@src/apis/token';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
 import { PATH_URL } from '@src/constants/constants';
 import { DesktopAndTablet, MobileRow } from '@src/style/mediaQuery';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface HeaderListItemProps {
   liWidth: string;
@@ -21,8 +22,9 @@ const HeaderListItem = ({
 }: HeaderListItemProps) => {
   const [userId, setUserId] = useState('');
   const isLogin = useRecoilValue(loginState);
-  const setSelectedCategory = useSetRecoilState(selectedCategoryState);
-  const [selectedHeader, setSelectedHeader] = useRecoilState(selectedHeaderState);
+  const setSelectedCategory = useSetRecoilState<string>(selectedCategoryState);
+  const [selectedHeader, setSelectedHeader] = useRecoilState<boolean>(selectedHeaderState);
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const navigate = useNavigate();
 
@@ -80,7 +82,9 @@ const HeaderListItem = ({
               </>
             </DesktopAndTablet>
             <MobileRow>
-              <StMobileText onClick={() => onClickText(list.path)}>{list.value}</StMobileText>
+              <StMobileText onClick={() => onClickText(list.path)} isdarkmode={`${isDarkMode}`}>
+                {list.value}
+              </StMobileText>
             </MobileRow>
           </StLabel>
         </StList>
@@ -134,12 +138,13 @@ const StCheckItem = styled.input<{ headerclicked: string }>`
   }
 `;
 
-const StMobileText = styled.div`
+const StMobileText = styled.div<{ isdarkmode: string }>`
   padding: 10px;
   font-size: 15px;
 
   &:hover {
-    background-color: #e3e3e3;
+    background-color: ${({ theme, isdarkmode }) =>
+      isdarkmode === 'true' ? theme.color.fontColor : '#e3e3e3'};
     cursor: pointer;
   }
 `;

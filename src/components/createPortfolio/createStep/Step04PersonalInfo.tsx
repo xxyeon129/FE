@@ -40,7 +40,7 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
   const description = '작성하신 정보는 포트폴리오 생성 후 언제든 수정하실 수 있습니다.';
 
   return (
-    <S.Container>
+    <StPersonalInfoContainer>
       <S.ContentContainer>
         <TitleTextLabel title={title} description={description} />
         <StPersonalInfoForm>
@@ -72,9 +72,24 @@ const Step04PersonalInfo = ({ onNextButtonClick, onPrevButtonClick }: CreatePort
           isSnackbarVisible={isSnackbarVisible}
         />
       )}
-    </S.Container>
+    </StPersonalInfoContainer>
   );
 };
+
+const StPersonalInfoContainer = styled.div`
+  width: 100%;
+  min-height: 110%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  gap: 60px;
+
+  @media ${props => props.theme.size.tablet} {
+    padding: 0 30px;
+    align-items: baseline;
+  }
+`;
 
 const StPersonalInfoForm = styled.div`
   display: flex;

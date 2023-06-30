@@ -15,12 +15,19 @@ import { ReactComponent as BackgroundIcon } from '@src/assets/home-background-ic
 import { ReactComponent as BackgroundDarkModeIcon } from '@src/assets/home-background-dark-mode-icon.svg';
 import { PATH_URL } from '@src/constants/constants';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
-import { getAllList, getLastId } from '@src/apis/portfolio';
+import { getPopularPortfolio } from '@src/apis/portfolio';
 import { PortfolioDataType } from '@src/types/portfolioType';
+import { fadeInAnimation } from '@src/style/common/commonStyles';
 import * as S from '@src/style/common/commonStyles';
 import theme from '@src/style/theme';
 import PortfolioItem from '@src/components/common/PortfolioItem';
 import { isDarkModeState } from '@src/states/darkModeState';
+import useScrollFadeIn from '@src/Hook/useScrollFadeIn';
+import SlidePortfolioSection from '@src/components/home/SlidePortfolioSection';
+import ScrollLeadText from '@src/components/home/ScrollLeadText';
+import IntroduceCardsSection from '@src/components/home/IntroduceCardsSection';
+import Banner from '@src/components/home/Banner';
+import LeadSignupLogin from '@src/components/home/LeadSignupLogin';
 
 const Home = () => {
   const [latestPortfolioList, setLatestPortfolioList] = useState<PortfolioDataType[]>([]);
@@ -31,6 +38,19 @@ const Home = () => {
   const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   const navigate = useNavigate();
+
+  const fadeInAnimationItem = {
+    0: useScrollFadeIn('down', 1, 0.4),
+    1: useScrollFadeIn('down', 1.5, 1),
+    2: useScrollFadeIn('down', 2, 1.5),
+    3: useScrollFadeIn('down', 1.4, 0.8),
+    4: useScrollFadeIn('down', 1.5, 0.8),
+    5: useScrollFadeIn('down', 1.6, 0.8),
+    6: useScrollFadeIn('down', 1.8, 0.1),
+    7: useScrollFadeIn('listDown', 1.1, 0.1),
+    8: useScrollFadeIn('down', 2, 0.1),
+    9: useScrollFadeIn('down', 2.2, 0.4),
+  };
 
   const buttonList = [
     { display: '개발자', value: CATEGORY_KEYWORD.DEVELOP, color: theme.color.neonGreen },
@@ -47,29 +67,22 @@ const Home = () => {
     navigate(PATH_URL.MAIN);
   };
 
-  const { data, isLoading } = useQuery('latestPortfolioList', async () => {
-    let lastId = await getLastId({ category: 'All' });
-    let list: PortfolioDataType[] = [];
-
-    while (list.length < 10 && lastId >= 0) {
-      const { serverData } = await getAllList({ lastId, category: 'All' });
-      list = [...list, ...serverData];
-    }
-    return list.slice(0, 9);
-  });
+  const { data: popularPortfolioList } = useQuery('popularPortfolioList', getPopularPortfolio);
 
   useEffect(() => {
-    data && setLatestPortfolioList(data);
-  }, [data]);
+    popularPortfolioList && setLatestPortfolioList(popularPortfolioList);
+  }, [popularPortfolioList]);
 
   return (
     <StHome>
       <StIntroContainer>
         <StIntroTextContainer>
-          <StIntroText>개발자, 디자이너, 포토그래퍼가 이용하는</StIntroText>
-          <StIntroTitle>포트폴리오 공유 서비스</StIntroTitle>
+          <StIntroText {...fadeInAnimationItem[0]}>
+            개발자, 디자이너, 포토그래퍼가 이용하는
+          </StIntroText>
+          <StIntroTitle {...fadeInAnimationItem[1]}>포트폴리오 공유 서비스</StIntroTitle>
         </StIntroTextContainer>
-        {isDarkMode ? <StDarkModeLogo /> : <StLogo />}
+        <div {...fadeInAnimationItem[2]}>{isDarkMode ? <StDarkModeLogo /> : <StLogo />}</div>
         <StButtonContainer>
           {buttonList.map((button, index) => (
             <StButton key={index} color={button.color} onClick={() => onClickButton(button.value)}>
@@ -79,15 +92,30 @@ const Home = () => {
         </StButtonContainer>
         <StShadow isdarkmode={`${isDarkMode}`} />
         {isDarkMode ? <StBackgroundDarkModeIcon /> : <StBackgroundIcon />}
+        <ScrollLeadText />
       </StIntroContainer>
+      <SlidePortfolioSection
+        fadeInAnimation={fadeInAnimationItem[3]}
+        latestPortfolioList={latestPortfolioList}
+      />
+      <IntroduceCardsSection
+        mainFadeInAnimation={fadeInAnimationItem[4]}
+        subFadeInAnimation={fadeInAnimationItem[5]}
+        isDarkMode={isDarkMode}
+      />
+      <Banner isDarkMode={isDarkMode} />
       <StListContainer>
-        <StTextLabel>지금 뜨는 포트폴리오</StTextLabel>
-        <S.PortfolioListContainer>
+        <StTextLabel {...fadeInAnimationItem[6]}>지금 뜨는 포트폴리오</StTextLabel>
+        <S.PortfolioListContainer {...fadeInAnimationItem[7]}>
           {latestPortfolioList.map((item: PortfolioDataType) => (
             <PortfolioItem key={item.id} item={item} />
           ))}
         </S.PortfolioListContainer>
       </StListContainer>
+      <LeadSignupLogin
+        fadeInAnimationText={fadeInAnimationItem[8]}
+        fadeInAnimationButton={fadeInAnimationItem[9]}
+      />
     </StHome>
   );
 };
@@ -97,7 +125,10 @@ const StHome = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
-  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin-bottom: 150px;
 `;
 
 const StIntroContainer = styled.div`
@@ -216,6 +247,24 @@ const StButton = styled.button<{ color: string }>`
   border-radius: 10px;
   padding: 12px 25px;
 
+  opacity: 0;
+  animation: ${fadeInAnimation} ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+  animation-delay: 2s;
+
+  &:nth-child(2) {
+    animation-delay: 2.8s;
+  }
+  &:nth-child(3) {
+    animation-delay: 3.5s;
+  }
+
+  &:hover {
+    transform: scale(1.07);
+    transition: 1s ease;
+  }
+
   @media screen and (max-width: 660px) {
     transition: 0.5s;
     width: 270px;
@@ -255,6 +304,7 @@ const backgroundIconStyle = `
 position: absolute;
 top: 305px;
 margin-left: 570px;
+opacity: 0;
 
 @media screen and (max-width: 830px) {
   transition: 0.5s;
@@ -280,16 +330,26 @@ margin-left: 570px;
 const StBackgroundIcon = styled(BackgroundIcon)`
   ${backgroundIconStyle}
   z-index: -1;
+
+  animation: ${fadeInAnimation} ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+  animation-delay: 3.9s;
 `;
 
 const StBackgroundDarkModeIcon = styled(BackgroundDarkModeIcon)`
   ${backgroundIconStyle}
   z-index: -0.7;
+
+  animation: ${fadeInAnimation} ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+  animation-delay: 3.9s;
 `;
 
 const StTextLabel = styled.h2`
   font-weight: 900;
-  /* margin-bottom: 30px; */
+  margin-bottom: 30px;
 `;
 
 const StListContainer = styled.div`
@@ -297,7 +357,7 @@ const StListContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 41px;
-  /* margin-top: 50px; */
+  margin-top: 30px;
 `;
 
 export default Home;

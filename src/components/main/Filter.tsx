@@ -2,9 +2,18 @@ import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { filterState, selectedCategoryState } from '@src/states';
-import { isDarkModeState } from '@src/states/darkModeState';
 import { CATEGORY_KEYWORD } from '@src/constants/portfolioFilteringData';
+import { FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft } from 'react-icons/fa';
 import theme from '@src/style/theme';
+
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper';
+import { mainPageFilterswiperBreakpoints } from '@src/shared/utils/swiperBreakpoints';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 interface FilterPropsType {
   filterList: string[];
@@ -13,9 +22,8 @@ interface FilterPropsType {
 
 const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
   const [filter, setFilter] = useRecoilState<string>(filterState);
-  const [backgroundColor, setBackgroundColor] = useState<string>('');
-  const selectedCategory = useRecoilValue<string>(selectedCategoryState);
-  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
+  const [backgroundColor, setBackgroundColor] = useState('');
+  const selectedCategory = useRecoilValue(selectedCategoryState);
 
   const onClickFilter = (filterKeyword: string) => {
     setFilter(filterKeyword);
@@ -39,52 +47,92 @@ const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
   }, [selectedCategory]);
 
   return (
-    <StFilterListContainer>
-      {filterList.map((filterKeyword, filterItemIndex) => (
-        <StFilterButton
-          key={filterItemIndex}
-          onClick={() => onClickFilter(filterKeyword)}
-          isselected={`${filterKeyword === filter}`}
-          color={backgroundColor}
-          isdarkmode={`${isDarkMode}`}
+    <StContainer className="swiper-container">
+      <StSwiperWrapper className="swiper-wrapper">
+        <Swiper
+          centeredSlides={false}
+          spaceBetween={1}
+          navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
+          modules={[Pagination, Navigation]}
+          breakpoints={mainPageFilterswiperBreakpoints}
+          style={{ marginLeft: '60px', marginRight: '60px', position: 'unset' }}
+          className="mySwiper"
         >
-          {filterKeyword}
-        </StFilterButton>
-      ))}
-    </StFilterListContainer>
+          {filterList.map((filterKeyword, filterItemIndex) => (
+            <SwiperSlide key={filterItemIndex}>
+              <StFilterButton
+                onClick={() => onClickFilter(filterKeyword)}
+                isselected={`${filterKeyword === filter}`}
+                color={backgroundColor}
+              >
+                {filterKeyword}
+              </StFilterButton>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <StPrevIcon className="swiper-button-prev" />
+        <StNextIcon className="swiper-button-next" />
+      </StSwiperWrapper>
+      <StNoSwiperFilterWrapper>
+        {filterList.map((filterKeyword, filterItemIndex) => (
+          <StFilterButton
+            key={filterItemIndex}
+            onClick={() => onClickFilter(filterKeyword)}
+            isselected={`${filterKeyword === filter}`}
+            color={backgroundColor}
+          >
+            {filterKeyword}
+          </StFilterButton>
+        ))}
+      </StNoSwiperFilterWrapper>
+    </StContainer>
   );
 };
 
-const StFilterListContainer = styled.div`
+const StContainer = styled.div`
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  grid-auto-rows: min-content;
-  row-gap: 10px;
-  column-gap: 10px;
-
   padding: 50px 0;
+`;
 
-  @media screen and (min-width: 1580px) {
-    display: flex;
-    justify-content: space-between;
-  }
+const StSwiperWrapper = styled.div`
+  width: 100%;
+  box-sizing: border-box;
 
-  @media ${({ theme }) => theme.size.mobileRow} {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  @media screen and (min-width: 1600px) {
+    display: none;
   }
 `;
 
-const StFilterButton = styled.button<{ isselected: string; color: string; isdarkmode: string }>`
+const StNoSwiperFilterWrapper = styled.div`
+  display: none;
+
+  @media screen and (min-width: 1600px) {
+    display: block;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+const StNextIcon = styled(FaChevronRight)`
+  color: white;
+  filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.3));
+`;
+
+const StPrevIcon = styled(FaChevronLeft)`
+  color: white;
+  filter: drop-shadow(1px 1px 5px rgba(0, 0, 0, 0.3));
+`;
+
+const StFilterButton = styled.button<{ isselected: string; color: string }>`
   font-size: 16px;
   width: 140px;
   height: 37px;
+  margin: 7px 0;
   border-radius: 50px;
-  background-color: ${({ theme, isselected, color, isdarkmode }) =>
-    isselected === 'true' ? color : isdarkmode === 'true' ? '#4B4B4B' : theme.color.lightGray};
+  background-color: ${({ theme, isselected, color }) =>
+    isselected === 'true' ? color : theme.color.lightGray};
   font-weight: ${({ isselected }) => isselected === 'true' && '800'};
-  color: ${({ isdarkmode, isselected }) =>
-    isdarkmode === 'true' ? (isselected === 'true' ? 'black' : 'white') : 'black'};
 
   @media ${({ theme }) => theme.size.mobileRow} {
     font-size: 13px;
