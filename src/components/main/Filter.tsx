@@ -73,6 +73,18 @@ const Filter = ({ filterList, onClickFilterButton }: FilterPropsType) => {
         <StPrevIcon className="swiper-button-prev" />
         <StNextIcon className="swiper-button-next" />
       </StSwiperWrapper>
+      <StNoSwiperFilterWrapper>
+        {filterList.map((filterKeyword, filterItemIndex) => (
+          <StFilterButton
+            key={filterItemIndex}
+            onClick={() => onClickFilter(filterKeyword)}
+            isselected={`${filterKeyword === filter}`}
+            color={backgroundColor}
+          >
+            {filterKeyword}
+          </StFilterButton>
+        ))}
+      </StNoSwiperFilterWrapper>
     </StContainer>
   );
 };
@@ -85,6 +97,21 @@ const StContainer = styled.div`
 const StSwiperWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
+
+  @media screen and (min-width: 1600px) {
+    display: none;
+  }
+`;
+
+const StNoSwiperFilterWrapper = styled.div`
+  display: none;
+
+  @media screen and (min-width: 1600px) {
+    display: block;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const StNextIcon = styled(FaChevronRight)`
