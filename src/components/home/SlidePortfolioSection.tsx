@@ -136,12 +136,6 @@ const StTitle = styled.h1`
     transition: 0.5s;
     font-size: 10px;
   }
-  /* 
-  @media ${({ theme }) => theme.size.mobileColumn} {
-    transition: 0.5s;
-    font-size: 30px;
-  }
-   */
 `;
 
 const StPortfolioListContainer = styled.div``;
