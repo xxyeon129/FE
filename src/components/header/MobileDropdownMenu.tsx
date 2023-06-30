@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 import HeaderListItem from './HeaderListItem';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from '@src/states/darkModeState';
 
 interface MobileDropdownMenuProps {
   isMobileDropdownOpen: boolean;
@@ -18,6 +20,7 @@ const MobileDropdownMenu = ({
     isDropdownOpen: isMobileDropdownOpen,
     setIsDropdownOpen: setIsMobileDropdownOpen,
   });
+  const isDarkMode = useRecoilValue<boolean>(isDarkModeState);
 
   useEffect(() => {
     document.addEventListener('mousedown', onClickOutside);
@@ -28,7 +31,7 @@ const MobileDropdownMenu = ({
   }, [isMobileDropdownOpen, dropdownRef.current]);
 
   return (
-    <StDropdownMenu>
+    <StDropdownMenu isdarkmode={`${isDarkMode}`}>
       <StUnorderedList ref={dropdownRef}>
         <HeaderListItem
           liWidth="100%"
@@ -40,15 +43,21 @@ const MobileDropdownMenu = ({
   );
 };
 
-const StDropdownMenu = styled.div`
+const StDropdownMenu = styled.div<{ isdarkmode: string }>`
   position: fixed;
   right: 10px;
   top: 45px;
   width: 200px;
-  background-color: white;
+  background-color: ${({ isdarkmode }) => (isdarkmode === 'true' ? 'black' : 'white')};
   border-radius: 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   z-index: 998;
+
+  ${({ isdarkmode }) =>
+    isdarkmode === 'true' &&
+    css`
+      border: 1px solid white;
+    `}
 `;
 
 const StUnorderedList = styled.ul`
