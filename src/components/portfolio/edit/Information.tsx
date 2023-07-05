@@ -169,7 +169,7 @@ const Information: React.FC<InformationProps> = props => {
           onChange={props.onIntroHandler}
           width="100%"
           height="150px"
-          style={{ border: '1px solid #ccc', color: 'white' }}
+          style={{ border: '1px solid #ccc' }}
         />
       </StIntro>
       <StLine />
