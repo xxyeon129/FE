@@ -3,31 +3,34 @@
 ![메인이미지](https://github.com/OurPortfolio/FE/assets/108606678/32f89718-f610-4b36-829e-8fc9ea5455a4)
 
 
-<br />
+## 포트폴리오 공유 서비스 : POL
+
+
+#### 서비스 이용해보기 👉 https://ppol.pro/
+
+- 📋 서비스 브로슈어 : [Service Brochure Notion Link](https://teamsparta.notion.site/POL-6-f6f92f3e7ad5412ab193b929b5c1b9b3)
+- 💁‍♀️ 팀 노션 페이지 : [Team Notion Link](https://www.notion.so/POL-f08e011316134cd9976cea479c96a84b)
+- 🎬 서비스 소개 영상 : [Youtube Link](https://www.youtube.com/watch?v=ui-9bUsZDSM)
+
+<br/>
+
+#### 2023.05.19 - 2023.06.30
+- **기획 및 설계 :** 23.05.19 ~ 23.05.25
+- **프로젝트 구현 :** 23.05.25 ~ 23.06.20
+- **버그 수정 ,피드백 개선 및 정리 :** 23.06.20 ~ 23.06.29
+- **최종 PT :** 23.06.30
+
+<br/>
+<br/>
 
 ### 📋 목차
 
-1. [**프로젝트 기간**](#1)
-2. [**서비스 소개**](#2)
-3. [**서비스 주요기능**](#4)
-4. [**서비스 개발 멤버 소개**](#5)
-5. [**기술 스택**](#6)
-6. [**API 명세서**](#7)
-7. [**Project Architecture**](#8)
-   <br/>
-   <br/>
-
-
-
-
-<div id="1"></div>
-
-### 📅 프로젝트 기간
-#### 2023.05.19 - 2023.06.30
-- 기획 및 설계 : 23.05.19 ~ 23.05.25
-- 프로젝트 구현 : 23.05.25 ~ 23.06.20
-- 버그 수정 ,피드백 개선 및 산출물 정리 : 23.06.20 ~ 23.06.29
-- 최종 PT : 23.06.30
+1. [**서비스 소개**](#2)
+2. [**서비스 주요기능**](#4)
+3. [**서비스 개발 멤버 소개**](#5)
+4. [**기술 스택**](#6)
+5. [**API 명세서**](#7)
+6. [**Project Architecture**](#8)
 
 <br/>
 <br/>
@@ -37,29 +40,13 @@
 <div id="2"></div>
 
 ### 🔍 서비스 소개
-🌱 개발자, 디자이너, 포토그래퍼가 이용하는 포트폴리오 공유 서비스 🌱
 
-&emsp;&emsp;&emsp; ✍️ 나의 이력과 프로젝트 경험, 기술 스택을 한 곳에 정리
+#### ✨ POL은 개발자, 디자이너, 포토그래퍼가 이용하는 포트폴리오 공유 서비스입니다.
 
-&emsp;&emsp;&emsp; 👀️ 동일 직군인 타인의 포트폴리오 관리 방법을 확인
-
-&emsp;&emsp;&emsp; ✔️️ 카테고리, 필터링, 검색으로 원하는 포트폴리오를 간편하게 찾기
-
-&emsp;&emsp;&emsp; 📊️ 통계로 한눈에 포트폴리오 현황 확인
-
-<br/>
-<br/>
-
-
-#### 서비스 이용해보기 👉 https://ppol.pro/
-
-<br/>
-
-🎬 서비스 소개 영상 : [Youtube Link](https://www.youtube.com/watch?v=ui-9bUsZDSM)
-
-📕 팀 노션 : [6조 노션](https://www.notion.so/POL-f08e011316134cd9976cea479c96a84b) <- 자세히 보고 싶다면 클릭!
-<br/>
-<br/>
+- ✍️ 나의 **이력과 프로젝트 경험, 기술 스택**을 한 곳에 정리해보세요.
+- 👀 **동일 직군의 다른 사람들은 어떻게 포트폴리오를 관리**했는지 확인해보세요.
+- ✔️ **카테고리, 필터링, 검색**으로 원하는 포트폴리오를 간편하게 찾아보세요.
+- 📊 내 직군, 직무 포트폴리오가 얼마나 되는지 **통계**로 한눈에 확인해보세요.
 
 
 
@@ -112,10 +99,8 @@
 
 ### 🛠 기술 스택
 
-#### FE
 <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"/> <img src="https://img.shields.io/badge/recoil-0000FF?style=for-the-badge&logo=recoil&logoColor=white"/> <img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"/> <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"/> <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white"/> <img src="https://img.shields.io/badge/reactrouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white"/> <img src="https://img.shields.io/badge/JWT-Decoder-FF6C37?style=for-the-badge&logoColor=white"/> <img src="https://img.shields.io/badge/react-datepicker-61DAFB?style=for-the-badge&logoColor=white"/> <img src="https://img.shields.io/badge/react-observer-61DAFB?style=for-the-badge&logoColor=white"/> <img src="https://img.shields.io/badge/AmazonS3-569A31?style=for-the-badge&logo=AmazonS3&logoColor=white"/> <img src="https://img.shields.io/badge/CloudFront-527FFF?style=for-the-badge&logoColor=white"/> <img src="https://img.shields.io/badge/AWS Route 53-FF6C37?style=for-the-badge&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"/>  <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"/> 
 
-<br/>
 <br/>
 <br/>
 
@@ -123,7 +108,8 @@
 
 <div id="7"></div>
 
-### |[📋 서비스 브로슈어](https://teamsparta.notion.site/POL-6-f6f92f3e7ad5412ab193b929b5c1b9b3)|[✅ API 명세서](https://www.notion.so/API-323ae58c531c455cbdd5409fe63bee3f)|
+## ✅ API 명세서
+[API 명세서 Notion Link](https://www.notion.so/API-323ae58c531c455cbdd5409fe63bee3f)
 
 
 <br/>
