@@ -44,7 +44,7 @@ const PortfolioFilter = ({ category, selectedFilter, setSelectedFilter }: Portfo
   return (
     <StPortfolioFilter>
       <StInputLabel>직무</StInputLabel>
-      <StFilterListContainer>
+      <StFilterListContainer isselected={`${isSelectCategory}`}>
         {isSelectCategory ? (
           filterList.map((filter: string, index: number) => (
             <StFilterButton
@@ -58,9 +58,7 @@ const PortfolioFilter = ({ category, selectedFilter, setSelectedFilter }: Portfo
             </StFilterButton>
           ))
         ) : (
-          <StSelectCategoryRequestWrapper>
-            <SelectCategoryRequest />
-          </StSelectCategoryRequestWrapper>
+          <SelectCategoryRequest />
         )}
       </StFilterListContainer>
     </StPortfolioFilter>
@@ -72,24 +70,15 @@ const StPortfolioFilter = styled.div`
   border-radius: 10px;
   padding: 25px 20px;
   width: 100%;
-
-  @media ${({ theme }) => theme.size.smallMobile} {
-    margin-bottom: 20px;
-  }
 `;
 
-const StFilterListContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  grid-auto-rows: min-content;
-  row-gap: 10px;
-  column-gap: 10px;
-  width: 100%;
-  margin-top: 10px;
-`;
-
-const StSelectCategoryRequestWrapper = styled.div`
-  width: 100%;
+const StFilterListContainer = styled.div<{ isselected: string }>`
+  display: ${({ isselected }) => (isselected === 'true' ? 'grid' : 'flex')};
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  padding: 20px 0;
+  flex-wrap: wrap;
 `;
 
 const StFilterButton = styled.button<{ isselected: string; isdarkmode: string }>`

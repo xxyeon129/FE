@@ -21,6 +21,11 @@ const StNoCategoryText = styled.div`
   font-weight: bold;
   line-height: 150%;
   text-align: center;
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
 `;
 
 export default SelectCategoryRequest;
