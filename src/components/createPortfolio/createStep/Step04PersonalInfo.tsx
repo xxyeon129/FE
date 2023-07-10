@@ -87,7 +87,7 @@ const StPersonalInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 40px;
+  margin-top: 50px;
   gap: 60px;
 
   @media ${props => props.theme.size.tablet} {

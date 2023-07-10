@@ -106,11 +106,17 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
           </StJoinedEmailCheckWrapper>
         </StLabelContainer>
         <StEmailInputWrapper>
-          <StEmailIDInput
+          <StLargeSizeEmailIDInput
             id="email"
             value={emailIdValue}
             onChange={onChangeEmailIdValue}
             placeholder="포트폴리오에 표시될 email ID를 입력해주세요."
+          />
+          <StSmallSizeEmailIDInput
+            id="email"
+            value={emailIdValue}
+            onChange={onChangeEmailIdValue}
+            placeholder="email ID"
           />
           <StAtMark>@</StAtMark>
           <StDomainSelectBar onClick={onClickSelectBar}>
@@ -122,9 +128,14 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
                 onClick={onClickInput}
               />
             ) : (
-              <StemailDomain isselected={emailDomainValue}>
-                {emailDomainValue || 'email 주소를 선택해주세요.'}
-              </StemailDomain>
+              <StEmailDomain isselected={emailDomainValue}>
+                {emailDomainValue || (
+                  <>
+                    <span className="large-email-domain-default">email 주소를 선택해주세요.</span>
+                    <span className="small-email-domain-default">주소 선택</span>
+                  </>
+                )}
+              </StEmailDomain>
             )}
             {isDropdownOpen && (
               <StDropdownUnorderedList ref={dropdownRef} isdarkmode={`${isDarkMode}`}>
@@ -187,6 +198,11 @@ const StCheckJoinedEmail = styled.input`
 const StJoinedEmailLabel = styled.label`
   font-size: 15px;
   cursor: pointer;
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 12px;
+  }
 `;
 
 const StEmailInputWrapper = styled.div`
@@ -198,6 +214,12 @@ const StAtMark = styled.span`
   flex-basis: 1;
   color: gray;
   padding: 0 5px;
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    padding: 0 2.5px;
+    font-size: 0.9rem;
+  }
 `;
 
 const StEmailIDInput = styled.input`
@@ -211,6 +233,34 @@ const StEmailIDInput = styled.input`
 
   &::placeholder {
     color: #b5b5b5;
+  }
+`;
+
+const StLargeSizeEmailIDInput = styled(StEmailIDInput)`
+  &::placeholder {
+    @media screen and (max-width: 1023px) {
+      transition: 0.4s;
+      font-size: 13px;
+    }
+    @media screen and (max-width: 940px) {
+      font-size: 11px;
+    }
+  }
+
+  @media screen and (max-width: 865px) {
+    display: none;
+  }
+`;
+
+const StSmallSizeEmailIDInput = styled(StEmailIDInput)`
+  display: none;
+
+  @media screen and (max-width: 865px) {
+    display: block;
+
+    &::placeholder {
+      font-size: 13px;
+    }
   }
 `;
 
@@ -243,6 +293,7 @@ const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
 const StDropdownDomainList = styled.li<{ isdarkmode: string }>`
   cursor: pointer;
   padding: 9px 20px;
+  font-size: 25px;
 
   &:hover {
     background-color: ${({ theme, isdarkmode }) =>
@@ -257,6 +308,10 @@ const StDropdownDomainList = styled.li<{ isdarkmode: string }>`
 
   &:not(:first-child, :last-child) {
     padding: 10px 20px;
+
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      padding: 9px 10px;
+    }
   }
 
   &:last-child {
@@ -264,12 +319,65 @@ const StDropdownDomainList = styled.li<{ isdarkmode: string }>`
     padding-top: 10px;
     padding-bottom: 17px;
   }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    padding: 9px 10px;
+    font-size: 0.8rem;
+  }
+  @media screen and (max-width: 475px) {
+    transition: 0.5s;
+    font-size: 0.7rem;
+  }
 `;
 
-const StemailDomain = styled.div<{ isselected: string }>`
+const StEmailDomain = styled.div<{ isselected: string }>`
   font-size: 15px;
+  display: flex;
 
   color: ${({ isselected }) => isselected.length === 0 && '#b5b5b5'};
+
+  & .large-email-domain-default {
+    @media screen and (max-width: 850px) {
+      transition: 0.5s;
+      font-size: 13px;
+    }
+    @media screen and (max-width: 795px) {
+      transition: 0.5s;
+      font-size: 11px;
+    }
+    @media ${({ theme }) => theme.size.mobileRow} {
+      transition: 0.5s;
+      font-size: 15px;
+    }
+    @media screen and (max-width: 665px) {
+      transition: 0.5s;
+      font-size: 13px;
+    }
+    @media screen and (max-width: 605px) {
+      transition: 0.5s;
+      font-size: 11px;
+    }
+    @media screen and (max-width: 585px) {
+      display: none;
+    }
+  }
+  & .small-email-domain-default {
+    display: none;
+
+    @media screen and (max-width: 585px) {
+      display: block;
+      transition: 0.5s;
+      font-size: 13px;
+    }
+    @media screen and (max-width: 418px) {
+      transition: 0.5s;
+      font-size: 0.7rem;
+    }
+    @media ${({ theme }) => theme.size.smallMobile} {
+      transition: 0.5s;
+      font-size: 0.6rem;
+    }
+  }
 `;
 
 const StDomainWriteInput = styled.input`
@@ -286,6 +394,10 @@ const iconStyle = `
   font-size: 25px;
   color: gray;
   cursor: pointer;
+
+  @media screen and (max-width: 450px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const StArrowDownIcon = styled(IoIosArrowDown)`
