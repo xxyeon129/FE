@@ -81,7 +81,6 @@ const StTechStackTagContainer = styled.div<{ isfocused: string; width: string }>
   border-radius: 10px;
   width: ${({ width }) => width};
   flex-wrap: wrap;
-  /* flex-flow: wrap; */
   gap: 1rem;
 
   ${({ isfocused }) =>
@@ -112,8 +111,13 @@ const StTechStackTagList = styled.li`
 
 const StTechStackTagText = styled.span`
   font-weight: 700;
-  padding: 10px 35px;
-  color: black;
+  padding: 10px 30px 10px 24px;
+  text-align: center;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
 `;
 
 const StTagDeleteIconWrapper = styled.div`
