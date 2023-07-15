@@ -128,17 +128,16 @@ const StInputWrapper = styled.div`
   font-weight: 600;
 `;
 
-const phoneInputStyle = `
+const PhoneInputStyle = styled.input`
   width: 100%;
   border: none;
 
   &::placeholder {
     color: #b5b5b5;
-  }  
+  }
 `;
 
-const StLargeSizePhoneInput = styled.input`
-  ${phoneInputStyle}
+const StLargeSizePhoneInput = styled(PhoneInputStyle)`
   font-size: 15px;
 
   @media screen and (max-width: 545px) {
@@ -150,8 +149,7 @@ const StLargeSizePhoneInput = styled.input`
   }
 `;
 
-const StSmallSizePhoneInput = styled.input`
-  ${phoneInputStyle}
+const StSmallSizePhoneInput = styled(PhoneInputStyle)`
   display: none;
   font-size: 13px;
   @media screen and (max-width: 500px) {

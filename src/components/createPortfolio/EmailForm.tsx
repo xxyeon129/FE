@@ -8,7 +8,7 @@ import ErrorMessage from '../common/createPortfolio/ErrorMessage';
 import useOnChangeInput from '@src/Hook/useOnChangeInput';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import useDecodeJWT from '@src/Hook/useDecodeJWT';
-import { StInputLabel } from '@src/style/common/createStepStyles';
+import { PersonalInfoStyle } from '@src/style/common/createStepStyles';
 import { EMAIL_REGEX } from '../common/createPortfolio/validator';
 import { isDarkModeState } from '@src/states/darkModeState';
 
@@ -94,7 +94,7 @@ const EmailForm = ({ isInvalidEmail, errorMessage }: EmailFormProps) => {
     <StEmailContainer>
       <StOutLineDiv>
         <StLabelContainer>
-          <StInputLabel htmlFor="email">email</StInputLabel>
+          <PersonalInfoStyle.Label htmlFor="email">email</PersonalInfoStyle.Label>
           <StJoinedEmailCheckWrapper>
             <StCheckJoinedEmail
               type="checkbox"
@@ -175,12 +175,18 @@ const StOutLineDiv = styled.div`
 
   border: 1px solid gray;
   border-radius: 10px;
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    padding: 20px 13px;
+  }
 `;
 
 const StLabelContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0 2px;
   padding-bottom: 5px;
 `;
@@ -262,6 +268,18 @@ const StSmallSizeEmailIDInput = styled(StEmailIDInput)`
       font-size: 13px;
     }
   }
+  @media screen and (max-width: 500px) {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
+  @media screen and (max-width: 450px) {
+    transition: 0.5s;
+    font-size: 0.7rem;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 0.6rem;
+  }
 `;
 
 const StDomainSelectBar = styled.div`
@@ -335,6 +353,19 @@ const StEmailDomain = styled.div<{ isselected: string }>`
 
   color: ${({ isselected }) => isselected.length === 0 && '#b5b5b5'};
 
+  @media screen and (max-width: 500px) {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
+  @media screen and (max-width: 450px) {
+    transition: 0.5s;
+    font-size: 0.7rem;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 0.6rem;
+  }
+
   & .large-email-domain-default {
     @media screen and (max-width: 850px) {
       transition: 0.5s;
@@ -396,6 +427,10 @@ const iconStyle = `
 
   @media screen and (max-width: 450px) {
     font-size: 1.2rem;
+  }
+  @media screen and (max-width: 390px) {
+    transition: 0.5s;
+    font-size: 0.9rem;
   }
 `;
 

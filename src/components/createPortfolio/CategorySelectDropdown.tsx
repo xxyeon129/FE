@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
-import { StInputLabel } from '../../style/common/createStepStyles';
+import { PersonalInfoStyle } from '../../style/common/createStepStyles';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import { useRecoilValue } from 'recoil';
 import { isDarkModeState } from '@src/states/darkModeState';
@@ -46,7 +46,7 @@ const CategorySelectDropdown = ({
     <StDropdownContainer>
       <StSelectBar onClick={onClickSelectBar} isclicked={`${isDropdownOpen}`}>
         <StTextContainer>
-          <StInputLabel>직군</StInputLabel>
+          <PersonalInfoStyle.Label>직군</PersonalInfoStyle.Label>
           <StSelectValue>{selectedOption || selectBarDefaultText}</StSelectValue>
         </StTextContainer>
         {isDropdownOpen ? <StArrowUpIcon /> : <StArrowDownIcon />}

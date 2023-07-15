@@ -2,7 +2,7 @@ import { CATEGORY_KEYWORD, filterListObject } from '@src/constants/portfolioFilt
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import SelectCategoryRequest from './SelectCategoryRequest';
-import { StInputLabel } from '../../style/common/createStepStyles';
+import { PersonalInfoStyle } from '../../style/common/createStepStyles';
 import { useRecoilValue } from 'recoil';
 import { isDarkModeState } from '@src/states/darkModeState';
 
@@ -43,7 +43,7 @@ const PortfolioFilter = ({ category, selectedFilter, setSelectedFilter }: Portfo
 
   return (
     <StPortfolioFilter>
-      <StInputLabel>직무</StInputLabel>
+      <PersonalInfoStyle.Label>직무</PersonalInfoStyle.Label>
       <StFilterListContainer isselected={`${isSelectCategory}`}>
         {isSelectCategory ? (
           filterList.map((filter: string, index: number) => (

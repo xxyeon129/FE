@@ -45,12 +45,6 @@ export const ButtonContainer = styled.div<{ width?: string; margintop?: string }
   }
 `;
 
-export const StInputLabel = styled.label`
-  color: gray;
-  font-size: 15px;
-  font-weight: 800;
-`;
-
 export const PersonalInfoStyle = {
   Container: styled.div`
     width: 100%;
@@ -61,11 +55,21 @@ export const PersonalInfoStyle = {
     border: 1px solid gray;
     border-radius: 10px;
     padding: 10px 20px;
+
+    @media ${({ theme }) => theme.size.smallMobile} {
+      transition: 0.5s;
+      padding: 10px 13px;
+    }
   `,
   Label: styled.label`
     color: gray;
     font-weight: 800;
     font-size: 15px;
+
+    @media ${({ theme }) => theme.size.smallMobile} {
+      transition: 0.5s;
+      font-size: 0.8rem;
+    }
   `,
   Input: styled.input`
     width: 100%;

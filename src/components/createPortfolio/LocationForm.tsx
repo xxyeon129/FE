@@ -1,5 +1,4 @@
 import { createLocationState, createResidenceState } from '@src/states';
-import { PersonalInfoStyle } from '@src/style/common/createStepStyles';
 import { useRecoilState } from 'recoil';
 import SelectDropdown from '../common/createPortfolio/SelectDropdown';
 import { styled } from 'styled-components';
@@ -32,6 +31,7 @@ const LocationForm = () => {
         <SelectDropdown
           dropdownOptions={regionList}
           selectBarDefaultText="포트폴리오에 표시될 거주지를 선택해주세요."
+          selectBarDefaultTextMobileSize="거주지 선택"
           selectedOption={residence}
           setSelectedOption={setResidence}
           label="거주지"
@@ -41,6 +41,7 @@ const LocationForm = () => {
       <SelectDropdown
         dropdownOptions={regionList}
         selectBarDefaultText="포트폴리오에 표시될 희망 근무지역을 선택해주세요."
+        selectBarDefaultTextMobileSize="희망 근무지 선택"
         selectedOption={location}
         setSelectedOption={setLocation}
         label="희망 근무지역"

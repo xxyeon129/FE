@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoIosArrowUp } from 'react-icons/io';
-import { StInputLabel } from '@src/style/common/createStepStyles';
+import { PersonalInfoStyle } from '@src/style/common/createStepStyles';
 import useCloseDropdown from '@src/Hook/useCloseDropdown';
 import { useRecoilValue } from 'recoil';
 import { isDarkModeState } from '@src/states/darkModeState';
@@ -10,6 +10,7 @@ import { isDarkModeState } from '@src/states/darkModeState';
 interface SelectDropdownProps {
   dropdownOptions: string[];
   selectBarDefaultText: string;
+  selectBarDefaultTextMobileSize: string;
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
   label: string;
@@ -46,13 +47,19 @@ const SelectDropdown = (props: SelectDropdownProps) => {
         ispersonalinfo={`${props.isPersonalInfo}`}
       >
         <StTextContainer>
-          <StInputLabel>{props.label}</StInputLabel>
+          <PersonalInfoStyle.Label>{props.label}</PersonalInfoStyle.Label>
           <StSelectValue
             ispersonalinfo={`${props.isPersonalInfo}`}
             isselected={props.selectedOption}
           >
             {props.selectedOption || props.selectBarDefaultText}
           </StSelectValue>
+          <StMobileSizeSelectValue
+            ispersonalinfo={`${props.isPersonalInfo}`}
+            isselected={props.selectedOption}
+          >
+            {props.selectedOption || props.selectBarDefaultTextMobileSize}
+          </StMobileSizeSelectValue>
         </StTextContainer>
         {isDropdownOpen ? <StArrowUpIcon /> : <StArrowDownIcon />}
       </StSelectBar>
@@ -93,6 +100,11 @@ const StSelectBar = styled.div<{ isclicked: string; ispersonalinfo: string }>`
   box-sizing: border-box;
 
   cursor: pointer;
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    padding: 35px 13px;
+  }
 `;
 
 const StTextContainer = styled.div`
@@ -102,11 +114,34 @@ const StTextContainer = styled.div`
   gap: 5px;
 `;
 
-const StSelectValue = styled.div<{ ispersonalinfo: string; isselected: string }>`
+const SelectValueStyle = styled.div<{ ispersonalinfo: string; isselected: string }>`
   padding-top: 2px;
   font-weight: ${({ ispersonalinfo, isselected }) =>
     ispersonalinfo === 'true' ? (isselected.length > 1 ? '600' : '400') : '800'};
   color: ${({ isselected }) => !(isselected.length > 1) && '#b5b5b5'};
+`;
+
+const StSelectValue = styled(SelectValueStyle)`
+  @media screen and (max-width: 575px) {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
+  @media screen and (max-width: 500px) {
+    transition: 0.5s;
+    font-size: 0.7rem;
+  }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    display: none;
+  }
+`;
+
+const StMobileSizeSelectValue = styled(SelectValueStyle)`
+  display: none;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    display: block;
+  }
 `;
 
 const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
@@ -142,12 +177,21 @@ const StDropdownList = styled.li<{ isdarkmode: string }>`
   }
 `;
 
-const StArrowDownIcon = styled(IoIosArrowDown)`
+const arrowIconStyle = `
   font-size: 30px;
+
+  @media screen and (max-width: 390px) {
+    transition: 0.5s;
+    font-size: 1.2rem;
+  }
+`;
+
+const StArrowDownIcon = styled(IoIosArrowDown)`
+  ${arrowIconStyle}
 `;
 
 const StArrowUpIcon = styled(IoIosArrowUp)`
-  font-size: 30px;
+  ${arrowIconStyle}
 `;
 
 export default SelectDropdown;
