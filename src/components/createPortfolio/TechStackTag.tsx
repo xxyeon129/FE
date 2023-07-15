@@ -137,6 +137,13 @@ const StTagDeleteIcon = styled(IoCloseOutline)`
 const StTechStackTagInput = styled.input`
   border: none;
   width: 225px;
+
+  @media ${({ theme }) => theme.size.smallMobile} {
+    &::placeholder {
+      transition: 0.5s;
+      font-size: 0.7rem;
+    }
+  }
 `;
 
 export default TechStackTag;

@@ -99,6 +99,11 @@ const StTextarea = styled.textarea`
   &:focus {
     outline: 2px solid;
   }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
 `;
 
 const StWordCount = styled.div`
@@ -107,6 +112,11 @@ const StWordCount = styled.div`
   margin-top: 3px;
   right: 7px;
   color: gray;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
 `;
 
 export default Step07Introduce;

@@ -130,6 +130,15 @@ const StAddProjectButton = styled.button`
     color: white;
     background-color: ${({ theme }) => theme.color.lightGreen};
   }
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 0.75rem;
+  }
 `;
 
 const StProjectsList = styled.div<{ isprojectexist: string }>`
@@ -159,6 +168,15 @@ const StProjectsList = styled.div<{ isprojectexist: string }>`
 
 const StNoProjectText = styled.div`
   color: ${({ theme }) => theme.color.paleGray};
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 0.75rem;
+  }
 `;
 
 const StBackground = styled.div`

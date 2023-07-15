@@ -71,12 +71,4 @@ export const PersonalInfoStyle = {
       font-size: 0.8rem;
     }
   `,
-  Input: styled.input`
-    width: 100%;
-    border: none;
-    font-size: 15px;
-    &::placeholder {
-      color: #b5b5b5;
-    }
-  `,
 };

@@ -53,27 +53,42 @@ const Step08Link = ({ onNextButtonClick, onPrevButtonClick }: CreatePortfolioSte
         <StInputContainer>
           <S.PersonalInfoStyle.Container>
             <S.PersonalInfoStyle.Label>Youtube</S.PersonalInfoStyle.Label>
-            <S.PersonalInfoStyle.Input
+            <StInput
               value={youtubeUrl}
               onChange={onChangeYoutubeUrl}
               placeholder="Youtube 활동을 하고 계시다면 관련 링크를 입력해주세요."
             />
+            <StMobileSizeInput
+              value={youtubeUrl}
+              onChange={onChangeYoutubeUrl}
+              placeholder="Ex) https://youtube.com"
+            />
           </S.PersonalInfoStyle.Container>
           <S.PersonalInfoStyle.Container>
             <S.PersonalInfoStyle.Label>Blog</S.PersonalInfoStyle.Label>
-            <S.PersonalInfoStyle.Input
+            <StInput
               value={blogUrl}
               onChange={onChangeBlogUrl}
               placeholder="운영하는 blog가 있다면 관련 링크를 입력해주세요."
+            />
+            <StMobileSizeInput
+              value={blogUrl}
+              onChange={onChangeBlogUrl}
+              placeholder="Ex) https://blog.com"
             />
           </S.PersonalInfoStyle.Container>
           {isDeveloper && (
             <S.PersonalInfoStyle.Container>
               <S.PersonalInfoStyle.Label>Github ID</S.PersonalInfoStyle.Label>
-              <S.PersonalInfoStyle.Input
+              <StInput
                 value={githubID}
                 onChange={onChangeGithubID}
                 placeholder="작성하신 Github ID의 commit contributions이 포트폴리오에 표시됩니다."
+              />
+              <StMobileSizeInput
+                value={githubID}
+                onChange={onChangeGithubID}
+                placeholder="Ex) github"
               />
             </S.PersonalInfoStyle.Container>
           )}
@@ -95,6 +110,31 @@ const StInputContainer = styled.div`
 
   @media ${({ theme }) => theme.size.tablet} {
     width: 100%;
+  }
+`;
+
+const StInput = styled.input`
+  width: 100%;
+  border: none;
+  font-size: 15px;
+  &::placeholder {
+    color: #b5b5b5;
+  }
+
+  @media screen and (max-width: 650px) {
+    display: none;
+  }
+`;
+
+const StMobileSizeInput = styled(StInput)`
+  display: none;
+
+  @media screen and (max-width: 650px) {
+    display: block;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 0.8rem;
   }
 `;
 

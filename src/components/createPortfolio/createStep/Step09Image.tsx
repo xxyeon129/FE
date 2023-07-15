@@ -152,9 +152,12 @@ const Step09Image: React.FC<{ onPrevButtonClick: (step: string) => void }> = ({
           {!isImageExist && (
             <StNoImgContainer>
               <StLabel htmlFor="portfolioImage">
-                <StUploadIcon size="35px" />
+                <StUploadIcon />
                 <StUploadText>
-                  이미지 파일을 선택해 포트폴리오 대표 이미지를 설정해주세요.
+                  <span className="large-size-upload-text">
+                    이미지 파일을 선택해 포트폴리오 대표 이미지를 설정해주세요.
+                  </span>
+                  <span className="small-size-upload-text">대표 이미지 선정</span>
                 </StUploadText>
               </StLabel>
               <StInput type="file" accept="image/*" id="portfolioImage" onChange={onUploadImage} />
@@ -241,14 +244,47 @@ const StNoImgContainer = styled.div`
   }
 `;
 
-const StUploadIcon = styled(UploadIcon)<{ size: string }>`
-  width: ${({ size }) => size};
-  height: ${({ size }) => size};
+const StUploadIcon = styled(UploadIcon)`
+  width: 35px;
+  height: 35px;
+
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    width: 30px;
+    height: 30px;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const StUploadText = styled.div`
   color: #949494;
   padding-top: 20px;
+
+  .large-size-upload-text {
+    @media screen and (max-width: 590px) {
+      transition: 0.5s;
+      font-size: 0.9rem;
+    }
+
+    @media screen and (max-width: 535px) {
+      display: none;
+    }
+  }
+
+  .small-size-upload-text {
+    display: none;
+    @media screen and (max-width: 535px) {
+      display: block;
+    }
+    @media ${({ theme }) => theme.size.mobileColumn} {
+      transition: 0.5s;
+      font-size: 0.9rem;
+    }
+  }
 `;
 
 export default Step09Image;

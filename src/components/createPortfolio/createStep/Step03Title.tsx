@@ -108,6 +108,24 @@ const StInput = styled.input`
   @media ${({ theme }) => theme.size.tablet} {
     width: 100%;
   }
+  @media ${({ theme }) => theme.size.mobileRow} {
+    transition: 0.5s;
+    font-size: 1.3rem;
+  }
+  @media ${({ theme }) => theme.size.mobileColumn} {
+    transition: 0.5s;
+    font-size: 1rem;
+    height: 3.5rem;
+  }
+  @media screen and (max-width: 400px) {
+    font-size: 0.9rem;
+    height: 3rem;
+  }
+  @media ${({ theme }) => theme.size.smallMobile} {
+    transition: 0.5s;
+    font-size: 0.8rem;
+    height: 2.5rem;
+  }
 `;
 
 export default Step03Title;

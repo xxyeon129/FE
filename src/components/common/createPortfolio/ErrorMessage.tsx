@@ -31,7 +31,7 @@ const StErrorIcon = styled.div`
   background-color: ${props => props.theme.color.errorRed};
   margin-right: 5px;
 
-  @media ${({ theme }) => theme.size.smallMobile} {
+  @media ${({ theme }) => theme.size.mobileColumn} {
     transition: 0.5s;
     width: 0.9rem;
     height: 0.9rem;
@@ -48,7 +48,7 @@ const StErrorText = styled.div`
   font-size: 15px;
   color: ${props => props.theme.color.errorRed};
 
-  @media ${({ theme }) => theme.size.smallMobile} {
+  @media ${({ theme }) => theme.size.mobileColumn} {
     transition: 0.5s;
     font-size: 0.8rem;
   }
