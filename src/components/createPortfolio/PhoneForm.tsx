@@ -82,21 +82,39 @@ const PhoneForm = () => {
           )}
         </StTelephoneSelect>
         {selectedCountryOption === 'KOR' ? (
-          <PersonalInfoStyle.Input
-            type="tel"
-            value={telephone}
-            onChange={onChangeKorHypenTelephone}
-            maxLength={13}
-            placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
-          />
+          <>
+            <StLargeSizePhoneInput
+              type="tel"
+              value={telephone}
+              onChange={onChangeKorHypenTelephone}
+              maxLength={13}
+              placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
+            />
+            <StSmallSizePhoneInput
+              type="tel"
+              value={telephone}
+              onChange={onChangeKorHypenTelephone}
+              maxLength={13}
+              placeholder="전화번호 입력"
+            />
+          </>
         ) : (
-          <PersonalInfoStyle.Input
-            type="tel"
-            value={telephone}
-            maxLength={10}
-            onChange={onChangeUsHypenTelephone}
-            placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
-          />
+          <>
+            <StLargeSizePhoneInput
+              type="tel"
+              value={telephone}
+              maxLength={10}
+              onChange={onChangeUsHypenTelephone}
+              placeholder="포트폴리오에 표시될 전화번호를 입력해주세요."
+            />
+            <StSmallSizePhoneInput
+              type="tel"
+              value={telephone}
+              maxLength={10}
+              onChange={onChangeUsHypenTelephone}
+              placeholder="전화번호 입력"
+            />
+          </>
         )}
       </StInputWrapper>
     </PersonalInfoStyle.Container>
@@ -108,6 +126,37 @@ const StInputWrapper = styled.div`
   display: flex;
   align-items: center;
   font-weight: 600;
+`;
+
+const phoneInputStyle = `
+  width: 100%;
+  border: none;
+
+  &::placeholder {
+    color: #b5b5b5;
+  }  
+`;
+
+const StLargeSizePhoneInput = styled.input`
+  ${phoneInputStyle}
+  font-size: 15px;
+
+  @media screen and (max-width: 545px) {
+    transition: 0.5s;
+    font-size: 0.8rem;
+  }
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+
+const StSmallSizePhoneInput = styled.input`
+  ${phoneInputStyle}
+  display: none;
+  font-size: 13px;
+  @media screen and (max-width: 500px) {
+    display: block;
+  }
 `;
 
 const StTelephoneSelect = styled.div<{ isdarkmode: string }>`
