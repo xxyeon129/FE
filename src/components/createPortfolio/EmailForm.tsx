@@ -293,7 +293,6 @@ const StDropdownUnorderedList = styled.ul<{ isdarkmode: string }>`
 const StDropdownDomainList = styled.li<{ isdarkmode: string }>`
   cursor: pointer;
   padding: 9px 20px;
-  font-size: 25px;
 
   &:hover {
     background-color: ${({ theme, isdarkmode }) =>
